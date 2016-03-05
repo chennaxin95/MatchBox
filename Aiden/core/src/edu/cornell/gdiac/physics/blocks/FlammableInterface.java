@@ -2,6 +2,11 @@ package edu.cornell.gdiac.physics.blocks;
 
 public interface FlammableInterface {
 	/**
+	 * @return whether it is burnt;
+	 * True if its burn timer counts down to 0
+	 */
+	public boolean isBurnt();
+	/**
 	 * @return whether it can spread fire to contacting neighbors
 	 * True if it is on fire and the spread timer counts down to 0
 	 */
@@ -19,11 +24,13 @@ public interface FlammableInterface {
 	 */
 	public float getBurnRatio();
 	/**
-	 * Start burning count down, if it's not
+	 * Set the object to the state of on fire;
+	 * start burning count down, if it's not.
 	 */
 	public void activateBurnTimer();
 	/**
-	 * Stop burning count down (will not reset burn timer)
+	 * Stop burning count down (will not reset burn timer);
+	 * equivalent to fire being put out.
 	 */
 	public void stopBurnTimer();
 	
@@ -35,5 +42,9 @@ public interface FlammableInterface {
 	 * Reset spread timer to initial value
 	 */
 	public void resetSpreadTimer();
+	/**
+	 * Update spread and burn timers per frame; check whether it's burnt
+	 */
+	public void updateBurningState();
 	
 }
