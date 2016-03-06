@@ -350,7 +350,68 @@ public class AidenController extends WorldController implements ContactListener 
 	    if (avatar.isJumping()) {
 	        SoundController.getInstance().play(JUMP_FILE,JUMP_FILE,false,EFFECT_VOLUME);
 	    }
-	    
+	    Array<Contact> cList = world.getContactList();
+    	for (Contact c : cList){
+    		Fixture fix1 = c.getFixtureA();
+    		Fixture fix2 = c.getFixtureB();
+    		Body body1 = fix1.getBody();
+    		Body body2 = fix2.getBody();
+    		try {
+    			Obstacle bd1 = (Obstacle)body1.getUserData();
+    			Obstacle bd2 = (Obstacle)body2.getUserData();
+
+    			/** Burning controller code */
+    			
+    			//checking for two flammable block's chain reaction
+    			if (bd1 instanceof FlammableBlock && bd2 instanceof FlammableBlock){
+    				System.out.println("ahaha");
+    				FlammableBlock fb1 = (FlammableBlock) bd1;
+    				FlammableBlock fb2 = (FlammableBlock) bd2;
+    				if(fb1.canSpreadFire() && (!fb2.isBurning() && !fb2.isBurnt())){
+    					fb2.activateBurnTimer();
+    				}
+    				else if (fb2.canSpreadFire() && (!fb1.isBurning() && !fb1.isBurnt())){
+    					fb1.activateBurnTimer();
+    				}
+    			}
+    			//check for aiden and flammable
+    			if(bd1 == avatar){
+    				if (bd2 instanceof FlammableBlock){
+    					FlammableBlock fb = (FlammableBlock) bd2;
+    					if(!fb.isBurning() && !fb.isBurnt()){
+    						fb.activateBurnTimer();
+    						// if it's a fuel box
+    						if(fb instanceof FuelBlock){
+    							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+    						}
+    						else {
+    							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+    						}
+    					}
+    				}
+    			}
+    			if(bd2 == avatar){
+    				if (bd1 instanceof FlammableBlock){
+    					FlammableBlock fb = (FlammableBlock) bd1;
+    					if(!fb.isBurning() && !fb.isBurnt()){
+    						fb.activateBurnTimer();
+    						// if it's a fuel box
+    						if(fb instanceof FuelBlock){
+    							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+    						}
+    						else {
+    							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+    						}
+    					}
+    				}
+    			}
+    			
+    			
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
 	    //update flammable objects;
 	    for (FlammableBlock fb : flammables){
 	    	fb.updateBurningState(dt);
@@ -402,52 +463,6 @@ public class AidenController extends WorldController implements ContactListener 
 				(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 			}
-			
-			/** Burning controller code */
-			
-			//checking for two flammable block's chain reaction
-			if (bd1 instanceof FlammableBlock && bd2 instanceof FlammableBlock){
-				FlammableBlock fb1 = (FlammableBlock) bd1;
-				FlammableBlock fb2 = (FlammableBlock) bd2;
-				if(fb1.canSpreadFire() && (!fb2.isBurning() && !fb2.isBurnt())){
-					fb2.activateBurnTimer();
-				}
-				else if (fb2.canSpreadFire() && (!fb1.isBurning() && !fb1.isBurnt())){
-					fb1.activateBurnTimer();
-				}
-			}
-			//check for aiden and flammable
-			if(bd1 == avatar){
-				if (bd2 instanceof FlammableBlock){
-					FlammableBlock fb = (FlammableBlock) bd2;
-					if(!fb.isBurning() && !fb.isBurnt()){
-						fb.activateBurnTimer();
-						// if it's a fuel box
-						if(fb instanceof FuelBlock){
-							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
-						}
-						else {
-							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
-						}
-					}
-				}
-			}
-			if(bd2 == avatar){
-				if (bd1 instanceof FlammableBlock){
-					FlammableBlock fb = (FlammableBlock) bd1;
-					if(!fb.isBurning() && !fb.isBurnt()){
-						fb.activateBurnTimer();
-						// if it's a fuel box
-						if(fb instanceof FuelBlock){
-							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
-						}
-						else {
-							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
-						}
-					}
-				}
-			}
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
