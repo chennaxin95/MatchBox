@@ -59,12 +59,14 @@ public class AidenModel extends CapsuleObstacle {
 	
 	/** The current horizontal movement of the character */
 	private float   movement;
+	/** The current vertical movement of the character */
+	private float movementY;
 	/** Which direction is the character facing */
 	private boolean faceRight;
-	/** How long until we can jump again */
-	private int jumpCooldown;
 	/** Whether we are actively jumping */
 	private boolean isJumping;
+	/** Whether we are actively climbing */
+	private boolean isClimbing;
 	/** How long until we can shoot again */
 	private int shootCooldown;
 	/** Whether our feet are on the ground */
@@ -90,6 +92,17 @@ public class AidenModel extends CapsuleObstacle {
 	}
 	
 	/**
+	 * Returns up/down movement of this character.
+	 * 
+	 * This is the result of input times dude force.
+	 *
+	 * @return up/down movement of this character.
+	 */
+	public float getMovementY() {
+		return movementY;
+	}
+	
+	/**
 	 * Sets left/right movement of this character.
 	 * 
 	 * This is the result of input times dude force.
@@ -105,13 +118,28 @@ public class AidenModel extends CapsuleObstacle {
 			faceRight = true;
 		}
 	}
+	
+	/**
+	 * Sets up/down movement of this character while climbing.
+	 * 
+	 * This is the result of input times dude force.
+	 *
+	 * @param value
+	 *            up/down movement of this character.
+	 */
+
+	public void setMovementY(float value) {
+		movementY = value;
+	}
+
+	
 		/**
 	 * Returns true if the dude is actively jumping.
 	 *
 	 * @return true if the dude is actively jumping.
 	 */
 	public boolean isJumping() {
-		return isJumping && jumpCooldown <= 0;
+		return isJumping && isGrounded;
 	}
 	
 	/**
@@ -122,7 +150,26 @@ public class AidenModel extends CapsuleObstacle {
 	public void setJumping(boolean value) {
 		isJumping = value; 
 	}
+	
+	/**
+	 * Returns true if the dude is actively climbing.
+	 *
+	 * @return true if the dude is actively climbing.
+	 */
+	public boolean isClimbing() {
+		return isClimbing;
+	}
 
+	/**
+	 * Sets whether the dude is actively climbing.
+	 *
+	 * @param value
+	 *            whether the dude is actively climbing.
+	 */
+	public void setClimbing(boolean value) {
+		isClimbing = value;
+	}
+	
 	/**
 	 * Returns true if the dude is on the ground.
 	 *
@@ -229,7 +276,6 @@ public class AidenModel extends CapsuleObstacle {
 		isJumping = false;
 		faceRight = true;
 		
-		jumpCooldown = 0;
 		setName("dude");
 	}
 
@@ -286,6 +332,11 @@ public class AidenModel extends CapsuleObstacle {
 			forceCache.set(-getDamping()*getVX(),0);
 			body.applyForce(forceCache,getPosition(),true);
 		}
+		// Same with vertical movement if climbing
+		if (isClimbing && getMovementY() == 0f) {
+			forceCache.set(0, -getDamping() * getVY());
+			body.applyForce(forceCache, getPosition(), true);
+		}
 		
 		// Velocity too high, clamp it
 		if (Math.abs(getVX()) >= getMaxSpeed()) {
@@ -293,6 +344,15 @@ public class AidenModel extends CapsuleObstacle {
 		} else {
 			forceCache.set(getMovement(),0);
 			body.applyForce(forceCache,getPosition(),true);
+		}
+		
+		if (isClimbing){
+			if (Math.abs(getVY()) >= getMaxSpeed()) {
+				setVY(Math.signum(getVY()) * getMaxSpeed());
+			} else {
+				forceCache.set(getMovementY(), 0);
+				body.applyForce(forceCache, getPosition(), true);
+			}
 		}
 
 		// Jump!
@@ -326,11 +386,6 @@ public class AidenModel extends CapsuleObstacle {
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-		if (isJumping()) {
-			jumpCooldown = JUMP_COOLDOWN;
-		} else {
-			jumpCooldown = Math.max(0, jumpCooldown - 1);
-		}
 
 		subFuel(dt);
 		super.update(dt);
