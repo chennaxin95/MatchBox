@@ -1,5 +1,9 @@
 package edu.cornell.gdiac.physics.blocks;
 
+import com.badlogic.gdx.graphics.Color;
+
+import edu.cornell.gdiac.physics.GameCanvas;
+
 public class FlammableBlock extends BlockAbstract implements FlammableInterface {
 	
 	private float spreadRate;
@@ -106,5 +110,15 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 		checkBurnt();
 	}
 	
-
+	@Override
+	public void draw(GameCanvas canvas) {
+		if (texture != null) {
+			if (isBurning()){
+				canvas.draw(texture,Color.RED,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+			else{
+				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+		}
+	}
 }
