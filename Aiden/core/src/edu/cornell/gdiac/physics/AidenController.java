@@ -56,7 +56,7 @@ public class AidenController extends WorldController implements ContactListener 
 
 	/** Texture asset for character avatar */
 	private TextureRegion avatarTexture;
-	/** Texture for wood */
+	/** Texture for woodblock */
 	private TextureRegion woodTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
@@ -169,8 +169,10 @@ public class AidenController extends WorldController implements ContactListener 
 											   };
 	
 	/** the vertices for the boxes */
-	private static final float[] BOXES = {6.5f, 2.5f, 9.5f, 2.5f, 12.5f, 2.5f, 
-										  6.5f, 5.5f,29.5f, 9.5f};
+
+	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f, 
+		7f, 6f, 9f, 2f, 11f, 2f
+	};
 	
 	// Other game objects
 	/** The goal door position */
@@ -236,7 +238,7 @@ public class AidenController extends WorldController implements ContactListener 
 		// Add level goal
 		float dwidth  = goalTile.getRegionWidth()/scale.x;
 		float dheight = goalTile.getRegionHeight()/scale.y;
-		goalDoor = new BoxObstacle(GOAL_POS.x,GOAL_POS.y,dwidth,dheight);
+		goalDoor = new BoxObstacle(29.5f,2f,dwidth,dheight);
 		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 		goalDoor.setDensity(0.0f);
 		goalDoor.setFriction(0.0f);
@@ -278,7 +280,7 @@ public class AidenController extends WorldController implements ContactListener 
 		// Create dude
 		dwidth  = avatarTexture.getRegionWidth()/scale.x;
 		dheight = avatarTexture.getRegionHeight()/scale.y;
-		avatar = new AidenModel(DUDE_POS.x, DUDE_POS.y, dwidth, dheight);
+		avatar = new AidenModel(1, 13, dwidth, dheight);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		addObject(avatar);

@@ -223,7 +223,7 @@ public class AidenModel extends CapsuleObstacle {
         setDensity(DUDE_DENSITY);
 		setFriction(DUDE_FRICTION);  /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
-		
+		fuel = START_FUEL;
 		// Gameplay attributes
 		isGrounded = false;
 		isJumping = false;
