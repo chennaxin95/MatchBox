@@ -76,6 +76,7 @@ public class AidenModel extends CapsuleObstacle {
 	/** Ground sensor to represent our feet */
 	private Fixture sensorFixture;
 	private PolygonShape sensorShape;
+	private boolean complete;
 	
 	/** Cache for internal force calculations */
 	private Vector2 forceCache = new Vector2();
@@ -187,7 +188,15 @@ public class AidenModel extends CapsuleObstacle {
 	public void setGrounded(boolean value) {
 		isGrounded = value; 
 	}
-
+	
+	/**
+	 * Sets whether Aiden has won.
+	 *
+	 * @param value whether Aiden has won.
+	 */
+	public void setComplete(boolean value) {
+		complete = value; 
+	}
 	/**
 	 * Returns how much force to apply to get the dude moving
 	 *
@@ -275,6 +284,7 @@ public class AidenModel extends CapsuleObstacle {
 		isGrounded = false;
 		isJumping = false;
 		faceRight = true;
+		complete = false;
 		
 		setName("dude");
 	}
@@ -387,7 +397,9 @@ public class AidenModel extends CapsuleObstacle {
 	public void update(float dt) {
 		// Apply cooldowns
 		
-		subFuel(dt);
+		if (!complete){
+			subFuel(dt);
+		}
 		super.update(dt);
 	}
 

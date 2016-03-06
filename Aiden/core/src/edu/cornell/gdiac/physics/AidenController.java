@@ -596,11 +596,13 @@ public class AidenController extends WorldController
 			canvas.begin(); // DO NOT SCALE
 			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
 			canvas.end();
+			avatar.setComplete(true);
 		} else if (isFailure()) {
 			displayFont.setColor(Color.RED);
 			canvas.begin(); // DO NOT SCALE
 			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
 			canvas.end();
+			avatar.setComplete(true);
 		}
 		
 		//drawing the fuel level
