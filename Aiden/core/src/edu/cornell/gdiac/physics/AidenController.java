@@ -48,6 +48,8 @@ public class AidenController extends WorldController
 	private static final String ROPE_FILE = "platform/ropebridge.png";
 	/** The textrue file for the woodenBlock */
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
+	/** Texture for fuelBlock */
+	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -60,6 +62,8 @@ public class AidenController extends WorldController
 	private TextureRegion avatarTexture;
 	/** Texture for woodblock */
 	private TextureRegion woodTexture;
+	/** Texture for fuel */
+	private TextureRegion fuelTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
 	/** Texture asset for the bullet */
@@ -97,6 +101,8 @@ public class AidenController extends WorldController
 		assets.add(ROPE_FILE);
 		manager.load(WOOD_FILE, Texture.class);
 		assets.add(WOOD_FILE);
+		manager.load(FUEL_FILE, Texture.class);
+		assets.add(FUEL_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -128,6 +134,7 @@ public class AidenController extends WorldController
 		barrierTexture = createTexture(manager, BARRIER_FILE, false);
 		bulletTexture = createTexture(manager, BULLET_FILE, false);
 		bridgeTexture = createTexture(manager, ROPE_FILE, false);
+		fuelTexture = createTexture(manager, FUEL_FILE, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -179,6 +186,9 @@ public class AidenController extends WorldController
 	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
 	};
+	
+	/** fuel blocks */
+	private static final float[] FUELS = {26f, 9f};
 
 	// Other game objects
 	/** The goal door position */
@@ -229,7 +239,7 @@ public class AidenController extends WorldController
 		objects.clear();
 		addQueue.clear();
 		world.dispose();
-
+		fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
 		world.setContactListener(this);
 		setComplete(false);
@@ -297,6 +307,23 @@ public class AidenController extends WorldController
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii + 1], dwidth,
+					dheight, 1, 5, 5);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("box" + ii);
+			box.setDrawScale(scale);
+			box.setTexture(texture);
+			addObject(box);
+			flammables.add(box);
+		}
+		
+		// Adding boxes
+		for (int ii = 0; ii < FUELS.length; ii += 2) {
+			TextureRegion texture = fuelTexture;
+			dwidth = texture.getRegionWidth() / scale.x;
+			dheight = texture.getRegionHeight() / scale.y;
+			FuelBlock box = new FuelBlock(FUELS[ii], FUELS[ii + 1], dwidth,
 					dheight, 1, 5, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -378,7 +405,6 @@ public class AidenController extends WorldController
 				// checking for two flammable block's chain reaction
 				if (bd1 instanceof FlammableBlock
 						&& bd2 instanceof FlammableBlock) {
-					System.out.println("ahaha");
 					FlammableBlock fb1 = (FlammableBlock) bd1;
 					FlammableBlock fb2 = (FlammableBlock) bd2;
 					if (fb1.canSpreadFire()
@@ -542,5 +568,47 @@ public class AidenController extends WorldController
 
 	/** Unused ContactListener method */
 	public void preSolve(Contact contact, Manifold oldManifold) {
+	}
+	
+	@Override
+	public void draw(float delta) {
+		canvas.clear();
+		
+		canvas.begin();
+		for(Obstacle obj : objects) {
+			obj.draw(canvas);
+		}
+		canvas.end();
+		
+		if (debug) {
+			canvas.beginDebug();
+			for(Obstacle obj : objects) {
+				obj.drawDebug(canvas);
+			}
+			canvas.endDebug();
+		}
+		
+		
+		
+		// Final message
+		if (isComplete() && !isFailure()) {
+			displayFont.setColor(Color.YELLOW);
+			canvas.begin(); // DO NOT SCALE
+			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
+			canvas.end();
+		} else if (isFailure()) {
+			displayFont.setColor(Color.RED);
+			canvas.begin(); // DO NOT SCALE
+			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
+			canvas.end();
+		}
+		
+		//drawing the fuel level
+		if(avatar != null){
+			canvas.begin();
+			String fuelT = "fuel: " + (int)avatar.getFuel();
+			canvas.drawText(fuelT, fuelFont, 750, 500);
+			canvas.end();
+		}
 	}
 }
