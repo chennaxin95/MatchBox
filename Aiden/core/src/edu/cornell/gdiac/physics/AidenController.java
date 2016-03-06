@@ -18,6 +18,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.*;
+import edu.cornell.gdiac.physics.blocks.FlammableBlock;
+import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.obstacle.*;
 
 /**
@@ -176,6 +179,8 @@ public class AidenController extends WorldController implements ContactListener 
 	private static Vector2 BRIDGE_POS  = new Vector2(9.0f, 3.8f);
 
 	// Physics objects for the game
+	/** Flammable Objects */
+	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
 	/** Reference to the character avatar */
 	private AidenModel avatar;
 	/** Reference to the goalDoor (for collision detection) */
@@ -281,6 +286,11 @@ public class AidenController extends WorldController implements ContactListener 
 	    if (avatar.isJumping()) {
 	        SoundController.getInstance().play(JUMP_FILE,JUMP_FILE,false,EFFECT_VOLUME);
 	    }
+	    
+	    //update flammable objects
+	    for (FlammableBlock fb : flammables){
+	    	fb.updateBurningState(dt);
+	    }
 		
 	    // If we use sound, we must remember this.
 	    SoundController.getInstance().update();
@@ -322,10 +332,57 @@ public class AidenController extends WorldController implements ContactListener 
 				(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 			}
+			
+			/** Burning controller code */
+			
+			//checking for two flammable block's chain reaction
+			if (bd1 instanceof FlammableBlock && bd2 instanceof FlammableBlock){
+				FlammableBlock fb1 = (FlammableBlock) bd1;
+				FlammableBlock fb2 = (FlammableBlock) bd2;
+				if(fb1.canSpreadFire() && (!fb2.isBurning() && !fb2.isBurnt())){
+					fb2.activateBurnTimer();
+				}
+				else if (fb2.canSpreadFire() && (!fb1.isBurning() && !fb1.isBurnt())){
+					fb1.activateBurnTimer();
+				}
+			}
+			//check for aiden and flammable
+			if(bd1 == avatar){
+				if (bd2 instanceof FlammableBlock){
+					FlammableBlock fb = (FlammableBlock) bd2;
+					if(!fb.isBurning() && !fb.isBurnt()){
+						fb.activateBurnTimer();
+						// if it's a fuel box
+						if(fb instanceof FuelBlock){
+							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+						}
+						else {
+							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+						}
+					}
+				}
+			}
+			if(bd2 == avatar){
+				if (bd1 instanceof FlammableBlock){
+					FlammableBlock fb = (FlammableBlock) bd1;
+					if(!fb.isBurning() && !fb.isBurnt()){
+						fb.activateBurnTimer();
+						// if it's a fuel box
+						if(fb instanceof FuelBlock){
+							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+						}
+						else {
+							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+						}
+					}
+				}
+			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 
 	/**

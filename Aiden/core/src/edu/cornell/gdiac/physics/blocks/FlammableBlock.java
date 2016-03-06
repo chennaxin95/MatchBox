@@ -95,11 +95,11 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	}
 
 	@Override
-	public void updateBurningState() {
+	public void updateBurningState(float dt) {
 		// TODO Auto-generated method stub
 		if (this.isBurning()){
-			burnTimer--;
-			spreadTimer--;
+			burnTimer-=dt;
+			spreadTimer-=dt;
 		}
 		checkBurnt();
 	}

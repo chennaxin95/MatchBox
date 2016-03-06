@@ -52,6 +52,11 @@ public class AidenModel extends CapsuleObstacle {
 	/** The amount to shrink the sensor fixture (horizontally) relative to the image */
 	private static final float DUDE_SSHRINK = 0.6f;
 	
+	/** The Fuel system for Aiden */
+	private static final float START_FUEL = 30;
+	private static final float MAX_FUEL = 50;
+	private float fuel;
+	
 	/** The current horizontal movement of the character */
 	private float   movement;
 	/** Which direction is the character facing */
@@ -297,6 +302,21 @@ public class AidenModel extends CapsuleObstacle {
 		}
 	}
 	
+	/** Add fuel when touch fuel box */
+	public void addFuel(float i){
+		fuel = Math.max(fuel+i, MAX_FUEL);
+	}
+	
+	/** subtract fuel from Aiden */
+	public void subFuel(float i){
+		fuel = Math.max(0, fuel-i);
+	}
+	
+	/** return the current level of fuel */
+	public float getFuel(){
+		return fuel;
+	}
+	
 	/**
 	 * Updates the object's physics state (NOT GAME LOGIC).
 	 *
@@ -312,6 +332,7 @@ public class AidenModel extends CapsuleObstacle {
 			jumpCooldown = Math.max(0, jumpCooldown - 1);
 		}
 
+		subFuel(dt);
 		super.update(dt);
 	}
 

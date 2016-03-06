@@ -45,6 +45,6 @@ public interface FlammableInterface {
 	/**
 	 * Update spread and burn timers per frame; check whether it's burnt
 	 */
-	public void updateBurningState();
+	public void updateBurningState(float dt);
 	
 }
