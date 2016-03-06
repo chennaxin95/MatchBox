@@ -45,7 +45,7 @@ public class AidenController extends WorldController implements ContactListener 
 	/** The texture file for the bridge plank */
 	private static final String ROPE_FILE  = "platform/ropebridge.png";
 	/** The textrue file for the woodenBlock */
-	private static final String WOOD_FILE = "/platform/woodenBlock";
+	private static final String WOOD_FILE = "platform/woodenBlock.png";
 	
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -169,9 +169,8 @@ public class AidenController extends WorldController implements ContactListener 
 											   };
 	
 	/** the vertices for the boxes */
-	private static final float[] BOXES = {
-			
-	};
+	private static final float[] BOXES = {6.5f, 2.5f, 9.5f, 2.5f, 12.5f, 2.5f, 
+										  6.5f, 5.5f,29.5f, 9.5f};
 	
 	// Other game objects
 	/** The goal door position */
@@ -289,7 +288,7 @@ public class AidenController extends WorldController implements ContactListener 
 			TextureRegion texture = woodTexture;
 			dwidth  = texture.getRegionWidth()/scale.x;
 			dheight = texture.getRegionHeight()/scale.y;
-			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii+1], dwidth, dheight, 1, 1, 5);
+			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii+1], dwidth, dheight, 1, 5, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);

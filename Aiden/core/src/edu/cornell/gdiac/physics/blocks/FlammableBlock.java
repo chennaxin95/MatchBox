@@ -113,7 +113,10 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	@Override
 	public void draw(GameCanvas canvas) {
 		if (texture != null) {
-			if (isBurning()){
+			if (isBurnt()){
+				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+			else if (isBurning()){
 				canvas.draw(texture,Color.RED,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
 			else{
