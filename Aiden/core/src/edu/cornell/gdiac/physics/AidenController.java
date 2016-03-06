@@ -295,7 +295,7 @@ public class AidenController extends WorldController implements ContactListener 
 	    for (FlammableBlock fb : flammables){
 	    	fb.updateBurningState(dt);
 	    	if (fb.isBurnt()){
-	    		flammables.remove();
+	    		flammables.remove(fb);
 	    	}
 	    }
 		
@@ -391,7 +391,7 @@ public class AidenController extends WorldController implements ContactListener 
 		}
 		
 	}
-
+	
 	/**
 	 * Callback method for the start of a collision
 	 *
@@ -420,6 +420,8 @@ public class AidenController extends WorldController implements ContactListener 
 			}
 		}
 	}
+	
+	
 	
 	/** Unused ContactListener method */
 	public void postSolve(Contact contact, ContactImpulse impulse) {}
