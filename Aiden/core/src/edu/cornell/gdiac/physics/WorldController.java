@@ -80,7 +80,7 @@ public abstract class WorldController implements Screen {
 	protected TextureRegion goalTile;
 	/** The font for giving messages to the player */
 	protected BitmapFont displayFont;
-	protected BitmapFont fuelFont;
+
 	/**
 	 * Preloads the assets for this controller.
 	 *
@@ -133,8 +133,6 @@ public abstract class WorldController implements Screen {
 		// Allocate the font
 		if (manager.isLoaded(FONT_FILE)) {
 			displayFont = manager.get(FONT_FILE,BitmapFont.class);
-			fuelFont = displayFont;
-			fuelFont.getData().setScale(0.5f, 0.5f);
 		} else {
 			displayFont = null;
 		}
@@ -599,6 +597,9 @@ public abstract class WorldController implements Screen {
 			}
 			canvas.endDebug();
 		}
+		
+		
+		
 		// Final message
 		if (complete && !failed) {
 			displayFont.setColor(Color.YELLOW);
