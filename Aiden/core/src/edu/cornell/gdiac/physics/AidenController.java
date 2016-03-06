@@ -44,6 +44,8 @@ public class AidenController extends WorldController implements ContactListener 
 	private static final String BULLET_FILE  = "platform/bullet.png";
 	/** The texture file for the bridge plank */
 	private static final String ROPE_FILE  = "platform/ropebridge.png";
+	/** The textrue file for the woodenBlock */
+	private static final String WOOD_FILE = "/platform/woodenBlock";
 	
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -54,6 +56,8 @@ public class AidenController extends WorldController implements ContactListener 
 
 	/** Texture asset for character avatar */
 	private TextureRegion avatarTexture;
+	/** Texture for wood */
+	private TextureRegion woodTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
 	/** Texture asset for the bullet */
@@ -88,6 +92,8 @@ public class AidenController extends WorldController implements ContactListener 
 		assets.add(BULLET_FILE);
 		manager.load(ROPE_FILE, Texture.class);
 		assets.add(ROPE_FILE);
+		manager.load(WOOD_FILE, Texture.class);
+		assets.add(WOOD_FILE);
 		
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -113,7 +119,7 @@ public class AidenController extends WorldController implements ContactListener 
 		if (platformAssetState != AssetState.LOADING) {
 			return;
 		}
-		
+		woodTexture = createTexture(manager,WOOD_FILE,false);
 		avatarTexture = createTexture(manager,DUDE_FILE,false);
 		barrierTexture = createTexture(manager,BARRIER_FILE,false);
 		bulletTexture = createTexture(manager,BULLET_FILE,false);
@@ -161,7 +167,12 @@ public class AidenController extends WorldController implements ContactListener 
 												{1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f},
 												{12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f}
 											   };
-
+	
+	/** the vertices for the boxes */
+	private static final float[] BOXES = {
+			
+	};
+	
 	// Other game objects
 	/** The goal door position */
 	private static Vector2 GOAL_POS = new Vector2(4.0f,14.0f);
@@ -272,6 +283,22 @@ public class AidenController extends WorldController implements ContactListener 
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		addObject(avatar);
+		
+		//Adding boxes
+		for (int ii = 0; ii < BOXES.length; ii += 2) {
+			TextureRegion texture = woodTexture;
+			dwidth  = texture.getRegionWidth()/scale.x;
+			dheight = texture.getRegionHeight()/scale.y;
+			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii+1], dwidth, dheight, 1, 1, 5);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("box"+ii);
+			box.setDrawScale(scale);
+			box.setTexture(texture);
+			addObject(box);
+			flammables.add(box);
+		}
 	}
 	
 	/**
