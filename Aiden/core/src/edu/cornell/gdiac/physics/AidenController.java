@@ -22,6 +22,9 @@ import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.platform.DudeModel;
+import edu.cornell.gdiac.physics.platform.RopeBridge;
+import edu.cornell.gdiac.physics.platform.Spinner;
 
 /**
  * Gameplay specific controller for the platformer game.  
@@ -147,25 +150,16 @@ public class AidenController extends WorldController implements ContactListener 
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
-	private static final float[][] WALLS = { 
-			  								{16.0f, 18.0f, 16.0f, 17.0f,  1.0f, 17.0f,
-			  								  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 18.0f},
+	private static final float[][] WALLS = {{0.0f, 0.0f, 32.0f, 0.0f, 32.0f, 1.0f, 0.0f, 1.0f},
+											{16.0f, 18.0f, 16.0f, 17.0f,  1.0f, 17.0f,
+		  									1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 18.0f},
 			  								{32.0f, 18.0f, 32.0f,  0.0f, 31.0f,  0.0f,
-			  							     31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f}
-											};
+		  								     31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f}};
 	
 	/** The outlines of all of the platforms */
-	private static final float[][] PLATFORMS = { 
-												{ 1.0f, 3.0f, 6.0f, 3.0f, 6.0f, 2.5f, 1.0f, 2.5f},
-												{ 6.0f, 4.0f, 9.0f, 4.0f, 9.0f, 2.5f, 6.0f, 2.5f},
-												{23.0f, 4.0f,31.0f, 4.0f,31.0f, 2.5f,23.0f, 2.5f},
-												{26.0f, 5.5f,28.0f, 5.5f,28.0f, 5.0f,26.0f, 5.0f},
-												{29.0f, 7.0f,31.0f, 7.0f,31.0f, 6.5f,29.0f, 6.5f},
-												{24.0f, 8.5f,27.0f, 8.5f,27.0f, 8.0f,24.0f, 8.0f},
-												{29.0f,10.0f,31.0f,10.0f,31.0f, 9.5f,29.0f, 9.5f},
-												{23.0f,11.5f,27.0f,11.5f,27.0f,11.0f,23.0f,11.0f},
-												{19.0f,12.5f,23.0f,12.5f,23.0f,12.0f,19.0f,12.0f},
-												{ 1.0f,12.5f, 7.0f,12.5f, 7.0f,12.0f, 1.0f,12.0f}
+	private static final float[][] PLATFORMS = {{8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f},
+												{1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f},
+												{12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f}
 											   };
 
 	// Other game objects
@@ -232,7 +226,45 @@ public class AidenController extends WorldController implements ContactListener 
 		// Add level goal
 		float dwidth  = goalTile.getRegionWidth()/scale.x;
 		float dheight = goalTile.getRegionHeight()/scale.y;
+		goalDoor = new BoxObstacle(GOAL_POS.x,GOAL_POS.y,dwidth,dheight);
+		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
+		goalDoor.setDensity(0.0f);
+		goalDoor.setFriction(0.0f);
+		goalDoor.setRestitution(0.0f);
+		goalDoor.setSensor(true);
+		goalDoor.setDrawScale(scale);
+		goalDoor.setTexture(goalTile);
+		goalDoor.setName("goal");
+		addObject(goalDoor);
 
+	    String wname = "wall";
+	    for (int ii = 0; ii < WALLS.length; ii++) {
+	        PolygonObstacle obj;
+	    	obj = new PolygonObstacle(WALLS[ii], 0, 0);
+			obj.setBodyType(BodyDef.BodyType.StaticBody);
+			obj.setDensity(BASIC_DENSITY);
+			obj.setFriction(BASIC_FRICTION);
+			obj.setRestitution(BASIC_RESTITUTION);
+			obj.setDrawScale(scale);
+			obj.setTexture(earthTile);
+			obj.setName(wname+ii);
+			addObject(obj);
+	    }
+	    
+	    String pname = "platform";
+	    for (int ii = 0; ii < PLATFORMS.length; ii++) {
+	        PolygonObstacle obj;
+	    	obj = new PolygonObstacle(PLATFORMS[ii], 0, 0);
+			obj.setBodyType(BodyDef.BodyType.StaticBody);
+			obj.setDensity(BASIC_DENSITY);
+			obj.setFriction(BASIC_FRICTION);
+			obj.setRestitution(BASIC_RESTITUTION);
+			obj.setDrawScale(scale);
+			obj.setTexture(earthTile);
+			obj.setName(pname+ii);
+			addObject(obj);
+	    }
+		    
 		// Create dude
 		dwidth  = avatarTexture.getRegionWidth()/scale.x;
 		dheight = avatarTexture.getRegionHeight()/scale.y;

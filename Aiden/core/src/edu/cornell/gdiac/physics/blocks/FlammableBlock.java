@@ -58,8 +58,10 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 
 	@Override
 	public void activateBurnTimer() {
-		burning=true;
-		resetSpreadTimer();
+		if (!burning){
+			burning=true;
+			resetSpreadTimer();
+		}
 		// TODO Auto-generated method stub
 		
 	}
