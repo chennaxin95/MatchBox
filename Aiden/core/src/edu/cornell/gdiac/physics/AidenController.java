@@ -21,6 +21,7 @@ import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.LadderBlock;
 import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.platform.DudeModel;
@@ -568,6 +569,23 @@ public class AidenController extends WorldController
 
 	/** Unused ContactListener method */
 	public void preSolve(Contact contact, Manifold oldManifold) {
+		Fixture fix1 = contact.getFixtureA();
+		Fixture fix2 = contact.getFixtureB();
+
+		Body body1 = fix1.getBody();
+		Body body2 = fix2.getBody();
+
+		Object fd1 = fix1.getUserData();
+		Object fd2 = fix2.getUserData();
+
+		Object bd1 = body1.getUserData();
+		Object bd2 = body2.getUserData();
+		
+		if (bd1 == avatar && bd2 instanceof LadderBlock
+				|| bd2 == avatar && bd1 instanceof LadderBlock){
+			contact.setEnabled(false);
+		}
+	
 	}
 	
 	@Override
