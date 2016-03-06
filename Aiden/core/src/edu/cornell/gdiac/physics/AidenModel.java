@@ -34,7 +34,7 @@ public class AidenModel extends CapsuleObstacle {
 	/** The maximum character speed */
 	private static final float DUDE_MAXSPEED = 5.0f;
 	/** The impulse for the character jump */
-	private static final float DUDE_JUMP = 21f;
+	private static final float DUDE_JUMP = 13f;
 	/** Cooldown (in animation frames) for jumping */
 	private static final int JUMP_COOLDOWN = 30;
 	/** Cooldown (in animation frames) for shooting */
