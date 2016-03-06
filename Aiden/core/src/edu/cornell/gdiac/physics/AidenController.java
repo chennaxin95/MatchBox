@@ -287,9 +287,12 @@ public class AidenController extends WorldController implements ContactListener 
 	        SoundController.getInstance().play(JUMP_FILE,JUMP_FILE,false,EFFECT_VOLUME);
 	    }
 	    
-	    //update flammable objects
+	    //update flammable objects;
 	    for (FlammableBlock fb : flammables){
 	    	fb.updateBurningState(dt);
+	    	if (fb.isBurnt()){
+	    		flammables.remove();
+	    	}
 	    }
 		
 	    // If we use sound, we must remember this.
