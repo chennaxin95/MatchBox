@@ -277,6 +277,10 @@ public class AidenController extends WorldController implements ContactListener 
 	 * @param delta Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+		if(avatar.getFuel() == 0){
+			setFailure(true);
+		}
+		
 		// Process actions in object model
 		avatar.setMovement(InputController.getInstance().getHorizontal() *avatar.getForce());
 		avatar.setJumping(InputController.getInstance().didPrimary());
