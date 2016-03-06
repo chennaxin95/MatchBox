@@ -22,9 +22,6 @@ import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.obstacle.*;
-import edu.cornell.gdiac.physics.platform.DudeModel;
-import edu.cornell.gdiac.physics.platform.RopeBridge;
-import edu.cornell.gdiac.physics.platform.Spinner;
 
 /**
  * Gameplay specific controller for the platformer game.  
@@ -46,6 +43,8 @@ public class AidenController extends WorldController implements ContactListener 
 	private static final String ROPE_FILE  = "platform/ropebridge.png";
 	/** The textrue file for the woodenBlock */
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
+	/** The texture file for the fuelBlock */
+	private static final String FUEL_FILE = "platform/fuelBlock.png";
 	
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -58,6 +57,8 @@ public class AidenController extends WorldController implements ContactListener 
 	private TextureRegion avatarTexture;
 	/** Texture for woodblock */
 	private TextureRegion woodTexture;
+	/** Texture for fuelBlock */
+	private TextureRegion fuelTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
 	/** Texture asset for the bullet */
@@ -94,6 +95,8 @@ public class AidenController extends WorldController implements ContactListener 
 		assets.add(ROPE_FILE);
 		manager.load(WOOD_FILE, Texture.class);
 		assets.add(WOOD_FILE);
+		manager.load(FUEL_FILE, Texture.class);
+		assets.add(FUEL_FILE);
 		
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -124,6 +127,7 @@ public class AidenController extends WorldController implements ContactListener 
 		barrierTexture = createTexture(manager,BARRIER_FILE,false);
 		bulletTexture = createTexture(manager,BULLET_FILE,false);
 		bridgeTexture = createTexture(manager,ROPE_FILE,false);
+		fuelTexture = createTexture(manager, FUEL_FILE, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -174,6 +178,9 @@ public class AidenController extends WorldController implements ContactListener 
 		7f, 6f, 9f, 2f, 11f, 2f
 	};
 	
+	/** the vertices for the fuel box */
+	private static final float[] FUELS = {26f, 9f};
+	
 	// Other game objects
 	/** The goal door position */
 	private static Vector2 GOAL_POS = new Vector2(4.0f,14.0f);
@@ -223,7 +230,7 @@ public class AidenController extends WorldController implements ContactListener 
 		objects.clear();
 		addQueue.clear();
 		world.dispose();
-		
+		fuelFont.setColor(Color.WHITE);;
 		world = new World(gravity,false);
 		world.setContactListener(this);
 		setComplete(false);
@@ -277,6 +284,7 @@ public class AidenController extends WorldController implements ContactListener 
 			addObject(obj);
 	    }
 		    
+	    
 		// Create dude
 		dwidth  = avatarTexture.getRegionWidth()/scale.x;
 		dheight = avatarTexture.getRegionHeight()/scale.y;
@@ -300,6 +308,22 @@ public class AidenController extends WorldController implements ContactListener 
 			addObject(box);
 			flammables.add(box);
 		}
+
+		for (int ii = 0; ii < FUELS.length; ii += 2) {
+			TextureRegion texture = fuelTexture;
+			dwidth  = texture.getRegionWidth()/scale.x;
+			dheight = texture.getRegionHeight()/scale.y;
+			FuelBlock box = new FuelBlock(FUELS[ii], FUELS[ii+1], dwidth, dheight, 1, 5, 5);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("fuel"+ii);
+			box.setDrawScale(scale);
+			box.setTexture(texture);
+			addObject(box);
+			flammables.add(box);
+		}
+		
 	}
 	
 	/**
@@ -364,7 +388,6 @@ public class AidenController extends WorldController implements ContactListener 
     			
     			//checking for two flammable block's chain reaction
     			if (bd1 instanceof FlammableBlock && bd2 instanceof FlammableBlock){
-    				System.out.println("ahaha");
     				FlammableBlock fb1 = (FlammableBlock) bd1;
     				FlammableBlock fb2 = (FlammableBlock) bd2;
     				if(fb1.canSpreadFire() && (!fb2.isBurning() && !fb2.isBurnt())){
@@ -505,4 +528,47 @@ public class AidenController extends WorldController implements ContactListener 
 	public void postSolve(Contact contact, ContactImpulse impulse) {}
 	/** Unused ContactListener method */
 	public void preSolve(Contact contact, Manifold oldManifold) {}
+	
+	/** updated drawing method */
+	@Override 
+	public void draw(float delta) {
+		canvas.clear();
+		canvas.begin();
+		for(Obstacle obj : objects) {
+			obj.draw(canvas);
+		}
+		canvas.end();
+		
+		if (debug) {
+			canvas.beginDebug();
+			for(Obstacle obj : objects) {
+				obj.drawDebug(canvas);
+			}
+			canvas.endDebug();
+		}
+		
+		
+		
+		// Final message
+		
+		if (isComplete() && !isFailure()) {
+			displayFont.setColor(Color.YELLOW);
+			canvas.begin(); // DO NOT SCALE
+			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
+			canvas.end();
+		} else if (isFailure()) {
+			displayFont.setColor(Color.RED);
+			canvas.begin(); // DO NOT SCALE
+			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
+			canvas.end();
+		}
+		
+		//drawing the fuel level
+		if(avatar != null){
+			canvas.begin();
+			String fuelT = "fuel: " + (int)avatar.getFuel();
+			canvas.drawText(fuelT, fuelFont, 800, 500);
+			canvas.end();
+		}
+	}
 }
