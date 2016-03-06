@@ -337,6 +337,10 @@ public class PlatformController extends WorldController implements ContactListen
 		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setShooting(InputController.getInstance().didSecondary());
 		
+		if(avatar.getFuel() == 0){
+			setFailure(true);
+		}
+		
 		// Add a bullet if we fire
 		if (avatar.isShooting()) {
 			createBullet();

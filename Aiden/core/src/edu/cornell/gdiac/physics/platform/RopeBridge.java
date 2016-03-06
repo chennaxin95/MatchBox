@@ -50,7 +50,7 @@ public class RopeBridge extends ComplexObstacle {
 	protected Vector2 dimension;
 	/** The size of a single plank */
 	protected Vector2 planksize;
-	/* The length of each link */
+	/** The length of each link */
 	protected float linksize = 1.0f;
 	/** The spacing between each link */
 	protected float spacing = 0.0f;
@@ -164,7 +164,14 @@ public class RopeBridge extends ComplexObstacle {
 		for (int ii = 0; ii < bodies.size-1; ii++) {
 			//#region INSERT CODE HERE
 			// Look at what we did above and join the planks
-						
+			// Add joint between each pair of neighboring planks
+			jointDef.bodyA = bodies.get(ii).getBody();
+			jointDef.bodyB = bodies.get(ii+1).getBody();
+			jointDef.localAnchorA.set(anchor1);
+			jointDef.localAnchorB.set(anchor2);
+			jointDef.collideConnected = false;
+			joint = world.createJoint(jointDef);
+			joints.add(joint);
 			//#endregion
 		}
 

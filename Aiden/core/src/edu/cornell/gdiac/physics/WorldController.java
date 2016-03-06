@@ -71,6 +71,8 @@ public abstract class WorldController implements Screen {
 	/** Retro font for displaying messages */
 	private static String FONT_FILE = "shared/RetroGame.ttf";
 	private static int FONT_SIZE = 64;
+	/** Reference to the character avatar */
+	private AidenModel avatar;
 
 	/** The texture for walls and platforms */
 	protected TextureRegion earthTile;
@@ -247,7 +249,7 @@ public abstract class WorldController implements Screen {
 	/** Whether we have failed at this world (and need a reset) */
 	private boolean failed;
 	/** Whether or not debug mode is active */
-	private boolean debug;
+	protected boolean debug;
 	/** Countdown active for winning or losing */
 	private int countdown;
 
@@ -596,6 +598,8 @@ public abstract class WorldController implements Screen {
 			canvas.endDebug();
 		}
 		
+		
+		
 		// Final message
 		if (complete && !failed) {
 			displayFont.setColor(Color.YELLOW);
@@ -607,6 +611,13 @@ public abstract class WorldController implements Screen {
 			canvas.begin(); // DO NOT SCALE
 			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
 			canvas.end();
+		}
+		
+		//drawing the fuel level
+		if(avatar != null){
+			System.out.println("ahaha");
+			String fuelT = "fuel: " + avatar.getFuel();
+			canvas.drawText(fuelT, displayFont, 1000, 1000);	
 		}
 	}
 	

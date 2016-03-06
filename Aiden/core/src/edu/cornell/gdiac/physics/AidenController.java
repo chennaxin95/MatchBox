@@ -45,10 +45,17 @@ public class AidenController extends WorldController
 	/** The texture file for the bullet */
 	private static final String BULLET_FILE = "platform/bullet.png";
 	/** The texture file for the bridge plank */
+<<<<<<< HEAD
 	private static final String ROPE_FILE = "platform/ropebridge.png";
 	/** The textrue file for the woodenBlock */
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
 
+=======
+	private static final String ROPE_FILE  = "platform/ropebridge.png";
+	/** The textrue file for the woodenBlock */
+	private static final String WOOD_FILE = "platform/woodenBlock.png";
+	
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
 	/** The sound file for a bullet fire */
@@ -97,7 +104,11 @@ public class AidenController extends WorldController
 		assets.add(ROPE_FILE);
 		manager.load(WOOD_FILE, Texture.class);
 		assets.add(WOOD_FILE);
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
 		manager.load(PEW_FILE, Sound.class);
@@ -123,11 +134,19 @@ public class AidenController extends WorldController
 		if (platformAssetState != AssetState.LOADING) {
 			return;
 		}
+<<<<<<< HEAD
 		woodTexture = createTexture(manager, WOOD_FILE, false);
 		avatarTexture = createTexture(manager, DUDE_FILE, false);
 		barrierTexture = createTexture(manager, BARRIER_FILE, false);
 		bulletTexture = createTexture(manager, BULLET_FILE, false);
 		bridgeTexture = createTexture(manager, ROPE_FILE, false);
+=======
+		woodTexture = createTexture(manager,WOOD_FILE,false);
+		avatarTexture = createTexture(manager,DUDE_FILE,false);
+		barrierTexture = createTexture(manager,BARRIER_FILE,false);
+		bulletTexture = createTexture(manager,BULLET_FILE,false);
+		bridgeTexture = createTexture(manager,ROPE_FILE,false);
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -160,6 +179,7 @@ public class AidenController extends WorldController
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
+<<<<<<< HEAD
 	private static final float[][] WALLS = {
 			{ 0.0f, 0.0f, 32.0f, 0.0f, 32.0f, 1.0f, 0.0f, 1.0f },
 			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
@@ -179,7 +199,26 @@ public class AidenController extends WorldController
 	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
 	};
+=======
+	private static final float[][] WALLS = {{0.0f, 0.0f, 32.0f, 0.0f, 32.0f, 1.0f, 0.0f, 1.0f},
+											{16.0f, 18.0f, 16.0f, 17.0f,  1.0f, 17.0f,
+		  									1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 18.0f},
+			  								{32.0f, 18.0f, 32.0f,  0.0f, 31.0f,  0.0f,
+		  								     31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f}};
+	
+	/** The outlines of all of the platforms */
+	private static final float[][] PLATFORMS = {{8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f},
+												{1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f},
+												{12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f}
+											   };
+	
+	/** the vertices for the boxes */
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 
+	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f, 
+		7f, 6f, 9f, 2f, 11f, 2f
+	};
+	
 	// Other game objects
 	/** The goal door position */
 	private static Vector2 GOAL_POS = new Vector2(4.0f, 14.0f);
@@ -242,9 +281,15 @@ public class AidenController extends WorldController
 	 */
 	private void populateLevel() {
 		// Add level goal
+<<<<<<< HEAD
 		float dwidth = goalTile.getRegionWidth() / scale.x;
 		float dheight = goalTile.getRegionHeight() / scale.y;
 		goalDoor = new BoxObstacle(29.5f, 2f, dwidth, dheight);
+=======
+		float dwidth  = goalTile.getRegionWidth()/scale.x;
+		float dheight = goalTile.getRegionHeight()/scale.y;
+		goalDoor = new BoxObstacle(29.5f,2f,dwidth,dheight);
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 		goalDoor.setDensity(0.0f);
 		goalDoor.setFriction(0.0f);
@@ -254,6 +299,7 @@ public class AidenController extends WorldController
 		goalDoor.setTexture(goalTile);
 		goalDoor.setName("goal");
 		addObject(goalDoor);
+<<<<<<< HEAD
 
 		String wname = "wall";
 		for (int ii = 0; ii < WALLS.length; ii++) {
@@ -282,14 +328,50 @@ public class AidenController extends WorldController
 			obj.setName(pname + ii);
 			addObject(obj);
 		}
+=======
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 
+	    String wname = "wall";
+	    for (int ii = 0; ii < WALLS.length; ii++) {
+	        PolygonObstacle obj;
+	    	obj = new PolygonObstacle(WALLS[ii], 0, 0);
+			obj.setBodyType(BodyDef.BodyType.StaticBody);
+			obj.setDensity(BASIC_DENSITY);
+			obj.setFriction(BASIC_FRICTION);
+			obj.setRestitution(BASIC_RESTITUTION);
+			obj.setDrawScale(scale);
+			obj.setTexture(earthTile);
+			obj.setName(wname+ii);
+			addObject(obj);
+	    }
+	    
+	    String pname = "platform";
+	    for (int ii = 0; ii < PLATFORMS.length; ii++) {
+	        PolygonObstacle obj;
+	    	obj = new PolygonObstacle(PLATFORMS[ii], 0, 0);
+			obj.setBodyType(BodyDef.BodyType.StaticBody);
+			obj.setDensity(BASIC_DENSITY);
+			obj.setFriction(BASIC_FRICTION);
+			obj.setRestitution(BASIC_RESTITUTION);
+			obj.setDrawScale(scale);
+			obj.setTexture(earthTile);
+			obj.setName(pname+ii);
+			addObject(obj);
+	    }
+		    
 		// Create dude
+<<<<<<< HEAD
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
+=======
+		dwidth  = avatarTexture.getRegionWidth()/scale.x;
+		dheight = avatarTexture.getRegionHeight()/scale.y;
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 		avatar = new AidenModel(1, 13, dwidth, dheight);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		addObject(avatar);
+<<<<<<< HEAD
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES.length; ii += 2) {
@@ -302,6 +384,19 @@ public class AidenController extends WorldController
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("box" + ii);
+=======
+		
+		//Adding boxes
+		for (int ii = 0; ii < BOXES.length; ii += 2) {
+			TextureRegion texture = woodTexture;
+			dwidth  = texture.getRegionWidth()/scale.x;
+			dheight = texture.getRegionHeight()/scale.y;
+			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii+1], dwidth, dheight, 1, 5, 5);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("box"+ii);
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			addObject(box);
@@ -346,10 +441,17 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+<<<<<<< HEAD
 		if (avatar.getFuel() == 0) {
 			setFailure(true);
 		}
 
+=======
+		if(avatar.getFuel() == 0){
+			setFailure(true);
+		}
+		
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 		// Process actions in object model
 		avatar.setMovement(InputController.getInstance().getHorizontal()
 				* avatar.getForce());
@@ -359,6 +461,7 @@ public class AidenController extends WorldController
 
 		
 		avatar.applyForce();
+<<<<<<< HEAD
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
 					EFFECT_VOLUME);
@@ -439,6 +542,86 @@ public class AidenController extends WorldController
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
+=======
+	    if (avatar.isJumping()) {
+	        SoundController.getInstance().play(JUMP_FILE,JUMP_FILE,false,EFFECT_VOLUME);
+	    }
+	    Array<Contact> cList = world.getContactList();
+    	for (Contact c : cList){
+    		Fixture fix1 = c.getFixtureA();
+    		Fixture fix2 = c.getFixtureB();
+    		Body body1 = fix1.getBody();
+    		Body body2 = fix2.getBody();
+    		try {
+    			Obstacle bd1 = (Obstacle)body1.getUserData();
+    			Obstacle bd2 = (Obstacle)body2.getUserData();
+
+    			/** Burning controller code */
+    			
+    			//checking for two flammable block's chain reaction
+    			if (bd1 instanceof FlammableBlock && bd2 instanceof FlammableBlock){
+    				System.out.println("ahaha");
+    				FlammableBlock fb1 = (FlammableBlock) bd1;
+    				FlammableBlock fb2 = (FlammableBlock) bd2;
+    				if(fb1.canSpreadFire() && (!fb2.isBurning() && !fb2.isBurnt())){
+    					fb2.activateBurnTimer();
+    				}
+    				else if (fb2.canSpreadFire() && (!fb1.isBurning() && !fb1.isBurnt())){
+    					fb1.activateBurnTimer();
+    				}
+    			}
+    			//check for aiden and flammable
+    			if(bd1 == avatar){
+    				if (bd2 instanceof FlammableBlock){
+    					FlammableBlock fb = (FlammableBlock) bd2;
+    					if(!fb.isBurning() && !fb.isBurnt()){
+    						fb.activateBurnTimer();
+    						// if it's a fuel box
+    						if(fb instanceof FuelBlock){
+    							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+    						}
+    						else {
+    							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+    						}
+    					}
+    				}
+    			}
+    			if(bd2 == avatar){
+    				if (bd1 instanceof FlammableBlock){
+    					FlammableBlock fb = (FlammableBlock) bd1;
+    					if(!fb.isBurning() && !fb.isBurnt()){
+    						fb.activateBurnTimer();
+    						// if it's a fuel box
+    						if(fb instanceof FuelBlock){
+    							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
+    						}
+    						else {
+    							avatar.subFuel(((WoodBlock)fb).getFuelPenalty());
+    						}
+    					}
+    				}
+    			}
+    			
+    			
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
+	    //update flammable objects;
+	    for (FlammableBlock fb : flammables){
+	    	fb.updateBurningState(dt);
+	    	if (fb.isBurnt()){ 		
+	    		objects.remove(fb);
+	    		flammables.remove(fb);
+	    		fb.markRemoved(true);
+	    		fb.deactivatePhysics(world);
+	    	}
+	    }
+		
+	    // If we use sound, we must remember this.
+	    SoundController.getInstance().update();
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 	}
 
 	/**
@@ -480,6 +663,7 @@ public class AidenController extends WorldController
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 			}
+<<<<<<< HEAD
 
 			// Set climbing state
 			if (bd1 == avatar && bd2 instanceof BlockAbstract) {
@@ -489,12 +673,15 @@ public class AidenController extends WorldController
 				avatar.setClimbing(((BlockAbstract) bd1).isClimbable());
 			}
 
+=======
+			
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
 	/**
 	 * Callback method for the start of a collision
 	 *
@@ -535,7 +722,13 @@ public class AidenController extends WorldController
 			}
 		}
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+	
+>>>>>>> d0421829541293f94c93ef45ca23ce6122f65e2b
 	/** Unused ContactListener method */
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 	}

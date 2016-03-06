@@ -1,17 +1,21 @@
 package edu.cornell.gdiac.physics.blocks;
 
+import com.badlogic.gdx.graphics.Color;
+
+import edu.cornell.gdiac.physics.GameCanvas;
+
 public class FlammableBlock extends BlockAbstract implements FlammableInterface {
 	
-	private int spreadRate;
-	private int burnRate;
+	private float spreadRate;
+	private float burnRate;
 	
-	private int spreadTimer;
-	private int burnTimer;
+	private float spreadTimer;
+	private float burnTimer;
 	
 	private boolean burning;
 	private boolean burnt;
 	
-	public FlammableBlock(float width, float height, int spreadRate, int burnRate) {
+	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);
 		flammable=true;
 		burning=false;
@@ -23,8 +27,8 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 		// TODO Auto-generated constructor stub
 	}
 
-	public FlammableBlock(float x, float y, float width, float height, int spreadRate,
-			int burnRate) {
+	public FlammableBlock(float x, float y, float width, float height, float spreadRate,
+			float burnRate) {
 		super(x, y, width, height);
 		flammable=true;
 		burning=false;
@@ -47,19 +51,21 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	}
 
 	@Override
-	public int getBurnTime() {
+	public float getBurnTime() {
 		return burnTimer;
 	}
 
 	@Override
 	public float getBurnRatio() {
-		return ((float)this.burnTimer)/this.burnRate;
+		return this.burnTimer/this.burnRate;
 	}
 
 	@Override
 	public void activateBurnTimer() {
-		burning=true;
-		resetSpreadTimer();
+		if (!burning){
+			burning=true;
+			resetSpreadTimer();
+		}
 		// TODO Auto-generated method stub
 		
 	}
@@ -104,5 +110,18 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 		checkBurnt();
 	}
 	
-
+	@Override
+	public void draw(GameCanvas canvas) {
+		if (texture != null) {
+			if (isBurnt()){
+				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+			else if (isBurning()){
+				canvas.draw(texture,Color.RED,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+			else{
+				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			}
+		}
+	}
 }

@@ -16,9 +16,9 @@ public interface FlammableInterface {
 	 */
 	public boolean isBurning();
 	/**
-	 * @return the frames until it gets burnt/destroyed
+	 * @return the seconds until it gets burnt/destroyed
 	 */
-	public int getBurnTime();
+	public float getBurnTime();
 	/**
 	 * @return the percentage of remaining frames until it gets burnt/destroyed
 	 */

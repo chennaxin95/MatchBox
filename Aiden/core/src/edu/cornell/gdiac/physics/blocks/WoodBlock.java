@@ -5,7 +5,7 @@ public class WoodBlock extends FlammableBlock{
 	private int fuelPenalty;
 
 	public WoodBlock(float x, float y, float width, float height,
-			int spreadRate, int burnRate, int fuels) {
+			float spreadRate, float burnRate, int fuels) {
 		super(x, y, width, height, spreadRate, burnRate);
 		this.fuelPenalty=fuels;
 		// TODO Auto-generated constructor stub
@@ -15,7 +15,7 @@ public class WoodBlock extends FlammableBlock{
 		moveable=false;
 	}
 	
-	public WoodBlock(float width, float height,int spreadRate, int burnRate, int fuels) {
+	public WoodBlock(float width, float height,float spreadRate, float burnRate, int fuels) {
 		super(width, height, spreadRate, burnRate);
 		this.fuelPenalty=fuels;
 		flammable=true;
