@@ -26,7 +26,7 @@ public class AidenModel extends CapsuleObstacle {
 	/** The density of the character */
 	private static final float DUDE_DENSITY = 1.0f;
 	/** The factor to multiply by the input */
-	private static final float DUDE_FORCE = 20.0f;
+	private static final float DUDE_FORCE = 30.0f;
 	/** The amount to slow the character down */
 	private static final float DUDE_DAMPING = 10.0f; 
 	/** The dude is a slippery one */
@@ -34,7 +34,7 @@ public class AidenModel extends CapsuleObstacle {
 	/** The maximum character speed */
 	private static final float DUDE_MAXSPEED = 5.0f;
 	/** The impulse for the character jump */
-	private static final float DUDE_JUMP = 5.5f;
+	private static final float DUDE_JUMP = 20f;
 	/** Cooldown (in animation frames) for jumping */
 	private static final int JUMP_COOLDOWN = 30;
 	/** Cooldown (in animation frames) for shooting */
@@ -386,7 +386,7 @@ public class AidenModel extends CapsuleObstacle {
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-
+		
 		subFuel(dt);
 		super.update(dt);
 	}
