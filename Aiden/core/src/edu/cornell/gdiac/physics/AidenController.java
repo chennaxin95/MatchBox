@@ -354,8 +354,11 @@ public class AidenController extends WorldController implements ContactListener 
 	    //update flammable objects;
 	    for (FlammableBlock fb : flammables){
 	    	fb.updateBurningState(dt);
-	    	if (fb.isBurnt()){
+	    	if (fb.isBurnt()){ 		
+	    		objects.remove(fb);
 	    		flammables.remove(fb);
+	    		fb.markRemoved(true);
+	    		fb.deactivatePhysics(world);
 	    	}
 	    }
 		
