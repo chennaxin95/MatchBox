@@ -12,7 +12,7 @@ public class LadderBlock extends FlammableBlock {
 		breakable = false;
 		climbable = true;
 		moveable = false;
-		this.releaseFixtures();
+		
 	}
 
 	public LadderBlock(float width, float height, float spreadRate,
@@ -22,7 +22,7 @@ public class LadderBlock extends FlammableBlock {
 		breakable = false;
 		climbable = true;
 		moveable = false;
-		this.releaseFixtures();
+		
 		// TODO Auto-generated constructor stub
 	}
 
