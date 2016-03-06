@@ -2,7 +2,6 @@ package edu.cornell.gdiac.physics.blocks;
 
 public class WoodBlock extends FlammableBlock{
 	
-	private int fuelPenalty;
 
 	public WoodBlock(float x, float y, float width, float height,
 			float spreadRate, float burnRate, int fuels) {
@@ -23,10 +22,5 @@ public class WoodBlock extends FlammableBlock{
 		climbable=false;
 		moveable=false;
 		// TODO Auto-generated constructor stub
-	}
-	
-	public int getFuelPenalty(){
-		return fuelPenalty;
-	}
-	
+	}	
 }

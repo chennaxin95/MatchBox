@@ -14,6 +14,7 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	
 	private boolean burning;
 	private boolean burnt;
+	public int fuelPenalty;
 	
 	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);
@@ -110,6 +111,9 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 		checkBurnt();
 	}
 	
+	public int getFuelPenalty(){
+		return fuelPenalty;
+	}
 	@Override
 	public void draw(GameCanvas canvas) {
 		if (texture != null) {

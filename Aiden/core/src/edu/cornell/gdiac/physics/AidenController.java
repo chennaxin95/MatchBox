@@ -190,6 +190,8 @@ public class AidenController extends WorldController
 	
 	/** fuel blocks */
 	private static final float[] FUELS = {26f, 9f};
+	
+	private static final float [] LADDER = {11f, 9f, 11f, 11f, 11f, 13f};
 
 	// Other game objects
 	/** The goal door position */
@@ -335,6 +337,22 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
+		
+		for (int ii = 0; ii < LADDER.length; ii += 2) {
+			TextureRegion texture = fuelTexture;
+			dwidth = texture.getRegionWidth() / scale.x;
+			dheight = texture.getRegionHeight() / scale.y;
+			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1], dwidth,
+					dheight, 1, 5);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("box" + ii);
+			box.setDrawScale(scale);
+			box.setTexture(texture);
+			addObject(box);
+			flammables.add(box);
+		}
 	}
 
 	/**
@@ -427,7 +445,7 @@ public class AidenController extends WorldController
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
 							} else {
 								avatar.subFuel(
-										((WoodBlock) fb).getFuelPenalty());
+										((FlammableBlock) fb).getFuelPenalty());
 							}
 						}
 					}
@@ -442,7 +460,7 @@ public class AidenController extends WorldController
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
 							} else {
 								avatar.subFuel(
-										((WoodBlock) fb).getFuelPenalty());
+										((FlammableBlock) fb).getFuelPenalty());
 							}
 						}
 					}
