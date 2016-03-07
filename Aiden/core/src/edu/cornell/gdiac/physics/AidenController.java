@@ -169,7 +169,7 @@ public class AidenController extends WorldController
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
 	private static final float[][] WALLS = {
-			{ 0.0f, 0.0f, 32.0f, 0.0f, 32.0f, 1.0f, 0.0f, 1.0f },
+			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
 					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
 			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
