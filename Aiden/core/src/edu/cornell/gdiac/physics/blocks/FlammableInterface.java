@@ -24,6 +24,10 @@ public interface FlammableInterface {
 	 */
 	public float getBurnRatio();
 	/**
+	 * @return the percentage of remaining frames until it starts to spread
+	 */
+	public float getSpreadRatio();
+	/**
 	 * Set the object to the state of on fire;
 	 * start burning count down, if it's not.
 	 */

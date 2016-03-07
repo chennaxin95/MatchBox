@@ -62,6 +62,12 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	}
 
 	@Override
+	public float getSpreadRatio() {
+		return this.spreadTimer/this.spreadRate;
+	}
+
+	
+	@Override
 	public void activateBurnTimer() {
 		if (!burning){
 			burning=true;
@@ -121,7 +127,14 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
 			else if (isBurning()){
-				canvas.draw(texture,Color.RED,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+				Color c=new Color();
+				if (getBurnRatio()>0.3){
+					c=new Color(1, getBurnRatio(), 0, 1);
+				}
+				else{
+					c=new Color(getBurnRatio()/0.3f, getBurnRatio(), 0, 1);
+				}
+				canvas.draw(texture,c,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
 			else{
 				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
