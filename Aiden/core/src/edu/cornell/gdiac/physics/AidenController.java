@@ -51,6 +51,7 @@ public class AidenController extends WorldController
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
 	/** Texture for fuelBlock */
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
+	private static final String LADDER_FILE = "platform/ladder.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -65,6 +66,7 @@ public class AidenController extends WorldController
 	private TextureRegion woodTexture;
 	/** Texture for fuel */
 	private TextureRegion fuelTexture;
+	private TextureRegion ladderTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
 	/** Texture asset for the bullet */
@@ -110,6 +112,8 @@ public class AidenController extends WorldController
 		assets.add(FUEL_FILE);
 		manager.load(BACKGROUND, Texture.class);
 		assets.add(BACKGROUND);
+		manager.load(LADDER_FILE, Texture.class);
+		assets.add(LADDER_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -143,6 +147,7 @@ public class AidenController extends WorldController
 		bridgeTexture = createTexture(manager, ROPE_FILE, false);
 		fuelTexture = createTexture(manager, FUEL_FILE, false);
 		backGround = createTexture(manager, BACKGROUND, false);
+		ladderTexture = createTexture(manager, LADDER_FILE, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -198,7 +203,7 @@ public class AidenController extends WorldController
 	/** fuel blocks */
 	private static final float[] FUELS = { 26f, 9f };
 
-	private static final float[] LADDER = { 11f, 9f };
+	private static final float[] LADDER = { 11f, 10f };
 
 	// Other game objects
 	/** The goal door position */
@@ -264,7 +269,7 @@ public class AidenController extends WorldController
 		// Add level goal
 		float dwidth = goalTile.getRegionWidth() / scale.x;
 		float dheight = goalTile.getRegionHeight() / scale.y;
-		goalDoor = new BoxObstacle(29.5f, 2f, dwidth, dheight);
+		goalDoor = new BoxObstacle(29f, 2f, dwidth, dheight);
 		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 		goalDoor.setDensity(0.0f);
 		goalDoor.setFriction(0.0f);
@@ -338,12 +343,12 @@ public class AidenController extends WorldController
 		}
 
 		for (int ii = 0; ii < LADDER.length; ii += 2) {
-			TextureRegion texture = fuelTexture;
+			TextureRegion texture = ladderTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1],
 					dwidth,
-					dheight*3, 1, 5);
+					dheight, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
