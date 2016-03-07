@@ -62,7 +62,7 @@ public abstract class WorldController implements Screen {
 	protected AssetState worldAssetState = AssetState.EMPTY;
 	/** Track all loaded assets (for unloading purposes) */
 	protected Array<String> assets;	
-	
+
 	// Pathnames to shared assets
 	/** File to texture for walls and platforms */
 	private static String EARTH_FILE = "shared/earthtile.png";
@@ -71,6 +71,7 @@ public abstract class WorldController implements Screen {
 	/** Retro font for displaying messages */
 	private static String FONT_FILE = "shared/RetroGame.ttf";
 	private static int FONT_SIZE = 64;
+	private static String FUEL_FONT = "shared/ShadowsIntoLight.ttf";
 	/** Reference to the character avatar */
 	private AidenModel avatar;
 
@@ -106,10 +107,15 @@ public abstract class WorldController implements Screen {
 		
 		// Load the font
 		FreetypeFontLoader.FreeTypeFontLoaderParameter size2Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		FreetypeFontLoader.FreeTypeFontLoaderParameter s2p = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
 		size2Params.fontFileName = FONT_FILE;
 		size2Params.fontParameters.size = FONT_SIZE;
+		s2p.fontFileName = FUEL_FONT;
+		s2p.fontParameters.size = FONT_SIZE;
+		manager.load(FUEL_FONT, BitmapFont.class, s2p);
 		manager.load(FONT_FILE, BitmapFont.class, size2Params);
 		assets.add(FONT_FILE);
+		assets.add(FUEL_FONT);
 	}
 
 	/**
@@ -134,7 +140,7 @@ public abstract class WorldController implements Screen {
 		// Allocate the font
 		if (manager.isLoaded(FONT_FILE)) {
 			displayFont = manager.get(FONT_FILE,BitmapFont.class);
-			fuelFont = displayFont;
+			fuelFont = manager.get(FUEL_FONT,BitmapFont.class);
 			fuelFont.getData().setScale(0.5f, 0.5f);
 		} else {
 			displayFont = null;

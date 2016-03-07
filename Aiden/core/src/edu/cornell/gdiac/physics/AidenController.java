@@ -71,6 +71,10 @@ public class AidenController extends WorldController
 	private TextureRegion bulletTexture;
 	/** Texture asset for the bridge plank */
 	private TextureRegion bridgeTexture;
+	/** Texture for background */
+	private static final String BACKGROUND = "shared/background.png";
+	/** Texture for background */
+	private TextureRegion backGround;
 
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;
@@ -104,6 +108,8 @@ public class AidenController extends WorldController
 		assets.add(WOOD_FILE);
 		manager.load(FUEL_FILE, Texture.class);
 		assets.add(FUEL_FILE);
+		manager.load(BACKGROUND, Texture.class);
+		assets.add(BACKGROUND);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -136,6 +142,7 @@ public class AidenController extends WorldController
 		bulletTexture = createTexture(manager, BULLET_FILE, false);
 		bridgeTexture = createTexture(manager, ROPE_FILE, false);
 		fuelTexture = createTexture(manager, FUEL_FILE, false);
+		backGround = createTexture(manager, BACKGROUND, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -620,6 +627,7 @@ public class AidenController extends WorldController
 		canvas.clear();
 
 		canvas.begin();
+		canvas.draw(backGround, 0, 0);
 		for (Obstacle obj : objects) {
 			obj.draw(canvas);
 		}
