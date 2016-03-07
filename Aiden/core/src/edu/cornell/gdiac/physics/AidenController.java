@@ -191,7 +191,7 @@ public class AidenController extends WorldController
 	/** fuel blocks */
 	private static final float[] FUELS = { 26f, 9f };
 
-	private static final float[] LADDER = { 11f, 9f, 11f, 11f, 11f, 13f };
+	private static final float[] LADDER = { 11f, 9f };
 
 	// Other game objects
 	/** The goal door position */
@@ -336,7 +336,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1],
 					dwidth,
-					dheight, 1, 5);
+					dheight*3, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
