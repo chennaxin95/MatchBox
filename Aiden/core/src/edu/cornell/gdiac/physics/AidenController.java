@@ -354,7 +354,6 @@ public class AidenController extends WorldController
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			addObject(box);
-			flammables.add(box);
 		}
 		// Create dude
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
