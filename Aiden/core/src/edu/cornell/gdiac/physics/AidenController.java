@@ -51,7 +51,10 @@ public class AidenController extends WorldController
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
 	/** Texture for fuelBlock */
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
+	/** Texture for ladder */
+	private static final String LADDER_FILE = "platform/ladder_ssmal.png";
 
+	
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
 	/** The sound file for a bullet fire */
@@ -65,12 +68,8 @@ public class AidenController extends WorldController
 	private TextureRegion woodTexture;
 	/** Texture for fuel */
 	private TextureRegion fuelTexture;
-	/** Texture asset for the spinning barrier */
-	private TextureRegion barrierTexture;
-	/** Texture asset for the bullet */
-	private TextureRegion bulletTexture;
-	/** Texture asset for the bridge plank */
-	private TextureRegion bridgeTexture;
+	/** Texture for fuel */
+	private TextureRegion ladderTexture;
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
 	/** Texture for background */
@@ -108,6 +107,8 @@ public class AidenController extends WorldController
 		assets.add(WOOD_FILE);
 		manager.load(FUEL_FILE, Texture.class);
 		assets.add(FUEL_FILE);
+		manager.load(LADDER_FILE, Texture.class);
+		assets.add(LADDER_FILE);
 		manager.load(BACKGROUND, Texture.class);
 		assets.add(BACKGROUND);
 
@@ -138,10 +139,8 @@ public class AidenController extends WorldController
 		}
 		woodTexture = createTexture(manager, WOOD_FILE, false);
 		avatarTexture = createTexture(manager, DUDE_FILE, false);
-		barrierTexture = createTexture(manager, BARRIER_FILE, false);
-		bulletTexture = createTexture(manager, BULLET_FILE, false);
-		bridgeTexture = createTexture(manager, ROPE_FILE, false);
 		fuelTexture = createTexture(manager, FUEL_FILE, false);
+		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		backGround = createTexture(manager, BACKGROUND, false);
 
 		SoundController sounds = SoundController.getInstance();
@@ -163,12 +162,6 @@ public class AidenController extends WorldController
 	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
 	private static final float BASIC_RESTITUTION = 0.1f;
-	/** The width of the rope bridge */
-	private static final float BRIDGE_WIDTH = 14.0f;
-	/** Offset for bullet when firing */
-	private static final float BULLET_OFFSET = 0.2f;
-	/** The speed of the bullet after firing */
-	private static final float BULLET_SPEED = 20.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
 
@@ -198,7 +191,8 @@ public class AidenController extends WorldController
 	/** fuel blocks */
 	private static final float[] FUELS = { 26f, 9f };
 
-	private static final float[] LADDER = { 11f, 9f };
+	private static final float[] LADDER = { 11f, 10.5f };
+	
 
 	// Other game objects
 	/** The goal door position */
@@ -338,12 +332,11 @@ public class AidenController extends WorldController
 		}
 
 		for (int ii = 0; ii < LADDER.length; ii += 2) {
-			TextureRegion texture = fuelTexture;
+			TextureRegion texture = ladderTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1],
-					dwidth,
-					dheight*3, 1, 5);
+					dwidth, dheight, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -434,9 +427,11 @@ public class AidenController extends WorldController
 					FlammableBlock fb2 = (FlammableBlock) bd2;
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
+						System.out.println(fb1.getName()+""+fb1.isBurning()+" "+fb2.getName());
 						fb2.activateBurnTimer();
 					} else if (fb2.canSpreadFire()
 							&& (!fb1.isBurning() && !fb1.isBurnt())) {
+						System.out.println(fb2.getName()+""+fb2.isBurning()+" "+fb1.getName());
 						fb1.activateBurnTimer();
 					}
 				}
@@ -445,6 +440,7 @@ public class AidenController extends WorldController
 					if (bd2 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd2;
 						if (!fb.isBurning() && !fb.isBurnt()) {
+							System.out.println(fb.getName());
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
@@ -460,6 +456,7 @@ public class AidenController extends WorldController
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
 						if (!fb.isBurning() && !fb.isBurnt()) {
+							System.out.println(fb.getName());
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
