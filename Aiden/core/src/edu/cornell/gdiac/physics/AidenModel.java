@@ -285,6 +285,7 @@ public class AidenModel extends CapsuleObstacle {
 		isJumping = false;
 		faceRight = true;
 		complete = false;
+		isClimbing = false;
 		
 		setName("dude");
 	}
@@ -360,7 +361,7 @@ public class AidenModel extends CapsuleObstacle {
 			if (Math.abs(getVY()) >= getMaxSpeed()) {
 				setVY(Math.signum(getVY()) * getMaxSpeed());
 			} else {
-				forceCache.set(getMovementY(), 0);
+				forceCache.set(0, getMovementY());
 				body.applyForce(forceCache, getPosition(), true);
 			}
 		}

@@ -187,11 +187,11 @@ public class AidenController extends WorldController
 	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
 	};
-	
+
 	/** fuel blocks */
-	private static final float[] FUELS = {26f, 9f};
-	
-	private static final float [] LADDER = {11f, 9f, 11f, 11f, 11f, 13f};
+	private static final float[] FUELS = { 26f, 9f };
+
+	private static final float[] LADDER = { 11f, 9f, 11f, 11f, 11f, 13f };
 
 	// Other game objects
 	/** The goal door position */
@@ -296,14 +296,6 @@ public class AidenController extends WorldController
 			addObject(obj);
 		}
 
-		// Create dude
-		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
-		avatar = new AidenModel(1, 13, dwidth, dheight);
-		avatar.setDrawScale(scale);
-		avatar.setTexture(avatarTexture);
-		addObject(avatar);
-
 		// Adding boxes
 		for (int ii = 0; ii < BOXES.length; ii += 2) {
 			TextureRegion texture = woodTexture;
@@ -320,7 +312,7 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
-		
+
 		// Adding boxes
 		for (int ii = 0; ii < FUELS.length; ii += 2) {
 			TextureRegion texture = fuelTexture;
@@ -337,12 +329,13 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
-		
+
 		for (int ii = 0; ii < LADDER.length; ii += 2) {
 			TextureRegion texture = fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1], dwidth,
+			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1],
+					dwidth,
 					dheight, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -353,6 +346,13 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
+		// Create dude
+		dwidth = avatarTexture.getRegionWidth() / scale.x;
+		dheight = avatarTexture.getRegionHeight() / scale.y;
+		avatar = new AidenModel(1, 13, dwidth, dheight);
+		avatar.setDrawScale(scale);
+		avatar.setTexture(avatarTexture);
+		addObject(avatar);
 	}
 
 	/**
@@ -403,7 +403,6 @@ public class AidenController extends WorldController
 				* avatar.getForce());
 		avatar.setJumping(InputController.getInstance().didSecondary());
 
-		
 		avatar.applyForce();
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
@@ -528,10 +527,18 @@ public class AidenController extends WorldController
 
 			// Set climbing state
 			if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-				avatar.setClimbing(((BlockAbstract) bd2).isClimbable());
+				if (((BlockAbstract) bd2).isClimbable()) {
+					avatar.setClimbing(true);
+					avatar.setGravityScale(0);
+
+				}
+
 			}
 			if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-				avatar.setClimbing(((BlockAbstract) bd1).isClimbable());
+				if (((BlockAbstract) bd1).isClimbable()) {
+					avatar.setClimbing(true);
+					avatar.setGravityScale(0);
+				}
 			}
 
 		} catch (Exception e) {
@@ -572,11 +579,13 @@ public class AidenController extends WorldController
 		if (bd1 == avatar && bd2 instanceof BlockAbstract) {
 			if (((BlockAbstract) bd2).isClimbable()) {
 				avatar.setClimbing(false);
+				avatar.setGravityScale(1);
 			}
 		}
 		if (bd2 == avatar && bd1 instanceof BlockAbstract) {
 			if (((BlockAbstract) bd1).isClimbable()) {
-				((BlockAbstract) bd1).setClimbable(false);
+				avatar.setClimbing(false);
+				avatar.setGravityScale(1);
 			}
 		}
 	}
@@ -585,7 +594,7 @@ public class AidenController extends WorldController
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 	}
 
-	/** Unused ContactListener method */
+	/** ContactListener method, lets Aiden pass through ladders */
 	public void preSolve(Contact contact, Manifold oldManifold) {
 		Fixture fix1 = contact.getFixtureA();
 		Fixture fix2 = contact.getFixtureB();
@@ -598,34 +607,32 @@ public class AidenController extends WorldController
 
 		Object bd1 = body1.getUserData();
 		Object bd2 = body2.getUserData();
-		
+
 		if (bd1 == avatar && bd2 instanceof LadderBlock
-				|| bd2 == avatar && bd1 instanceof LadderBlock){
+				|| bd2 == avatar && bd1 instanceof LadderBlock) {
 			contact.setEnabled(false);
 		}
-	
+
 	}
-	
+
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-		
+
 		canvas.begin();
-		for(Obstacle obj : objects) {
+		for (Obstacle obj : objects) {
 			obj.draw(canvas);
 		}
 		canvas.end();
-		
+
 		if (debug) {
 			canvas.beginDebug();
-			for(Obstacle obj : objects) {
+			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
 			canvas.endDebug();
 		}
-		
-		
-		
+
 		// Final message
 		if (isComplete() && !isFailure()) {
 			displayFont.setColor(Color.YELLOW);
@@ -640,11 +647,11 @@ public class AidenController extends WorldController
 			canvas.end();
 			avatar.setComplete(true);
 		}
-		
-		//drawing the fuel level
-		if(avatar != null){
+
+		// drawing the fuel level
+		if (avatar != null) {
 			canvas.begin();
-			String fuelT = "fuel: " + (int)avatar.getFuel();
+			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			canvas.end();
 		}
