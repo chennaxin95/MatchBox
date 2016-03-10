@@ -229,20 +229,25 @@ public class AidenController extends WorldController
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
-
+	
 	/**
 	 * Creates and initialize a new instance of the platformer game
 	 *
 	 * The game has default gravity and other settings
 	 */
-	public AidenController() {
+	public AidenController(int level) {
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_GRAVITY);
 		setDebug(false);
 		setComplete(false);
 		setFailure(false);
 		world.setContactListener(this);
 		sensorFixtures = new ObjectSet<Fixture>();
+		this.level=level;;
 	}
+	/**
+	 * Temporarily hard-code levels
+	 */
+	public int level=0;
 
 	/**
 	 * Resets the status of the game so that we can play again.

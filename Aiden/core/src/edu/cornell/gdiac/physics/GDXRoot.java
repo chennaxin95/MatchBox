@@ -73,10 +73,12 @@ public class GDXRoot extends Game implements ScreenListener {
 		loading = new LoadingMode(canvas,manager,1);
 		
 		// Initialize the three game worlds
-		controllers = new WorldController[1];
-		controllers[0] = new AidenController();
+		controllers = new WorldController[2];
+		controllers[0] = new AidenController(0);
 		controllers[0].preLoadContent(manager);
 		current = 0;
+		controllers[1] = new AidenController(1);
+		controllers[1].preLoadContent(manager);
 		loading.setScreenListener(this);
 		setScreen(loading);
 	}
@@ -89,8 +91,10 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void dispose() {
 		// Call dispose on our children
 		setScreen(null);
-		controllers[0].unloadContent(manager);
-		controllers[0].dispose();
+		for(int ii = 0; ii < controllers.length; ii++) {
+			controllers[ii].unloadContent(manager);
+			controllers[ii].dispose();
+		}
 
 		canvas.dispose();
 		canvas = null;
@@ -125,9 +129,11 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void exitScreen(Screen screen, int exitCode) {
 		if (screen == loading) {
-			controllers[0].loadContent(manager);
-			controllers[0].setScreenListener(this);
-			controllers[0].setCanvas(canvas);
+			for(int ii = 0; ii < controllers.length; ii++) {
+				controllers[ii].loadContent(manager);
+				controllers[ii].setScreenListener(this);
+				controllers[ii].setCanvas(canvas);
+			}
 			controllers[current].reset();
 			setScreen(controllers[current]);
 			

@@ -456,7 +456,11 @@ public class AidenModel extends CapsuleObstacle {
 	 */
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
-		canvas.draw(texture, Color.WHITE, origin.x, origin.y,
+		Color c=Color.WHITE.cpy();
+		if (this.isSpiriting){
+			c.a=0.75f;
+		}
+		canvas.draw(texture, c, origin.x, origin.y,
 				getX() * drawScale.x, getY() * drawScale.y, getAngle(), effect,
 				1.0f);
 	}
