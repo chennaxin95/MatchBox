@@ -75,12 +75,8 @@ public class AidenModel extends CapsuleObstacle {
 	private boolean isJumping;
 	/** Whether we are actively climbing */
 	private boolean isClimbing;
-	/** How long until we can shoot again */
-	private int shootCooldown;
 	/** Whether our feet are on the ground */
 	private boolean isGrounded;
-	/** Whether we are actively shooting */
-	private boolean isShooting;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
 	/** Ground sensor to represent our feet */
@@ -423,7 +419,13 @@ public class AidenModel extends CapsuleObstacle {
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
-		fuel = Math.max(0, fuel - i);
+		if (isClimbing){
+			fuel = Math.max(0, fuel - 0.05f*i*Math.abs(this.movementY));
+		}
+		else if(isJumping){
+			fuel = (float) Math.max(0, fuel - 0.05f*i*Math.sqrt(movement*movement+movementY*movementY));
+		}
+		fuel = Math.max(0, fuel - 0.02f*i*Math.abs(this.movement));
 	}
 
 	/** return the current level of fuel */

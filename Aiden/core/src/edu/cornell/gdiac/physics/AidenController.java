@@ -527,9 +527,6 @@ public class AidenController extends WorldController
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
-							} else {
-								avatar.subFuel(
-										((FlammableBlock) fb).getFuelPenalty());
 							}
 						}
 					}
@@ -549,9 +546,6 @@ public class AidenController extends WorldController
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
-							} else {
-								avatar.subFuel(
-										((FlammableBlock) fb).getFuelPenalty());
 							}
 						}
 					}
