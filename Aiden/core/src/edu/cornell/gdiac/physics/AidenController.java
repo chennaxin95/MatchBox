@@ -54,7 +54,6 @@ public class AidenController extends WorldController
 
 	private static final String LADDER_FILE = "platform/ladder.png";
 
-	
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
 	/** The sound file for a bullet fire */
@@ -68,7 +67,7 @@ public class AidenController extends WorldController
 	private TextureRegion woodTexture;
 	/** Texture for fuel */
 	private TextureRegion fuelTexture;
-	
+
 	private TextureRegion ladderTexture;
 	/** Texture asset for the spinning barrier */
 	private TextureRegion barrierTexture;
@@ -84,6 +83,13 @@ public class AidenController extends WorldController
 
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;
+
+	/**
+	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
+	 * Enables him to pass through burning objects and travel faster through
+	 * them. Toggled with the Tab key.
+	 */
+	private boolean spirit;
 
 	/**
 	 * Preloads the assets for this controller.
@@ -405,11 +411,20 @@ public class AidenController extends WorldController
 			setFailure(true);
 		}
 
+		// Toggle spirit mode
+		if (InputController.getInstance().didSpirit()) {
+			spirit = !spirit;
+		}
+
+		double accX = (spirit)
+				? InputController.getInstance().getHorizontal() * 1.5
+				: InputController.getInstance().getHorizontal();
+		double accY = (spirit)
+				? InputController.getInstance().getVertical() * 1.5
+				: InputController.getInstance().getVertical();
 		// Process actions in object model
-		avatar.setMovement(InputController.getInstance().getHorizontal()
-				* avatar.getForce());
-		avatar.setMovementY(InputController.getInstance().getVertical()
-				* avatar.getForce());
+		avatar.setMovement((float) accX * avatar.getForce());
+		avatar.setMovementY((float) accY * avatar.getForce());
 		avatar.setJumping(InputController.getInstance().didSecondary());
 
 		avatar.applyForce();
@@ -417,6 +432,11 @@ public class AidenController extends WorldController
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
 					EFFECT_VOLUME);
 		}
+		// if not in spirit mode or not on ladder, then not climbing
+		avatar.setClimbing(false);
+		avatar.setGravityScale(1);
+		avatar.setSpiriting(false);
+
 		Array<Contact> cList = world.getContactList();
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
@@ -436,17 +456,28 @@ public class AidenController extends WorldController
 					FlammableBlock fb2 = (FlammableBlock) bd2;
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
-						System.out.println(fb1.getName()+""+fb1.isBurning()+" "+fb2.getName());
+						System.out.println(fb1.getName() + "" + fb1.isBurning()
+								+ " " + fb2.getName());
 						fb2.activateBurnTimer();
 					} else if (fb2.canSpreadFire()
 							&& (!fb1.isBurning() && !fb1.isBurnt())) {
-						System.out.println(fb2.getName()+""+fb2.isBurning()+" "+fb1.getName());
+						System.out.println(fb2.getName() + "" + fb2.isBurning()
+								+ " " + fb1.getName());
 						fb1.activateBurnTimer();
 					}
 				}
+
 				// check for aiden and flammable
 				if (bd1 == avatar) {
 					if (bd2 instanceof FlammableBlock) {
+						// Enables Aiden to pass through flammable objects
+						// freely
+						if (spirit) {
+							avatar.setClimbing(true);
+							avatar.setGravityScale(0);
+							avatar.setSpiriting(true);
+						}
+
 						FlammableBlock fb = (FlammableBlock) bd2;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
@@ -463,6 +494,12 @@ public class AidenController extends WorldController
 				}
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
+						if (spirit) {
+							avatar.setClimbing(true);
+							avatar.setGravityScale(0);
+							avatar.setSpiriting(true);
+						}
+
 						FlammableBlock fb = (FlammableBlock) bd1;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
@@ -475,6 +512,22 @@ public class AidenController extends WorldController
 										((FlammableBlock) fb).getFuelPenalty());
 							}
 						}
+					}
+				}
+
+				// Set climbing state for climbable blocks
+				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
+					if (((BlockAbstract) bd2).isClimbable()) {
+						avatar.setClimbing(true);
+						avatar.setGravityScale(0);
+
+					}
+
+				}
+				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
+					if (((BlockAbstract) bd1).isClimbable()) {
+						avatar.setClimbing(true);
+						avatar.setGravityScale(0);
 					}
 				}
 
@@ -538,22 +591,6 @@ public class AidenController extends WorldController
 				setComplete(true);
 			}
 
-			// Set climbing state
-			if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-				if (((BlockAbstract) bd2).isClimbable()) {
-					avatar.setClimbing(true);
-					avatar.setGravityScale(0);
-
-				}
-
-			}
-			if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-				if (((BlockAbstract) bd1).isClimbable()) {
-					avatar.setClimbing(true);
-					avatar.setGravityScale(0);
-				}
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -588,26 +625,16 @@ public class AidenController extends WorldController
 			}
 		}
 
-		// See if no longer climbing
-		if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-			if (((BlockAbstract) bd2).isClimbable()) {
-				avatar.setClimbing(false);
-				avatar.setGravityScale(1);
-			}
-		}
-		if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-			if (((BlockAbstract) bd1).isClimbable()) {
-				avatar.setClimbing(false);
-				avatar.setGravityScale(1);
-			}
-		}
 	}
 
 	/** Unused ContactListener method */
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 	}
 
-	/** ContactListener method, lets Aiden pass through ladders */
+	/**
+	 * ContactListener method, lets Aiden pass through ladders. Also passes
+	 * through burning blocks if spirit mode is enabled.
+	 */
 	public void preSolve(Contact contact, Manifold oldManifold) {
 		Fixture fix1 = contact.getFixtureA();
 		Fixture fix2 = contact.getFixtureB();
@@ -624,6 +651,13 @@ public class AidenController extends WorldController
 		if (bd1 == avatar && bd2 instanceof LadderBlock
 				|| bd2 == avatar && bd1 instanceof LadderBlock) {
 			contact.setEnabled(false);
+		}
+
+		if (spirit) {
+			if (bd1 == avatar && bd2 instanceof FlammableBlock
+					|| bd2 == avatar && bd1 instanceof FlammableBlock) {
+				contact.setEnabled(false);
+			}
 		}
 
 	}
@@ -667,7 +701,11 @@ public class AidenController extends WorldController
 			canvas.begin();
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
+			// drawing spirit mode on/off
+			String onoff = (spirit) ? "On" : "Off";
+			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
+
 		}
 	}
 }

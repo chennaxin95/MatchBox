@@ -18,8 +18,8 @@ import edu.cornell.gdiac.physics.obstacle.*;
 /**
  * Player avatar for the plaform game.
  *
- * Note that this class returns to static loading.  That is because there are
- * no other subclasses that we might loop through.
+ * Note that this class returns to static loading. That is because there are no
+ * other subclasses that we might loop through.
  */
 public class AidenModel extends CapsuleObstacle {
 	// Physics constants
@@ -28,9 +28,9 @@ public class AidenModel extends CapsuleObstacle {
 	/** The factor to multiply by the input */
 	private static final float DUDE_FORCE = 30.0f;
 	/** The amount to slow the character down */
-	private static final float DUDE_DAMPING = 10.0f; 
+	private static final float DUDE_DAMPING = 10.0f;
 	/** The dude is a slippery one */
-	private static final float DUDE_FRICTION = 0.0f; 
+	private static final float DUDE_FRICTION = 0.0f;
 	/** The maximum character speed */
 	private static final float DUDE_MAXSPEED = 5.0f;
 	/** The impulse for the character jump */
@@ -45,20 +45,28 @@ public class AidenModel extends CapsuleObstacle {
 	private static final String SENSOR_NAME = "DudeGroundSensor";
 
 	// This is to fit the image to a tigher hitbox
-	/** The amount to shrink the body fixture (vertically) relative to the image */
+	/**
+	 * The amount to shrink the body fixture (vertically) relative to the image
+	 */
 	private static final float DUDE_VSHRINK = 0.95f;
-	/** The amount to shrink the body fixture (horizontally) relative to the image */
+	/**
+	 * The amount to shrink the body fixture (horizontally) relative to the
+	 * image
+	 */
 	private static final float DUDE_HSHRINK = 0.7f;
-	/** The amount to shrink the sensor fixture (horizontally) relative to the image */
+	/**
+	 * The amount to shrink the sensor fixture (horizontally) relative to the
+	 * image
+	 */
 	private static final float DUDE_SSHRINK = 0.6f;
-	
+
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
-	
+
 	/** The current horizontal movement of the character */
-	private float   movement;
+	private float movement;
 	/** The current vertical movement of the character */
 	private float movementY;
 	/** Which direction is the character facing */
@@ -73,11 +81,13 @@ public class AidenModel extends CapsuleObstacle {
 	private boolean isGrounded;
 	/** Whether we are actively shooting */
 	private boolean isShooting;
+	/** Whether we are moving through blocks in spirit mode */
+	private boolean isSpiriting;
 	/** Ground sensor to represent our feet */
 	private Fixture sensorFixture;
 	private PolygonShape sensorShape;
 	private boolean complete;
-	
+
 	/** Cache for internal force calculations */
 	private Vector2 forceCache = new Vector2();
 
@@ -91,7 +101,7 @@ public class AidenModel extends CapsuleObstacle {
 	public float getMovement() {
 		return movement;
 	}
-	
+
 	/**
 	 * Returns up/down movement of this character.
 	 * 
@@ -102,16 +112,17 @@ public class AidenModel extends CapsuleObstacle {
 	public float getMovementY() {
 		return movementY;
 	}
-	
+
 	/**
 	 * Sets left/right movement of this character.
 	 * 
 	 * This is the result of input times dude force.
 	 *
-	 * @param value left/right movement of this character.
+	 * @param value
+	 *            left/right movement of this character.
 	 */
 	public void setMovement(float value) {
-		movement = value; 
+		movement = value;
 		// Change facing if appropriate
 		if (movement < 0) {
 			faceRight = false;
@@ -119,7 +130,7 @@ public class AidenModel extends CapsuleObstacle {
 			faceRight = true;
 		}
 	}
-	
+
 	/**
 	 * Sets up/down movement of this character while climbing.
 	 * 
@@ -133,8 +144,7 @@ public class AidenModel extends CapsuleObstacle {
 		movementY = value;
 	}
 
-	
-		/**
+	/**
 	 * Returns true if the dude is actively jumping.
 	 *
 	 * @return true if the dude is actively jumping.
@@ -142,16 +152,17 @@ public class AidenModel extends CapsuleObstacle {
 	public boolean isJumping() {
 		return isJumping && isGrounded;
 	}
-	
+
 	/**
 	 * Sets whether the dude is actively jumping.
 	 *
-	 * @param value whether the dude is actively jumping.
+	 * @param value
+	 *            whether the dude is actively jumping.
 	 */
 	public void setJumping(boolean value) {
-		isJumping = value; 
+		isJumping = value;
 	}
-	
+
 	/**
 	 * Returns true if the dude is actively climbing.
 	 *
@@ -170,7 +181,7 @@ public class AidenModel extends CapsuleObstacle {
 	public void setClimbing(boolean value) {
 		isClimbing = value;
 	}
-	
+
 	/**
 	 * Returns true if the dude is on the ground.
 	 *
@@ -179,24 +190,47 @@ public class AidenModel extends CapsuleObstacle {
 	public boolean isGrounded() {
 		return isGrounded;
 	}
-	
+
 	/**
 	 * Sets whether the dude is on the ground.
 	 *
-	 * @param value whether the dude is on the ground.
+	 * @param value
+	 *            whether the dude is on the ground.
 	 */
 	public void setGrounded(boolean value) {
-		isGrounded = value; 
+		isGrounded = value;
 	}
-	
+
+	/**
+	 * Returns true if Aiden is passing through flammable blocks in spirit mode.
+	 *
+	 * @return true if Aiden is passing through flammable blocks in spirit mode
+	 */
+	public boolean isSpiriting() {
+		return isSpiriting;
+	}
+
+	/**
+	 * Sets whether Aiden is passing through flammable blocks in spirit mode.
+	 *
+	 * @param value
+	 *            Whether Aiden is passing through flammable blocks in spirit
+	 *            mode.
+	 */
+	public void setSpiriting(boolean value) {
+		isSpiriting = value;
+	}
+
 	/**
 	 * Sets whether Aiden has won.
 	 *
-	 * @param value whether Aiden has won.
+	 * @param value
+	 *            whether Aiden has won.
 	 */
 	public void setComplete(boolean value) {
-		complete = value; 
+		complete = value;
 	}
+
 	/**
 	 * Returns how much force to apply to get the dude moving
 	 *
@@ -216,13 +250,13 @@ public class AidenModel extends CapsuleObstacle {
 	public float getDamping() {
 		return DUDE_DAMPING;
 	}
-	
+
 	/**
-	 * Returns the upper limit on dude left-right movement.  
+	 * Returns the upper limit on dude left-right movement.
 	 *
 	 * This does NOT apply to vertical movement.
 	 *
-	 * @return the upper limit on dude left-right movement.  
+	 * @return the upper limit on dude left-right movement.
 	 */
 	public float getMaxSpeed() {
 		return DUDE_MAXSPEED;
@@ -235,7 +269,7 @@ public class AidenModel extends CapsuleObstacle {
 	 *
 	 * @return the name of the ground sensor
 	 */
-	public String getSensorName() { 
+	public String getSensorName() {
 		return SENSOR_NAME;
 	}
 
@@ -251,33 +285,39 @@ public class AidenModel extends CapsuleObstacle {
 	/**
 	 * Creates a new dude at the origin.
 	 *
-	 * The size is expressed in physics units NOT pixels.  In order for 
-	 * drawing to work properly, you MUST set the drawScale. The drawScale 
-	 * converts the physics units to pixels.
+	 * The size is expressed in physics units NOT pixels. In order for drawing
+	 * to work properly, you MUST set the drawScale. The drawScale converts the
+	 * physics units to pixels.
 	 *
-	 * @param width		The object width in physics units
-	 * @param height	The object width in physics units
+	 * @param width
+	 *            The object width in physics units
+	 * @param height
+	 *            The object width in physics units
 	 */
 	public AidenModel(float width, float height) {
-		this(0,0,width,height);
+		this(0, 0, width, height);
 	}
 
 	/**
 	 * Creates a new dude avatar at the given position.
 	 *
-	 * The size is expressed in physics units NOT pixels.  In order for 
-	 * drawing to work properly, you MUST set the drawScale. The drawScale 
-	 * converts the physics units to pixels.
+	 * The size is expressed in physics units NOT pixels. In order for drawing
+	 * to work properly, you MUST set the drawScale. The drawScale converts the
+	 * physics units to pixels.
 	 *
-	 * @param x  		Initial x position of the avatar center
-	 * @param y  		Initial y position of the avatar center
-	 * @param width		The object width in physics units
-	 * @param height	The object width in physics units
+	 * @param x
+	 *            Initial x position of the avatar center
+	 * @param y
+	 *            Initial y position of the avatar center
+	 * @param width
+	 *            The object width in physics units
+	 * @param height
+	 *            The object width in physics units
 	 */
 	public AidenModel(float x, float y, float width, float height) {
-		super(x,y,width*DUDE_HSHRINK,height*DUDE_VSHRINK);
-        setDensity(DUDE_DENSITY);
-		setFriction(DUDE_FRICTION);  /// HE WILL STICK TO WALLS IF YOU FORGET
+		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
+		setDensity(DUDE_DENSITY);
+		setFriction(DUDE_FRICTION); /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
 		fuel = START_FUEL;
 		// Gameplay attributes
@@ -286,7 +326,7 @@ public class AidenModel extends CapsuleObstacle {
 		faceRight = true;
 		complete = false;
 		isClimbing = false;
-		
+
 		setName("dude");
 	}
 
@@ -295,7 +335,8 @@ public class AidenModel extends CapsuleObstacle {
 	 *
 	 * This method overrides the base method to keep your ship from spinning.
 	 *
-	 * @param world Box2D world to store body
+	 * @param world
+	 *            Box2D world to store body
 	 *
 	 * @return true if object allocation succeeded
 	 */
@@ -307,26 +348,26 @@ public class AidenModel extends CapsuleObstacle {
 
 		// Ground Sensor
 		// -------------
-		// We only allow the dude to jump when he's on the ground. 
+		// We only allow the dude to jump when he's on the ground.
 		// Double jumping is not allowed.
 		//
-		// To determine whether or not the dude is on the ground, 
-		// we create a thin sensor under his feet, which reports 
+		// To determine whether or not the dude is on the ground,
+		// we create a thin sensor under his feet, which reports
 		// collisions with the world but has no collision response.
 		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK*getWidth()/2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
-		
+
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
-		
+
 		return true;
 	}
-	
 
 	/**
 	 * Applies the force to the body of this dude
@@ -337,29 +378,31 @@ public class AidenModel extends CapsuleObstacle {
 		if (!isActive()) {
 			return;
 		}
-		
+
+		float maxX = (isSpiriting) ? getMaxSpeed() * 3 : getMaxSpeed();
+		float maxY = (isSpiriting) ? getMaxSpeed() * 3 : getMaxSpeed() * 2;
 		// Don't want to be moving. Damp out player motion
 		if (getMovement() == 0f) {
-			forceCache.set(-getDamping()*getVX(),0);
-			body.applyForce(forceCache,getPosition(),true);
+			forceCache.set(-getDamping() * getVX(), 0);
+			body.applyForce(forceCache, getPosition(), true);
 		}
 		// Same with vertical movement if climbing
 		if (isClimbing && getMovementY() == 0f) {
 			forceCache.set(0, -getDamping() * getVY());
 			body.applyForce(forceCache, getPosition(), true);
 		}
-		
+
 		// Velocity too high, clamp it
-		if (Math.abs(getVX()) >= getMaxSpeed()) {
-			setVX(Math.signum(getVX())*getMaxSpeed());
+		if (Math.abs(getVX()) >= maxX) {
+			setVX(Math.signum(getVX()) * maxX);
 		} else {
-			forceCache.set(getMovement(),0);
-			body.applyForce(forceCache,getPosition(),true);
+			forceCache.set(getMovement(), 0);
+			body.applyForce(forceCache, getPosition(), true);
 		}
-		
-		if (isClimbing){
-			if (Math.abs(getVY()) >= getMaxSpeed()) {
-				setVY(Math.signum(getVY()) * getMaxSpeed());
+
+		if (isClimbing) {
+			if (Math.abs(getVY()) >= maxY) {
+				setVY(Math.signum(getVY()) * maxY);
 			} else {
 				forceCache.set(0, getMovementY());
 				body.applyForce(forceCache, getPosition(), true);
@@ -369,36 +412,37 @@ public class AidenModel extends CapsuleObstacle {
 		// Jump!
 		if (isJumping()) {
 			forceCache.set(0, DUDE_JUMP);
-			body.applyLinearImpulse(forceCache,getPosition(),true);
+			body.applyLinearImpulse(forceCache, getPosition(), true);
 		}
 	}
-	
+
 	/** Add fuel when touch fuel box */
-	public void addFuel(float i){
-		fuel = Math.max(fuel+i, MAX_FUEL);
+	public void addFuel(float i) {
+		fuel = Math.max(fuel + i, MAX_FUEL);
 	}
-	
+
 	/** subtract fuel from Aiden */
-	public void subFuel(float i){
-		fuel = Math.max(0, fuel-i);
+	public void subFuel(float i) {
+		fuel = Math.max(0, fuel - i);
 	}
-	
+
 	/** return the current level of fuel */
-	public float getFuel(){
+	public float getFuel() {
 		return fuel;
 	}
-	
+
 	/**
 	 * Updates the object's physics state (NOT GAME LOGIC).
 	 *
 	 * We use this method to reset cooldowns.
 	 *
-	 * @param delta Number of seconds since last animation frame
+	 * @param delta
+	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-		
-		if (!complete){
+
+		if (!complete) {
 			subFuel(dt);
 		}
 		super.update(dt);
@@ -407,22 +451,27 @@ public class AidenModel extends CapsuleObstacle {
 	/**
 	 * Draws the physics object.
 	 *
-	 * @param canvas Drawing context
+	 * @param canvas
+	 *            Drawing context
 	 */
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
-		canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.y,getAngle(),effect,1.0f);
+		canvas.draw(texture, Color.WHITE, origin.x, origin.y,
+				getX() * drawScale.x, getY() * drawScale.y, getAngle(), effect,
+				1.0f);
 	}
-	
+
 	/**
 	 * Draws the outline of the physics body.
 	 *
 	 * This method can be helpful for understanding issues with collisions.
 	 *
-	 * @param canvas Drawing context
+	 * @param canvas
+	 *            Drawing context
 	 */
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
-		canvas.drawPhysics(sensorShape,Color.RED,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
+		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
 	}
 }
