@@ -420,12 +420,12 @@ public class AidenModel extends CapsuleObstacle {
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
 		if (isClimbing){
-			fuel = Math.max(0, fuel - 0.05f*i*Math.abs(this.movementY));
+			fuel = Math.max(0, fuel - 0.1f*i*Math.abs(this.movementY));
 		}
 		else if(isJumping){
-			fuel = (float) Math.max(0, fuel - 0.05f*i*Math.sqrt(movement*movement+movementY*movementY));
+			fuel = (float) Math.max(0, fuel - 0.1f*i*Math.sqrt(movement*movement+movementY*movementY));
 		}
-		fuel = Math.max(0, fuel - 0.02f*i*Math.abs(this.movement));
+		fuel = Math.max(0, fuel - 0.05f*i*Math.abs(this.movement));
 	}
 
 	/** return the current level of fuel */
