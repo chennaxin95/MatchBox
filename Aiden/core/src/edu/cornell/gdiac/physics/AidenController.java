@@ -22,6 +22,7 @@ import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.LadderBlock;
+import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.platform.DudeModel;
@@ -184,30 +185,48 @@ public class AidenController extends WorldController
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
-	private static final float[][] WALLS = {
+	private static final float[][][] WALLS = {{
 			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
 					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
 			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-					31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } };
+					31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } },
+					
+			{{1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f},
+			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
+				1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
+			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
+				31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } 	
+			}};
 
 	/** The outlines of all of the platforms */
-	private static final float[][] PLATFORMS = {
+	private static final float[][][] PLATFORMS = {{
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f },
 			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
-	};
+	},{{ 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f},
+		{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f},
+		{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f},
+		{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f}
+		}};
 
 	/** the vertices for the boxes */
 
-	private static final float[] BOXES = { 29.5f, 9f, 7f, 2f, 7f, 4f,
+	private static final float[][] BOXES = {{ 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	};
+	},{13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
+		8f, 2f, 10f, 2f}};
+	
+	/** the vertices for stone boxes */
+	
+	private static final float[][] STONE_BOXES = {{},{21f,4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f}};
 
 	/** fuel blocks */
-	private static final float[] FUELS = { 26f, 9f };
+	private static final float[][] FUELS = {{ 26f, 9f },{13f, 8f}};
 
-	private static final float[] LADDER = { 11f, 10f };
+	private static final float[][] LADDER = {{ 11f, 10f },{5f,8f,2f,3f}};
+	
+	private static final float[][] GOAL = {{29f, 2f},{29f, 9f}};
 
 	// Other game objects
 	/** The goal door position */
@@ -278,7 +297,9 @@ public class AidenController extends WorldController
 		// Add level goal
 		float dwidth = goalTile.getRegionWidth() / scale.x;
 		float dheight = goalTile.getRegionHeight() / scale.y;
-		goalDoor = new BoxObstacle(29f, 2f, dwidth, dheight);
+		float x = GOAL[level][0];
+		float y = GOAL[level][1];
+		goalDoor = new BoxObstacle(x, y, dwidth, dheight);
 		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 		goalDoor.setDensity(0.0f);
 		goalDoor.setFriction(0.0f);
@@ -290,9 +311,9 @@ public class AidenController extends WorldController
 		addObject(goalDoor);
 
 		String wname = "wall";
-		for (int ii = 0; ii < WALLS.length; ii++) {
+		for (int ii = 0; ii < WALLS[level].length; ii++) {
 			PolygonObstacle obj;
-			obj = new PolygonObstacle(WALLS[ii], 0, 0);
+			obj = new PolygonObstacle(WALLS[level][ii], 0, 0);
 			obj.setBodyType(BodyDef.BodyType.StaticBody);
 			obj.setDensity(BASIC_DENSITY);
 			obj.setFriction(BASIC_FRICTION);
@@ -304,9 +325,9 @@ public class AidenController extends WorldController
 		}
 
 		String pname = "platform";
-		for (int ii = 0; ii < PLATFORMS.length; ii++) {
+		for (int ii = 0; ii < PLATFORMS[level].length; ii++) {
 			PolygonObstacle obj;
-			obj = new PolygonObstacle(PLATFORMS[ii], 0, 0);
+			obj = new PolygonObstacle(PLATFORMS[level][ii], 0, 0);
 			obj.setBodyType(BodyDef.BodyType.StaticBody);
 			obj.setDensity(BASIC_DENSITY);
 			obj.setFriction(BASIC_FRICTION);
@@ -318,11 +339,11 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < BOXES.length; ii += 2) {
+		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
 			TextureRegion texture = woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			WoodBlock box = new WoodBlock(BOXES[ii], BOXES[ii + 1], dwidth,
+			WoodBlock box = new WoodBlock(BOXES[level][ii], BOXES[level][ii + 1], dwidth,
 					dheight, 1, 5, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -332,30 +353,46 @@ public class AidenController extends WorldController
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
+		}
+
+		// Adding stone boxes
+		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
+			TextureRegion texture = woodTexture;
+			dwidth = texture.getRegionWidth() / scale.x;
+			dheight = texture.getRegionHeight() / scale.y;
+			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii], STONE_BOXES[level][ii + 1], dwidth,
+					dheight);
+			box.setDensity(HEAVY_DENSITY);
+			box.setFriction(BASIC_FRICTION);
+			box.setRestitution(BASIC_RESTITUTION);
+			box.setName("stone_box" + ii);
+			box.setDrawScale(scale);
+			box.setTexture(texture);
+			addObject(box);
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < FUELS.length; ii += 2) {
+		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
 			TextureRegion texture = fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			FuelBlock box = new FuelBlock(FUELS[ii], FUELS[ii + 1], dwidth,
-					dheight, 1, 5, 5);
+			FuelBlock box = new FuelBlock(FUELS[level][ii], FUELS[level][ii + 1], dwidth,
+					dheight, 1, 5, 20);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("box" + ii);
+			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
 		}
 
-		for (int ii = 0; ii < LADDER.length; ii += 2) {
+		for (int ii = 0; ii < LADDER[level].length; ii += 2) {
 			TextureRegion texture = ladderTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			LadderBlock box = new LadderBlock(LADDER[ii], LADDER[ii + 1],
+			LadderBlock box = new LadderBlock(LADDER[level][ii], LADDER[level][ii + 1],
 					dwidth,
 					dheight, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
