@@ -421,7 +421,7 @@ public class AidenController extends WorldController
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard",
-				5, 5, dwidth, dheight, true);
+				18, 9, dwidth, dheight, true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(avatarTexture);
 		npcs.add(ch1);
@@ -490,13 +490,21 @@ public class AidenController extends WorldController
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
 					EFFECT_VOLUME);
 		}
+
+		// Update movements of npcs, including all interactions/side effects
+		for (CharacterModel npc: npcs){
+			npc.applyForce();
+		}
+		
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		
 		aiController.nextMove(npcs);
-
+		
+		// Detect contacts -- should be moved to a separate Controller
+	
 		Array<Contact> cList = world.getContactList();
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();

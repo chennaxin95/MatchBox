@@ -26,7 +26,7 @@ public class CharacterModel extends CapsuleObstacle {
 	/** The amount to slow the character down */
 	protected static final float DUDE_DAMPING = 10.0f;
 	/** The dude is a slippery one */
-	protected static final float DUDE_FRICTION = 0.0f;
+	protected static final float DUDE_FRICTION = 0.5f;
 	/** The maximum character speed */
 	protected static final float DUDE_MAXSPEED = 5.0f;
 	/** Height of the sensor attached to the player's feet */
@@ -99,11 +99,15 @@ public class CharacterModel extends CapsuleObstacle {
 	
 	
 	public boolean canChangeMove(){
-		return spawnCoolDown<=0;
+		return moveCoolDown<=0.0;
 	}
 	
 	public void setMoveCoolDown(float t){
 		moveCoolDown=t;
+	}
+	
+	public float getMoveCoolDown(){
+		return moveCoolDown;
 	}
 	
 	public BasicFSMState getState(){
@@ -275,6 +279,7 @@ public class CharacterModel extends CapsuleObstacle {
 	 * This method should be called after the force attribute is set.
 	 */
 	public void applyForce() {
+		// TODO: want to make it more step-like walking
 		if (!isActive()) {
 			return;
 		}

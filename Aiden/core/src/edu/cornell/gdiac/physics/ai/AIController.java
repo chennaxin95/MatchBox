@@ -9,8 +9,8 @@ import edu.cornell.gdiac.physics.character.CharacterModel.BasicFSMState;
 
 public class AIController {
 
-	private static final float MIN_WAITTIME=1f;
-	private static final float MAX_WAITTIME=3f;
+	private static final float MIN_WAITTIME=0.5f;
+	private static final float MAX_WAITTIME=2f;
 	
 	public AIController(){
 	}
@@ -45,11 +45,11 @@ public class AIController {
 			float prob=r.nextFloat();
 			if (prob<0.3){
 				// Move right
-				npc.setMovement(1f);;
+				npc.setMovement(1f*npc.getForce());;
 			}
 			else if (prob<0.6){
 				// Move left
-				npc.setMovement(-1f);;
+				npc.setMovement(-1f*npc.getForce());;
 			}
 			else{
 				// Still
