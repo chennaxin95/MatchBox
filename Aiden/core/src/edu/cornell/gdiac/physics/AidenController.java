@@ -8,6 +8,8 @@
  */
 package edu.cornell.gdiac.physics;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.audio.*;
@@ -18,17 +20,11 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.*;
-import edu.cornell.gdiac.physics.blocks.BlockAbstract;
-import edu.cornell.gdiac.physics.blocks.FlammableBlock;
-import edu.cornell.gdiac.physics.blocks.FuelBlock;
-import edu.cornell.gdiac.physics.blocks.LadderBlock;
-import edu.cornell.gdiac.physics.blocks.StoneBlock;
-import edu.cornell.gdiac.physics.blocks.WoodBlock;
-import edu.cornell.gdiac.physics.character.AidenModel;
+import edu.cornell.gdiac.physics.ai.AIController;
+import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
-import edu.cornell.gdiac.physics.platform.DudeModel;
-import edu.cornell.gdiac.physics.platform.RopeBridge;
-import edu.cornell.gdiac.physics.platform.Spinner;
+import edu.cornell.gdiac.physics.character.*;
+import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 
 /**
  * Gameplay specific controller for the platformer game.
@@ -240,15 +236,23 @@ public class AidenController extends WorldController
 	private static Vector2 BRIDGE_POS = new Vector2(9.0f, 3.8f);
 
 	// Physics objects for the game
-	/** Flammable Objects */
-	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
+	// Characters
 	/** Reference to the character avatar */
 	private AidenModel avatar;
+	/** Reference to the list of non-player characters */
+	private ArrayList<CharacterModel> npcs=new ArrayList<CharacterModel>();
+	// Blocks
+	/** Flammable Objects */
+	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();	
+	// Exit
 	/** Reference to the goalDoor (for collision detection) */
 	private BoxObstacle goalDoor;
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
+	
+	// Controllers for the game
+	private AIController aiController;
 	
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -263,6 +267,7 @@ public class AidenController extends WorldController
 		world.setContactListener(this);
 		sensorFixtures = new ObjectSet<Fixture>();
 		this.level=level;;
+		this.aiController=new AIController();
 	}
 	/**
 	 * Temporarily hard-code levels
@@ -282,6 +287,7 @@ public class AidenController extends WorldController
 		}
 		objects.clear();
 		addQueue.clear();
+		npcs.clear();
 		world.dispose();
 		fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
@@ -404,13 +410,22 @@ public class AidenController extends WorldController
 			box.setTexture(texture);
 			addObject(box);
 		}
-		// Create dude
+		// Create Aiden
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
 		avatar = new AidenModel(1, 13, dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		addObject(avatar);
+		// Create NPCs
+		dwidth = avatarTexture.getRegionWidth() / scale.x;
+		dheight = avatarTexture.getRegionHeight() / scale.y;
+		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard",
+				5, 5, dwidth, dheight, true);
+		ch1.setDrawScale(scale);
+		ch1.setTexture(avatarTexture);
+		npcs.add(ch1);
+		addObject(ch1);
 	}
 
 	/**
@@ -479,6 +494,8 @@ public class AidenController extends WorldController
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
+		
+		aiController.nextMove(npcs);
 
 		Array<Contact> cList = world.getContactList();
 		for (Contact c : cList) {

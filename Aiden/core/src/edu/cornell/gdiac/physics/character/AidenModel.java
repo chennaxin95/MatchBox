@@ -17,7 +17,7 @@ import edu.cornell.gdiac.physics.*;
  * Note that this class returns to static loading. That is because there are no
  * other subclasses that we might loop through.
  */
-public class AidenModel extends Character {
+public class AidenModel extends CharacterModel {
 	// Physics constants
 	/** The impulse for the character jump */
 	private static final float DUDE_JUMP = 18f;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.CapsuleObstacle;
 
-public class Character extends CapsuleObstacle {
+public class CharacterModel extends CapsuleObstacle {
 	public enum BasicFSMState{
 		SPAWN, WANDER
 	}
@@ -49,7 +49,7 @@ public class Character extends CapsuleObstacle {
 	protected static final float DUDE_SSHRINK = 0.6f;
 	
 	/** Spawn count down */
-	protected static final int MAX_SPAWN_TIME=10;
+	protected static final float MAX_SPAWN_TIME=1f;
 	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
@@ -60,7 +60,8 @@ public class Character extends CapsuleObstacle {
 	
 	private boolean isAlive;
 	
-	protected int spawnCount;
+	protected float spawnCoolDown;
+	protected float moveCoolDown;
 	protected CharacterType type;
 	protected BasicFSMState state; 
 	/** The current horizontal movement of the character */
@@ -71,7 +72,7 @@ public class Character extends CapsuleObstacle {
 	protected boolean isGrounded;
 	
 	
-	public Character(CharacterType t, String name, float x, float y, float width, 
+	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
 		setDensity(DUDE_DENSITY);
@@ -84,14 +85,25 @@ public class Character extends CapsuleObstacle {
 		faceRight = fright;
 		isGrounded = false;
 		
-		spawnCount=MAX_SPAWN_TIME;
+		spawnCoolDown=MAX_SPAWN_TIME;
 		state=BasicFSMState.SPAWN;
+		
+		moveCoolDown=0;
 		
 		setName(name);
 	}
 	
 	public boolean isSpawned(){
-		return spawnCount<=0;
+		return spawnCoolDown<=0;
+	}
+	
+	
+	public boolean canChangeMove(){
+		return spawnCoolDown<=0;
+	}
+	
+	public void setMoveCoolDown(float t){
+		moveCoolDown=t;
 	}
 	
 	public BasicFSMState getState(){
@@ -291,7 +303,8 @@ public class Character extends CapsuleObstacle {
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-		if (!isSpawned()) spawnCount--;
+		if (!isSpawned()) spawnCoolDown-=dt;
+		if (!canChangeMove()) moveCoolDown-=dt;
 		super.update(dt);
 	}
 

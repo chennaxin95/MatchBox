@@ -76,8 +76,6 @@ public abstract class WorldController implements Screen {
 	private static String FUEL_FONT = "shared/ShadowsIntoLight.ttf";
 	/** Reference to the character avatar */
 	private AidenModel avatar;
-	/** Reference to the list of non-player characters */
-	private ArrayList<Character> npcs;
 
 	/** The texture for walls and platforms */
 	protected TextureRegion earthTile;

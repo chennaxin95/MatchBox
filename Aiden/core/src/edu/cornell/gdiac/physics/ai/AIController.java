@@ -4,18 +4,27 @@ package edu.cornell.gdiac.physics.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.cornell.gdiac.physics.character.Character;
-import edu.cornell.gdiac.physics.character.Character.BasicFSMState;
+import edu.cornell.gdiac.physics.character.CharacterModel;
+import edu.cornell.gdiac.physics.character.CharacterModel.BasicFSMState;
 
 public class AIController {
-	private ArrayList<Character> npcs;
-	public void nextMove(){
-		for (Character npc:npcs){
-			updateState(npc);
-			
+
+	private static final float MIN_WAITTIME=1f;
+	private static final float MAX_WAITTIME=3f;
+	
+	public AIController(){
+	}
+	
+	public void nextMove(ArrayList<CharacterModel> npcs){
+		for (CharacterModel npc:npcs){
+			if (npc.canChangeMove()){
+				updateState(npc);
+				computeMove(npc);
+			}
 		}
 	}
-	public void updateState(Character npc){
+	
+	private void updateState(CharacterModel npc){
 		switch (npc.getState()){
 		case SPAWN:
 			if (npc.isSpawned()) npc.setState(BasicFSMState.WANDER);
@@ -25,14 +34,14 @@ public class AIController {
 		default: assert(false); break;
 		}
 	}
-	public void computeMove(Character npc){
+	public void computeMove(CharacterModel npc){
+		Random r=new Random();
 		switch (npc.getState()){
 		case SPAWN:
 			// Still
 			npc.setMovement(0f);;
 			break;
 		case WANDER:
-			Random r=new Random();
 			float prob=r.nextFloat();
 			if (prob<0.3){
 				// Move right
@@ -52,5 +61,6 @@ public class AIController {
 				npc.setMovement(0f);;
 				break;
 		}
+		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
 	}
 }
