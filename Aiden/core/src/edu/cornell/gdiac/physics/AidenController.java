@@ -24,6 +24,7 @@ import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.LadderBlock;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.blocks.WoodBlock;
+import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.platform.DudeModel;
 import edu.cornell.gdiac.physics.platform.RopeBridge;
@@ -406,7 +407,7 @@ public class AidenController extends WorldController
 		// Create dude
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
-		avatar = new AidenModel(1, 13, dwidth, dheight);
+		avatar = new AidenModel(1, 13, dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		addObject(avatar);

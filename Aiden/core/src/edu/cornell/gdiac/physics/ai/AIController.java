@@ -6,7 +6,6 @@ import java.util.Random;
 
 import edu.cornell.gdiac.physics.character.Character;
 import edu.cornell.gdiac.physics.character.Character.BasicFSMState;
-import edu.cornell.gdiac.physics.character.Character.Move;
 
 public class AIController {
 	private ArrayList<Character> npcs;
@@ -29,25 +28,29 @@ public class AIController {
 	public void computeMove(Character npc){
 		switch (npc.getState()){
 		case SPAWN:
-			npc.setMove(Move.STAY);
+			// Still
+			npc.setMovement(0f);;
 			break;
 		case WANDER:
 			Random r=new Random();
 			float prob=r.nextFloat();
 			if (prob<0.3){
-				npc.setMove(Move.LEFT);
 				// Move right
+				npc.setMovement(1f);;
 			}
 			else if (prob<0.6){
-				npc.setMove(Move.RIGHT);	
+				// Move left
+				npc.setMovement(-1f);;
 			}
 			else{
-				npc.setMove(Move.STAY);
+				// Still
+				npc.setMovement(0f);;
 			}
 			break;
 		default: assert(false);
-				 npc.setMove(Move.STAY);
-				 break;
+				// Still
+				npc.setMovement(0f);;
+				break;
 		}
 	}
 }

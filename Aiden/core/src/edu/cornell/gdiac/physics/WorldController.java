@@ -16,6 +16,7 @@
  */
 package edu.cornell.gdiac.physics;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.*;
@@ -26,8 +27,9 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
+
 import edu.cornell.gdiac.util.*;
-import edu.cornell.gdiac.physics.blocks.FlammableBlock;
+import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.obstacle.*;
 
 /**
@@ -74,6 +76,8 @@ public abstract class WorldController implements Screen {
 	private static String FUEL_FONT = "shared/ShadowsIntoLight.ttf";
 	/** Reference to the character avatar */
 	private AidenModel avatar;
+	/** Reference to the list of non-player characters */
+	private ArrayList<Character> npcs;
 
 	/** The texture for walls and platforms */
 	protected TextureRegion earthTile;
