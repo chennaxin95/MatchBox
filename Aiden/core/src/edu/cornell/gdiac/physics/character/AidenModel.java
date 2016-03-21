@@ -41,7 +41,7 @@ public class AidenModel extends CharacterModel {
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
-<<<<<<< HEAD
+
 	/** if Aiden is touch another box */
 	private boolean isContacting;
 	/** Win state */ 
@@ -49,11 +49,6 @@ public class AidenModel extends CharacterModel {
 	/** update time */
 	private float dt;
 	
-=======
-	/** Win state */
-	private boolean complete;
-
->>>>>>> origin/techprot
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
 
@@ -183,10 +178,6 @@ public class AidenModel extends CharacterModel {
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/techprot
 		setName("Aiden");
 	}
 
@@ -209,7 +200,7 @@ public class AidenModel extends CharacterModel {
 		if (!isActive()) {
 			return;
 		}
-<<<<<<< HEAD
+
 		
 		if(!isClimbing && !isSpiriting){
 			movementY = getVY();
@@ -223,35 +214,35 @@ public class AidenModel extends CharacterModel {
 			else{
 				movement = newM;
 				movement -= dt*12;
-=======
-		float maxX = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed();
-		float maxY = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed() * 2;
-		// Don't want to be moving. Damp out player motion unless in spirit mode
-		if (getMovement() == 0f && !isSpiriting) {
-			forceCache.set(-getDamping() * getVX(), 0);
-			body.applyForce(forceCache, getPosition(), true);
-		}
-		// Same with vertical movement if climbing
-		if (isClimbing && getMovementY() == 0f && !isSpiriting) {
-			forceCache.set(0, -getDamping() * getVY());
-			body.applyForce(forceCache, getPosition(), true);
-		}
-		int spiritBonus = (isSpiriting) ? 5 : 1;
-		// Velocity too high, clamp it
-		if (Math.abs(getVX()) >= maxX) {
-			setVX(Math.signum(getVX()) * maxX);
-		} else {
-			forceCache.set(getMovement() * spiritBonus, 0);
-			body.applyForce(forceCache, getPosition(), true);
-		}
-
-		if (isClimbing) {
-			if (Math.abs(getVY()) >= maxY) {
-				setVY(Math.signum(getVY()) * maxY);
-			} else {
-				forceCache.set(0, getMovementY() * spiritBonus);
-				body.applyForce(forceCache, getPosition(), true);
->>>>>>> origin/techprot
+/////////
+//		float maxX = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed();
+//		float maxY = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed() * 2;
+//		// Don't want to be moving. Damp out player motion unless in spirit mode
+//		if (getMovement() == 0f && !isSpiriting) {
+//			forceCache.set(-getDamping() * getVX(), 0);
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//		// Same with vertical movement if climbing
+//		if (isClimbing && getMovementY() == 0f && !isSpiriting) {
+//			forceCache.set(0, -getDamping() * getVY());
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//		int spiritBonus = (isSpiriting) ? 5 : 1;
+//		// Velocity too high, clamp it
+//		if (Math.abs(getVX()) >= maxX) {
+//			setVX(Math.signum(getVX()) * maxX);
+//		} else {
+//			forceCache.set(getMovement() * spiritBonus, 0);
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//
+//		if (isClimbing) {
+//			if (Math.abs(getVY()) >= maxY) {
+//				setVY(Math.signum(getVY()) * maxY);
+//			} else {
+//				forceCache.set(0, getMovementY() * spiritBonus);
+//				body.applyForce(forceCache, getPosition(), true);
+//>>>>>>> origin/techprot
 			}
 		}
 		if(isJumping && !isClimbing && !isSpiriting && isGrounded){
@@ -262,6 +253,45 @@ public class AidenModel extends CharacterModel {
 		}
 		
 		body.setLinearVelocity(movement, movementY);
+////////////////////////////////////////////
+//		if (!isActive()) {
+//			return;
+//		}
+//		float maxX = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed();
+//		float maxY = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed() * 2;
+//		// Don't want to be moving. Damp out player motion unless in spirit mode
+//		if (getMovement() == 0f && !isSpiriting) {
+//			forceCache.set(-getDamping() * getVX(), 0);
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//		// Same with vertical movement if climbing
+//		if (isClimbing && getMovementY() == 0f && !isSpiriting) {
+//			forceCache.set(0, -getDamping() * getVY());
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//		int spiritBonus = (isSpiriting) ? 5 : 1;
+//		// Velocity too high, clamp it
+//		if (Math.abs(getVX()) >= maxX) {
+//			setVX(Math.signum(getVX()) * maxX);
+//		} else {
+//			forceCache.set(getMovement() * spiritBonus, 0);
+//			body.applyForce(forceCache, getPosition(), true);
+//		}
+//
+//		if (isClimbing) {
+//			if (Math.abs(getVY()) >= maxY) {
+//				setVY(Math.signum(getVY()) * maxY);
+//			} else {
+//				forceCache.set(0, getMovementY() * spiritBonus);
+//				body.applyForce(forceCache, getPosition(), true);
+//			}
+//		}
+//
+//		// Jump!
+//		if (isJumping()) {
+//			forceCache.set(0, DUDE_JUMP);
+//			body.applyLinearImpulse(forceCache, getPosition(), true);
+//		}
 	}
 
 	/** Add fuel when touch fuel box */

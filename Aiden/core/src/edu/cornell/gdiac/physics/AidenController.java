@@ -253,12 +253,9 @@ public class AidenController extends WorldController
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
-<<<<<<< HEAD
+
 	protected ObjectSet<Fixture> contactFixtures;
 	
-=======
-
->>>>>>> origin/techprot
 	// Controllers for the game
 	private AIController aiController;
 
@@ -274,15 +271,10 @@ public class AidenController extends WorldController
 		setFailure(false);
 		world.setContactListener(this);
 		sensorFixtures = new ObjectSet<Fixture>();
-<<<<<<< HEAD
+
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level=level;;
 		this.aiController=new AIController();
-=======
-		this.level = level;
-		;
-		this.aiController = new AIController();
->>>>>>> origin/techprot
 	}
 
 	/**
@@ -522,11 +514,9 @@ public class AidenController extends WorldController
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-<<<<<<< HEAD
-		avatar.setContacting(false);
-=======
 
->>>>>>> origin/techprot
+		avatar.setContacting(false);
+
 		aiController.nextMove(npcs);
 
 		// Detect contacts -- should be moved to a separate Controller
@@ -566,14 +556,8 @@ public class AidenController extends WorldController
 				// check for aiden and flammable
 				if (bd1 == avatar) {
 					if (bd2 instanceof FlammableBlock) {
-<<<<<<< HEAD
+
 						avatar.setContacting(true);
-						// Enables Aiden to pass through flammable objects
-						// freely
-						if (spirit) {
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
-=======
 
 						FlammableBlock fb = (FlammableBlock) bd2;
 						// Enables Aiden to pass through flammable objects
@@ -586,7 +570,6 @@ public class AidenController extends WorldController
 								avatar.setGravityScale(0);
 								avatar.setSpiriting(true);
 							}
->>>>>>> origin/techprot
 						}
 
 						if (!fb.isBurning() && !fb.isBurnt()) {
@@ -602,12 +585,7 @@ public class AidenController extends WorldController
 				}
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
-<<<<<<< HEAD
 						avatar.setContacting(true);
-						if (spirit) {
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
-=======
 						FlammableBlock fb = (FlammableBlock) bd1;
 						if (spirit) {
 
@@ -618,7 +596,6 @@ public class AidenController extends WorldController
 								avatar.setGravityScale(0);
 								avatar.setSpiriting(true);
 							}
->>>>>>> origin/techprot
 						}
 
 						if (!fb.isBurning() && !fb.isBurnt()) {
@@ -635,11 +612,6 @@ public class AidenController extends WorldController
 
 				// Set climbing state for climbable blocks
 				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-<<<<<<< HEAD
-					if (((BlockAbstract) bd2).isClimbable()) {
-						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
-=======
 					BlockAbstract b = (BlockAbstract) bd2;
 					if (b.isClimbable()) {
 						float x = Math.abs(bd1.getX() - bd2.getX());
@@ -649,7 +621,6 @@ public class AidenController extends WorldController
 							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 						}
->>>>>>> origin/techprot
 					}
 
 				}
