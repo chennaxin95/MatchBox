@@ -172,7 +172,7 @@ public class AidenController extends WorldController
 	/** The density for most physics objects */
 	private static final float BASIC_DENSITY = 0.0f;
 	/** The density for a bullet */
-	private static final float HEAVY_DENSITY = 10.0f;
+	private static final float HEAVY_DENSITY = 50.0f;
 	/** Friction of most platforms */
 	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
@@ -541,8 +541,11 @@ public class AidenController extends WorldController
 
 				// check for aiden and flammable
 				if (bd1 == avatar) {
-					if (bd2 instanceof FlammableBlock) {
+					if(bd2 instanceof BlockAbstract){
 						avatar.setContacting(true);
+					}
+					
+					if (bd2 instanceof FlammableBlock) {
 						// Enables Aiden to pass through flammable objects
 						// freely
 						if (spirit) {
@@ -562,8 +565,11 @@ public class AidenController extends WorldController
 					}
 				}
 				if (bd2 == avatar) {
-					if (bd1 instanceof FlammableBlock) {
+					if(bd1 instanceof BlockAbstract){
 						avatar.setContacting(true);
+					}
+					
+					if (bd1 instanceof FlammableBlock) {
 						if (spirit) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
@@ -646,18 +652,6 @@ public class AidenController extends WorldController
 				avatar.setGrounded(true);
 				sensorFixtures.add(avatar == bd1 ? fix2 : fix1); 
 			}
-			
-			if ((avatar.getLeft().equals(fd2) && avatar != bd1) ||
-					(avatar.getLeft().equals(fd1) && avatar != bd2)) {
-				avatar.setContacting(true);
-				contactFixtures.add(avatar == bd1 ? fix2 : fix1); 
-			}
-			
-			if ((avatar.getRight().equals(fd2) && avatar != bd1) ||
-					(avatar.getRight().equals(fd1) && avatar != bd2)) {
-				avatar.setContacting(true);
-				contactFixtures.add(avatar == bd1 ? fix2 : fix1); 
-			}
 
 			// Check for win condition
 			if ((bd1 == avatar && bd2 == goalDoor) ||
@@ -696,20 +690,6 @@ public class AidenController extends WorldController
 			sensorFixtures.remove(avatar == bd1 ? fix2 : fix1);
 			if (sensorFixtures.size == 0) {
 				avatar.setGrounded(false);
-			}
-		}
-		if ((avatar.getLeft().equals(fd2) && avatar != bd1) ||
-				(avatar.getLeft().equals(fd1) && avatar != bd2)) {
-			contactFixtures.remove(avatar == bd1 ? fix2 : fix1);
-			if (contactFixtures.size == 0) {
-				avatar.setContacting(false);
-			}
-		}
-		if ((avatar.getRight().equals(fd2) && avatar != bd1) ||
-				(avatar.getRight().equals(fd1) && avatar != bd2)) {
-			contactFixtures.remove(avatar == bd1 ? fix2 : fix1);
-			if (contactFixtures.size == 0) {
-				avatar.setContacting(false);
 			}
 		}
 	}
@@ -789,7 +769,7 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			String onoff = (avatar.isSpiriting()) ? "On" : "Off";
+			String onoff = (avatar.isContacting()) ? "On" : "Off";
 			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
 
