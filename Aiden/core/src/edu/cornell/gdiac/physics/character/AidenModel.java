@@ -9,6 +9,9 @@
 package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+
 import edu.cornell.gdiac.physics.*;
 
 /**
@@ -21,6 +24,9 @@ public class AidenModel extends CharacterModel {
 	// Physics constants
 	/** The impulse for the character jump */
 	private static final float DUDE_JUMP = 18f;
+	
+	/** The unit distance away for fire trail */
+	private static final float UNIT_TRAIL_DIST = 0.2f;
 	
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
@@ -37,6 +43,9 @@ public class AidenModel extends CharacterModel {
 	private boolean isSpiriting;
 	/** Win state */ 
 	private boolean complete;
+	
+	/** Texture for fire trail */
+	private TextureRegion trailTexture;
 	
 	/**
 	 * Returns up/down movement of this character.
@@ -153,8 +162,16 @@ public class AidenModel extends CharacterModel {
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
-
+		
 		setName("Aiden");
+	}
+	
+	/**
+	 * Set texture for special effect
+	 * @param t
+	 */
+	public void setTraillTexture(TextureRegion t){
+		trailTexture=t;
 	}
 
 	/**
@@ -252,6 +269,13 @@ public class AidenModel extends CharacterModel {
 		Color c=Color.WHITE.cpy();
 		if (this.isSpiriting){
 			c.a=0.75f;
+		}
+		// Draw fire trail
+		if (trailTexture!=null){
+			canvas.draw(trailTexture, c, origin.x, origin.y,
+				(getX()-getVX()*UNIT_TRAIL_DIST) * drawScale.x, 
+				(getY()-this.getHeight()/4) * drawScale.y, getAngle(), 
+				(getVX()*UNIT_TRAIL_DIST) * drawScale.x/trailTexture.getRegionWidth(), 0.4f);
 		}
 		canvas.draw(texture, c, origin.x, origin.y,
 				getX() * drawScale.x, 

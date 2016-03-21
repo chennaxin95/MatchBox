@@ -39,28 +39,38 @@ public class AIController {
 		switch (npc.getState()){
 		case SPAWN:
 			// Still
-			npc.setMovement(0f);;
+			npc.setMovement(0f);
 			break;
 		case WANDER:
 			float prob=r.nextFloat();
-			if (prob<0.3){
-				// Move right
-				npc.setMovement(1f*npc.getForce());;
-			}
-			else if (prob<0.6){
-				// Move left
-				npc.setMovement(-1f*npc.getForce());;
+			// If is moving
+			if (npc.getMovement()!=0){
+				if (prob<0.5){
+					// Still
+					npc.setMovement(0);
+				}
 			}
 			else{
-				// Still
-				npc.setMovement(0f);;
+				if (prob<0.4){
+					// Move right
+					npc.setMovement(1f*npc.getForce());
+				}
+				else if (prob<0.8){
+					// Move left
+					npc.setMovement(-1f*npc.getForce());
+				}
+				else{
+					// Still
+					npc.setMovement(0f);
+				}	
 			}
 			break;
 		default: assert(false);
 				// Still
-				npc.setMovement(0f);;
+				npc.setMovement(0f);
 				break;
 		}
-		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
+		npc.setMoveCoolDown(1);
+//		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
 	}
 }

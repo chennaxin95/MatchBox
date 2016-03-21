@@ -416,6 +416,7 @@ public class AidenController extends WorldController
 		avatar = new AidenModel(1, 13, dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
+		avatar.setTraillTexture(avatarTexture); //TODO:
 		addObject(avatar);
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
