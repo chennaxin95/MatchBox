@@ -41,8 +41,12 @@ public class AidenModel extends CharacterModel {
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
+	/** if Aiden is touch another box */
+	private boolean isContacting;
 	/** Win state */ 
 	private boolean complete;
+	/** update time */
+	private float dt;
 	
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
@@ -139,6 +143,16 @@ public class AidenModel extends CharacterModel {
 		complete = value;
 	}
 
+	/** set the update delta time */
+	public void setDt(float dt){
+		this.dt = dt;
+	}
+	
+	/** setting the contacting state */
+	public void setContacting(boolean c){
+		isContacting = c;
+	}
+	
 	/**
 	 * Creates a new dude avatar at the given position.
 	 *
@@ -162,7 +176,6 @@ public class AidenModel extends CharacterModel {
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
-		
 		setName("Aiden");
 	}
 	
@@ -184,40 +197,28 @@ public class AidenModel extends CharacterModel {
 		if (!isActive()) {
 			return;
 		}
-		float maxX = (isSpiriting) ? getMaxSpeed() * 3 : getMaxSpeed();
-		float maxY = (isSpiriting) ? getMaxSpeed() * 3 : getMaxSpeed() * 2;
-		// Don't want to be moving. Damp out player motion
-		if (getMovement() == 0f) {
-			forceCache.set(-getDamping() * getVX(), 0);
-			body.applyForce(forceCache, getPosition(), true);
-		}
-		// Same with vertical movement if climbing
-		if (isClimbing && getMovementY() == 0f) {
-			forceCache.set(0, -getDamping() * getVY());
-			body.applyForce(forceCache, getPosition(), true);
-		}
-		// Velocity too high, clamp it
-		if (Math.abs(getVX()) >= maxX) {
-			setVX(Math.signum(getVX()) * maxX);
-		} else {
-			forceCache.set(getMovement(), 0);
-			body.applyForce(forceCache, getPosition(), true);
-		}
-
-		if (isClimbing) {
-			if (Math.abs(getVY()) >= maxY) {
-				setVY(Math.signum(getVY()) * maxY);
-			} else {
-				forceCache.set(0, getMovementY());
-				body.applyForce(forceCache, getPosition(), true);
+		
+		if(!isClimbing && !isSpiriting){
+			movementY = getVY();
+			movementY -= dt*11;
+			movement += getVX();
+			float newM = Math.min(Math.abs(movement), 10);
+			if(movement < 0){
+				movement = -newM;
 			}
+			else{
+				movement = newM;
+			}
+			movement -= dt * 5;
 		}
-
-		// Jump!
-		if (isJumping()) {
-			forceCache.set(0, DUDE_JUMP);
-			body.applyLinearImpulse(forceCache, getPosition(), true);
+		if(isJumping && !isClimbing && !isSpiriting && isGrounded){
+			movementY = 10;
 		}
+		if(!isGrounded){
+			movement = movement*0.8f;
+		}
+		
+		body.setLinearVelocity(movement, movementY);
 	}
 
 	/** Add fuel when touch fuel box */

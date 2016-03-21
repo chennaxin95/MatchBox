@@ -39,6 +39,8 @@ public class AidenController extends WorldController
 		implements ContactListener {
 	/** The texture file for the character avatar (no animation) */
 	private static final String DUDE_FILE = "platform/dude.png";
+	/** texture for water */
+	private static final String WATER_FILE = "platform/water.png";
 	/** The texture file for the spinning barrier */
 	private static final String BARRIER_FILE = "platform/barrier.png";
 	/** The texture file for the bullet */
@@ -65,14 +67,10 @@ public class AidenController extends WorldController
 	private TextureRegion woodTexture;
 	/** Texture for fuel */
 	private TextureRegion fuelTexture;
+	/** texture for water */
+	private TextureRegion waterTexture;
 
 	private TextureRegion ladderTexture;
-	/** Texture asset for the spinning barrier */
-	private TextureRegion barrierTexture;
-	/** Texture asset for the bullet */
-	private TextureRegion bulletTexture;
-	/** Texture asset for the bridge plank */
-	private TextureRegion bridgeTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -124,6 +122,8 @@ public class AidenController extends WorldController
 		assets.add(BACKGROUND);
 		manager.load(LADDER_FILE, Texture.class);
 		assets.add(LADDER_FILE);
+		manager.load(WATER_FILE, Texture.class);
+		assets.add(WATER_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -156,6 +156,7 @@ public class AidenController extends WorldController
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
+		waterTexture = createTexture(manager, WATER_FILE, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -250,6 +251,7 @@ public class AidenController extends WorldController
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
+	protected ObjectSet<Fixture> contactFixtures;
 	
 	// Controllers for the game
 	private AIController aiController;
@@ -266,6 +268,7 @@ public class AidenController extends WorldController
 		setFailure(false);
 		world.setContactListener(this);
 		sensorFixtures = new ObjectSet<Fixture>();
+		contactFixtures = new ObjectSet<Fixture>();
 		this.level=level;;
 		this.aiController=new AIController();
 	}
@@ -424,7 +427,7 @@ public class AidenController extends WorldController
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard",
 				18, 9, dwidth, dheight, true);
 		ch1.setDrawScale(scale);
-		ch1.setTexture(avatarTexture);
+		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
 		addObject(ch1);
 	}
@@ -482,10 +485,10 @@ public class AidenController extends WorldController
 				? InputController.getInstance().getVertical() * 1.5
 				: InputController.getInstance().getVertical();
 		// Process actions in object model
-		avatar.setMovement((float) accX * avatar.getForce());
-		avatar.setMovementY((float) accY * avatar.getForce());
+		avatar.setMovement((float) accX * 5);
+		avatar.setMovementY((float) accY * 8);
 		avatar.setJumping(InputController.getInstance().didSecondary());
-
+		avatar.setDt(dt);
 		avatar.applyForce();
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
@@ -501,7 +504,7 @@ public class AidenController extends WorldController
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-		
+		avatar.setContacting(false);
 		aiController.nextMove(npcs);
 		
 		// Detect contacts -- should be moved to a separate Controller
@@ -539,10 +542,10 @@ public class AidenController extends WorldController
 				// check for aiden and flammable
 				if (bd1 == avatar) {
 					if (bd2 instanceof FlammableBlock) {
+						avatar.setContacting(true);
 						// Enables Aiden to pass through flammable objects
 						// freely
 						if (spirit) {
-							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
@@ -560,8 +563,8 @@ public class AidenController extends WorldController
 				}
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
+						avatar.setContacting(true);
 						if (spirit) {
-							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
@@ -583,7 +586,6 @@ public class AidenController extends WorldController
 					if (((BlockAbstract) bd2).isClimbable()) {
 						avatar.setClimbing(true);
 						avatar.setGravityScale(0);
-
 					}
 
 				}
@@ -642,10 +644,19 @@ public class AidenController extends WorldController
 			if ((avatar.getSensorName().equals(fd2) && avatar != bd1) ||
 					(avatar.getSensorName().equals(fd1) && avatar != bd2)) {
 				avatar.setGrounded(true);
-				sensorFixtures.add(avatar == bd1 ? fix2 : fix1); // Could have
-																	// more than
-																	// one
-																	// ground
+				sensorFixtures.add(avatar == bd1 ? fix2 : fix1); 
+			}
+			
+			if ((avatar.getLeft().equals(fd2) && avatar != bd1) ||
+					(avatar.getLeft().equals(fd1) && avatar != bd2)) {
+				avatar.setContacting(true);
+				contactFixtures.add(avatar == bd1 ? fix2 : fix1); 
+			}
+			
+			if ((avatar.getRight().equals(fd2) && avatar != bd1) ||
+					(avatar.getRight().equals(fd1) && avatar != bd2)) {
+				avatar.setContacting(true);
+				contactFixtures.add(avatar == bd1 ? fix2 : fix1); 
 			}
 
 			// Check for win condition
@@ -687,7 +698,20 @@ public class AidenController extends WorldController
 				avatar.setGrounded(false);
 			}
 		}
-
+		if ((avatar.getLeft().equals(fd2) && avatar != bd1) ||
+				(avatar.getLeft().equals(fd1) && avatar != bd2)) {
+			contactFixtures.remove(avatar == bd1 ? fix2 : fix1);
+			if (contactFixtures.size == 0) {
+				avatar.setContacting(false);
+			}
+		}
+		if ((avatar.getRight().equals(fd2) && avatar != bd1) ||
+				(avatar.getRight().equals(fd1) && avatar != bd2)) {
+			contactFixtures.remove(avatar == bd1 ? fix2 : fix1);
+			if (contactFixtures.size == 0) {
+				avatar.setContacting(false);
+			}
+		}
 	}
 
 	/** Unused ContactListener method */
@@ -765,7 +789,7 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			String onoff = (spirit) ? "On" : "Off";
+			String onoff = (avatar.isSpiriting()) ? "On" : "Off";
 			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
 

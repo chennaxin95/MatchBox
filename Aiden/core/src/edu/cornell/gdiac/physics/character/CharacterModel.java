@@ -53,6 +53,8 @@ public class CharacterModel extends CapsuleObstacle {
 	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
+	protected Fixture left;
+	protected Fixture right;
 	protected PolygonShape sensorShape;
 	
 	/** Cache for internal force calculations */
@@ -224,7 +226,12 @@ public class CharacterModel extends CapsuleObstacle {
 	public String getSensorName() {
 		return getName()+"GroundSensor";
 	}
-
+	public String getLeft(){
+		return getName()+"left";
+	}
+	public String getRight(){
+		return getName()+"right";
+	}
 	/**
 	 * Returns true if this character is facing right
 	 *
@@ -270,6 +277,31 @@ public class CharacterModel extends CapsuleObstacle {
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
 
+		Vector2 lCenter = new Vector2(DUDE_HSHRINK*-getWidth(), 0);
+		FixtureDef leftDef = new FixtureDef();
+		leftDef.density = DUDE_DENSITY;
+		leftDef.isSensor = true;
+		PolygonShape leftShape = new PolygonShape();
+		leftShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
+				lCenter, 0.0f);
+		leftDef.shape = leftShape;
+
+		left = body.createFixture(leftDef);
+		left.setUserData(getLeft());
+
+		Vector2 rCenter = new Vector2(DUDE_HSHRINK*getWidth(), 0);
+		FixtureDef rightDef = new FixtureDef();
+		rightDef.density = DUDE_DENSITY;
+		rightDef.isSensor = true;
+		PolygonShape rightShape = new PolygonShape();
+		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
+				rCenter, 0.0f);
+		rightDef.shape = rightShape;
+
+		right = body.createFixture(rightDef);
+		right.setUserData(getRight());
+		
+		
 		return true;
 	}
 

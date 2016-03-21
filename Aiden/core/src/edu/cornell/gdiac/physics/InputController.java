@@ -341,10 +341,10 @@ public class InputController {
 
 		vertical = (secondary ? vertical : 0.0f);
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			vertical += 1.0f;
+			vertical += 1f;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			vertical -= 1.0f;
+			vertical -= 1f;
 		}
 
 		// Toggling spirit mode
