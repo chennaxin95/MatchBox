@@ -48,7 +48,9 @@
   				    "y":"number"
   				  }
   				},
-  				"link_obj":"integer"
+  				"link_obj":"integer",
+          "burn_left":"float",
+          "is_burning":"boolean"
   			},
   			"required":["id","material","fixed","position","texture","width","height","weight"]
   		}
