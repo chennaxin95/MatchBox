@@ -182,48 +182,50 @@ public class AidenController extends WorldController
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
-	private static final float[][][] WALLS = {{
+	private static final float[][][] WALLS = { {
 			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
 					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
 			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
 					31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } },
-					
-			{{1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f},
-			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
-				1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
-			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-				31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } 	
-			}};
+
+			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
+					{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
+							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
+					{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
+							31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f }
+			} };
 
 	/** The outlines of all of the platforms */
-	private static final float[][][] PLATFORMS = {{
+	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f },
 			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
-	},{{ 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f},
-		{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f},
-		{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f},
-		{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f}
-		}};
+	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
+			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
+			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
+			{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f }
+	} };
 
 	/** the vertices for the boxes */
 
-	private static final float[][] BOXES = {{ 29.5f, 9f, 7f, 2f, 7f, 4f,
+	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	},{13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
-		8f, 2f, 10f, 2f}};
-	
+	}, { 13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
+			8f, 2f, 10f, 2f } };
+
 	/** the vertices for stone boxes */
-	
-	private static final float[][] STONE_BOXES = {{},{21f,4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f}};
+
+	private static final float[][] STONE_BOXES = { {},
+			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = {{ 26f, 9f },{13f, 8f}};
+	private static final float[][] FUELS = { { 26f, 9f }, { 13f, 8f } };
 
-	private static final float[][] LADDER = {{ 11f, 10f },{5f,8f,2f,3f}};
-	
-	private static final float[][] GOAL = {{29f, 2f},{29f, 9f}};
+	private static final float[][] LADDER = { { 11f, 10f },
+			{ 5f, 8f, 2f, 3f } };
+
+	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 9f } };
 
 	// Other game objects
 	/** The goal door position */
@@ -240,20 +242,20 @@ public class AidenController extends WorldController
 	/** Reference to the character avatar */
 	private AidenModel avatar;
 	/** Reference to the list of non-player characters */
-	private ArrayList<CharacterModel> npcs=new ArrayList<CharacterModel>();
+	private ArrayList<CharacterModel> npcs = new ArrayList<CharacterModel>();
 	// Blocks
 	/** Flammable Objects */
-	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();	
+	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
 	// Exit
 	/** Reference to the goalDoor (for collision detection) */
 	private BoxObstacle goalDoor;
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
-	
+
 	// Controllers for the game
 	private AIController aiController;
-	
+
 	/**
 	 * Creates and initialize a new instance of the platformer game
 	 *
@@ -266,13 +268,15 @@ public class AidenController extends WorldController
 		setFailure(false);
 		world.setContactListener(this);
 		sensorFixtures = new ObjectSet<Fixture>();
-		this.level=level;;
-		this.aiController=new AIController();
+		this.level = level;
+		;
+		this.aiController = new AIController();
 	}
+
 	/**
 	 * Temporarily hard-code levels
 	 */
-	public int level=0;
+	public int level = 0;
 
 	/**
 	 * Resets the status of the game so that we can play again.
@@ -350,7 +354,8 @@ public class AidenController extends WorldController
 			TextureRegion texture = woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			WoodBlock box = new WoodBlock(BOXES[level][ii], BOXES[level][ii + 1], dwidth,
+			WoodBlock box = new WoodBlock(BOXES[level][ii],
+					BOXES[level][ii + 1], dwidth,
 					dheight, 1, 5, 5);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -367,7 +372,8 @@ public class AidenController extends WorldController
 			TextureRegion texture = woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii], STONE_BOXES[level][ii + 1], dwidth,
+			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii],
+					STONE_BOXES[level][ii + 1], dwidth,
 					dheight);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -383,7 +389,8 @@ public class AidenController extends WorldController
 			TextureRegion texture = fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			FuelBlock box = new FuelBlock(FUELS[level][ii], FUELS[level][ii + 1], dwidth,
+			FuelBlock box = new FuelBlock(FUELS[level][ii],
+					FUELS[level][ii + 1], dwidth,
 					dheight, 1, 5, 20);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -399,7 +406,8 @@ public class AidenController extends WorldController
 			TextureRegion texture = ladderTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			LadderBlock box = new LadderBlock(LADDER[level][ii], LADDER[level][ii + 1],
+			LadderBlock box = new LadderBlock(LADDER[level][ii],
+					LADDER[level][ii + 1],
 					dwidth,
 					dheight, 1, 5);
 			box.setDensity(HEAVY_DENSITY);
@@ -416,12 +424,13 @@ public class AidenController extends WorldController
 		avatar = new AidenModel(1, 13, dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
-		avatar.setTraillTexture(avatarTexture); //TODO:
+		avatar.setTraillTexture(avatarTexture); // TODO:
 		addObject(avatar);
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
-		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard",
+		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
+				"WaterGuard",
 				18, 9, dwidth, dheight, true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(avatarTexture);
@@ -493,19 +502,19 @@ public class AidenController extends WorldController
 		}
 
 		// Update movements of npcs, including all interactions/side effects
-		for (CharacterModel npc: npcs){
+		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
-		
+
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-		
+
 		aiController.nextMove(npcs);
-		
+
 		// Detect contacts -- should be moved to a separate Controller
-	
+
 		Array<Contact> cList = world.getContactList();
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
@@ -527,11 +536,13 @@ public class AidenController extends WorldController
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
 								+ " " + fb2.getName());
+						fb2.setBurnBonus(1f);
 						fb2.activateBurnTimer();
 					} else if (fb2.canSpreadFire()
 							&& (!fb1.isBurning() && !fb1.isBurnt())) {
 						System.out.println(fb2.getName() + "" + fb2.isBurning()
 								+ " " + fb1.getName());
+						fb2.setBurnBonus(1f);
 						fb1.activateBurnTimer();
 					}
 				}
@@ -539,17 +550,23 @@ public class AidenController extends WorldController
 				// check for aiden and flammable
 				if (bd1 == avatar) {
 					if (bd2 instanceof FlammableBlock) {
+
+						FlammableBlock fb = (FlammableBlock) bd2;
 						// Enables Aiden to pass through flammable objects
 						// freely
 						if (spirit) {
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
+							if (avatar.getPosition().dst(
+									fb.getPosition()) <= fb.getWidth()
+											* Math.sqrt(2) / 2) {
+								avatar.setClimbing(true);
+								avatar.setGravityScale(0);
+								avatar.setSpiriting(true);
+							}
 						}
 
-						FlammableBlock fb = (FlammableBlock) bd2;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
+							fb.setBurnBonus(3f);
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
@@ -560,15 +577,21 @@ public class AidenController extends WorldController
 				}
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
+						FlammableBlock fb = (FlammableBlock) bd1;
 						if (spirit) {
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
+
+							if (avatar.getPosition().dst(
+									fb.getPosition()) <= fb.getWidth()
+											* Math.sqrt(2) / 2) {
+								avatar.setClimbing(true);
+								avatar.setGravityScale(0);
+								avatar.setSpiriting(true);
+							}
 						}
 
-						FlammableBlock fb = (FlammableBlock) bd1;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
+							fb.setBurnBonus(3f);
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
@@ -580,15 +603,24 @@ public class AidenController extends WorldController
 
 				// Set climbing state for climbable blocks
 				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-					if (((BlockAbstract) bd2).isClimbable()) {
-						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
+					BlockAbstract b = (BlockAbstract) bd2;
+					if (b.isClimbable()) {
+						float x = Math.abs(bd1.getX() - bd2.getX());
+						float y = Math.abs(bd1.getY() - bd2.getY());
+						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
 
+							avatar.setClimbing(true);
+							avatar.setGravityScale(0);
+						}
 					}
 
 				}
 				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-					if (((BlockAbstract) bd1).isClimbable()) {
+					BlockAbstract b = (BlockAbstract) bd1;
+					float x = Math.abs(bd1.getX() - bd2.getX());
+					float y = Math.abs(bd1.getY() - bd2.getY());
+					if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
+
 						avatar.setClimbing(true);
 						avatar.setGravityScale(0);
 					}
