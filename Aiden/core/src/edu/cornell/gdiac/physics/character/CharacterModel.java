@@ -56,8 +56,6 @@ public class CharacterModel extends CapsuleObstacle {
 	protected Fixture left;
 	protected Fixture right;
 	protected PolygonShape sensorShape;
-	protected PolygonShape leftShape;
-	protected PolygonShape rightShape;
 	
 	/** Cache for internal force calculations */
 	protected Vector2 forceCache = new Vector2();
@@ -279,29 +277,30 @@ public class CharacterModel extends CapsuleObstacle {
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
 
-		Vector2 lCenter = new Vector2(0.3f*-getWidth(), 0);
+		Vector2 lCenter = new Vector2(DUDE_HSHRINK*-getWidth(), 0);
 		FixtureDef leftDef = new FixtureDef();
 		leftDef.density = DUDE_DENSITY;
 		leftDef.isSensor = true;
-		leftShape = new PolygonShape();
-		leftShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
+		PolygonShape leftShape = new PolygonShape();
+		leftShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
 				lCenter, 0.0f);
 		leftDef.shape = leftShape;
 
-		left = body.createFixture(leftDef);
-		left.setUserData(getLeft());
+		sensorFixture = body.createFixture(leftDef);
+		sensorFixture.setUserData(getLeft());
 
-		Vector2 rCenter = new Vector2(0.3f*getWidth(), 0);
-		FixtureDef rightDef = new FixtureDef();
-		rightDef.density = DUDE_DENSITY;
-		rightDef.isSensor = true;
-		rightShape = new PolygonShape();
-		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
-				rCenter, 0.0f);
-		rightDef.shape = rightShape;
-
-		right = body.createFixture(rightDef);
-		right.setUserData(getRight());
+//		Vector2 rCenter = new Vector2(DUDE_HSHRINK*getWidth(), 0);
+//		FixtureDef rightDef = new FixtureDef();
+//		rightDef.density = DUDE_DENSITY;
+//		rightDef.isSensor = true;
+//		PolygonShape rightShape = new PolygonShape();
+//		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
+//				rCenter, 0.0f);
+//		rightDef.shape = rightShape;
+//
+//		right = body.createFixture(rightDef);
+//		right.setUserData(getRight());
+//		
 		
 		return true;
 	}
@@ -371,10 +370,6 @@ public class CharacterModel extends CapsuleObstacle {
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
 		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
-				drawScale.x, drawScale.y);
-		canvas.drawPhysics(leftShape, Color.RED, getX(), getY(), getAngle(),
-				drawScale.x, drawScale.y);
-		canvas.drawPhysics(rightShape, Color.RED, getX(), getY(), getAngle(),
 				drawScale.x, drawScale.y);
 	}
 }
