@@ -205,11 +205,12 @@ public class AidenModel extends CharacterModel {
 			float newM = Math.min(Math.abs(movement), 10);
 			if(movement < 0){
 				movement = -newM;
+				movement += dt*12;
 			}
 			else{
 				movement = newM;
+				movement -= dt*12;
 			}
-			movement -= dt * 5;
 		}
 		if(isJumping && !isClimbing && !isSpiriting && isGrounded){
 			movementY = 10;

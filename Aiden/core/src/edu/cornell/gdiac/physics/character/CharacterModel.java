@@ -286,21 +286,21 @@ public class CharacterModel extends CapsuleObstacle {
 				lCenter, 0.0f);
 		leftDef.shape = leftShape;
 
-		left = body.createFixture(leftDef);
-		left.setUserData(getLeft());
+		sensorFixture = body.createFixture(leftDef);
+		sensorFixture.setUserData(getLeft());
 
-		Vector2 rCenter = new Vector2(DUDE_HSHRINK*getWidth(), 0);
-		FixtureDef rightDef = new FixtureDef();
-		rightDef.density = DUDE_DENSITY;
-		rightDef.isSensor = true;
-		PolygonShape rightShape = new PolygonShape();
-		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
-				rCenter, 0.0f);
-		rightDef.shape = rightShape;
-
-		right = body.createFixture(rightDef);
-		right.setUserData(getRight());
-		
+//		Vector2 rCenter = new Vector2(DUDE_HSHRINK*getWidth(), 0);
+//		FixtureDef rightDef = new FixtureDef();
+//		rightDef.density = DUDE_DENSITY;
+//		rightDef.isSensor = true;
+//		PolygonShape rightShape = new PolygonShape();
+//		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_VSHRINK * getHeight() / 2.0f,
+//				rCenter, 0.0f);
+//		rightDef.shape = rightShape;
+//
+//		right = body.createFixture(rightDef);
+//		right.setUserData(getRight());
+//		
 		
 		return true;
 	}
