@@ -142,6 +142,10 @@ public class AidenModel extends CharacterModel {
 	public void setComplete(boolean value) {
 		complete = value;
 	}
+	
+	public boolean isContacting(){
+		return isContacting;
+	}
 
 	/** set the update delta time */
 	public void setDt(float dt){
@@ -213,10 +217,13 @@ public class AidenModel extends CharacterModel {
 			}
 		}
 		if(isJumping && !isClimbing && !isSpiriting && isGrounded){
-			movementY = 10;
+			movementY = 11;
 		}
 		if(!isGrounded){
-			movement = movement*0.8f;
+			movement = movement*0.9f;
+			if (isContacting){
+				movement = movement * 0.2f;
+			}
 		}
 		
 		body.setLinearVelocity(movement, movementY);
