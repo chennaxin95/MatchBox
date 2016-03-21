@@ -24,10 +24,10 @@ public class AidenModel extends CharacterModel {
 	// Physics constants
 	/** The impulse for the character jump */
 	private static final float DUDE_JUMP = 18f;
-	
+
 	/** The unit distance away for fire trail */
 	private static final float UNIT_TRAIL_DIST = 0.2f;
-	
+
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
 	private static final float MAX_FUEL = 50;
@@ -41,6 +41,7 @@ public class AidenModel extends CharacterModel {
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
+<<<<<<< HEAD
 	/** if Aiden is touch another box */
 	private boolean isContacting;
 	/** Win state */ 
@@ -48,9 +49,14 @@ public class AidenModel extends CharacterModel {
 	/** update time */
 	private float dt;
 	
+=======
+	/** Win state */
+	private boolean complete;
+
+>>>>>>> origin/techprot
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
-	
+
 	/**
 	 * Returns up/down movement of this character.
 	 * 
@@ -169,22 +175,28 @@ public class AidenModel extends CharacterModel {
 	 * @param height
 	 *            The object width in physics units
 	 */
-	public AidenModel(float x, float y, float width, float height, boolean fright) {
+	public AidenModel(float x, float y, float width, float height,
+			boolean fright) {
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
 		fuel = START_FUEL;
 		// Gameplay attributes
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/techprot
 		setName("Aiden");
 	}
-	
+
 	/**
 	 * Set texture for special effect
+	 * 
 	 * @param t
 	 */
-	public void setTraillTexture(TextureRegion t){
-		trailTexture=t;
+	public void setTraillTexture(TextureRegion t) {
+		trailTexture = t;
 	}
 
 	/**
@@ -197,6 +209,7 @@ public class AidenModel extends CharacterModel {
 		if (!isActive()) {
 			return;
 		}
+<<<<<<< HEAD
 		
 		if(!isClimbing && !isSpiriting){
 			movementY = getVY();
@@ -210,6 +223,35 @@ public class AidenModel extends CharacterModel {
 			else{
 				movement = newM;
 				movement -= dt*12;
+=======
+		float maxX = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed();
+		float maxY = (isSpiriting) ? getMaxSpeed() * 10 : getMaxSpeed() * 2;
+		// Don't want to be moving. Damp out player motion unless in spirit mode
+		if (getMovement() == 0f && !isSpiriting) {
+			forceCache.set(-getDamping() * getVX(), 0);
+			body.applyForce(forceCache, getPosition(), true);
+		}
+		// Same with vertical movement if climbing
+		if (isClimbing && getMovementY() == 0f && !isSpiriting) {
+			forceCache.set(0, -getDamping() * getVY());
+			body.applyForce(forceCache, getPosition(), true);
+		}
+		int spiritBonus = (isSpiriting) ? 5 : 1;
+		// Velocity too high, clamp it
+		if (Math.abs(getVX()) >= maxX) {
+			setVX(Math.signum(getVX()) * maxX);
+		} else {
+			forceCache.set(getMovement() * spiritBonus, 0);
+			body.applyForce(forceCache, getPosition(), true);
+		}
+
+		if (isClimbing) {
+			if (Math.abs(getVY()) >= maxY) {
+				setVY(Math.signum(getVY()) * maxY);
+			} else {
+				forceCache.set(0, getMovementY() * spiritBonus);
+				body.applyForce(forceCache, getPosition(), true);
+>>>>>>> origin/techprot
 			}
 		}
 		if(isJumping && !isClimbing && !isSpiriting && isGrounded){
@@ -229,13 +271,19 @@ public class AidenModel extends CharacterModel {
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
-		if (isClimbing){
-			fuel = Math.max(0, fuel - 0.1f*i*Math.abs(this.movementY));
-		}
-		else if(isJumping){
-			fuel = (float) Math.max(0, fuel - 0.1f*i*Math.sqrt(movement*movement+movementY*movementY));
-		}
-		fuel = Math.max(0, fuel - 0.05f*i*Math.abs(this.movement));
+		// if (isClimbing) {
+		// // fuel = Math.max(0, fuel * i * Math.abs(getVY()));
+		//
+		// } else if (isJumping) {
+		// // fuel = (float) Math.max(0, fuel * i
+		// // * Math.sqrt(getVX() * getVX() + getVY() * getVY()));
+		//
+		// }
+		// fuel = Math.max(0, fuel - 0.5f * i * Math.abs(getVX()));
+
+		fuel = (float) Math.max(0,
+				fuel - 0.01 * Math.sqrt(getVX() * getVX() + getVY() * getVY()));
+
 	}
 
 	/** return the current level of fuel */
@@ -268,19 +316,21 @@ public class AidenModel extends CharacterModel {
 	@Override
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
-		Color c=Color.WHITE.cpy();
-		if (this.isSpiriting){
-			c.a=0.75f;
+		Color c = Color.WHITE.cpy();
+		if (this.isSpiriting) {
+			c.a = 0.75f;
 		}
 		// Draw fire trail
-		if (trailTexture!=null){
+		if (trailTexture != null) {
 			canvas.draw(trailTexture, c, origin.x, origin.y,
-				(getX()-getVX()*UNIT_TRAIL_DIST) * drawScale.x, 
-				(getY()-this.getHeight()/4) * drawScale.y, getAngle(), 
-				(getVX()*UNIT_TRAIL_DIST) * drawScale.x/trailTexture.getRegionWidth(), 0.4f);
+					(getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
+					(getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
+					(getVX() * UNIT_TRAIL_DIST) * drawScale.x
+							/ trailTexture.getRegionWidth(),
+					0.4f);
 		}
 		canvas.draw(texture, c, origin.x, origin.y,
-				getX() * drawScale.x, 
+				getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect,
 				1.0f);
 	}
