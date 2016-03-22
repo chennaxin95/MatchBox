@@ -181,6 +181,7 @@ public class AidenModel extends CharacterModel {
 		complete = false;
 		isClimbing = false;
 		setName("Aiden");
+		
 	}
 	
 	/**
@@ -236,13 +237,8 @@ public class AidenModel extends CharacterModel {
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
-		if (isClimbing){
-			fuel = Math.max(0, fuel - 0.1f*i*Math.abs(this.movementY));
-		}
-		else if(isJumping){
-			fuel = (float) Math.max(0, fuel - 0.1f*i*Math.sqrt(movement*movement+movementY*movementY));
-		}
-		fuel = Math.max(0, fuel - 0.05f*i*Math.abs(this.movement));
+		fuel = (float) Math.max(0,
+				fuel - 0.01 * Math.sqrt(getVX() * getVX() + getVY() * getVY()));
 	}
 
 	/** return the current level of fuel */
@@ -264,6 +260,7 @@ public class AidenModel extends CharacterModel {
 			subFuel(dt);
 		}
 		super.update(dt);
+		
 	}
 
 	/**

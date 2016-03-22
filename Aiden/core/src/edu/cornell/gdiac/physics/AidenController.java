@@ -541,19 +541,20 @@ public class AidenController extends WorldController
 
 				// check for aiden and flammable
 				if (bd1 == avatar) {
-					if(bd2 instanceof BlockAbstract){
+					if (bd2 instanceof BlockAbstract) {
 						avatar.setContacting(true);
 					}
-					
+
 					if (bd2 instanceof FlammableBlock) {
-						// Enables Aiden to pass through flammable objects
-						// freely
-						if (spirit) {
+
+						FlammableBlock fb = (FlammableBlock) bd2;
+						if (avatar.getPosition().dst(
+								fb.getPosition()) <= fb.getWidth()
+										* Math.sqrt(2) / 2) {
+							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
-
-						FlammableBlock fb = (FlammableBlock) bd2;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
 							fb.activateBurnTimer();
@@ -565,17 +566,20 @@ public class AidenController extends WorldController
 					}
 				}
 				if (bd2 == avatar) {
-					if(bd1 instanceof BlockAbstract){
+					if (bd1 instanceof BlockAbstract) {
 						avatar.setContacting(true);
 					}
-					
+
 					if (bd1 instanceof FlammableBlock) {
-						if (spirit) {
+						FlammableBlock fb = (FlammableBlock) bd1;
+						if (avatar.getPosition().dst(
+								fb.getPosition()) <= fb.getWidth()
+										* Math.sqrt(2) / 2) {
+							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
 
-						FlammableBlock fb = (FlammableBlock) bd1;
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							System.out.println(fb.getName());
 							fb.activateBurnTimer();
@@ -589,16 +593,29 @@ public class AidenController extends WorldController
 
 				// Set climbing state for climbable blocks
 				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-					if (((BlockAbstract) bd2).isClimbable()) {
-						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
-					}
+					BlockAbstract b = (BlockAbstract) bd2;
+					if (b.isClimbable()) {
+						float x = Math.abs(bd1.getX() - bd2.getX());
+						float y = Math.abs(bd1.getY() - bd2.getY());
+						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
 
+							avatar.setClimbing(true);
+							avatar.setGravityScale(0);
+						}
+
+					}
 				}
 				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-					if (((BlockAbstract) bd1).isClimbable()) {
-						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
+					BlockAbstract b = (BlockAbstract) bd1;
+					if (b.isClimbable()) {
+						float x = Math.abs(bd1.getX() - bd2.getX());
+						float y = Math.abs(bd1.getY() - bd2.getY());
+						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
+
+							avatar.setClimbing(true);
+							avatar.setGravityScale(0);
+						}
+
 					}
 				}
 
