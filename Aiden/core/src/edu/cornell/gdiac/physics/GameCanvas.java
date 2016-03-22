@@ -600,7 +600,12 @@ public class GameCanvas {
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 				
 		// Position the camera
-		camera.translate(target.add(new Vector3(-1*camera.position.x,-1*camera.position.y,0)));
+		float f = -1f;
+		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
+		System.out.println(d.x*d.x + d.y*d.y);
+		if (d.x*d.x + d.y*d.y>10){
+			camera.translate(d.scl(0.01f));
+		}	
 		//camera.lookAt(target);
 		System.out.println(camera.view.toString());
 		
