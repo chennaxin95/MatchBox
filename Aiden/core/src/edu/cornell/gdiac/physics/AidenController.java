@@ -51,6 +51,8 @@ public class AidenController extends WorldController
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
 	/** Texture for fuelBlock */
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
+	/** texture for stone */
+	private static final String STONE_FILE = "platform/stone.png";
 
 	private static final String LADDER_FILE = "platform/ladder.png";
 
@@ -69,6 +71,8 @@ public class AidenController extends WorldController
 	private TextureRegion fuelTexture;
 	/** texture for water */
 	private TextureRegion waterTexture;
+	/** texture for stone */
+	private TextureRegion stoneTexture;
 
 	private TextureRegion ladderTexture;
 
@@ -124,6 +128,8 @@ public class AidenController extends WorldController
 		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
+		manager.load(STONE_FILE, Texture.class);
+		assets.add(STONE_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -157,6 +163,7 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+		stoneTexture = createTexture(manager, STONE_FILE, false);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -367,7 +374,7 @@ public class AidenController extends WorldController
 
 		// Adding stone boxes
 		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
-			TextureRegion texture = woodTexture;
+			TextureRegion texture = stoneTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii], STONE_BOXES[level][ii + 1], dwidth,
@@ -541,9 +548,7 @@ public class AidenController extends WorldController
 
 				// check for aiden and flammable
 				if (bd1 == avatar) {
-					if (bd2 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
+					avatar.setContacting(true);
 
 					if (bd2 instanceof FlammableBlock) {
 
@@ -566,9 +571,7 @@ public class AidenController extends WorldController
 					}
 				}
 				if (bd2 == avatar) {
-					if (bd1 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
+					avatar.setContacting(true);
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;

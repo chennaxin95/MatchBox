@@ -47,6 +47,12 @@ public class AidenModel extends CharacterModel {
 	private boolean complete;
 	/** update time */
 	private float dt;
+	/** initial height */
+	private float iHeight;
+	/** inital width */
+	private float iWidth;
+	/** aiden ratio */
+	private float ratio;
 	
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
@@ -181,7 +187,8 @@ public class AidenModel extends CharacterModel {
 		complete = false;
 		isClimbing = false;
 		setName("Aiden");
-		
+		iHeight = height;
+		iWidth = width;
 	}
 	
 	/**
@@ -260,7 +267,12 @@ public class AidenModel extends CharacterModel {
 			subFuel(dt);
 		}
 		super.update(dt);
-		
+		ratio = fuel / START_FUEL;
+		ratio = Math.max(0.8f, ratio);
+		ratio = Math.min(1.2f, ratio);
+		this.resize(iWidth * ratio, iHeight * ratio);
+		this.setDimension(iWidth * ratio, iHeight * ratio);
+		this.resizeFixture();
 	}
 
 	/**
@@ -285,7 +297,7 @@ public class AidenModel extends CharacterModel {
 		}
 		canvas.draw(texture, c, origin.x, origin.y,
 				getX() * drawScale.x, 
-				getY() * drawScale.y, getAngle(), effect,
-				1.0f);
+				getY() * drawScale.y, getAngle(), effect * ratio,
+				1.0f * ratio);
 	}
 }
