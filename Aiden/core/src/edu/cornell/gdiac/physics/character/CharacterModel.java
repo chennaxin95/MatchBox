@@ -283,6 +283,7 @@ public class CharacterModel extends CapsuleObstacle {
 		sensorFixture.setUserData(getSensorName());
 
 		Vector2 lCenter = new Vector2(0.5f * -getWidth(), 0);
+
 		FixtureDef leftDef = new FixtureDef();
 		leftDef.density = DUDE_DENSITY;
 		leftDef.isSensor = true;
@@ -295,6 +296,7 @@ public class CharacterModel extends CapsuleObstacle {
 		left.setUserData(getLeft());
 
 		Vector2 rCenter = new Vector2(0.5f * getWidth(), 0);
+
 		FixtureDef rightDef = new FixtureDef();
 		rightDef.density = DUDE_DENSITY;
 		rightDef.isSensor = true;
