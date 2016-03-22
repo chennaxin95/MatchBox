@@ -85,7 +85,7 @@ public class AidenController extends WorldController
 	 * Enables him to pass through burning objects and travel faster through
 	 * them. Toggled with the Tab key.
 	 */
-	private boolean spirit;
+	private boolean spirit = true;
 
 	/**
 	 * Preloads the assets for this controller.
