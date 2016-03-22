@@ -1,8 +1,11 @@
 package edu.cornell.gdiac.physics.blocks;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.util.FilmStrip;
 
 public class FlammableBlock extends BlockAbstract implements FlammableInterface {
 	
@@ -15,6 +18,13 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	private boolean burning;
 	private boolean burnt;
 	public int fuelPenalty;
+	
+	public FilmStrip burningSprite;
+	protected float animeCoolDown; 
+	protected int splitFrame;
+	
+	/** Animation cool down */
+	protected static final float MAX_ANIME_TIME=0.2f;
 	
 	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);
@@ -114,6 +124,7 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 			burnTimer-=dt;
 			spreadTimer-=dt;
 		}
+		animeCoolDown-=dt;
 		checkBurnt();
 	}
 	
@@ -140,5 +151,35 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
 		}
+		if (isBurning()){
+			burningAnimate(canvas);
+		}
+	}
+	
+	public void setBurningTexture(FilmStrip f, int sf){
+		burningSprite=f;
+		burningSprite.setFrame(0);
+		splitFrame=sf;
+	}
+	
+	
+	public void burningAnimate(GameCanvas canvas){
+		if (burningSprite==null) return;
+		if (this.animeCoolDown<=0) {
+			Random r=new Random();
+			animeCoolDown=(r.nextFloat()*MAX_ANIME_TIME)/2+MAX_ANIME_TIME/2;
+			if (burningSprite.getFrame()==burningSprite.getSize()-1){
+				burningSprite.setFrame(splitFrame);
+			}
+			else{
+				burningSprite.setFrame(burningSprite.getFrame()+1);
+			}
+		}
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * burningSprite.getRegionWidth();
+		float oy = 0.5f * burningSprite.getRegionHeight();
+		
+		canvas.draw(burningSprite, Color.WHITE, ox, oy, getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), 1f, 1f);
 	}
 }

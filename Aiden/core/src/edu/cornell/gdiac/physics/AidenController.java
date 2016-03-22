@@ -55,6 +55,8 @@ public class AidenController extends WorldController
 	private static final String LADDER_FILE = "platform/ladder.png";
 	
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
+	
+	private static final String BURNING_FILE = "platform/blockburning.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -75,6 +77,8 @@ public class AidenController extends WorldController
 	private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
 	private FilmStrip AidenAnimeTexture;
+	/** Texture for burning animation */
+	private FilmStrip[] burningTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -130,6 +134,8 @@ public class AidenController extends WorldController
 		assets.add(WATER_FILE);
 		manager.load(AIDEN_ANIME_FILE, Texture.class);
 		assets.add(AIDEN_ANIME_FILE);
+		manager.load(BURNING_FILE, Texture.class);
+		assets.add(BURNING_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -164,7 +170,10 @@ public class AidenController extends WorldController
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
-
+		burningTexture=new FilmStrip[10];
+		for (int i=0; i<10; i++){
+			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 5, 1, 5);
+		}
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
 		sounds.allocate(manager, PEW_FILE);
@@ -373,6 +382,7 @@ public class AidenController extends WorldController
 			box.setName("box" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
+			box.setBurningTexture(burningTexture[ii/2], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -780,7 +790,6 @@ public class AidenController extends WorldController
 		// canvas.begin(512,288);
 		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
-		System.out.println(avatar.getX() + " " + avatar.getY());
 		//canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
 		for (Obstacle obj : objects) {
