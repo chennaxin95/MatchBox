@@ -279,7 +279,7 @@ public class AidenController extends WorldController
 		sensorFixtures = new ObjectSet<Fixture>();
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
-		;
+		spirit = true;
 		this.aiController = new AIController();
 	}
 
@@ -438,6 +438,7 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);// TODO:
 		addObject(avatar);
 		avatar.setFriction(0);
+
 		avatar.setLinearDamping(.1f);
 		avatar.setCharacterSprite(AidenAnimeTexture);
 		
@@ -770,11 +771,11 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-		
-		//canvas.begin(512,288);
-		//canvas.begin();
-		canvas.begin(avatar.getX(),avatar.getY());
-		System.out.println(avatar.getX()+" "+avatar.getY());
+
+		// canvas.begin(512,288);
+		// canvas.begin();
+		canvas.begin(avatar.getX(), avatar.getY());
+		System.out.println(avatar.getX() + " " + avatar.getY());
 		canvas.draw(backGround, 0, 0);
 		for (Obstacle obj : objects) {
 			obj.draw(canvas);
@@ -782,7 +783,7 @@ public class AidenController extends WorldController
 		canvas.end();
 
 		if (debug) {
-			canvas.beginDebug(avatar.getX(),avatar.getY());
+			canvas.beginDebug(avatar.getX(), avatar.getY());
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
@@ -792,15 +793,15 @@ public class AidenController extends WorldController
 		// Final message
 		if (isComplete() && !isFailure()) {
 			displayFont.setColor(Color.YELLOW);
-			//canvas.begin();
-			canvas.begin(avatar.getX(),avatar.getY()); // DO NOT SCALE
+			// canvas.begin();
+			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
 			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
 			canvas.end();
 			avatar.setComplete(true);
 		} else if (isFailure()) {
 			displayFont.setColor(Color.RED);
-			//canvas.begin();
-			canvas.begin(avatar.getX(),avatar.getY()); // DO NOT SCALE
+			// canvas.begin();
+			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
 			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
 			canvas.end();
 			avatar.setComplete(true);
@@ -808,8 +809,8 @@ public class AidenController extends WorldController
 
 		// drawing the fuel level
 		if (avatar != null) {
-			canvas.begin(avatar.getX(),avatar.getY());
-			//canvas.begin();
+			canvas.begin(avatar.getX(), avatar.getY());
+			// canvas.begin();
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
