@@ -239,9 +239,12 @@ public class AidenModel extends CharacterModel {
 
 			}
 		}
+
 		if (isSpiriting) {
-			movement = getVX() + temp / 10;
-			movementY = getVY() + tempy / 10;
+			movement = Math.max(-15, Math.min(15,
+					getVX() + temp / 5));
+			movementY = Math.max(-15, Math.min(15,
+					getVY() + tempy / 5));
 		}
 
 		body.setLinearVelocity(movement, movementY);
