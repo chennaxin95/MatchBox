@@ -435,7 +435,6 @@ public class AidenController extends WorldController
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		avatar.setTraillTexture(avatarTexture);
-		avatar.setFriction(0);// TODO:
 		addObject(avatar);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
@@ -490,7 +489,7 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
-		if (avatar.getFuel() == 0) {
+		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
 		}
 
@@ -638,6 +637,13 @@ public class AidenController extends WorldController
 						}
 
 					}
+				}
+				
+				if (bd1 == avatar && bd2 instanceof CharacterModel && ((CharacterModel)bd2).getType()==CharacterType.WATER_GUARD){
+					setFailure(true);
+				}
+				if (bd2 == avatar && bd1 instanceof CharacterModel && ((CharacterModel)bd1).getType()==CharacterType.WATER_GUARD){
+					setFailure(true);
 				}
 
 			} catch (Exception e) {

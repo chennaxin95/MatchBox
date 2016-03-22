@@ -130,6 +130,9 @@ public class CharacterModel extends CapsuleObstacle {
 	public void setState(BasicFSMState s) {
 		state = s;
 	}
+	public CharacterType getType(){
+		return type;
+	}
 
 	/**
 	 * Returns left/right movement of this character.
