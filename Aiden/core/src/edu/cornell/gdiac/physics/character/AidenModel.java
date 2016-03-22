@@ -47,7 +47,12 @@ public class AidenModel extends CharacterModel {
 	private boolean complete;
 	/** update time */
 	private float dt;
-
+	 /** initial height */
+	private float iHeight;
+	/** inital width */
+	private float iWidth;
+	/** aiden ratio */
+	private float ratio;
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
 
@@ -182,7 +187,8 @@ public class AidenModel extends CharacterModel {
 		complete = false;
 		isClimbing = false;
 		setName("Aiden");
-
+		iWidth = width;
+		iHeight = height;
 	}
 
 	/**
@@ -281,7 +287,12 @@ public class AidenModel extends CharacterModel {
 			subFuel(dt);
 		}
 		super.update(dt);
-
+		ratio = fuel / START_FUEL;
+		ratio = Math.max(0.8f, ratio);
+		ratio = Math.min(1.2f, ratio);
+		this.setDimension(iWidth * ratio, iHeight * ratio);
+		this.resize(getWidth(), getHeight());
+		this.resizeFixture(ratio);
 	}
 
 	/**
@@ -294,9 +305,6 @@ public class AidenModel extends CharacterModel {
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE.cpy();
-		if (this.isSpiriting) {
-			c.a = 0.75f;
-		}
 		// Draw fire trail
 		if (trailTexture != null) {
 			canvas.draw(trailTexture, c, origin.x, origin.y,
@@ -307,16 +315,21 @@ public class AidenModel extends CharacterModel {
 					0.4f);
 		}
 		// Draw Character
+		if (this.isSpiriting) {
+			c.a = 0.75f;
+		}
 		if (characterSprite == null) {
 			if (texture==null) return;
 			canvas.draw(texture, c, origin.x, origin.y,
 					getX() * drawScale.x, 
-					getY() * drawScale.y, getAngle(), effect, 
-					1.0f);
+					getY() * drawScale.y, getAngle(), effect*ratio, 
+					1.0f*ratio);
 			return;
 		}
 		else {
-			animate(canvas, c);
+			c.g = 1 - Math.abs(1 - ratio);
+			c.b = c.g;
+			animate(canvas, c, ratio);
 		}
 	}
 }

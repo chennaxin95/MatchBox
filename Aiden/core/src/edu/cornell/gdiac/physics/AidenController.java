@@ -814,7 +814,7 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			String onoff = (spirit) ? "On" : "Off";
+			String onoff = (avatar.isGrounded()) ? "On" : "Off";
 			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
 

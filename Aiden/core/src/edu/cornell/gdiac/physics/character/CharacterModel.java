@@ -291,34 +291,16 @@ public class CharacterModel extends CapsuleObstacle {
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
 
-		Vector2 lCenter = new Vector2(0.5f * -getWidth(), 0);
-
-		FixtureDef leftDef = new FixtureDef();
-		leftDef.density = DUDE_DENSITY;
-		leftDef.isSensor = true;
-		leftShape = new PolygonShape();
-		leftShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
-				lCenter, 0.0f);
-		leftDef.shape = leftShape;
-
-		left = body.createFixture(leftDef);
-		left.setUserData(getLeft());
-
-		Vector2 rCenter = new Vector2(0.5f * getWidth(), 0);
-
-		FixtureDef rightDef = new FixtureDef();
-		rightDef.density = DUDE_DENSITY;
-		rightDef.isSensor = true;
-		rightShape = new PolygonShape();
-		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
-				rCenter, 0.0f);
-		rightDef.shape = rightShape;
-
-		right = body.createFixture(rightDef);
-		right.setUserData(getRight());
-
 		return true;
 	}
+	
+	public void resizeFixture(float ratio){
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2 + SENSOR_HEIGHT/2);
+		System.out.println(getHeight());
+		sensorShape = new PolygonShape();
+		sensorShape.setAsBox(getWidth() / 2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
+	}
+
 
 	/**
 	 * Applies the force to the body of this dude
@@ -379,7 +361,7 @@ public class CharacterModel extends CapsuleObstacle {
 			return;
 		}
 		else{
-			animate(canvas, Color.WHITE);
+			animate(canvas, Color.WHITE, 1.0f);
 		}
 	}
 
@@ -394,10 +376,6 @@ public class CharacterModel extends CapsuleObstacle {
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
 		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
-				drawScale.x, drawScale.y);
-		canvas.drawPhysics(leftShape, Color.RED, getX(), getY(), getAngle(),
-				drawScale.x, drawScale.y);
-		canvas.drawPhysics(rightShape, Color.RED, getX(), getY(), getAngle(),
 				drawScale.x, drawScale.y);
 	}
 	
@@ -421,7 +399,7 @@ public class CharacterModel extends CapsuleObstacle {
 				getY() * drawScale.y, getAngle(), effect*sx, sy);
 	}
 	
-	public void animate(GameCanvas canvas, Color c){
-		animate(canvas, c, 1.0f, 1.0f);
+	public void animate(GameCanvas canvas, Color c, float ratio){
+		animate(canvas, c, ratio, ratio);
 	}
 }
