@@ -30,6 +30,7 @@ public class AidenModel extends CharacterModel {
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
+	private static final float CRITICAL_FUEL = 10;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 
@@ -53,6 +54,7 @@ public class AidenModel extends CharacterModel {
 	private float iWidth;
 	/** aiden ratio */
 	private float ratio;
+	private float cRatio;
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
 
@@ -264,7 +266,7 @@ public class AidenModel extends CharacterModel {
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
 		fuel = (float) Math.max(0,
-				fuel - Math.max(0.015, 0.01
+				fuel - Math.max(0.015, 0.008
 						* Math.sqrt(getVX() * getVX() + getVY() * getVY())));
 	}
 
@@ -293,6 +295,7 @@ public class AidenModel extends CharacterModel {
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
+		cRatio = Math.max(.4f, Math.min(1f, fuel/CRITICAL_FUEL));
 	}
 
 	/**
@@ -327,8 +330,8 @@ public class AidenModel extends CharacterModel {
 			return;
 		}
 		else {
-			c.r = 1 - Math.abs(1 - ratio);
-			c.g = 1 - Math.abs(1 - ratio);
+			c.r = Math.min(1,cRatio * 2);
+			c.g = cRatio;
 			c.b = c.g;
 			animate(canvas, c, ratio);
 		}
