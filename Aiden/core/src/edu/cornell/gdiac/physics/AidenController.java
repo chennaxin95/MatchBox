@@ -53,6 +53,8 @@ public class AidenController extends WorldController
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
 	private static final String LADDER_FILE = "platform/ladder.png";
+	
+	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -71,6 +73,8 @@ public class AidenController extends WorldController
 	private TextureRegion waterTexture;
 
 	private TextureRegion ladderTexture;
+	/** Texture for aiden animation */
+	private FilmStrip AidenAnimeTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -124,6 +128,8 @@ public class AidenController extends WorldController
 		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
+		manager.load(AIDEN_ANIME_FILE, Texture.class);
+		assets.add(AIDEN_ANIME_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -157,6 +163,7 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -185,10 +192,10 @@ public class AidenController extends WorldController
 	// Wall vertices
 	private static final float[][][] WALLS = { {
 			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-			{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
-					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
-			{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-					31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f } },
+			{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
+					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
+			{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
+					31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f } },
 
 			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 					{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
@@ -200,8 +207,8 @@ public class AidenController extends WorldController
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
-			{ 1.0f, 12.0f, 9.0f, 12.0f, 9.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
+			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
+			{ 12.0f, 14.0f, 25.0f, 14.0f, 25.0f, 15.0f, 12.0f, 15.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -394,7 +401,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 5, 20);
+					dheight, 1, 1, 20);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -431,7 +438,9 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);// TODO:
 		addObject(avatar);
 		avatar.setFriction(0);
-//		avatar.setLinearDamping(.1f);
+		avatar.setLinearDamping(.1f);
+		avatar.setCharacterSprite(AidenAnimeTexture);
+		
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
@@ -766,7 +775,8 @@ public class AidenController extends WorldController
 		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
 		System.out.println(avatar.getX() + " " + avatar.getY());
-		canvas.draw(backGround, 0, 0);
+		//canvas.draw(backGround, 0, 0);
+		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
 		for (Obstacle obj : objects) {
 			obj.draw(canvas);
 		}
