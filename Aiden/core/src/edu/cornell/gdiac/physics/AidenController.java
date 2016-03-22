@@ -199,17 +199,17 @@ public class AidenController extends WorldController
 					31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f } },
 
 			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-					{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
-							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
-					{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f }
+					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
+							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
+					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
+							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f }
 			} };
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 14.0f, 25.0f, 14.0f, 25.0f, 15.0f, 12.0f, 15.0f }
+			{ 12.0f, 13.0f, 25.0f, 13.0f, 25.0f, 14.0f, 12.0f, 14.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -229,7 +229,7 @@ public class AidenController extends WorldController
 			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = { { 26f, 9f }, { 13f, 8f } };
+	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
 
 	private static final float[][] LADDER = { { 11f, 10f },
 			{ 5f, 8f, 2f, 3f } };
@@ -833,8 +833,7 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			// String onoff = (avatar.isGrounded()) ? "On" : "Off";
-			// canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
+
 			canvas.end();
 
 		}

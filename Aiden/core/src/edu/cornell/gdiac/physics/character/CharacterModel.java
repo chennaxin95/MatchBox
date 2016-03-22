@@ -298,10 +298,10 @@ public class CharacterModel extends CapsuleObstacle {
 	}
 	
 	public void resizeFixture(float ratio){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2 + SENSOR_HEIGHT/2);
-		System.out.println(getHeight());
-		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(getWidth() / 2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
+//		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
+//		System.out.println(getHeight());
+//		sensorShape = new PolygonShape();
+//		sensorShape.setAsBox(getWidth() / 2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
 	}
 
 
