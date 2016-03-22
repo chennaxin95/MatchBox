@@ -17,12 +17,17 @@
  */
 package edu.cornell.gdiac.physics;
 
+import static com.badlogic.gdx.Gdx.gl20;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.*;
 import com.badlogic.gdx.physics.box2d.*;
+
+
+
 
 /**
  * Primary view class for the game, abstracting the basic graphics calls.
@@ -32,6 +37,26 @@ import com.badlogic.gdx.physics.box2d.*;
  * that mode must be done in a separate begin/end pass.
  */
 public class GameCanvas {
+	
+	// Constants only needed locally.
+		/** Reverse the y-direction so that it is consistent with SpriteBatch */
+		private static final Vector3 UP = new Vector3(0,1,0);
+		/** For managing the camera pan interpolation at the start of the game */
+		private static final Interpolation.SwingIn SWING_IN = new Interpolation.SwingIn(0.1f);
+		/** Distance from the eye to the target */
+		private static final float EYE_DIST  = 400.0f;
+		/** Field of view for the perspective */
+		private static final float FOV = 0.7f;
+		/** Near distance for perspective clipping */
+		private static final float NEAR_DIST = 10.0f;
+		/** Far distance for perspective clipping */
+		private static final float FAR_DIST  = 500.0f;
+	private float eyepan;
+	/** Multiplicative factors for initial camera pan */
+	private static final float INIT_TARGET_PAN = 0.1f;
+	private static final float INIT_EYE_PAN = 0.05f;
+	
+	
 	/** Enumeration to track which pass we are in */
 	private enum DrawPass {
 		/** We are not drawing */
@@ -59,6 +84,42 @@ public class GameCanvas {
 		/** Color values are draw on top of one another with no transparency support */
 		OPAQUE
 	}	
+	
+
+	/**
+	 * Enumeration of supported depth states.
+	 *
+	 * For reasons of convenience, we do not allow user-defined depth functions.
+	 * 99% of the time, we find that the following depth modes are sufficient
+	 * (particularly with 2D games).
+	 */
+	private static enum DepthState {
+		/** Do not enable depth masking at all. */
+		NONE,
+		/** Read from the depth value, but do not write to it */
+		READ,
+		/** Write to the depth value, but do not read from it */
+		WRITE,
+		/** Read and write to the depth value, providing normal masking */
+		DEFAULT
+	}
+
+	/**
+	 * Enumeration of supported culling states.
+	 *
+	 * For reasons of convenience, we do not allow user-defined culling operations.
+	 * 99% of the time, we find that the following culling modes are sufficient
+	 * (particularly with 2D games).
+	 */
+	private static enum CullState {
+		/** Do not remove the backsides of any polygons; show both sides */
+		NONE,
+		/** Remove polygon backsides, using clockwise motion to define the front */
+		CLOCKWISE,
+		/** Remove polygon backsides, using counter-clockwise motion to define the front */
+		COUNTER_CLOCKWISE
+	}
+
 
 	
 	/** Drawing context to handle textures AND POLYGONS as sprites */
@@ -76,6 +137,25 @@ public class GameCanvas {
 	/** Camera for the underlying SpriteBatch */
 	private OrthographicCamera camera;
 	
+	/** Target for Perspective FOV */
+	private Vector3 target;
+	/** Eye for Perspective FOV */
+	private Vector3 eye;
+	// CACHE OBJECTS
+//		/** Projection Matrix */
+//		private Matrix4 proj;
+//		/** View Matrix */
+//		private Matrix4 view;
+		/** World Matrix */
+		private Matrix4 world;
+		/** Temporary Matrix (for Calculations) */
+		private Matrix4 tmpMat;
+		
+		/** Temporary Vectors */
+		private Vector3 tmp0;
+		private Vector3 tmp1;
+		private Vector2 tmp2d;
+		
 	/** Value to cache window width (if we are currently full screen) */
 	int width;
 	/** Value to cache window height (if we are currently full screen) */
@@ -107,12 +187,26 @@ public class GameCanvas {
 		camera.setToOrtho(false);
 		spriteBatch.setProjectionMatrix(camera.combined);
 		debugRender.setProjectionMatrix(camera.combined);
-
+		
+		
+		// Initialize the perspective camera objects
+		eye = new Vector3();
+		target = new Vector3();
+		world = new Matrix4();
+//		view  = new Matrix4();
+//		proj  = new Matrix4();
+				
 		// Initialize the cache objects
 		holder = new TextureRegion();
 		local  = new Affine2();
 		global = new Matrix4();
 		vertex = new Vector2();
+		
+		// Initialize the cache objects
+				tmpMat = new Matrix4();
+				tmp0  = new Vector3();
+				tmp1  = new Vector3();
+				tmp2d = new Vector2();
 	}
 		
     /**
@@ -269,7 +363,65 @@ public class GameCanvas {
 	 public void resize() {
 		// Resizing screws up the spriteBatch projection matrix
 		spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, getWidth(), getHeight());
+		camera.setToOrtho(false,getWidth(),getHeight());
 	}
+	 
+		
+		/**
+		 * Sets the given matrix to a FOV perspective.
+		 *
+		 * The field of view matrix is computed as follows:
+		 *
+		 *        /
+		 *       /_
+		 *      /  \  <-  FOV 
+		 * EYE /____|_____
+	     *
+		 * Let ys = cot(fov)
+		 * Let xs = ys / aspect
+		 * Let a = zfar / (znear - zfar)
+		 * The matrix is
+		 * | xs  0   0      0     |
+		 * | 0   ys  0      0     |
+		 * | 0   0   a  znear * a |
+		 * | 0   0  -1      0     |
+		 *
+		 * @param out Non-null matrix to store result
+		 * @param fov field of view y-direction in radians from center plane
+		 * @param aspect Width / Height
+		 * @param znear Near clip distance
+		 * @param zfar Far clip distance
+		 *
+		 * @returns Newly created matrix stored in out
+		 */
+		private Matrix4 setToPerspectiveFOV(Matrix4 out, float fov, float aspect, float znear, float zfar) {
+			float ys = (float)(1.0 / Math.tan(fov));
+			float xs = ys / aspect;
+			float a  = zfar / (znear - zfar);
+
+			out.val[0 ] = xs;
+			out.val[4 ] = 0.0f;
+			out.val[8 ] = 0.0f;
+			out.val[12] = 0.0f;
+
+			out.val[1 ] = 0.0f;
+			out.val[5 ] = ys;
+			out.val[9 ] = 0.0f;
+			out.val[13] = 0.0f;
+
+			out.val[2 ] = 0.0f;
+			out.val[6 ] = 0.0f;
+			out.val[10] = a;
+			out.val[14] = znear * a;
+
+			out.val[3 ] = 0.0f;
+			out.val[7 ] = 0.0f;
+			out.val[11] = -1.0f;
+			out.val[15] = 0.0f;
+
+			return out;
+		}
+		
 	
 	/**
 	 * Returns the current color blending state for this canvas.
@@ -315,6 +467,85 @@ public class GameCanvas {
 	}
 	
 	/**
+	 * Sets the mode for culling unwanted polygons based on depth.
+	 *
+	 * @param state The depth mode
+	 */
+	private void setDepthState(DepthState state) {
+		boolean shouldRead  = true;
+		boolean shouldWrite = true;
+		int depthFunc = 0;
+		
+		switch (state) {
+		case NONE:
+			shouldRead  = false;
+			shouldWrite = false;
+			depthFunc = GL20.GL_ALWAYS;
+			break;
+		case READ:
+			shouldRead  = false;
+			shouldWrite = true;
+			depthFunc = GL20.GL_LEQUAL;
+			break;
+		case WRITE:
+			shouldRead  = false;
+			shouldWrite = true;
+			depthFunc = GL20.GL_ALWAYS;
+			break;
+		case DEFAULT:
+			shouldRead  = true;
+			shouldWrite = true;
+			depthFunc = GL20.GL_LEQUAL;
+			break;
+		}
+		
+        if (shouldRead || shouldWrite) {
+        	gl20.glEnable(GL20.GL_DEPTH_TEST);
+        	gl20.glDepthMask(shouldWrite);
+        	gl20.glDepthFunc(depthFunc);
+        } else {
+        	gl20.glDisable(GL20.GL_DEPTH_TEST);
+        }
+	}
+	
+	/**
+	 * Sets the mode for culling unwanted polygons based on facing.
+	 *
+	 * @param state The culling mode
+	 */
+	private void setCullState(CullState state) {
+		boolean cull = true;
+    	int mode = 0;
+    	int face = 0;
+    	
+    	switch (state) {
+    	case NONE:
+            cull = false;
+            mode = GL20.GL_BACK;
+            face = GL20.GL_CCW;
+			break;
+    	case CLOCKWISE:
+            cull = true;
+            mode = GL20.GL_BACK;
+            face = GL20.GL_CCW;
+			break;
+    	case COUNTER_CLOCKWISE:
+            cull = true;
+            mode = GL20.GL_BACK;
+            face = GL20.GL_CW;
+			break;
+    	}
+        if (cull) {
+        	gl20.glEnable(GL20.GL_CULL_FACE);
+        	gl20.glFrontFace(face);
+        	gl20.glCullFace(mode);
+        } else {
+        	gl20.glDisable(GL20.GL_CULL_FACE);
+        }
+
+	}
+		
+	/**
 	 * Clear the screen so we can start a new animation frame
 	 */
 	public void clear() {
@@ -348,14 +579,45 @@ public class GameCanvas {
 	 * @param sx the amount to scale the x-axis
 	 * @param sy the amount to scale the y-axis
 	 */
-    public void begin(float sx, float sy) {
-		global.idt();
-		global.scl(sx,sy,1.0f);
-    	global.mulLeft(camera.combined);
-		spriteBatch.setProjectionMatrix(global);
+    public void begin(float x, float y) {
+//		global.idt();
+//		global.scl(sx,sy,1.0f);
+//    	global.mulLeft(camera.combined);
+//		spriteBatch.setProjectionMatrix(global);
+    	
+		// Set eye and target positions.
+    	//x = 512 ;//+ x*588/32;
+    	//y = 288 ;//+ y*256/26
+    		
+    	Vector3 worldCoord = (new Vector3(16,8,0)).mul(camera.invProjectionView.cpy());
+    	//x = worldCoord.x;
+    	//y = worldCoord.y;
+    	x = x*512/32*2;
+    	y = y*288/16*2;
+    	//System.out.println(x+" "+y);
+    	//System.out.println(camera.position.toString());
+		target.set(x, y, 0);
+		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
+				
+		// Position the camera
+		float f = -1f;
+		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
+		System.out.println(d.x*d.x + d.y*d.y);
+		if (d.x*d.x + d.y*d.y>10){
+			camera.translate(d.scl(0.01f));
+		}	
+		//camera.lookAt(target);
+		System.out.println(camera.view.toString());
 		
+//		view.setToLookAt(eye,target,UP);
+//		camera.projection.setToOrtho2D(0, 0, getWidth(), getHeight());
+//		setToPerspectiveFOV(proj, FOV, (float)getWidth() / (float)getHeight(), NEAR_DIST, FAR_DIST);
+		//tmpMat.set(view).mulLeft(proj);		    
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
     	spriteBatch.begin();
     	active = DrawPass.STANDARD;
+    	
     }
     
 	/**
