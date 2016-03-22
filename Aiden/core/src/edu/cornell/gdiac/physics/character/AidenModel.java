@@ -47,7 +47,6 @@ public class AidenModel extends CharacterModel {
 	private boolean complete;
 	/** update time */
 	private float dt;
-	
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
 	
