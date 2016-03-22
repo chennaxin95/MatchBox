@@ -430,7 +430,7 @@ public class AidenController extends WorldController
 		avatar.setTraillTexture(avatarTexture);
 		avatar.setFriction(0);// TODO:
 		addObject(avatar);
-		avatar.setFriction(15);
+		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
