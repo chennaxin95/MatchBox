@@ -287,9 +287,9 @@ public class AidenModel extends CharacterModel {
 			subFuel(dt);
 		}
 		super.update(dt);
-		ratio = fuel / START_FUEL;
+		ratio = fuel / MAX_FUEL;
 		ratio = Math.max(0.8f, ratio);
-		ratio = Math.min(1.2f, ratio);
+		ratio = Math.min(1.0f, ratio);
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
@@ -327,6 +327,7 @@ public class AidenModel extends CharacterModel {
 			return;
 		}
 		else {
+			c.r = 1 - Math.abs(1 - ratio);
 			c.g = 1 - Math.abs(1 - ratio);
 			c.b = c.g;
 			animate(canvas, c, ratio);

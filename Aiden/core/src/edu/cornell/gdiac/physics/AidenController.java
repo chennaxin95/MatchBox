@@ -228,7 +228,7 @@ public class AidenController extends WorldController
 			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = { { 26f, 9f }, { 13f, 8f } };
+	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f }};
 
 	private static final float[][] LADDER = { { 11f, 10f },
 			{ 5f, 8f, 2f, 3f } };
