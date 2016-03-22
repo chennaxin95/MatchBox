@@ -1154,6 +1154,11 @@ public class GameCanvas {
 		GlyphLayout layout = new GlyphLayout(font,text);
 		font.draw(spriteBatch, layout, x, y);
     }
+    
+    public Vector2 relativeVector(float x, float y){
+        OrthographicCamera c = this.camera;
+        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
+    }
 
     /**
      * Draws text centered on the screen.

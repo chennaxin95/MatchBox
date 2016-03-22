@@ -839,10 +839,9 @@ public class AidenController extends WorldController
 		if (avatar != null) {
 			canvas.begin(avatar.getX(), avatar.getY());
 			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(512, 400);
 			String fuelT = "fuel: " + (int) avatar.getFuel();
-			canvas.drawText(fuelT, fuelFont, 750, 500);
-			// drawing spirit mode on/off
-
+			canvas.drawText(fuelT, fuelFont, pos.x, pos.y);
 			canvas.end();
 
 		}
