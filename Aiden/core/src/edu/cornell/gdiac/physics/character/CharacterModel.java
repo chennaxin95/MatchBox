@@ -11,14 +11,13 @@ import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.CapsuleObstacle;
 
 public class CharacterModel extends CapsuleObstacle {
-	public enum BasicFSMState {
+	public enum BasicFSMState{
 		SPAWN, WANDER
 	}
-
-	public enum CharacterType {
+	public enum CharacterType{
 		WATER_GUARD, AIDEN, CIVILIAN
 	}
-
+	
 	// Physics constants
 	/** The density of the character */
 	protected static final float DUDE_DENSITY = 1.0f;
@@ -48,10 +47,10 @@ public class CharacterModel extends CapsuleObstacle {
 	 * image
 	 */
 	protected static final float DUDE_SSHRINK = 0.6f;
-
+	
 	/** Spawn count down */
-	protected static final float MAX_SPAWN_TIME = 1f;
-
+	protected static final float MAX_SPAWN_TIME=1f;
+	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
 	protected Fixture left;
@@ -59,67 +58,70 @@ public class CharacterModel extends CapsuleObstacle {
 	protected PolygonShape sensorShape;
 	protected PolygonShape leftShape;
 	protected PolygonShape rightShape;
-
+	
 	/** Cache for internal force calculations */
 	protected Vector2 forceCache = new Vector2();
-
+	
 	private boolean isAlive;
-
+	
 	protected float spawnCoolDown;
 	protected float moveCoolDown;
 	protected CharacterType type;
-	protected BasicFSMState state;
+	protected BasicFSMState state; 
 	/** The current horizontal movement of the character */
 	protected float movement;
 	/** Which direction is the character facing */
 	protected boolean faceRight;
 	/** Whether our feet are on the ground */
 	protected boolean isGrounded;
-
-	public CharacterModel(CharacterType t, String name, float x, float y, float width, float height, boolean fright) {
+	
+	
+	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
+			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
 		setDensity(DUDE_DENSITY);
 		setFriction(DUDE_FRICTION); /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
-
-		type = t;
-
-		isAlive = true;
+		
+		type=t;
+		
+		isAlive=true;
 		faceRight = fright;
 		isGrounded = false;
-
-		spawnCoolDown = MAX_SPAWN_TIME;
-		state = BasicFSMState.SPAWN;
-
-		moveCoolDown = 0;
-
+		
+		spawnCoolDown=MAX_SPAWN_TIME;
+		state=BasicFSMState.SPAWN;
+		
+		moveCoolDown=0;
+		
 		setName(name);
 	}
-
-	public boolean isSpawned() {
-		return spawnCoolDown <= 0;
+	
+	public boolean isSpawned(){
+		return spawnCoolDown<=0;
 	}
-
-	public boolean canChangeMove() {
-		return moveCoolDown <= 0.0;
+	
+	
+	public boolean canChangeMove(){
+		return moveCoolDown<=0.0;
 	}
-
-	public void setMoveCoolDown(float t) {
-		moveCoolDown = t;
+	
+	public void setMoveCoolDown(float t){
+		moveCoolDown=t;
 	}
-
-	public float getMoveCoolDown() {
+	
+	public float getMoveCoolDown(){
 		return moveCoolDown;
 	}
-
-	public BasicFSMState getState() {
+	
+	public BasicFSMState getState(){
 		return state;
 	}
-
-	public void setState(BasicFSMState s) {
-		state = s;
+	
+	public void setState(BasicFSMState s){
+		state=s;
 	}
-
+	
 	/**
 	 * Returns left/right movement of this character.
 	 * 
@@ -167,7 +169,7 @@ public class CharacterModel extends CapsuleObstacle {
 	public void setGrounded(boolean value) {
 		isGrounded = value;
 	}
-
+	
 	/**
 	 * Returns true if the dude is alive.
 	 *
@@ -215,7 +217,7 @@ public class CharacterModel extends CapsuleObstacle {
 	public float getMaxSpeed() {
 		return DUDE_MAXSPEED;
 	}
-
+	
 	/**
 	 * Returns the name of the ground sensor
 	 *
@@ -224,17 +226,14 @@ public class CharacterModel extends CapsuleObstacle {
 	 * @return the name of the ground sensor
 	 */
 	public String getSensorName() {
-		return getName() + "GroundSensor";
+		return getName()+"GroundSensor";
 	}
-
-	public String getLeft() {
-		return getName() + "left";
+	public String getLeft(){
+		return getName()+"left";
 	}
-
-	public String getRight() {
-		return getName() + "right";
+	public String getRight(){
+		return getName()+"right";
 	}
-
 	/**
 	 * Returns true if this character is facing right
 	 *
@@ -273,18 +272,38 @@ public class CharacterModel extends CapsuleObstacle {
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
 
+		Vector2 lCenter = new Vector2(0.5f*-getWidth(), 0);
+		FixtureDef leftDef = new FixtureDef();
+		leftDef.density = DUDE_DENSITY;
+		leftDef.isSensor = true;
+		leftShape = new PolygonShape();
+		leftShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
+				lCenter, 0.0f);
+		leftDef.shape = leftShape;
+
+		left = body.createFixture(leftDef);
+		left.setUserData(getLeft());
+
+		Vector2 rCenter = new Vector2(0.5f*getWidth(), 0);
+		FixtureDef rightDef = new FixtureDef();
+		rightDef.density = DUDE_DENSITY;
+		rightDef.isSensor = true;
+		rightShape = new PolygonShape();
+		rightShape.setAsBox(SENSOR_HEIGHT, DUDE_SSHRINK * getHeight() / 2.0f,
+				rCenter, 0.0f);
+		rightDef.shape = rightShape;
+
+		right = body.createFixture(rightDef);
+		right.setUserData(getRight());
+		
 		return true;
-	}
-	
-	public void resizeFixture(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT, sensorCenter, 0.0f);
 	}
 
 	/**
@@ -311,7 +330,7 @@ public class CharacterModel extends CapsuleObstacle {
 			body.applyForce(forceCache, getPosition(), true);
 		}
 	}
-
+	
 	/**
 	 * Updates the object's physics state (NOT GAME LOGIC).
 	 *
@@ -322,10 +341,8 @@ public class CharacterModel extends CapsuleObstacle {
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-		if (!isSpawned())
-			spawnCoolDown -= dt;
-		if (!canChangeMove())
-			moveCoolDown -= dt;
+		if (!isSpawned()) spawnCoolDown-=dt;
+		if (!canChangeMove()) moveCoolDown-=dt;
 		super.update(dt);
 	}
 
@@ -337,8 +354,10 @@ public class CharacterModel extends CapsuleObstacle {
 	 */
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
-		canvas.draw(texture, Color.WHITE, origin.x, origin.y, getX() * drawScale.x, getY() * drawScale.y, getAngle(),
-				effect, 1.0f);
+		canvas.draw(texture, Color.WHITE, origin.x, origin.y,
+				getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), effect, 
+				1.0f);
 	}
 
 	/**
@@ -351,6 +370,11 @@ public class CharacterModel extends CapsuleObstacle {
 	 */
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
-		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(), drawScale.x, drawScale.y);
+		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
+		canvas.drawPhysics(leftShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
+		canvas.drawPhysics(rightShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
 	}
 }
