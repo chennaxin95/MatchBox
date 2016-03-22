@@ -198,10 +198,10 @@ public class AidenController extends WorldController
 					31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f } },
 
 			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-					{ 16.0f, 18.0f, 16.0f, 17.0f, 1.0f, 17.0f,
-							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 18.0f },
-					{ 32.0f, 18.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 17.0f, 16.0f, 17.0f, 16.0f, 18.0f }
+					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
+							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
+					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
+							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f }
 			} };
 
 	/** The outlines of all of the platforms */
@@ -820,8 +820,8 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			String onoff = (avatar.isGrounded()) ? "On" : "Off";
-			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
+			//String onoff = (avatar.isGrounded()) ? "On" : "Off";
+			//canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
 
 		}
