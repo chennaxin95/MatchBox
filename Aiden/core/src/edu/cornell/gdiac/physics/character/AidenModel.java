@@ -204,10 +204,9 @@ public class AidenModel extends CharacterModel {
 		if (!isActive()) {
 			return;
 		}
-
-
+		float temp = movement;
+		float tempy = movementY;
 		if (!isClimbing && !isSpiriting) {
-			float temp = movement;
 
 			movementY = getVY();
 			movementY -= dt * 11;
@@ -222,12 +221,16 @@ public class AidenModel extends CharacterModel {
 			movementY = 11;
 		}
 
-		if(!isGrounded){
-			movement = movement*0.9f;
-			if (isContacting && !isClimbing){
-				movement = movement * 0.2f;
+		if (!isGrounded) {
+			movement = movement * 0.9f;
 
+			if (isContacting && !isClimbing && !isSpiriting) {
+				movement = movement * 0.2f;
 			}
+		}
+		if (isSpiriting) {
+			movement = getVX() + temp / 10;
+			movementY = getVY() + tempy / 10;
 		}
 
 		body.setLinearVelocity(movement, movementY);
