@@ -594,20 +594,16 @@ public class GameCanvas {
     	//y = worldCoord.y;
     	x = x*512/32*2;
     	y = y*288/16*2;
-    	//System.out.println(x+" "+y);
-    	//System.out.println(camera.position.toString());
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 				
 		// Position the camera
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
-		System.out.println(d.x*d.x + d.y*d.y);
 		if (d.x*d.x + d.y*d.y>10){
 			camera.translate(d.scl(0.01f));
 		}	
 		//camera.lookAt(target);
-		System.out.println(camera.view.toString());
 		
 //		view.setToLookAt(eye,target,UP);
 //		camera.projection.setToOrtho2D(0, 0, getWidth(), getHeight());
