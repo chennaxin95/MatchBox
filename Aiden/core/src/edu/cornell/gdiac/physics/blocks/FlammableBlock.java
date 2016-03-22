@@ -24,7 +24,7 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	protected int splitFrame;
 	
 	/** Animation cool down */
-	protected static final float MAX_ANIME_TIME=0.2f;
+	protected static final float MAX_ANIME_TIME=0.1f;
 	
 	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);

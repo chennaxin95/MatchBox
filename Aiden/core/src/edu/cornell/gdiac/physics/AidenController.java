@@ -173,7 +173,7 @@ public class AidenController extends WorldController
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
 		burningTexture=new FilmStrip[10];
 		for (int i=0; i<10; i++){
-			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 5, 1, 5);
+			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
 		}
 
 		SoundController sounds = SoundController.getInstance();
