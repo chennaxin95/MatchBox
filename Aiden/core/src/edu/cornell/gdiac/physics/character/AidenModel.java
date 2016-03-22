@@ -213,27 +213,22 @@ public class AidenModel extends CharacterModel {
 			movementY -= dt * 11;
 			movement += getVX();
 			movement = Math.max(-10, Math.min(movement, 10));
-			System.out.println("1");
 			if (temp == 0) {
 				movement *= 0.85;
-				System.out.println("2");
 
 			}
 
 		}
 		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
 			movementY = 11;
-			System.out.println("3");
 
 		}
 
 		if(!isGrounded){
 			movement = movement*0.9f;
-			System.out.println("4");
 
 			if (isContacting && isClimbing){
 				movement = movement * 0.2f;
-				System.out.println("5");
 
 
 			}
@@ -242,10 +237,8 @@ public class AidenModel extends CharacterModel {
 			float temp = movement;
 			movement += getVX();
 			movement = Math.max(-10, Math.min(movement, 10));
-			System.out.println("1");
 			if (temp == 0) {
 				movement *= 0.85;
-				System.out.println("2");
 
 			}
 		}
