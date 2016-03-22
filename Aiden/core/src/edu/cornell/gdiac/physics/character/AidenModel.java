@@ -203,7 +203,7 @@ public class AidenModel extends CharacterModel {
 			return;
 		}
 		
-		if(!isClimbing && !isSpiriting){
+		if(!isClimbing && !isSpiriting && !isJumping){
 			movementY = getVY();
 			movementY -= dt*11;
 			movement += getVX();
@@ -222,7 +222,7 @@ public class AidenModel extends CharacterModel {
 		}
 		if(!isGrounded){
 			movement = movement*0.9f;
-			if (isContacting){
+			if (isContacting && !isClimbing){
 				movement = movement * 0.2f;
 			}
 		}

@@ -421,6 +421,8 @@ public class AidenController extends WorldController
 		avatar.setTexture(avatarTexture);
 		avatar.setTraillTexture(avatarTexture); //TODO:
 		addObject(avatar);
+		avatar.setFriction(15);
+		avatar.setLinearDamping(.1f);
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
@@ -485,7 +487,7 @@ public class AidenController extends WorldController
 				? InputController.getInstance().getVertical() * 1.5
 				: InputController.getInstance().getVertical();
 		// Process actions in object model
-		avatar.setMovement((float) accX * 5);
+		avatar.setMovement((float) accX * 9);
 		avatar.setMovementY((float) accY * 8);
 		avatar.setJumping(InputController.getInstance().didSecondary());
 		avatar.setDt(dt);
