@@ -47,7 +47,7 @@ public class AidenModel extends CharacterModel {
 	private boolean complete;
 	/** update time */
 	private float dt;
-	 /** initial height */
+	/** initial height */
 	private float iHeight;
 	/** inital width */
 	private float iWidth;
@@ -231,18 +231,17 @@ public class AidenModel extends CharacterModel {
 
 		if (!isGrounded) {
 			movement = movement * 0.9f;
-
-			if (isContacting && !isClimbing && !isSpiriting) {
-				movement = movement * 0.2f;
-			}
-
 		}
+		if (isContacting && !isClimbing && !isSpiriting) {
+			movement = movement * 0.2f;
+		}
+
 		if (isGrounded && isClimbing) {
 			movement += getVX();
+
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
-
 			}
 		}
 
@@ -251,6 +250,9 @@ public class AidenModel extends CharacterModel {
 					getVX() + temp / 5));
 			movementY = Math.max(-15, Math.min(15,
 					getVY() + tempy / 5));
+		}
+		if (temp != 0 && getVX() == 0) {
+			movement *= 0.1;
 		}
 
 		body.setLinearVelocity(movement, movementY);
@@ -319,14 +321,14 @@ public class AidenModel extends CharacterModel {
 			c.a = 0.75f;
 		}
 		if (characterSprite == null) {
-			if (texture==null) return;
+			if (texture == null)
+				return;
 			canvas.draw(texture, c, origin.x, origin.y,
-					getX() * drawScale.x, 
-					getY() * drawScale.y, getAngle(), effect*ratio, 
-					1.0f*ratio);
+					getX() * drawScale.x,
+					getY() * drawScale.y, getAngle(), effect * ratio,
+					1.0f * ratio);
 			return;
-		}
-		else {
+		} else {
 			c.g = 1 - Math.abs(1 - ratio);
 			c.b = c.g;
 			animate(canvas, c, ratio);

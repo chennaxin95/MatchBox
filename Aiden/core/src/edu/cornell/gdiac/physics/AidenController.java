@@ -53,7 +53,7 @@ public class AidenController extends WorldController
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
 	private static final String LADDER_FILE = "platform/ladder.png";
-	
+
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 
 	/** The sound file for a jump */
@@ -163,7 +163,8 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
-		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
+		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
+				12);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -439,7 +440,7 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setCharacterSprite(AidenAnimeTexture);
-		
+
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
@@ -491,12 +492,13 @@ public class AidenController extends WorldController
 	public void update(float dt) {
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
+
 		}
 
-		// Toggle spirit mode
-		if (InputController.getInstance().didSpirit()) {
-			spirit = !spirit;
-		}
+		// // Toggle spirit mode
+		// if (InputController.getInstance().didSpirit()) {
+		// spirit = !spirit;
+		// }
 
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
@@ -638,11 +640,15 @@ public class AidenController extends WorldController
 
 					}
 				}
-				
-				if (bd1 == avatar && bd2 instanceof CharacterModel && ((CharacterModel)bd2).getType()==CharacterType.WATER_GUARD){
+
+				if (bd1 == avatar && bd2 instanceof CharacterModel
+						&& ((CharacterModel) bd2)
+								.getType() == CharacterType.WATER_GUARD) {
 					setFailure(true);
 				}
-				if (bd2 == avatar && bd1 instanceof CharacterModel && ((CharacterModel)bd1).getType()==CharacterType.WATER_GUARD){
+				if (bd2 == avatar && bd1 instanceof CharacterModel
+						&& ((CharacterModel) bd1)
+								.getType() == CharacterType.WATER_GUARD) {
 					setFailure(true);
 				}
 
@@ -781,10 +787,17 @@ public class AidenController extends WorldController
 		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
 		System.out.println(avatar.getX() + " " + avatar.getY());
-		//canvas.draw(backGround, 0, 0);
-		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
+		// canvas.draw(backGround, 0, 0);
+		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+				canvas.getWidth(), canvas.getHeight() / 18 * 22);
 		for (Obstacle obj : objects) {
-			obj.draw(canvas);
+			if (obj == avatar) {
+				if (!isFailure()) {
+					obj.draw(canvas);
+				}
+			} else {
+				obj.draw(canvas);
+			}
 		}
 		canvas.end();
 
@@ -820,8 +833,8 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			String onoff = (avatar.isGrounded()) ? "On" : "Off";
-			canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
+			// String onoff = (avatar.isGrounded()) ? "On" : "Off";
+			// canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
 			canvas.end();
 
 		}
