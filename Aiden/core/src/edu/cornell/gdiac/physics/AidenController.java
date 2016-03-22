@@ -53,7 +53,7 @@ public class AidenController extends WorldController
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
 	private static final String LADDER_FILE = "platform/ladder.png";
-	
+
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 	
 	private static final String BURNING_FILE = "platform/blockburning.png";
@@ -169,11 +169,13 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
 		burningTexture=new FilmStrip[10];
 		for (int i=0; i<10; i++){
 			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 5, 1, 5);
 		}
+
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
 		sounds.allocate(manager, PEW_FILE);
@@ -217,7 +219,7 @@ public class AidenController extends WorldController
 	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 14.0f, 25.0f, 14.0f, 25.0f, 15.0f, 12.0f, 15.0f }
+			{ 12.0f, 13.0f, 25.0f, 13.0f, 25.0f, 14.0f, 12.0f, 14.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -237,7 +239,7 @@ public class AidenController extends WorldController
 			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f }};
+	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
 
 	private static final float[][] LADDER = { { 11f, 10f },
 			{ 5f, 8f, 2f, 3f } };
@@ -449,7 +451,7 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setCharacterSprite(AidenAnimeTexture);
-		
+
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
@@ -501,12 +503,13 @@ public class AidenController extends WorldController
 	public void update(float dt) {
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
+
 		}
 
-		// Toggle spirit mode
-		if (InputController.getInstance().didSpirit()) {
-			spirit = !spirit;
-		}
+		// // Toggle spirit mode
+		// if (InputController.getInstance().didSpirit()) {
+		// spirit = !spirit;
+		// }
 
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
@@ -648,11 +651,15 @@ public class AidenController extends WorldController
 
 					}
 				}
-				
-				if (bd1 == avatar && bd2 instanceof CharacterModel && ((CharacterModel)bd2).getType()==CharacterType.WATER_GUARD){
+
+				if (bd1 == avatar && bd2 instanceof CharacterModel
+						&& ((CharacterModel) bd2)
+								.getType() == CharacterType.WATER_GUARD) {
 					setFailure(true);
 				}
-				if (bd2 == avatar && bd1 instanceof CharacterModel && ((CharacterModel)bd1).getType()==CharacterType.WATER_GUARD){
+				if (bd2 == avatar && bd1 instanceof CharacterModel
+						&& ((CharacterModel) bd1)
+								.getType() == CharacterType.WATER_GUARD) {
 					setFailure(true);
 				}
 
@@ -793,7 +800,13 @@ public class AidenController extends WorldController
 		//canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
 		for (Obstacle obj : objects) {
-			obj.draw(canvas);
+			if (obj == avatar) {
+				if (!isFailure()) {
+					obj.draw(canvas);
+				}
+			} else {
+				obj.draw(canvas);
+			}
 		}
 		canvas.end();
 
@@ -829,8 +842,7 @@ public class AidenController extends WorldController
 			String fuelT = "fuel: " + (int) avatar.getFuel();
 			canvas.drawText(fuelT, fuelFont, 750, 500);
 			// drawing spirit mode on/off
-			//String onoff = (avatar.isGrounded()) ? "On" : "Off";
-			//canvas.drawText("Spirit Mode " + onoff, fuelFont, 250, 500);
+
 			canvas.end();
 
 		}
