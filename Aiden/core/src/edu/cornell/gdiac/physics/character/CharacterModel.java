@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.CapsuleObstacle;
+import edu.cornell.gdiac.util.FilmStrip;
 
 public class CharacterModel extends CapsuleObstacle {
 	public enum BasicFSMState{
@@ -51,6 +52,9 @@ public class CharacterModel extends CapsuleObstacle {
 	/** Spawn count down */
 	protected static final float MAX_SPAWN_TIME=1f;
 	
+	/** Animation cool down */
+	protected static final float MAX_ANIME_TIME=0.1f;
+	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
 	protected Fixture left;
@@ -75,6 +79,10 @@ public class CharacterModel extends CapsuleObstacle {
 	/** Whether our feet are on the ground */
 	protected boolean isGrounded;
 	
+	/** FilmStrip for animation */
+	protected FilmStrip characterSprite;
+	/** */
+	protected float animeCoolDown; 
 	
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
@@ -343,6 +351,9 @@ public class CharacterModel extends CapsuleObstacle {
 		// Apply cooldowns
 		if (!isSpawned()) spawnCoolDown-=dt;
 		if (!canChangeMove()) moveCoolDown-=dt;
+		
+		animeCoolDown-=dt;
+		
 		super.update(dt);
 	}
 
@@ -354,10 +365,17 @@ public class CharacterModel extends CapsuleObstacle {
 	 */
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
-		canvas.draw(texture, Color.WHITE, origin.x, origin.y,
-				getX() * drawScale.x, 
-				getY() * drawScale.y, getAngle(), effect, 
-				1.0f);
+		if (characterSprite == null) {
+			if (texture==null) return;
+			canvas.draw(texture, Color.WHITE, origin.x, origin.y,
+					getX() * drawScale.x, 
+					getY() * drawScale.y, getAngle(), effect, 
+					1.0f);
+			return;
+		}
+		else{
+			animate(canvas, Color.WHITE);
+		}
 	}
 
 	/**
@@ -376,5 +394,29 @@ public class CharacterModel extends CapsuleObstacle {
 				drawScale.x, drawScale.y);
 		canvas.drawPhysics(rightShape, Color.RED, getX(), getY(), getAngle(),
 				drawScale.x, drawScale.y);
+	}
+	
+	public void setCharacterSprite(FilmStrip fs){
+		characterSprite=fs;
+		characterSprite.setFrame(0);
+	}
+	
+	public void animate(GameCanvas canvas, Color c, float sx, float sy){
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			characterSprite.setFrame((characterSprite.getFrame()+1)%characterSprite.getSize());
+		}
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		
+		canvas.draw(characterSprite, c, ox, oy, getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), effect*sx, sy);
+	}
+	
+	public void animate(GameCanvas canvas, Color c){
+		animate(canvas, c, 1.0f, 1.0f);
 	}
 }

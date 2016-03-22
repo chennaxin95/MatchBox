@@ -53,6 +53,8 @@ public class AidenController extends WorldController
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
 	private static final String LADDER_FILE = "platform/ladder.png";
+	
+	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -71,6 +73,8 @@ public class AidenController extends WorldController
 	private TextureRegion waterTexture;
 
 	private TextureRegion ladderTexture;
+	/** Texture for aiden animation */
+	private FilmStrip AidenAnimeTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -124,6 +128,8 @@ public class AidenController extends WorldController
 		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
+		manager.load(AIDEN_ANIME_FILE, Texture.class);
+		assets.add(AIDEN_ANIME_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -157,6 +163,7 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
 
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, JUMP_FILE);
@@ -422,6 +429,8 @@ public class AidenController extends WorldController
 		addObject(avatar);
 		avatar.setFriction(15);
 		avatar.setLinearDamping(.1f);
+		avatar.setCharacterSprite(AidenAnimeTexture);
+		
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
