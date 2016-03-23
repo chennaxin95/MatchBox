@@ -370,4 +370,19 @@ public class InputController {
 		crosshair.y = Math.max(bounds.y,
 				Math.min(bounds.y + bounds.height, crosshair.y));
 	}
+	
+	
+	public boolean zoomIn(){
+		if(Gdx.input.isKeyPressed(Input.Keys.I)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean zoomOut(){
+		if(Gdx.input.isKeyPressed(Input.Keys.O)){
+			return true;
+		}
+		return false;
+	}
 }
