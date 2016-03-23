@@ -215,38 +215,27 @@ public class AidenModel extends CharacterModel {
 		float temp = movement;
 		float tempy = movementY;
 		if (!isClimbing && !isSpiriting) {
-
 			movementY = getVY();
 			movementY -= dt * 11;
 			movement += getVX();
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
-
 			}
-
 		}
 		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
 			movementY = 11;
-
 		}
-
 		if (!isGrounded) {
 			movement = movement * 0.9f;
 		}
-		if (isContacting && !isClimbing && !isSpiriting) {
-			movement = movement * 0.2f;
-		}
-
 		if (isGrounded && isClimbing) {
 			movement += getVX();
-
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
 			}
 		}
-
 		if (isSpiriting) {
 			movement = Math.max(-15, Math.min(15,
 					getVX() + temp / 5));
@@ -256,10 +245,8 @@ public class AidenModel extends CharacterModel {
 		if (temp != 0 && getVX() == 0) {
 			movement *= 0.1;
 		}
-
 		body.setLinearVelocity(movement, movementY);
 	}
-
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
 		fuel = Math.max(fuel + i, MAX_FUEL);
