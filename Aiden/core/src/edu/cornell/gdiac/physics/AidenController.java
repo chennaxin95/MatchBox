@@ -57,6 +57,8 @@ public class AidenController extends WorldController
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 	
 	private static final String BURNING_FILE = "platform/blockburning.png";
+	
+	private static final String STONE_FILE = "platform/stone.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -79,6 +81,8 @@ public class AidenController extends WorldController
 	private FilmStrip AidenAnimeTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
+	
+	private TextureRegion stoneTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -132,6 +136,8 @@ public class AidenController extends WorldController
 		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
+		manager.load(STONE_FILE, Texture.class);
+		assets.add(STONE_FILE);
 		manager.load(AIDEN_ANIME_FILE, Texture.class);
 		assets.add(AIDEN_ANIME_FILE);
 		manager.load(BURNING_FILE, Texture.class);
@@ -169,6 +175,7 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+		stoneTexture = createTexture(manager, STONE_FILE, false);
 
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
 		burningTexture=new FilmStrip[10];
@@ -402,7 +409,7 @@ public class AidenController extends WorldController
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("stone_box" + ii);
 			box.setDrawScale(scale);
-			box.setTexture(texture);
+			box.setTexture(stoneTexture);
 			addObject(box);
 		}
 
