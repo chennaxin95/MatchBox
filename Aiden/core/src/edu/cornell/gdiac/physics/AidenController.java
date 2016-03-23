@@ -237,13 +237,13 @@ public class AidenController extends WorldController
 
 	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	}, { 13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
+	}, { 13f, 6f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
 			8f, 2f, 10f, 2f } };
 
 	/** the vertices for stone boxes */
 
 	private static final float[][] STONE_BOXES = { {},
-			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
+			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f } };
 
 	/** fuel blocks */
 	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
@@ -385,6 +385,7 @@ public class AidenController extends WorldController
 			WoodBlock box = new WoodBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
 					dheight, 1, 5, 5);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -404,6 +405,7 @@ public class AidenController extends WorldController
 			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii],
 					STONE_BOXES[level][ii + 1], dwidth,
 					dheight);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
