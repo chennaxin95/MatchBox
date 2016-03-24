@@ -55,7 +55,7 @@ public class AidenController extends WorldController
 	private static final String LADDER_FILE = "platform/ladder.png";
 
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
-	
+
 	private static final String BURNING_FILE = "platform/blockburning.png";
 
 	/** The sound file for a jump */
@@ -170,10 +170,11 @@ public class AidenController extends WorldController
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 
-		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
-		burningTexture=new FilmStrip[10];
-		for (int i=0; i<10; i++){
-			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
+		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
+				12);
+		burningTexture = new FilmStrip[10];
+		for (int i = 0; i < 10; i++) {
+			burningTexture[i] = createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
 		}
 
 		SoundController sounds = SoundController.getInstance();
@@ -384,7 +385,7 @@ public class AidenController extends WorldController
 			box.setName("box" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
-			box.setBurningTexture(burningTexture[ii/2], 2);
+			box.setBurningTexture(burningTexture[ii / 2], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -447,10 +448,12 @@ public class AidenController extends WorldController
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		avatar.setTraillTexture(avatarTexture);
-		addObject(avatar);
+		
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
+		avatar.setRestitution(0f);
 		avatar.setCharacterSprite(AidenAnimeTexture);
+		addObject(avatar);
 
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
@@ -520,7 +523,7 @@ public class AidenController extends WorldController
 		// Process actions in object model
 		avatar.setMovement((float) accX * 9);
 		avatar.setMovementY((float) accY * 8);
-		avatar.setJumping(InputController.getInstance().didSecondary());
+		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setDt(dt);
 		avatar.applyForce();
 		if (avatar.isJumping()) {
@@ -537,7 +540,6 @@ public class AidenController extends WorldController
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-		avatar.setContacting(false);
 		aiController.nextMove(npcs);
 
 		// Detect contacts -- should be moved to a separate Controller
@@ -574,9 +576,6 @@ public class AidenController extends WorldController
 
 				// check for aiden and flammable
 				if (bd1 == avatar) {
-					if (bd2 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
 
 					if (bd2 instanceof FlammableBlock) {
 
@@ -599,9 +598,6 @@ public class AidenController extends WorldController
 					}
 				}
 				if (bd2 == avatar) {
-					if (bd1 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
@@ -797,8 +793,9 @@ public class AidenController extends WorldController
 		// canvas.begin(512,288);
 		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
-		//canvas.draw(backGround, 0, 0);
-		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
+		// canvas.draw(backGround, 0, 0);
+		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+				canvas.getWidth(), canvas.getHeight() / 18 * 22);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {

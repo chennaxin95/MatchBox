@@ -42,8 +42,6 @@ public class AidenModel extends CharacterModel {
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
-	/** if Aiden is touch another box */
-	private boolean isContacting;
 	/** Win state */
 	private boolean complete;
 	/** update time */
@@ -150,18 +148,9 @@ public class AidenModel extends CharacterModel {
 		complete = value;
 	}
 
-	public boolean isContacting() {
-		return isContacting;
-	}
-
 	/** set the update delta time */
 	public void setDt(float dt) {
 		this.dt = dt;
-	}
-
-	/** setting the contacting state */
-	public void setContacting(boolean c) {
-		isContacting = c;
 	}
 
 	/**
@@ -209,11 +198,13 @@ public class AidenModel extends CharacterModel {
 	 */
 	@Override
 	public void applyForce() {
+
 		if (!isActive()) {
 			return;
 		}
 		float temp = movement;
 		float tempy = movementY;
+
 		if (!isClimbing && !isSpiriting) {
 
 			movementY = getVY();
@@ -222,7 +213,9 @@ public class AidenModel extends CharacterModel {
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
-
+				if (Math.abs(movement) <= 0.1) {
+					movement = 0;
+				}
 			}
 
 		}
@@ -234,28 +227,41 @@ public class AidenModel extends CharacterModel {
 		if (!isGrounded) {
 			movement = movement * 0.9f;
 		}
-		if (isContacting && !isClimbing && !isSpiriting) {
-			movement = movement * 0.2f;
-		}
 
 		if (isGrounded && isClimbing) {
 			movement += getVX();
-
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
+				if (Math.abs(movement) <= 0.1) {
+					movement = 0;
+				}
 			}
 		}
 
 		if (isSpiriting) {
-			movement = Math.max(-15, Math.min(15,
-					getVX() + temp / 5));
-			movementY = Math.max(-15, Math.min(15,
-					getVY() + tempy / 5));
+
+			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
+			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
+			movement = (temp == 0) ? Math.min(15,
+					Math.abs(getVX()) * 1.5f) * signx
+					: Math.min(15, Math.abs(getVX()) * 1.1f
+							+ Math.min(Math.abs(temp) / 10+1, 2.5f))
+							* Math.signum(temp);
+			movementY = (tempy == 0) ? Math.min(15,
+					Math.abs(getVY()) * 1.5f) * signy
+					: Math.min(15, Math.abs(getVY()) * 1.1f
+							+ Math.min(Math.abs(tempy) / 10+1, 2.5f))
+							* Math.signum(tempy);
+
+			// movement = Math.max(5, Math.min(15,
+			// getVX() + temp / 5)) * lr;
+			// movementY = Math.max(-15, Math.min(15,
+			// getVY() + temp / 5));
 		}
-		if (temp != 0 && getVX() == 0) {
-			movement *= 0.1;
-		}
+//		if (temp != 0 && Math.abs(getVX()) <= 0.1) {
+//			movement *= 0.1;
+//		}
 
 		body.setLinearVelocity(movement, movementY);
 	}
@@ -311,14 +317,14 @@ public class AidenModel extends CharacterModel {
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE.cpy();
 		// Draw fire trail
-//		if (trailTexture != null) {
-//			canvas.draw(trailTexture, c, origin.x, origin.y,
-//					(getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
-//					(getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
-//					(getVX() * UNIT_TRAIL_DIST) * drawScale.x
-//							/ trailTexture.getRegionWidth(),
-//					0.4f);
-//		}
+		// if (trailTexture != null) {
+		// canvas.draw(trailTexture, c, origin.x, origin.y,
+		// (getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
+		// (getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
+		// (getVX() * UNIT_TRAIL_DIST) * drawScale.x
+		// / trailTexture.getRegionWidth(),
+		// 0.4f);
+		// }
 		// Draw Character
 		if (this.isSpiriting) {
 			c.a = 0.75f;
