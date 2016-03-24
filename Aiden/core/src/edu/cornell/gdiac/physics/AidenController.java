@@ -57,6 +57,8 @@ public class AidenController extends WorldController
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 
 	private static final String BURNING_FILE = "platform/blockburning.png";
+	
+	private static final String STONE_FILE = "platform/stone.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -79,6 +81,8 @@ public class AidenController extends WorldController
 	private FilmStrip AidenAnimeTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
+	
+	private TextureRegion stoneTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -132,6 +136,8 @@ public class AidenController extends WorldController
 		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
+		manager.load(STONE_FILE, Texture.class);
+		assets.add(STONE_FILE);
 		manager.load(AIDEN_ANIME_FILE, Texture.class);
 		assets.add(AIDEN_ANIME_FILE);
 		manager.load(BURNING_FILE, Texture.class);
@@ -169,6 +175,7 @@ public class AidenController extends WorldController
 		backGround = createTexture(manager, BACKGROUND, false);
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
+		stoneTexture = createTexture(manager, STONE_FILE, false);
 
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
 				12);
@@ -195,7 +202,7 @@ public class AidenController extends WorldController
 	/** Friction of most platforms */
 	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
-	private static final float BASIC_RESTITUTION = 0.1f;
+	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
 
@@ -213,14 +220,15 @@ public class AidenController extends WorldController
 					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
 							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
 					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f }
+							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
+					{16.25f, 21.0f, 17.25f, 21.0f ,17.25f, 6.0f, 16.25f,6.0f}
 			} };
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 13.0f, 25.0f, 13.0f, 25.0f, 14.0f, 12.0f, 14.0f }
+			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -231,13 +239,13 @@ public class AidenController extends WorldController
 
 	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	}, { 13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
-			8f, 2f, 10f, 2f } };
+	}, { 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
+			8f, 2f, 10f, 2f, 15.5f, 9f } };
 
 	/** the vertices for stone boxes */
 
 	private static final float[][] STONE_BOXES = { {},
-			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
+			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f, 15.5f, 11f } };
 
 	/** fuel blocks */
 	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
@@ -379,6 +387,7 @@ public class AidenController extends WorldController
 			WoodBlock box = new WoodBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
 					dheight, 1, 5, 5);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -398,12 +407,13 @@ public class AidenController extends WorldController
 			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii],
 					STONE_BOXES[level][ii + 1], dwidth,
 					dheight);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("stone_box" + ii);
 			box.setDrawScale(scale);
-			box.setTexture(texture);
+			box.setTexture(stoneTexture);
 			addObject(box);
 		}
 
@@ -457,10 +467,10 @@ public class AidenController extends WorldController
 
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
+		dheight = (avatarTexture.getRegionHeight() / scale.y) + .5f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				18, 9, dwidth, dheight, true);
+				18, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);

@@ -30,7 +30,7 @@ public class AidenModel extends CharacterModel {
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
-	private static final float CRITICAL_FUEL = 10;
+	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 
@@ -206,24 +206,22 @@ public class AidenModel extends CharacterModel {
 		float tempy = movementY;
 
 		if (!isClimbing && !isSpiriting) {
-
 			movementY = getVY();
 			movementY -= dt * 11;
 			movement += getVX();
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
+				
 				if (Math.abs(movement) <= 0.1) {
 					movement = 0;
 				}
-			}
 
+			}
 		}
 		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
 			movementY = 11;
-
 		}
-
 		if (!isGrounded) {
 			movement = movement * 0.9f;
 		}
@@ -238,7 +236,6 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
-
 		if (isSpiriting) {
 
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
@@ -259,13 +256,14 @@ public class AidenModel extends CharacterModel {
 			// movementY = Math.max(-15, Math.min(15,
 			// getVY() + temp / 5));
 		}
+
 //		if (temp != 0 && Math.abs(getVX()) <= 0.1) {
 //			movement *= 0.1;
 //		}
 
+
 		body.setLinearVelocity(movement, movementY);
 	}
-
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
 		fuel = Math.max(fuel + i, MAX_FUEL);
@@ -298,7 +296,7 @@ public class AidenModel extends CharacterModel {
 		}
 		super.update(dt);
 		ratio = fuel / MAX_FUEL;
-		ratio = Math.max(0.8f, ratio);
+		ratio = Math.max(0.6f, ratio);
 		ratio = Math.min(1.0f, ratio);
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
