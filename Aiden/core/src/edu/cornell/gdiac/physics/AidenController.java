@@ -55,6 +55,8 @@ public class AidenController extends WorldController
 	private static final String LADDER_FILE = "platform/ladder.png";
 
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
+	private static final String AIDEN_DIE_FILE = "platform/die_animation.png";
+	private static final String WATER_WALK = "platform/water_animation.png";
 
 	private static final String BURNING_FILE = "platform/blockburning.png";
 	
@@ -79,6 +81,8 @@ public class AidenController extends WorldController
 	private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
 	private FilmStrip AidenAnimeTexture;
+	private FilmStrip AidenDieTexture;
+	private FilmStrip WaterWalkTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
 	
@@ -140,6 +144,10 @@ public class AidenController extends WorldController
 		assets.add(STONE_FILE);
 		manager.load(AIDEN_ANIME_FILE, Texture.class);
 		assets.add(AIDEN_ANIME_FILE);
+		manager.load(AIDEN_DIE_FILE, Texture.class);
+		assets.add(AIDEN_DIE_FILE);
+		manager.load(WATER_WALK, Texture.class);
+		assets.add(WATER_WALK);
 		manager.load(BURNING_FILE, Texture.class);
 		assets.add(BURNING_FILE);
 
@@ -176,9 +184,12 @@ public class AidenController extends WorldController
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 		stoneTexture = createTexture(manager, STONE_FILE, false);
-
+		
+		WaterWalkTexture = createFilmStrip(manager, WATER_WALK, 4, 1, 4);
+		AidenDieTexture = createFilmStrip(manager, AIDEN_DIE_FILE, 13, 1, 13);
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
 				12);
+		
 		burningTexture = new FilmStrip[10];
 		for (int i = 0; i < 10; i++) {
 			burningTexture[i] = createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
@@ -462,8 +473,7 @@ public class AidenController extends WorldController
 		avatar = new AidenModel(START[level][0],START[level][1] , dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
-		avatar.setTraillTexture(avatarTexture);
-		
+		avatar.setDeath(AidenDieTexture);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
@@ -471,14 +481,15 @@ public class AidenController extends WorldController
 		addObject(avatar);
 
 		// Create NPCs
-		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = (avatarTexture.getRegionHeight() / scale.y) + .5f;
+		dwidth = waterTexture.getRegionWidth() / scale.x;
+		dheight = waterTexture.getRegionHeight() / scale.y;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
 				18, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
+		ch1.setCharacterSprite(WaterWalkTexture);
 		addObject(ch1);
 	}
 
@@ -816,6 +827,9 @@ public class AidenController extends WorldController
 				if (!isFailure()) {
 					obj.draw(canvas);
 				}
+				else {
+					avatar.drawDead(canvas);
+				}
 			} else {
 				obj.draw(canvas);
 			}
@@ -834,15 +848,17 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure()) {
 			displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
+			canvas.drawText("VICTORY!", displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		} else if (isFailure()) {
 			displayFont.setColor(Color.RED);
 			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
+			canvas.drawText("FAILURE!", displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		}

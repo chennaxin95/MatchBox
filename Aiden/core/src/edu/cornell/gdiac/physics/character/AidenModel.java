@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.*;
+import edu.cornell.gdiac.util.FilmStrip;
 
 /**
  * Player avatar for the plaform game.
@@ -55,6 +56,8 @@ public class AidenModel extends CharacterModel {
 	private float cRatio;
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
+	private FilmStrip death;
+	private Color preColor;
 
 	/**
 	 * Returns up/down movement of this character.
@@ -66,7 +69,12 @@ public class AidenModel extends CharacterModel {
 	public float getMovementY() {
 		return movementY;
 	}
-
+	
+	public void setDeath(FilmStrip die){
+		this.death = die;
+		death.setFrame(0);
+	}
+	
 	/**
 	 * Sets up/down movement of this character while climbing.
 	 * 
@@ -340,7 +348,27 @@ public class AidenModel extends CharacterModel {
 			c.r = Math.min(1, cRatio * 2);
 			c.g = cRatio;
 			c.b = c.g;
+			preColor = c;
 			animate(canvas, c, ratio);
 		}
+	}
+	
+	public void drawDead(GameCanvas canvas){
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			death.setFrame(Math.min(death.getFrame()+1,12));
+		}
+		
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		Color c = Color.WHITE;
+		if (death.getFrame() <= 6){
+			c = preColor;
+		}
+		canvas.draw(death, c, ox, oy, getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), effect, 1f);
 	}
 }
