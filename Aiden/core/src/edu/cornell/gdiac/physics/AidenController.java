@@ -201,7 +201,7 @@ public class AidenController extends WorldController
 	/** Friction of most platforms */
 	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
-	private static final float BASIC_RESTITUTION = 0.1f;
+	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
 
