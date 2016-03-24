@@ -219,7 +219,8 @@ public class AidenController extends WorldController
 					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
 							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
 					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f }
+							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
+					{16.0f, 21.0f, 17.0f, 21.0f ,17.0f, 6.0f, 16.0f,6.0f}
 			} };
 
 	/** The outlines of all of the platforms */
