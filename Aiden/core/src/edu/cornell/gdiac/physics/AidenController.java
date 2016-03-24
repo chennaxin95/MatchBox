@@ -463,10 +463,10 @@ public class AidenController extends WorldController
 
 		// Create NPCs
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
+		dheight = (avatarTexture.getRegionHeight() / scale.y) + .5f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				18, 9, dwidth, dheight, true);
+				18, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
