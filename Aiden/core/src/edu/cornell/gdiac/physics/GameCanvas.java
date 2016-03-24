@@ -599,15 +599,14 @@ public class GameCanvas {
 				
 		// Position the camera
 		float f = -1f;
-		float zdist = 0f;
 		
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
 		if (d.x*d.x + d.y*d.y>10){
 			//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
 			camera.translate(new Vector3(d.x/100, d.y/100, 0));
 		}	
-		if (InputController.getInstance().zoomIn()) camera.zoom-=0.02f;
-		if (InputController.getInstance().zoomOut()) camera.zoom+=0.02f;
+		if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+		if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
 		//camera.translate(new Vector3(0,0,zdist));
 		//camera.lookAt(target);
 		
