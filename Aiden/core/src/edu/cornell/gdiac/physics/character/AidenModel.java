@@ -296,7 +296,7 @@ public class AidenModel extends CharacterModel {
 		}
 		super.update(dt);
 		ratio = fuel / MAX_FUEL;
-		ratio = Math.max(0.6f, ratio);
+		ratio = Math.max(0.8f, ratio);
 		ratio = Math.min(1.0f, ratio);
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());

@@ -209,6 +209,11 @@ public class AidenController extends WorldController
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
+
+	private static final float [][] START = {
+		{1.0f, 20.0f},
+		{1.0f,13.0f}							
+	};
 	private static final float[][][] WALLS = { {
 			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 			{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
@@ -226,9 +231,9 @@ public class AidenController extends WorldController
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
-			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
-			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
+			{ 6.0f, 8.0f, 15.0f, 8.0f, 15.0f, 5.0f, 26.0f, 5.0f,26.0f,8.0f, 31.0f, 8.0f, 31.0f, 9.0f, 25.0f, 9.0f, 25.0f, 6.0f, 16.0f, 6.0f,16.0f, 9.0f, 6.0f, 9.0f },
+			{ 1.0f, 16.0f, 16.0f, 16.0f, 16.0f, 17.0f, 1.0f, 17.0f },
+			{ 18.0f, 16.0f, 25.0f, 16.0f, 25.0f, 17.0f, 18.0f, 17.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -237,20 +242,20 @@ public class AidenController extends WorldController
 
 	/** the vertices for the boxes */
 
-	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
+	private static final float[][] BOXES = { { 26.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
 	}, { 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
 			8f, 2f, 10f, 2f, 15.5f, 9f } };
 
 	/** the vertices for stone boxes */
 
-	private static final float[][] STONE_BOXES = { {},
+	private static final float[][] STONE_BOXES = { {16.0f,1.0f},
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f, 15.5f, 11f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
+	private static final float[][] FUELS = { { 29.5f, 9f}, { 13f, 8f } };
 
-	private static final float[][] LADDER = { { 11f, 10f },
+	private static final float[][] LADDER = { { },
 			{ 5f, 8f, 2f, 3f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 9f } };
@@ -454,7 +459,7 @@ public class AidenController extends WorldController
 		// Create Aiden
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
-		avatar = new AidenModel(1, 13, dwidth, dheight, true);
+		avatar = new AidenModel(START[level][0],START[level][1] , dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
 		avatar.setTraillTexture(avatarTexture);
