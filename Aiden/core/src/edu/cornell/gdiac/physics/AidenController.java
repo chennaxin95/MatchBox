@@ -220,14 +220,14 @@ public class AidenController extends WorldController
 							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
 					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
 							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
-					{16.0f, 21.0f, 17.0f, 21.0f ,17.0f, 6.0f, 16.0f,6.0f}
+					{16.25f, 21.0f, 17.25f, 21.0f ,17.25f, 6.0f, 16.25f,6.0f}
 			} };
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
 			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
 			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 13.0f, 25.0f, 13.0f, 25.0f, 14.0f, 12.0f, 14.0f }
+			{ 12.0f, 12.0f, 25.0f, 12.0f, 25.0f, 13.0f, 12.0f, 13.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -238,13 +238,13 @@ public class AidenController extends WorldController
 
 	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	}, { 13f, 6f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
-			8f, 2f, 10f, 2f } };
+	}, { 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
+			8f, 2f, 10f, 2f, 15.5f, 9f } };
 
 	/** the vertices for stone boxes */
 
 	private static final float[][] STONE_BOXES = { {},
-			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f } };
+			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f, 15.5f, 11f } };
 
 	/** fuel blocks */
 	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
