@@ -30,7 +30,7 @@ public class AidenModel extends CharacterModel {
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
-	private static final float CRITICAL_FUEL = 10;
+	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 
@@ -278,8 +278,8 @@ public class AidenModel extends CharacterModel {
 			subFuel(dt);
 		}
 		super.update(dt);
-		ratio = fuel / MAX_FUEL;
-		ratio = Math.max(0.8f, ratio);
+		ratio = fuel / (MAX_FUEL-10);
+		ratio = Math.max(0.6f, ratio);
 		ratio = Math.min(1.0f, ratio);
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
