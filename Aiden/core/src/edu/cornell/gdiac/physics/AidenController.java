@@ -253,7 +253,7 @@ public class AidenController extends WorldController
 
 	/** the vertices for the boxes */
 
-	private static final float[][] BOXES = { { 26.5f, 9f, 7f, 2f, 7f, 4f,
+	private static final float[][] BOXES = { { 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
 	}, { 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
 			8f, 2f, 10f, 2f, 15.5f, 9f } };
@@ -482,7 +482,7 @@ public class AidenController extends WorldController
 
 		// Create NPCs
 		dwidth = waterTexture.getRegionWidth() / scale.x;
-		dheight = waterTexture.getRegionHeight() / scale.y;
+		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
 				18, 11, dwidth, dheight , true);
