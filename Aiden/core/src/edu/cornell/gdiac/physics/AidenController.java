@@ -23,6 +23,7 @@ import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 
@@ -102,6 +103,10 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
+	
+	public void buildObjects(Scene s){
+		
+	}
 
 	/**
 	 * Preloads the assets for this controller.
