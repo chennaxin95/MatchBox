@@ -10,9 +10,9 @@ package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.*;
+import edu.cornell.gdiac.util.FilmStrip;
 
 /**
  * Player avatar for the plaform game.
@@ -30,7 +30,7 @@ public class AidenModel extends CharacterModel {
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
-	private static final float CRITICAL_FUEL = 10;
+	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 
@@ -42,8 +42,6 @@ public class AidenModel extends CharacterModel {
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
 	private boolean isSpiriting;
-	/** if Aiden is touch another box */
-	private boolean isContacting;
 	/** Win state */
 	private boolean complete;
 	/** update time */
@@ -57,6 +55,8 @@ public class AidenModel extends CharacterModel {
 	private float cRatio;
 	/** Texture for fire trail */
 	private TextureRegion trailTexture;
+	private FilmStrip death;
+	private Color preColor;
 
 	/**
 	 * Returns up/down movement of this character.
@@ -68,7 +68,12 @@ public class AidenModel extends CharacterModel {
 	public float getMovementY() {
 		return movementY;
 	}
-
+	
+	public void setDeath(FilmStrip die){
+		this.death = die;
+		death.setFrame(0);
+	}
+	
 	/**
 	 * Sets up/down movement of this character while climbing.
 	 * 
@@ -150,18 +155,9 @@ public class AidenModel extends CharacterModel {
 		complete = value;
 	}
 
-	public boolean isContacting() {
-		return isContacting;
-	}
-
 	/** set the update delta time */
 	public void setDt(float dt) {
 		this.dt = dt;
-	}
-
-	/** setting the contacting state */
-	public void setContacting(boolean c) {
-		isContacting = c;
 	}
 
 	/**
@@ -209,57 +205,72 @@ public class AidenModel extends CharacterModel {
 	 */
 	@Override
 	public void applyForce() {
+
 		if (!isActive()) {
 			return;
 		}
 		float temp = movement;
 		float tempy = movementY;
-		if (!isClimbing && !isSpiriting) {
 
+		if (!isClimbing && !isSpiriting) {
 			movementY = getVY();
 			movementY -= dt * 11;
 			movement += getVX();
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
+				
+				if (Math.abs(movement) <= 0.1) {
+					movement = 0;
+				}
 
 			}
-
 		}
 		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
 			movementY = 11;
-
 		}
-
 		if (!isGrounded) {
 			movement = movement * 0.9f;
-		}
-		if (isContacting && !isClimbing && !isSpiriting) {
-			movement = movement * 0.2f;
 		}
 
 		if (isGrounded && isClimbing) {
 			movement += getVX();
-
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
+				if (Math.abs(movement) <= 0.1) {
+					movement = 0;
+				}
 			}
 		}
-
 		if (isSpiriting) {
-			movement = Math.max(-15, Math.min(15,
-					getVX() + temp / 5));
-			movementY = Math.max(-15, Math.min(15,
-					getVY() + tempy / 5));
+
+			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
+			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
+			movement = (temp == 0) ? Math.min(15,
+					Math.abs(getVX()) * 1.5f) * signx
+					: Math.min(15, Math.abs(getVX()) * 1.1f
+							+ Math.min(Math.abs(temp) / 10+1, 2.5f))
+							* Math.signum(temp);
+			movementY = (tempy == 0) ? Math.min(15,
+					Math.abs(getVY()) * 1.5f) * signy
+					: Math.min(15, Math.abs(getVY()) * 1.1f
+							+ Math.min(Math.abs(tempy) / 10+1, 2.5f))
+							* Math.signum(tempy);
+
+			// movement = Math.max(5, Math.min(15,
+			// getVX() + temp / 5)) * lr;
+			// movementY = Math.max(-15, Math.min(15,
+			// getVY() + temp / 5));
 		}
-		if (temp != 0 && getVX() == 0) {
-			movement *= 0.1;
-		}
+
+//		if (temp != 0 && Math.abs(getVX()) <= 0.1) {
+//			movement *= 0.1;
+//		}
+
 
 		body.setLinearVelocity(movement, movementY);
 	}
-
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
 		fuel = Math.max(fuel + i, MAX_FUEL);
@@ -311,14 +322,14 @@ public class AidenModel extends CharacterModel {
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE.cpy();
 		// Draw fire trail
-//		if (trailTexture != null) {
-//			canvas.draw(trailTexture, c, origin.x, origin.y,
-//					(getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
-//					(getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
-//					(getVX() * UNIT_TRAIL_DIST) * drawScale.x
-//							/ trailTexture.getRegionWidth(),
-//					0.4f);
-//		}
+		// if (trailTexture != null) {
+		// canvas.draw(trailTexture, c, origin.x, origin.y,
+		// (getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
+		// (getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
+		// (getVX() * UNIT_TRAIL_DIST) * drawScale.x
+		// / trailTexture.getRegionWidth(),
+		// 0.4f);
+		// }
 		// Draw Character
 		if (this.isSpiriting) {
 			c.a = 0.75f;
@@ -336,7 +347,27 @@ public class AidenModel extends CharacterModel {
 			c.r = Math.min(1, cRatio * 2);
 			c.g = cRatio;
 			c.b = c.g;
+			preColor = c;
 			animate(canvas, c, ratio);
 		}
+	}
+	
+	public void drawDead(GameCanvas canvas){
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			death.setFrame(Math.min(death.getFrame()+1,12));
+		}
+		
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		Color c = Color.WHITE;
+		if (death.getFrame() <= 6){
+			c = preColor;
+		}
+		canvas.draw(death, c, ox, oy, getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), effect, 1f);
 	}
 }

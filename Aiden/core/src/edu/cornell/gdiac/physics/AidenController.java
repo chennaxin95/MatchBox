@@ -22,6 +22,7 @@ import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 
@@ -54,7 +55,9 @@ public class AidenController extends WorldController
 	private static final String LADDER_FILE = "platform/ladder.png";
 
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
-	
+	private static final String AIDEN_DIE_FILE = "platform/die_animation.png";
+	private static final String WATER_WALK = "platform/water_animation.png";
+
 	private static final String BURNING_FILE = "platform/blockburning.png";
 	
 	private static final String STONE_FILE = "platform/stone.png";
@@ -78,6 +81,8 @@ public class AidenController extends WorldController
 	private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
 	private FilmStrip AidenAnimeTexture;
+	private FilmStrip AidenDieTexture;
+	private FilmStrip WaterWalkTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
 	
@@ -97,6 +102,10 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
+	
+	public void buildObjects(Scene s){
+		
+	}
 
 	/**
 	 * Preloads the assets for this controller.
@@ -139,6 +148,10 @@ public class AidenController extends WorldController
 		assets.add(STONE_FILE);
 		manager.load(AIDEN_ANIME_FILE, Texture.class);
 		assets.add(AIDEN_ANIME_FILE);
+		manager.load(AIDEN_DIE_FILE, Texture.class);
+		assets.add(AIDEN_DIE_FILE);
+		manager.load(WATER_WALK, Texture.class);
+		assets.add(WATER_WALK);
 		manager.load(BURNING_FILE, Texture.class);
 		assets.add(BURNING_FILE);
 
@@ -175,11 +188,15 @@ public class AidenController extends WorldController
 		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 		stoneTexture = createTexture(manager, STONE_FILE, false);
-
-		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1, 12);
-		burningTexture=new FilmStrip[10];
-		for (int i=0; i<10; i++){
-			burningTexture[i]=createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
+		
+		WaterWalkTexture = createFilmStrip(manager, WATER_WALK, 4, 1, 4);
+		AidenDieTexture = createFilmStrip(manager, AIDEN_DIE_FILE, 13, 1, 13);
+		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
+				12);
+		
+		burningTexture = new FilmStrip[10];
+		for (int i = 0; i < 10; i++) {
+			burningTexture[i] = createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
 		}
 
 		SoundController sounds = SoundController.getInstance();
@@ -200,13 +217,18 @@ public class AidenController extends WorldController
 	/** Friction of most platforms */
 	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
-	private static final float BASIC_RESTITUTION = 0.1f;
+	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
 
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
+
+	private static final float [][] START = {
+		{1.0f, 20.0f},
+		{1.0f,13.0f}							
+	};
 	private static final float[][][] WALLS = { {
 			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
 			{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
@@ -218,7 +240,8 @@ public class AidenController extends WorldController
 					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
 							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
 					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f }
+							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
+					{16.25f, 21.0f, 17.25f, 21.0f ,17.25f, 6.0f, 16.25f,6.0f}
 			} };
 	private static final float[][][] OPENINGS = { {
 		{ 11f, 13f}},{}};
@@ -226,9 +249,9 @@ public class AidenController extends WorldController
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
-			{ 8.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 8.0f, 8.0f },
-			{ 1.0f, 12.0f, 10.0f, 12.0f, 10.0f, 13.0f, 1.0f, 13.0f },
-			{ 12.0f, 13.0f, 25.0f, 13.0f, 25.0f, 14.0f, 12.0f, 14.0f }
+			{ 6.0f, 8.0f, 15.0f, 8.0f, 15.0f, 5.0f, 26.0f, 5.0f,26.0f,8.0f, 31.0f, 8.0f, 31.0f, 9.0f, 25.0f, 9.0f, 25.0f, 6.0f, 16.0f, 6.0f,16.0f, 9.0f, 6.0f, 9.0f },
+			{ 1.0f, 16.0f, 16.0f, 16.0f, 16.0f, 17.0f, 1.0f, 17.0f },
+			{ 18.0f, 16.0f, 25.0f, 16.0f, 25.0f, 17.0f, 18.0f, 17.0f }
 	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
 			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
@@ -237,20 +260,20 @@ public class AidenController extends WorldController
 
 	/** the vertices for the boxes */
 
-	private static final float[][] BOXES = { { 29.5f, 9f, 7f, 2f, 7f, 4f,
+	private static final float[][] BOXES = { { 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
 			7f, 6f, 9f, 2f, 11f, 2f
-	}, { 13f, 6f, 21f, 2f, 21f, 6f, 23f, 2f, 23f, 4f, 25f, 2f, 25f, 8f,
-			8f, 2f, 10f, 2f } };
+	}, { 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f, 2f, 24.75f, 8f,
+			8f, 2f, 10f, 2f, 15.5f, 9f } };
 
 	/** the vertices for stone boxes */
 
-	private static final float[][] STONE_BOXES = { {},
-			{ 21f, 4f, 23f, 6f, 23f, 8f, 25f, 4f, 25f, 6f, 25f, 10f } };
+	private static final float[][] STONE_BOXES = { {16.0f,1.0f},
+			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f, 24.75f, 10f, 15.5f, 11f } };
 
 	/** fuel blocks */
-	private static final float[][] FUELS = { { 26f, 9f, 2f, 2f }, { 13f, 8f } };
+	private static final float[][] FUELS = { { 29.5f, 9f}, { 13f, 8f } };
 
-	private static final float[][] LADDER = { { 11f, 10f },
+	private static final float[][] LADDER = { { },
 			{ 5f, 8f, 2f, 3f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 9f } };
@@ -412,14 +435,18 @@ public class AidenController extends WorldController
 			TextureRegion texture = woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			WoodBlock box = new WoodBlock(BOXES[level][ii], BOXES[level][ii + 1], dwidth, dheight, 1, 5);
+
+			WoodBlock box = new WoodBlock(BOXES[level][ii],
+					BOXES[level][ii + 1], dwidth,
+					dheight, 1, 5);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("box" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
-			box.setBurningTexture(burningTexture[ii/2], 2);
+			box.setBurningTexture(burningTexture[ii / 2], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -432,6 +459,7 @@ public class AidenController extends WorldController
 			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii],
 					STONE_BOXES[level][ii + 1], dwidth,
 					dheight);
+			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -478,24 +506,26 @@ public class AidenController extends WorldController
 		// Create Aiden
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
 		dheight = avatarTexture.getRegionHeight() / scale.y;
-		avatar = new AidenModel(1, 13, dwidth, dheight, true);
+		avatar = new AidenModel(START[level][0],START[level][1] , dwidth, dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
-		avatar.setTraillTexture(avatarTexture);
-		addObject(avatar);
+		avatar.setDeath(AidenDieTexture);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
+		avatar.setRestitution(0f);
 		avatar.setCharacterSprite(AidenAnimeTexture);
+		addObject(avatar);
 
 		// Create NPCs
-		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
+		dwidth = waterTexture.getRegionWidth() / scale.x;
+		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				18, 9, dwidth, dheight, true);
+				18, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
+		ch1.setCharacterSprite(WaterWalkTexture);
 		addObject(ch1);
 	}
 
@@ -555,7 +585,7 @@ public class AidenController extends WorldController
 		// Process actions in object model
 		avatar.setMovement((float) accX * 9);
 		avatar.setMovementY((float) accY * 8);
-		avatar.setJumping(InputController.getInstance().didSecondary());
+		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setDt(dt);
 		avatar.applyForce();
 		if (avatar.isJumping()) {
@@ -572,7 +602,6 @@ public class AidenController extends WorldController
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-		avatar.setContacting(false);
 		aiController.nextMove(npcs);
 
 		// Detect contacts -- should be moved to a separate Controller
@@ -609,9 +638,6 @@ public class AidenController extends WorldController
 
 				// check for aiden and flammable
 				if (bd1 == avatar) {
-					if (bd2 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
 
 					if (bd2 instanceof FlammableBlock) {
 
@@ -634,9 +660,6 @@ public class AidenController extends WorldController
 					}
 				}
 				if (bd2 == avatar) {
-					if (bd1 instanceof BlockAbstract) {
-						avatar.setContacting(true);
-					}
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
@@ -832,12 +855,16 @@ public class AidenController extends WorldController
 		// canvas.begin(512,288);
 		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
-		//canvas.draw(backGround, 0, 0);
-		canvas.draw(backGround, new Color(1f,1f,1f,1f), 0f, 0f, canvas.getWidth(), canvas.getHeight()/18*22);
+		// canvas.draw(backGround, 0, 0);
+		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+				canvas.getWidth(), canvas.getHeight() / 18 * 22);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
 					obj.draw(canvas);
+				}
+				else {
+					avatar.drawDead(canvas);
 				}
 			} else {
 				obj.draw(canvas);
@@ -857,15 +884,17 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure()) {
 			displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawTextCentered("VICTORY!", displayFont, 0.0f);
+			canvas.drawText("VICTORY!", displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		} else if (isFailure()) {
 			displayFont.setColor(Color.RED);
 			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawTextCentered("FAILURE!", displayFont, 0.0f);
+			canvas.drawText("FAILURE!", displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		}

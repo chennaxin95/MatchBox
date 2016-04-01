@@ -13,7 +13,9 @@
   				}
   			},
   			"mass":{"type":"number"},
-  			"size":{"type":"number"},
+  			"width":{"type":"number"},
+        "height":{"type":"number"},
+        "fright":{"type":"boolean"},
   			"max_walk_speed":{"type":"number"},
   			"jump_height":{"type":"number"},
   			"start_fuel":{"type":"integer"}
@@ -29,7 +31,7 @@
   				"material":"string",
   				"fixed":"boolean",
   				"burn_spread":"integer",
-  				"burn_timer":"integer",
+  				"burn_time":"integer",
   				"position":{
   					"type":"object",
   					"properties":{
@@ -50,7 +52,8 @@
   				},
   				"link_obj":"integer",
           "burn_left":"float",
-          "is_burning":"boolean"
+          "is_burning":"boolean",
+          "fuels":"number"
   			},
   			"required":["id","material","fixed","position","texture","width","height","weight"]
   		}
@@ -60,14 +63,17 @@
   	  "itmes":{
   	    "type":"object",
   	    "properties":{
-  	      "guard_id":"integer",
+  	      "guard_name":"string",
   	      "start_pos":{
   	        "type":"object",
   	        "properties":{
   	          "x":"numer",
   	          "y":"number"
   	        }
-  	      }
+  	      },
+          "width":"float",
+          "height":"float",
+          "fright":"boolean"
   	    }
   	  }
   	},
@@ -83,7 +89,9 @@
   	          "x":"numer",
   	          "y":"number"
   	        }
-  	      }
+  	      },
+          "width":"number",
+          "height":"number"
   	    }
   	  }
   	},
