@@ -5,19 +5,13 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Color;
 
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.physics.material.Flammable;
+import edu.cornell.gdiac.physics.material.FlammableInterface;
+import edu.cornell.gdiac.physics.material.GeneralMaterial;
+import edu.cornell.gdiac.physics.obstacle.BoxObstacle;
 import edu.cornell.gdiac.util.FilmStrip;
 
-public class FlammableBlock extends BlockAbstract implements FlammableInterface {
-	
-	private float spreadRate;
-	private float burnRate;
-	
-	private float spreadTimer;
-	private float burnTimer;
-	
-	private boolean burning;
-	private boolean burnt;
-	public int fuelPenalty;
+public class FlammableBlock extends BlockAbstract{
 	
 	public FilmStrip burningSprite;
 	protected float animeCoolDown; 
@@ -28,122 +22,36 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 	
 	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);
-		flammable=true;
-		burning=false;
-		burnt=false;
-		this.spreadRate=spreadRate;
-		this.burnRate=burnRate;
-		resetBurnTimer();
-		resetSpreadTimer();
+		setMaterial(new Flammable(spreadRate, burnRate));
 		// TODO Auto-generated constructor stub
 	}
 
 	public FlammableBlock(float x, float y, float width, float height, float spreadRate,
 			float burnRate) {
 		super(x, y, width, height);
-		flammable=true;
-		burning=false;
-		burnt=false;
-		this.spreadRate=spreadRate;
-		this.burnRate=burnRate;
-		resetBurnTimer();
-		resetSpreadTimer();
+		setMaterial(new Flammable(spreadRate, burnRate));
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public boolean canSpreadFire() {
-		return !burnt && burning && spreadTimer<=0;
-	}
 
-	@Override
-	public boolean isBurning() {
-		return !burnt && burning;
-	}
-
-	@Override
-	public float getBurnTime() {
-		return burnTimer;
-	}
-
-	@Override
-	public float getBurnRatio() {
-		return this.burnTimer/this.burnRate;
-	}
-
-	@Override
-	public float getSpreadRatio() {
-		return this.spreadTimer/this.spreadRate;
-	}
-
-	
-	@Override
-	public void activateBurnTimer() {
-		if (!burning){
-			burning=true;
-			resetSpreadTimer();
-		}
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stopBurnTimer() {
-		burning=false;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resetBurnTimer() {
-		burnTimer=burnRate;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resetSpreadTimer() {
-		spreadTimer=spreadRate;
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public boolean isBurnt() {
-		// TODO Auto-generated method stub
-		return burnt;
-	}
-	
-	private void checkBurnt(){
-		if (this.burnTimer<=0) burnt=true;
-	}
-
-	@Override
-	public void updateBurningState(float dt) {
-		// TODO Auto-generated method stub
-		if (this.isBurning()){
-			burnTimer-=dt;
-			spreadTimer-=dt;
-		}
+	public void update(float dt) {
+		((Flammable)material).updateBurningState(dt);
 		animeCoolDown-=dt;
-		checkBurnt();
 	}
 	
-	public int getFuelPenalty(){
-		return fuelPenalty;
-	}
 	@Override
 	public void draw(GameCanvas canvas) {
 		if (texture != null) {
-			if (isBurnt()){
+			if (((Flammable)material).isBurnt()){
 				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
-			else if (isBurning()){
+			else if (((Flammable)material).isBurning()){
 				Color c=new Color();
-				if (getBurnRatio()>0.3){
-					c=new Color(1, getBurnRatio(), 0, 1);
+				if (((Flammable)material).getBurnRatio()>0.3){
+					c=new Color(1, ((Flammable)material).getBurnRatio(), 0, 1);
 				}
 				else{
-					c=new Color(getBurnRatio()/0.3f, getBurnRatio(), 0, 1);
+					c=new Color(((Flammable)material).getBurnRatio()/0.3f,((Flammable)material).getBurnRatio(), 0, 1);
 				}
 				canvas.draw(texture,c,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
@@ -151,7 +59,7 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 			}
 		}
-		if (isBurning()){
+		if (((Flammable)material).isBurning()){
 			burningAnimate(canvas);
 		}
 	}
@@ -181,5 +89,64 @@ public class FlammableBlock extends BlockAbstract implements FlammableInterface 
 		
 		canvas.draw(burningSprite, Color.WHITE, ox, oy, getX() * drawScale.x, 
 				getY() * drawScale.y, getAngle(), 1f, 1f);
+	}
+
+	public boolean canSpreadFire() {
+		// TODO Auto-generated method stub
+		return ((Flammable)material).canSpreadFire();
+	}
+	
+	public boolean isBurnt(){
+		return ((Flammable)material).isBurnt();
+	}
+			
+
+	public boolean isBurning(){
+		return ((Flammable)material).isBurning();
+	}
+	/**
+	 * @return the seconds until it gets burnt/destroyed
+	 */
+	public float getBurnTime(){
+		return ((Flammable)material).getBurnTime();
+	}
+	/**
+	 * @return the percentage of remaining frames until it gets burnt/destroyed
+	 */
+	public float getBurnRatio(){
+		return ((Flammable)material).getBurnRatio();
+	}
+	/**
+	 * @return the percentage of remaining frames until it starts to spread
+	 */
+	public float getSpreadRatio(){
+		return ((Flammable)material).getSpreadRatio();
+	}
+	/**
+	 * Set the object to the state of on fire;
+	 * start burning count down, if it's not.
+	 */
+	public void activateBurnTimer(){
+		((Flammable)material).activateBurnTimer();
+	}
+	/**
+	 * Stop burning count down (will not reset burn timer);
+	 * equivalent to fire being put out.
+	 */
+	public void stopBurnTimer(){
+		((Flammable)material).stopBurnTimer();
+	}
+	
+	/**
+	 * Reset burn timer to initial value
+	 */
+	public void resetBurnTimer(){
+		((Flammable)material).resetBurnTimer();
+	}
+	/**
+	 * Reset spread timer to initial value
+	 */
+	public void resetSpreadTimer(){
+		((Flammable)material).resetSpreadTimer();
 	}
 }

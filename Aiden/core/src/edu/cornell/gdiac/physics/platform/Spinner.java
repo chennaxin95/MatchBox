@@ -101,7 +101,8 @@ public class Spinner extends ComplexObstacle {
 
 		//#region INSERT CODE HERE
 		// Attach the barrier to the pin here
-		
+		barrier.activatePhysics(world);
+
 		// Definition for a revolute joint
 		RevoluteJointDef jointDef = new RevoluteJointDef();
 

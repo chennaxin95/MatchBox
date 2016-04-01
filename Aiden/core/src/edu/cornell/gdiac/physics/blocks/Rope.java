@@ -12,13 +12,15 @@
  * Based on original PhysicsDemo Lab by Don Holden, 2007
  * LibGDX version, 2/6/2015
  */
-package edu.cornell.gdiac.physics.platform;
+package edu.cornell.gdiac.physics.blocks;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.*;
 
+import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.*;
 
 /**
@@ -27,7 +29,7 @@ import edu.cornell.gdiac.physics.obstacle.*;
  * Note that this class returns to static loading.  That is because there are
  * no other subclasses that we might loop through.
  */
-public class RopeBridge extends ComplexObstacle {
+public class Rope extends ComplexObstacle {
 	/** The debug name for the entire obstacle */
 	private static final String BRIDGE_NAME = "bridge";
 	/** The debug name for each plank */
@@ -41,10 +43,8 @@ public class RopeBridge extends ComplexObstacle {
 
 	// Invisible anchor objects
 	/** The left side of the bridge */
-	private WheelObstacle start = null;
-	/** The right side of the bridge */
-	private WheelObstacle finish = null;
-
+	private LadderBlock start = null;
+	
 	// Dimension information
 	/** The size of the entire bridge */
 	protected Vector2 dimension;
@@ -67,26 +67,34 @@ public class RopeBridge extends ComplexObstacle {
 	 * @param lwidth	The plank length
 	 * @param lheight	The bridge thickness
 	 */
-	public RopeBridge(float x, float y, float width, float lwidth, float lheight) {
+	public Rope(float x, float y, float width, float lwidth, float lheight) {
 		this(x, y, x+width, y, lwidth, lheight);
 	}
 
     /**
      * Creates a new rope bridge with the given anchors.
      *
-	 * @param x0  		The x position of the left anchor
-	 * @param y0  		The y position of the left anchor
-	 * @param x1  		The x position of the right anchor
-	 * @param y1  		The y position of the right anchor
+	 * @param x0  		The x position of the top anchor
+	 * @param y0  		The y position of the top anchor
+	 * @param x1  		The x position of the bottom
+	 * @param y1  		The y position of the bottom
 	 * @param lwidth	The plank length
 	 * @param lheight	The bridge thickness
 	 */
-	public RopeBridge(float x0, float y0, float x1, float y1, float lwidth, float lheight) {
+	public Rope(float x0, float y0, float x1, float y1, float lwidth, float lheight) {	
 		super(x0,y0);
 		setName(BRIDGE_NAME);
 		
-		planksize = new Vector2(2*lwidth,lheight);
-		linksize = planksize.x;
+		planksize = new Vector2(lwidth,lheight);
+		linksize = planksize.y;
+		
+		// Create the leftmost anchor
+		// Normally, we would do this in constructor, but we have
+		// reasons to not add the anchor to the bodies list.
+		start = new LadderBlock(x0,y0+linksize/2,1, 1, 0, 0);
+		start.setName(BRIDGE_PIN_NAME+0);
+		start.setDensity(BASIC_DENSITY);		
+		start.setBodyType(BodyDef.BodyType.StaticBody);
 		
 	    // Compute the bridge length
 		dimension = new Vector2(x1-x0,y1-y0);
@@ -95,28 +103,27 @@ public class RopeBridge extends ComplexObstacle {
 	    norm.nor();
 	    
 	    // If too small, only make one plank.
-//	    int nLinks = (int)(length / linksize);
-//	    if (nLinks <= 1) {
-//	        nLinks = 1;
-//	        linksize = length;
-//	        spacing = 0;
-//	    } else {
-//	        spacing = length - nLinks * linksize;
-//	        spacing /= (nLinks-1);
-//	    }
-	    int nLinks=1;
-	    
+	    int nLinks = (int)(length / linksize);
+	    if (nLinks <= 1) {
+	        nLinks = 1;
+	        linksize = length;
+	        spacing = 0;
+	    } else {
+	        spacing = length - nLinks * linksize;
+	        spacing /= (nLinks-1);
+	    }
+
 	    // Create the planks
-	    planksize.x = linksize;
 	    Vector2 pos = new Vector2();
 	    for (int ii = 0; ii < nLinks; ii++) {
 	        float t = ii*(linksize+spacing) + linksize/2.0f;
 	        pos.set(norm);
 	        pos.scl(t);
 	        pos.add(x0,y0);
-	        BoxObstacle plank = new BoxObstacle(pos.x, pos.y, planksize.x, planksize.y);
+	        FlammableBlock plank = new FlammableBlock(pos.x, pos.y, planksize.x, planksize.y, 1,5);
 	        plank.setName(PLANK_NAME+ii);
 	        plank.setDensity(BASIC_DENSITY);
+	        plank.setClimbable(true);
 	        bodies.add(plank);
 	    }
 	}
@@ -135,19 +142,9 @@ public class RopeBridge extends ComplexObstacle {
 		assert bodies.size > 0;
 		
 		Vector2 anchor1 = new Vector2(); 
-		Vector2 anchor2 = new Vector2(-linksize / 2, 0);
-		
-		// Create the leftmost anchor
-		// Normally, we would do this in constructor, but we have
-		// reasons to not add the anchor to the bodies list.
-		Vector2 pos = bodies.get(0).getPosition();
-		pos.x -= linksize / 2;
-		start = new WheelObstacle(pos.x,pos.y,BRIDGE_PIN_RADIUS);
-		start.setName(BRIDGE_PIN_NAME+0);
-		start.setDensity(BASIC_DENSITY);
-		start.setBodyType(BodyDef.BodyType.StaticBody);
+		Vector2 anchor2 = new Vector2(0, linksize / 2);
+	
 		start.activatePhysics(world);
-
 		// Definition for a revolute joint
 		RevoluteJointDef jointDef = new RevoluteJointDef();
 
@@ -157,11 +154,14 @@ public class RopeBridge extends ComplexObstacle {
 		jointDef.localAnchorA.set(anchor1);
 		jointDef.localAnchorB.set(anchor2);
 		jointDef.collideConnected = false;
+//		jointDef.upperAngle=0;
+//		jointDef.lowerAngle=0;
+//		jointDef.enableLimit=true;
 		Joint joint = world.createJoint(jointDef);
 		joints.add(joint);
-
+		
 		// Link the planks together
-		anchor1.x = linksize / 2;
+		anchor1.y -= linksize / 2;
 		for (int ii = 0; ii < bodies.size-1; ii++) {
 			//#region INSERT CODE HERE
 			// Look at what we did above and join the planks
@@ -171,32 +171,19 @@ public class RopeBridge extends ComplexObstacle {
 			jointDef.localAnchorA.set(anchor1);
 			jointDef.localAnchorB.set(anchor2);
 			jointDef.collideConnected = false;
+			jointDef.lowerAngle=0;
+			jointDef.upperAngle=0;
+			jointDef.enableLimit=true;
 			joint = world.createJoint(jointDef);
 			joints.add(joint);
 			//#endregion
 		}
-
-//		// Create the rightmost anchor
-//		Obstacle last = bodies.get(bodies.size-1);
-//		
-//		pos = last.getPosition();
-//		pos.x += linksize / 2;
-//		finish = new WheelObstacle(pos.x,pos.y,BRIDGE_PIN_RADIUS);
-//		finish.setName(BRIDGE_PIN_NAME+1);
-//		finish.setDensity(BASIC_DENSITY);
-//		finish.setBodyType(BodyDef.BodyType.StaticBody);
-//		finish.activatePhysics(world);
-//
-//		// Final joint
-//		anchor2.x = 0;
-//		jointDef.bodyA = last.getBody();
-//		jointDef.bodyB = finish.getBody();
-//		jointDef.localAnchorA.set(anchor1);
-//		jointDef.localAnchorB.set(anchor2);
-//		joint = world.createJoint(jointDef);
-//		joints.add(joint);
-				
+		
 		return true;
+	}
+	
+	public void attachTo(Obstacle o, float relX, float relY){
+		
 	}
 	
 	/**
@@ -210,8 +197,16 @@ public class RopeBridge extends ComplexObstacle {
 		if (start != null) {
 			start.deactivatePhysics(world);
 		}
-		if (finish != null) {
-			finish.deactivatePhysics(world);
+	}
+	
+	/**
+	 * Sets the texture for the individual planks
+	 *
+	 * @param texture the texture for the individual planks
+	 */
+	public void setRopeTexture(TextureRegion texture) {
+		for(Obstacle body : bodies) {
+			((SimpleObstacle)body).setTexture(texture);
 		}
 	}
 	
@@ -220,10 +215,8 @@ public class RopeBridge extends ComplexObstacle {
 	 *
 	 * @param texture the texture for the individual planks
 	 */
-	public void setTexture(TextureRegion texture) {
-		for(Obstacle body : bodies) {
-			((SimpleObstacle)body).setTexture(texture);
-		}
+	public void setStartTexture(TextureRegion texture) {
+		start.setTexture(texture);
 	}
 	
 	/**
@@ -237,4 +230,9 @@ public class RopeBridge extends ComplexObstacle {
 		}
 		return ((SimpleObstacle)bodies.get(0)).getTexture();
 	}
+	
+//	public void draw(GameCanvas canvas) {
+//		super.draw(canvas);
+////		canvas.draw(start.getTexture(), start.getPosition().x, start.getPosition().y);
+//	}
 }

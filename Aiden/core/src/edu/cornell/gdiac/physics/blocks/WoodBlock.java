@@ -4,23 +4,12 @@ public class WoodBlock extends FlammableBlock{
 	
 
 	public WoodBlock(float x, float y, float width, float height,
-			float spreadRate, float burnRate, int fuels) {
+			float spreadRate, float burnRate) {
 		super(x, y, width, height, spreadRate, burnRate);
-		this.fuelPenalty=fuels;
-		// TODO Auto-generated constructor stub
-		flammable=true;
-		breakable=false;
-		climbable=false;
-		moveable=false;
 	}
 	
-	public WoodBlock(float width, float height,float spreadRate, float burnRate, int fuels) {
+	public WoodBlock(float width, float height,float spreadRate, float burnRate) {
 		super(width, height, spreadRate, burnRate);
-		this.fuelPenalty=fuels;
-		flammable=true;
-		breakable=false;
-		climbable=false;
-		moveable=false;
 		// TODO Auto-generated constructor stub
 	}	
 }

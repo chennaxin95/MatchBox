@@ -1,23 +1,18 @@
-package edu.cornell.gdiac.physics.blocks;
+package edu.cornell.gdiac.physics.material;
 
-import edu.cornell.gdiac.physics.material.GeneralMaterial;
-import edu.cornell.gdiac.physics.obstacle.BoxObstacle;
-
-public abstract class BlockAbstract extends BoxObstacle{
+public class GeneralMaterial {
+	
 	protected boolean flammable;
 	protected boolean climbable;
 	protected boolean breakable;
 	protected boolean moveable;
 	
-	protected GeneralMaterial material;
-	
-	public void setMaterial(GeneralMaterial m){
-		material=m;
-	};
-	
-	public GeneralMaterial getMaterial(){
-		return material;
-	};
+	public GeneralMaterial(){
+		flammable = false;
+		climbable = false;
+		breakable = false;
+		moveable  = false;
+	}
 	
 	/**
 	 * @return whether it is flammable
@@ -56,13 +51,5 @@ public abstract class BlockAbstract extends BoxObstacle{
 	public void setMoveable(boolean moveable) {
 		this.moveable = moveable;
 	}
-	
-	public BlockAbstract(float width, float height) {
-		super(width, height);
-		// TODO Auto-generated constructor stub
-	}
-	public BlockAbstract(float x, float y, float width, float height) {
-		super(x,y,width,height);
-		// TODO Auto-generated constructor stub
-	}
+
 }
