@@ -4,18 +4,32 @@ package edu.cornell.gdiac.physics.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import edu.cornell.gdiac.physics.ai.NavBoard.NavTile;
+import edu.cornell.gdiac.physics.ai.NavBoard.TileType;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.GameEvent;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.util.PooledList;
 
 public class AIController {
-
+	NavBoard board;
+	PooledList<Obstacle> objs; //Temp
+	
 	private static final float MIN_WAITTIME=0.5f;
 	private static final float MAX_WAITTIME=2f;
 	
 	private static final float MAX_SENSING_RADIUS=2f;
+	
+	public AIController(float lx, float ly, float ux, float uy, float unitX, float unitY,
+			PooledList<Obstacle> objects){
+		board=new NavBoard(lx, ly, ux, uy, unitX, unitY);
+		this.objs=objects;
+	}
 	
 	public void nextMove(ArrayList<CharacterModel> npcs){
 		for (CharacterModel npc:npcs){
@@ -29,29 +43,46 @@ public class AIController {
 				computeMove(npc);
 		}
 	}
+	
+	private int pointer=0;
 	public GameEvent sensing(CharacterModel npc){
+		// Must set all the fields of game event
+		
 		// check isSpawned
 		GameEvent e=new GameEvent();
 		e.setSpawned(npc.isSpawned()? 1: -1);
+		
 		// Check isCloseToFire
 		ArrayList<Obstacle> close=SightDetector.detectObjectsInDistance(npc, MAX_SENSING_RADIUS);
-		// Check hasSeenFire
-		Obstacle o=SightDetector.detectObjectInSight(npc);
-		if (o instanceof FlammableBlock && ((FlammableBlock)o).isBurning()){
-			e.setSeenFire(1);
-		}
-		// Check hasSeenAiden
-		if (o instanceof AidenModel){
-			e.setSeenAiden(1);
-		}
-		// Check canFire
-		e.setCanFire(npc.canFire()? 1: -1);
 		
+		// Check hasSeenFire
+		// Check hasSeenAiden; same thing as hasSeenFire?
+		Obstacle o=SightDetector.detectObjectInSight(npc);
+//		if (o instanceof FlammableBlock && ((FlammableBlock)o).isBurning() 
+//				|| o instanceof AidenModel){
+			e.setSeenFire(1);
+			Vector2[] targets=new Vector2[]{new Vector2(15,1), new Vector2(10,1)};
+			if (npc.getPosition().cpy().sub(targets[pointer]).len()<2){
+				pointer++;
+				pointer%=2;
+			}
+			npc.setTarget(targets[pointer]);
+//			npc.setTarget(o.getPosition());
+//		}
+//		else{
+//			e.setSeenFire(-1);
+//			e.setSeenAiden(-1);
+//		}
+		
+		// Check canFire
+//		e.setCanFire(npc.canFire()? 1: -1);
+		e.setCanFire(-1);
 		return e;
 	}
 	
 	private void computeMove(CharacterModel npc){
 		Random r=new Random();
+		System.out.println(npc.getStateMachine().getCurrentState());
 		switch (npc.getStateMachine().getCurrentState()){
 		case SPAWN:
 			// Still
@@ -81,12 +112,39 @@ public class AIController {
 				}	
 			}
 			break;
+		case CHASE:
+			// Populate board here
+			float lx=npc.getPosition().x-npc.getWidth()/2;
+			float ly=npc.getPosition().y-npc.getHeight()/2;			
+			float ux=npc.getPosition().x+npc.getWidth()/2;
+			float uy=npc.getPosition().y+npc.getHeight()/2;
+			Vector2 lInd=board.convertToBoardCoord(new Vector2(lx, ly));
+			Vector2 uInd=board.convertToBoardCoord(new Vector2(ux, uy));
+			Vector2 start=new Vector2(-1, -1);
+			for (int i=(int) lInd.x; i<=uInd.x; i++){
+				for (int j=(int) lInd.y; j<=uInd.y; j++){
+					NavTile tile=board.getTile(new Vector2(i,j));
+					if (tile!=null && tile.type!=TileType.NONE &&
+							tile.type!=TileType.DANGER && tile.type!=TileType.SUPPORT){
+						start.x=i; 
+						start.y=j;
+						break;
+					}
+				}
+			}
+			board.setupBoard(new ArrayList<Obstacle>(objs)); // Temp
+			Vector2 move=PathFinder.findPath(board, start, npc.getTarget());
+			System.out.println("End path finding: "+move);
+			if (move.x>0) npc.setMovement(1f*npc.getForce());
+			if (move.x==0) npc.setMovement(0);
+			if (move.x<0) npc.setMovement(-1f*npc.getForce());
+			break;
 		default: assert(false);
 				// Still
 				npc.setMovement(0f);
 				break;
 		}
-		npc.setMoveCoolDown(2);
+		npc.setMoveCoolDown(0.5f);
 //		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
 	}
 }

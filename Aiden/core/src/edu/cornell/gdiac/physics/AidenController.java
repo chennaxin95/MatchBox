@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.ai.AIController;
+import edu.cornell.gdiac.physics.ai.NavBoard;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.Scene;
@@ -307,6 +308,8 @@ public class AidenController extends WorldController
 
 	// Controllers for the game
 	private AIController aiController;
+	// Temp
+	private NavBoard board;
 
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -323,7 +326,8 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		this.aiController = new AIController();
+		this.aiController = new AIController(0,0, 35, 25, 1, 1, this.objects);
+		board=new NavBoard(0,0, 35, 25, 1, 1);
 	}
 
 	/**
@@ -351,6 +355,9 @@ public class AidenController extends WorldController
 		world.setContactListener(this);
 		setComplete(false);
 		setFailure(false);
+		
+		board.clear();
+		
 		populateLevel();
 	}
 
@@ -420,7 +427,7 @@ public class AidenController extends WorldController
 		// Adding ropes
 		dwidth = earthTile.getRegionWidth() / scale.x;
 		dheight = earthTile.getRegionHeight() / scale.y;
-		Rope r=new Rope(18, 18, 18, 15, dwidth, dheight);
+		Rope r=new Rope(17, 18, 18, 15, dwidth, dheight);
 		r.setDensity(BASIC_DENSITY);
 		r.setFriction(BASIC_FRICTION);
 		r.setRestitution(BASIC_RESTITUTION);
@@ -521,12 +528,14 @@ public class AidenController extends WorldController
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				18, 11, dwidth, dheight , true);
+				20, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
 		ch1.setCharacterSprite(WaterWalkTexture);
 		addObject(ch1);
+		
+		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 	}
 
 	/**
@@ -570,6 +579,7 @@ public class AidenController extends WorldController
 			setFailure(true);
 
 		}
+		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 
 		// // Toggle spirit mode
 		// if (InputController.getInstance().didSpirit()) {
@@ -873,10 +883,12 @@ public class AidenController extends WorldController
 		canvas.end();
 
 		if (debug) {
-			canvas.beginDebug(avatar.getX(), avatar.getY());
+			canvas.beginDebug(1,1);
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
+			board.setDrawScale(scale);
+			board.drawDebug(canvas);
 			canvas.endDebug();
 		}
 
