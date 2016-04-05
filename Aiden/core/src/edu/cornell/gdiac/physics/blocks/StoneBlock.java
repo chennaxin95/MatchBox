@@ -33,7 +33,7 @@ public class StoneBlock extends BlockAbstract {
 	@Override
 	public void draw(GameCanvas canvas) {
 		if (texture != null) {
-				canvas.draw(texture,Color.GRAY,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
 		}
 	}
 }

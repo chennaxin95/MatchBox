@@ -94,6 +94,9 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	/** */
 	protected Vector2 target;
+	
+	/**The proportion of height from ground where viewing ray is */
+	protected float eyeProportion;
 
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
@@ -116,6 +119,16 @@ public class CharacterModel extends CapsuleObstacle{
 		fireCoolDown = 0;
 
 		setName(name);
+		
+		eyeProportion=2/3;
+	}
+	
+	public float getEyeProportion(){
+		return this.eyeProportion;
+	}
+	
+	public void setEyeProportion(float e){
+		this.eyeProportion=e;
 	}
 
 	public void setTarget(Vector2 t){
@@ -493,5 +506,9 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	public void animate(GameCanvas canvas, Color c, float ratio){
 		animate(canvas, c, ratio, ratio);
+	}
+
+	public boolean getFacingDir(){
+		return faceRight;
 	}
 }

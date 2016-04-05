@@ -55,9 +55,6 @@ public class NavBoard {
 	}
 	public NavTile getTile(Vector2 indices){
 		if (isValidBoardCoord(indices)){
-			System.out.println(tiles[(int) indices.x][(int) indices.y].links.size()+" "
-					+tiles[(int) indices.x][(int) indices.y].indX+" "
-					+tiles[(int) indices.x][(int) indices.y].indY);
 			return tiles[(int) indices.x][(int) indices.y];
 		}
 		else 
@@ -227,12 +224,6 @@ public class NavBoard {
 			CircleShape circle=new CircleShape();
 			circle.setRadius(Math.min(unitX,unitY)/2);
 			canvas.drawPhysics(circle, c, pos.x, pos.y, drawScale.x,drawScale.y);
-			if (this.links.size()>0){
-				System.out.println(indX+" "+indY+" 's links: ");
-				for (Vector2 link: links){
-					System.out.println(" -----> "+link);
-				}
-			}
 		}
 		public boolean hasReached(){
 			return isValidBoardCoord(reachedBy);
