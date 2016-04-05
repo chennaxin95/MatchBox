@@ -10,7 +10,7 @@ import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 
-public class Scene {
+public class Scene implements SceneInterface{
 
 	private AidenModel aidenModel;
 	private BlockAbstract[] blocks;
