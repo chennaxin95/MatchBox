@@ -22,7 +22,6 @@ import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
-import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.material.Flammable;
 import edu.cornell.gdiac.physics.obstacle.*;
 
@@ -463,7 +462,7 @@ public class PlatformController extends WorldController implements ContactListen
 							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
 						}
 						else {
-							avatar.subFuel(((Flammable)((WoodBlock)fb).getMaterial()).getFuelPenalty());
+							avatar.subFuel((((FlammableBlock)fb).getMaterial()).getFuelPenalty());
 						}
 					}
 				}
@@ -478,7 +477,7 @@ public class PlatformController extends WorldController implements ContactListen
 							avatar.addFuel(((FuelBlock)fb).getFuelBonus());
 						}
 						else {
-							avatar.subFuel(((Flammable)((WoodBlock)fb).getMaterial()).getFuelPenalty());
+							avatar.subFuel(((Flammable)((FlammableBlock)fb).getMaterial()).getFuelPenalty());
 						}
 					}
 				}

@@ -20,6 +20,7 @@ public class Platform extends StoneBlock {
 		this.r=r;
 		this.unit=unit;
 		setBodyType(BodyDef.BodyType.StaticBody);
+		this.setBlockType(BlockType.PLATFORM);
 		// TODO Auto-generated constructor stub
 	}
 	

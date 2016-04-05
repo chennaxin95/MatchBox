@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.material.Flammable;
-import edu.cornell.gdiac.physics.material.FlammableInterface;
-import edu.cornell.gdiac.physics.material.GeneralMaterial;
-import edu.cornell.gdiac.physics.obstacle.BoxObstacle;
 import edu.cornell.gdiac.util.FilmStrip;
 
 public class FlammableBlock extends BlockAbstract{
@@ -23,6 +20,7 @@ public class FlammableBlock extends BlockAbstract{
 	public FlammableBlock(float width, float height, float spreadRate, float burnRate) {
 		super(width, height);
 		setMaterial(new Flammable(spreadRate, burnRate));
+		this.setBlockType(BlockType.FLAMMABLEBLOCK);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,6 +28,7 @@ public class FlammableBlock extends BlockAbstract{
 			float burnRate) {
 		super(x, y, width, height);
 		setMaterial(new Flammable(spreadRate, burnRate));
+		this.setBlockType(BlockType.FLAMMABLEBLOCK);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -93,60 +92,65 @@ public class FlammableBlock extends BlockAbstract{
 
 	public boolean canSpreadFire() {
 		// TODO Auto-generated method stub
-		return ((Flammable)material).canSpreadFire();
+		return getMaterial().canSpreadFire();
 	}
 	
 	public boolean isBurnt(){
-		return ((Flammable)material).isBurnt();
+		return getMaterial().isBurnt();
 	}
 			
 
 	public boolean isBurning(){
-		return ((Flammable)material).isBurning();
+		return getMaterial().isBurning();
 	}
 	/**
 	 * @return the seconds until it gets burnt/destroyed
 	 */
 	public float getBurnTime(){
-		return ((Flammable)material).getBurnTime();
+		return getMaterial().getBurnTime();
 	}
 	/**
 	 * @return the percentage of remaining frames until it gets burnt/destroyed
 	 */
 	public float getBurnRatio(){
-		return ((Flammable)material).getBurnRatio();
+		return getMaterial().getBurnRatio();
 	}
 	/**
 	 * @return the percentage of remaining frames until it starts to spread
 	 */
 	public float getSpreadRatio(){
-		return ((Flammable)material).getSpreadRatio();
+		return getMaterial().getSpreadRatio();
 	}
 	/**
 	 * Set the object to the state of on fire;
 	 * start burning count down, if it's not.
 	 */
 	public void activateBurnTimer(){
-		((Flammable)material).activateBurnTimer();
+		getMaterial().activateBurnTimer();
 	}
 	/**
 	 * Stop burning count down (will not reset burn timer);
 	 * equivalent to fire being put out.
 	 */
 	public void stopBurnTimer(){
-		((Flammable)material).stopBurnTimer();
+		getMaterial().stopBurnTimer();
 	}
 	
 	/**
 	 * Reset burn timer to initial value
 	 */
 	public void resetBurnTimer(){
-		((Flammable)material).resetBurnTimer();
+		getMaterial().resetBurnTimer();
 	}
 	/**
 	 * Reset spread timer to initial value
 	 */
 	public void resetSpreadTimer(){
-		((Flammable)material).resetSpreadTimer();
+		getMaterial().resetSpreadTimer();
+	}
+	
+	@Override
+	public Flammable getMaterial(){
+		return (Flammable)material; 
 	}
 }
