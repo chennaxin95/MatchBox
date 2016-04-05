@@ -74,4 +74,11 @@ public class GameEvent {
 		i+=(int) (isCloseToFire()*Math.pow(2, 1));
 		return i;
 	}
+	
+	@Override
+	public String toString(){
+		return "canFire="+canFire()+"; hasSeenAiden="+hasSeenAiden()
+				+"; hasSeenFire="+hasSeenFire()+"; isSpawned="+isSpawned()
+				+"; isCloseToFire="+isCloseToFire();
+	}
 }

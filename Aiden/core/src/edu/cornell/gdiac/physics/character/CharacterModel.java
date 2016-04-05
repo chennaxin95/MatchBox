@@ -92,6 +92,9 @@ public class CharacterModel extends CapsuleObstacle{
 	/** */
 	protected boolean isFiring;
 	
+	/** */
+	protected Vector2 target;
+
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
@@ -115,6 +118,14 @@ public class CharacterModel extends CapsuleObstacle{
 		setName(name);
 	}
 
+	public void setTarget(Vector2 t){
+		this.target=t;
+	}
+	
+	public Vector2 getTarget(){
+		return this.target;
+	}
+	
 	public boolean isSpawned() {
 		return spawnCoolDown <= 0;
 	}

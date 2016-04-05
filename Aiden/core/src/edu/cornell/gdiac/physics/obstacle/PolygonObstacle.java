@@ -15,6 +15,8 @@
  */
 package edu.cornell.gdiac.physics.obstacle;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.physics.*;  // For GameCanvas
+import edu.cornell.gdiac.physics.ai.NavBoard.TileType;
 
 
 /**
@@ -380,6 +383,15 @@ public class PolygonObstacle extends SimpleObstacle {
 		for(PolygonShape tri : shapes) {
 			canvas.drawPhysics(tri,Color.YELLOW,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
 		}
+	}	
+	public boolean contains(Vector2 p){	
+		Polygon polygon=new Polygon();
+		polygon.setVertices(this.vertices);
+		return polygon.contains(p);
+	}
+	
+	public Vector2 getPointMustInside(){
+		return new Vector2(this.vertices[0],this.vertices[1]) ;
 	}
 	
 }
