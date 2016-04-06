@@ -8,19 +8,14 @@ public class LadderBlock extends StoneBlock {
 		super(x, y, width, height);
 	
 		// TODO Auto-generated constructor stub
-		flammable = false;
-		breakable = false;
-		climbable = true;
-		moveable = false;
+		material.setClimbable(true);
 	}
 
 	public LadderBlock(float width, float height, float spreadRate,
 			float burnRate) {
-		super(width, height, spreadRate, burnRate);
-		flammable = false;
-		breakable = false;
-		climbable = true;
-		moveable = false;
+		super(width, height);
+		
+		material.setClimbable(true);
 		// TODO Auto-generated constructor stub
 	}
 

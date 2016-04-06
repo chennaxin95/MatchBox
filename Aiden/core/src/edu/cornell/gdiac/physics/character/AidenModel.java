@@ -10,7 +10,6 @@ package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.util.FilmStrip;

@@ -19,8 +19,8 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
-import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.physics.ai.AIController;
+import edu.cornell.gdiac.physics.ai.NavBoard;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.Scene;
@@ -244,6 +244,9 @@ public class AidenController extends WorldController
 							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
 					{16.25f, 21.0f, 17.25f, 21.0f ,17.25f, 6.0f, 16.25f,6.0f}
 			} };
+	private static final float[][][] OPENINGS = { {
+		{ 11f, 13f}},{}};
+	
 
 	/** The outlines of all of the platforms */
 	private static final float[][][] PLATFORMS = { {
@@ -305,6 +308,8 @@ public class AidenController extends WorldController
 
 	// Controllers for the game
 	private AIController aiController;
+	// Temp
+	private NavBoard board;
 
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -321,7 +326,8 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		this.aiController = new AIController();
+		this.aiController = new AIController(0,0, 35, 25, 1, 1, this.objects);
+		board=new NavBoard(0,0, 35, 25, 1, 1);
 	}
 
 	/**
@@ -349,6 +355,9 @@ public class AidenController extends WorldController
 		world.setContactListener(this);
 		setComplete(false);
 		setFailure(false);
+		
+		board.clear();
+		
 		populateLevel();
 	}
 
@@ -399,15 +408,44 @@ public class AidenController extends WorldController
 			obj.setName(pname + ii);
 			addObject(obj);
 		}
+		
+		String oname = "OPENINGS";
+		for (int ii = 0; ii < OPENINGS[level].length; ii++) {
+			LadderBlock obj;
+			obj = new LadderBlock(OPENINGS[level][ii][0], OPENINGS[level][ii][1], 
+					1, 1, 0, 0);
+			obj.setBodyType(BodyDef.BodyType.StaticBody);
+			obj.setDensity(BASIC_DENSITY);
+			obj.setFriction(BASIC_FRICTION);
+			obj.setRestitution(BASIC_RESTITUTION);
+			obj.setDrawScale(scale);
+			obj.setTexture(earthTile);
+			obj.setName(oname + ii);
+			addObject(obj);
+		}
+		
+		// Adding ropes
+		dwidth = earthTile.getRegionWidth() / scale.x;
+		dheight = earthTile.getRegionHeight() / scale.y;
+		Rope r=new Rope(17, 18, 18, 15, dwidth, dheight);
+		r.setDensity(BASIC_DENSITY);
+		r.setFriction(BASIC_FRICTION);
+		r.setRestitution(BASIC_RESTITUTION);
+		r.setRopeTexture(earthTile);
+		r.setStartTexture(earthTile);
+		r.setName("Rope");
+		r.setDrawScale(scale);
+		addObject(r);
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
 			TextureRegion texture = woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
+
 			WoodBlock box = new WoodBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
-					dheight, 1, 5, 5);
+					dheight, 1, 5);
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
@@ -490,12 +528,14 @@ public class AidenController extends WorldController
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				18, 11, dwidth, dheight , true);
+				20, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
 		ch1.setCharacterSprite(WaterWalkTexture);
 		addObject(ch1);
+		
+		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 	}
 
 	/**
@@ -539,6 +579,7 @@ public class AidenController extends WorldController
 			setFailure(true);
 
 		}
+		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 
 		// // Toggle spirit mode
 		// if (InputController.getInstance().didSpirit()) {
@@ -654,7 +695,7 @@ public class AidenController extends WorldController
 				// Set climbing state for climbable blocks
 				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
 					BlockAbstract b = (BlockAbstract) bd2;
-					if (b.isClimbable()) {
+					if (b.getMaterial().isClimbable()) {
 						float x = Math.abs(bd1.getX() - bd2.getX());
 						float y = Math.abs(bd1.getY() - bd2.getY());
 						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
@@ -667,7 +708,7 @@ public class AidenController extends WorldController
 				}
 				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
 					BlockAbstract b = (BlockAbstract) bd1;
-					if (b.isClimbable()) {
+					if (b.getMaterial().isClimbable()) {
 						float x = Math.abs(bd1.getX() - bd2.getX());
 						float y = Math.abs(bd1.getY() - bd2.getY());
 						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
@@ -697,7 +738,7 @@ public class AidenController extends WorldController
 		}
 		// update flammable objects;
 		for (FlammableBlock fb : flammables) {
-			fb.updateBurningState(dt);
+			fb.update(dt);
 			if (fb.isBurnt()) {
 				objects.remove(fb);
 				flammables.remove(fb);
@@ -842,10 +883,12 @@ public class AidenController extends WorldController
 		canvas.end();
 
 		if (debug) {
-			canvas.beginDebug(avatar.getX(), avatar.getY());
+			canvas.beginDebug(1,1);
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
+			board.setDrawScale(scale);
+			board.drawDebug(canvas);
 			canvas.endDebug();
 		}
 

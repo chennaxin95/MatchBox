@@ -17,6 +17,7 @@
  */
 package edu.cornell.gdiac.physics.obstacle;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -998,5 +999,6 @@ public abstract class Obstacle {
 	 * @param canvas Drawing context
 	 */
 	public abstract void drawDebug(GameCanvas canvas);
+	public abstract void drawDebug(GameCanvas canvas, Color c);
 
 }

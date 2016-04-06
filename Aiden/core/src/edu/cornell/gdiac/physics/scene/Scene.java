@@ -60,7 +60,7 @@ public class Scene implements SceneInterface{
 			int link_y = link_pos.getInt("y");
 			int fuels = obj.getInt("fuels");
 			if(material.equals("wood")){
-				blocks[i] = new WoodBlock(x,y,width,height,burn_spread,burn_time, 0);
+				blocks[i] = new WoodBlock(x,y,width,height,burn_spread,burn_time);
 			}else{
 				if(material.equals("stone")){
 					blocks[i] = new StoneBlock(x,y,width,height);

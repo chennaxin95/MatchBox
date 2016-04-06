@@ -1,4 +1,4 @@
-package edu.cornell.gdiac.physics.blocks;
+package edu.cornell.gdiac.physics.material;
 
 public interface FlammableInterface {
 	/**

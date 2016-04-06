@@ -515,4 +515,36 @@ public class CapsuleObstacle extends SimpleObstacle {
 		}
 	}
 
+	public void drawDebug(GameCanvas canvas, Color c) {
+		canvas.drawPhysics(shape,c,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
+		if (cap1 != null) {
+			// Need to manually rotate caps off axis
+			float dx; float dy;
+			if (isHorizontal(orient)) {
+				float r = -center.x;
+				dx = (float)(r*Math.cos(Math.PI+getAngle()));
+				dy = (float)(r*Math.sin(Math.PI+getAngle()));
+			} else {
+				float r = center.y+center.height;
+				dx = (float)(r*Math.cos(Math.PI/2.0f+getAngle()));
+				dy = (float)(r*Math.sin(Math.PI/2.0f+getAngle()));
+			}
+			canvas.drawPhysics(end1,c,getX()+dx,getY()+dy,drawScale.x,drawScale.y);			
+		}
+		if (cap2 != null) {
+			// Need to manually rotate caps off axis
+			float dx; float dy;
+			if (isHorizontal(orient)) {
+				float r = center.x+center.width;
+				dx = (float)(r*Math.cos(getAngle()));
+				dy = (float)(r*Math.sin(getAngle()));
+			} else {
+				float r = -center.y;
+				dx = (float)(r*Math.cos(-Math.PI/2.0f+getAngle()));
+				dy = (float)(r*Math.sin(-Math.PI/2.0f+getAngle()));
+			}
+			canvas.drawPhysics(end2,c,getX()+dx,getY()+dy,drawScale.x,drawScale.y);			
+		}
+	}
+
 }
