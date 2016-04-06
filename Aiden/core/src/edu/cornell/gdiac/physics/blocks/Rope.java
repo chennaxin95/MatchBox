@@ -123,7 +123,7 @@ public class Rope extends ComplexObstacle {
 	        FlammableBlock plank = new FlammableBlock(pos.x, pos.y, planksize.x, planksize.y, 1,5);
 	        plank.setName(PLANK_NAME+ii);
 	        plank.setDensity(BASIC_DENSITY);
-	        plank.setClimbable(true);
+	        plank.getMaterial().setClimbable(true);
 	        bodies.add(plank);
 	    }
 	}

@@ -244,6 +244,18 @@ public class AidenController extends WorldController
 							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
 					{16.25f, 21.0f, 17.25f, 21.0f ,17.25f, 6.0f, 16.25f,6.0f}
 			} };
+	private static final float[][][] WALLS2 = { {
+		{ 1.0f, 0.0f, 30.0f, 1f},
+		{ 0.0f, 0.0f, 1f, 22f},
+		{ 1.0f, 21f,  30f, 1f},
+		{31.0f, 0.0f, 1f, 22f}},
+
+		{ { 1.0f, 0.0f, 30.0f, 1f},
+			{ 0.0f, 0.0f, 1f, 22f},
+			{ 1.0f, 21f,  30f, 1f},
+			{31.0f, 0.0f, 1f, 22f},
+			{16.25f, 6f, 1f, 15f}
+		} };
 	private static final float[][][] OPENINGS = { {
 		{ 11f, 13f}},{}};
 	
@@ -258,6 +270,20 @@ public class AidenController extends WorldController
 			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
 			{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f }
 	} };
+	
+	private static final float[][][] PLATFORMS2 = { {
+		{6.0f, 8.0f, 10.0f, 1f},
+		{15.0f, 5.0f, 1f, 3f},
+		{16.0f, 5.0f, 10.0f, 1f},
+		{25.0f, 6.0f, 1f, 2f},
+		{25.0f, 8.0f, 6f, 1f},
+		{1.0f, 16.0f, 15.0f, 1f},
+		{18.0f, 16.0f, 7f, 1f}}, 
+		{ { 1.0f, 10.0f, 3.0f, 1f },
+		{ 3.0f, 5.0f, 4.0f, 1f },
+		{ 10.0f, 5.0f, 4.0f, 1f },
+		{ 26.0f, 7.0f, 5.0f, 1f }
+} };
 
 	/** the vertices for the boxes */
 
@@ -308,8 +334,8 @@ public class AidenController extends WorldController
 
 	// Controllers for the game
 	private AIController aiController;
-	// Temp
-	private NavBoard board;
+//	// Temp
+//	private NavBoard board;
 
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -326,8 +352,10 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		this.aiController = new AIController(null, 0,0, 35, 25, 1, 1, this.objects);
-		board=new NavBoard(0,0, 35, 25, 1, 1);
+//		Scene scene=new Scene(null); 
+		this.aiController = new AIController(scene, 0, 0, 35, 25, 0.5f, 0.5f, objects);
+//		board=new NavBoard(0,0, 35, 25, 1, 1);
+		blocks=new ArrayList<BlockAbstract>();
 	}
 
 	/**
@@ -356,7 +384,8 @@ public class AidenController extends WorldController
 		setComplete(false);
 		setFailure(false);
 		
-		board.clear();
+//		board.clear();
+		blocks.clear();
 		
 		populateLevel();
 	}
@@ -382,60 +411,73 @@ public class AidenController extends WorldController
 		addObject(goalDoor);
 
 		String wname = "wall";
-		for (int ii = 0; ii < WALLS[level].length; ii++) {
-			PolygonObstacle obj;
-			obj = new PolygonObstacle(WALLS[level][ii], 0, 0);
-			obj.setBodyType(BodyDef.BodyType.StaticBody);
-			obj.setDensity(BASIC_DENSITY);
-			obj.setFriction(BASIC_FRICTION);
-			obj.setRestitution(BASIC_RESTITUTION);
-			obj.setDrawScale(scale);
-			obj.setTexture(earthTile);
-			obj.setName(wname + ii);
-			addObject(obj);
+		for (int ii = 0; ii < WALLS2[level].length; ii++) {
+//			PolygonObstacle obj;
+			Platform p=new Platform(
+					new Rectangle(WALLS2[level][ii][0], WALLS2[level][ii][1],
+							WALLS2[level][ii][2], WALLS2[level][ii][3]), 1);
+			p.setDensity(BASIC_DENSITY);
+			p.setFriction(BASIC_FRICTION);
+			p.setRestitution(BASIC_RESTITUTION);
+			p.setDrawScale(scale);
+			p.setTexture(earthTile);
+			p.setName(wname + ii);
+			addObject(p);
 		}
+//		String wname = "wall";
+//		for (int ii = 0; ii < WALLS[level].length; ii++) {
+//			PolygonObstacle obj;
+//			obj = new PolygonObstacle(WALLS[level][ii], 0, 0);
+//			obj.setBodyType(BodyDef.BodyType.StaticBody);
+//			obj.setDensity(BASIC_DENSITY);
+//			obj.setFriction(BASIC_FRICTION);
+//			obj.setRestitution(BASIC_RESTITUTION);
+//			obj.setDrawScale(scale);
+//			obj.setTexture(earthTile);
+//			obj.setName(wname + ii);
+//			addObject(obj);
+//		}
 
 		String pname = "platform";
-		for (int ii = 0; ii < PLATFORMS[level].length; ii++) {
-			PolygonObstacle obj;
-			obj = new PolygonObstacle(PLATFORMS[level][ii], 0, 0);
-			obj.setBodyType(BodyDef.BodyType.StaticBody);
-			obj.setDensity(BASIC_DENSITY);
-			obj.setFriction(BASIC_FRICTION);
-			obj.setRestitution(BASIC_RESTITUTION);
-			obj.setDrawScale(scale);
-			obj.setTexture(earthTile);
-			obj.setName(pname + ii);
-			addObject(obj);
+		for (int ii = 0; ii < PLATFORMS2[level].length; ii++) {
+			Platform p=new Platform(
+					new Rectangle(PLATFORMS2[level][ii][0], PLATFORMS2[level][ii][1],
+							PLATFORMS2[level][ii][2], PLATFORMS2[level][ii][3]), 1);
+				p.setDensity(BASIC_DENSITY);
+				p.setFriction(BASIC_FRICTION);
+				p.setRestitution(BASIC_RESTITUTION);
+				p.setDrawScale(scale);
+				p.setTexture(earthTile);
+				p.setName(pname + ii);
+				addObject(p);
 		}
 		
-		String oname = "OPENINGS";
-		for (int ii = 0; ii < OPENINGS[level].length; ii++) {
-			LadderBlock obj;
-			obj = new LadderBlock(OPENINGS[level][ii][0], OPENINGS[level][ii][1], 
-					1, 1, 0, 0);
-			obj.setBodyType(BodyDef.BodyType.StaticBody);
-			obj.setDensity(BASIC_DENSITY);
-			obj.setFriction(BASIC_FRICTION);
-			obj.setRestitution(BASIC_RESTITUTION);
-			obj.setDrawScale(scale);
-			obj.setTexture(earthTile);
-			obj.setName(oname + ii);
-			addObject(obj);
-		}
-		
-		// Adding ropes
-		dwidth = earthTile.getRegionWidth() / scale.x;
-		dheight = earthTile.getRegionHeight() / scale.y;
-		Rope r=new Rope(17, 18, 18, 15, dwidth, dheight);
-		r.setDensity(BASIC_DENSITY);
-		r.setFriction(BASIC_FRICTION);
-		r.setRestitution(BASIC_RESTITUTION);
-		r.setRopeTexture(earthTile);
-		r.setStartTexture(earthTile);
-		r.setName("Rope");
-		r.setDrawScale(scale);
-		addObject(r);
+//		String oname = "OPENINGS";
+//		for (int ii = 0; ii < OPENINGS[level].length; ii++) {
+//			LadderBlock obj;
+//			obj = new LadderBlock(OPENINGS[level][ii][0], OPENINGS[level][ii][1], 
+//					1, 1, 0, 0);
+//			obj.setBodyType(BodyDef.BodyType.StaticBody);
+//			obj.setDensity(BASIC_DENSITY);
+//			obj.setFriction(BASIC_FRICTION);
+//			obj.setRestitution(BASIC_RESTITUTION);
+//			obj.setDrawScale(scale);
+//			obj.setTexture(earthTile);
+//			obj.setName(oname + ii);
+//			addObject(obj);
+//		}
+//		// Adding ropes
+//		dwidth = earthTile.getRegionWidth() / scale.x;
+//		dheight = earthTile.getRegionHeight() / scale.y;
+//		Rope r=new Rope(17, 18, 18, 15, dwidth, dheight);
+//		r.setDensity(BASIC_DENSITY);
+//		r.setFriction(BASIC_FRICTION);
+//		r.setRestitution(BASIC_RESTITUTION);
+//		r.setRopeTexture(earthTile);
+//		r.setStartTexture(earthTile);
+//		r.setName("Rope");
+//		r.setDrawScale(scale);
+//		addObject(r);
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
@@ -528,15 +570,20 @@ public class AidenController extends WorldController
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
 		CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 				"WaterGuard",
-				20, 11, dwidth, dheight , true);
+				21, 11, dwidth, dheight , true);
 		ch1.setDrawScale(scale);
 		ch1.setTexture(waterTexture);
 		npcs.add(ch1);
 		ch1.setCharacterSprite(WaterWalkTexture);
 		addObject(ch1);
 		
-		board.setupBoard(new ArrayList<Obstacle>(this.objects));
+
+		
+//		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 	}
+	// Temp
+	Scene scene;
+	ArrayList<BlockAbstract> blocks;
 
 	/**
 	 * Returns whether to process the update loop
@@ -579,7 +626,7 @@ public class AidenController extends WorldController
 			setFailure(true);
 
 		}
-		board.setupBoard(new ArrayList<Obstacle>(this.objects));
+//		board.setupBoard(new ArrayList<Obstacle>(this.objects));
 
 		// // Toggle spirit mode
 		// if (InputController.getInstance().didSpirit()) {
@@ -602,17 +649,16 @@ public class AidenController extends WorldController
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
 					EFFECT_VOLUME);
 		}
-
-		// Update movements of npcs, including all interactions/side effects
-		for (CharacterModel npc : npcs) {
-			npc.applyForce();
-		}
-
+		
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
+		// Update movements of npcs, including all interactions/side effects
+		for (CharacterModel npc : npcs) {
+			npc.applyForce();
+		}
 
 		// Detect contacts -- should be moved to a separate Controller
 
@@ -887,8 +933,9 @@ public class AidenController extends WorldController
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
-			board.setDrawScale(scale);
-			board.drawDebug(canvas);
+//			board.setDrawScale(scale);
+//			board.drawDebug(canvas);
+			aiController.drawDebug(canvas, scale, npcs);
 			canvas.endDebug();
 		}
 
