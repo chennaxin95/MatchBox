@@ -326,7 +326,7 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		this.aiController = new AIController(0,0, 35, 25, 1, 1, this.objects);
+		this.aiController = new AIController(null, 0,0, 35, 25, 1, 1, this.objects);
 		board=new NavBoard(0,0, 35, 25, 1, 1);
 	}
 
@@ -443,7 +443,7 @@ public class AidenController extends WorldController
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 
-			WoodBlock box = new WoodBlock(BOXES[level][ii],
+			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
 					dheight, 1, 5);
 			box.setFixedRotation(true);

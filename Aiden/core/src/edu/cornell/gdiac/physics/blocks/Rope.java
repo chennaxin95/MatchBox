@@ -230,6 +230,12 @@ public class Rope extends ComplexObstacle {
 		}
 		return ((SimpleObstacle)bodies.get(0)).getTexture();
 	}
+
+	@Override
+	public void drawDebug(GameCanvas canvas, Color c) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 //	public void draw(GameCanvas canvas) {
 //		super.draw(canvas);

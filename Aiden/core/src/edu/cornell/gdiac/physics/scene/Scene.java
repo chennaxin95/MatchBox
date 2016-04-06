@@ -3,12 +3,13 @@ package edu.cornell.gdiac.physics.scene;
 import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
-import edu.cornell.gdiac.physics.blocks.WoodBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public class Scene implements SceneInterface{
 
@@ -60,7 +61,7 @@ public class Scene implements SceneInterface{
 			int link_y = link_pos.getInt("y");
 			int fuels = obj.getInt("fuels");
 			if(material.equals("wood")){
-				blocks[i] = new WoodBlock(x,y,width,height,burn_spread,burn_time);
+				blocks[i] = new FlammableBlock(x,y,width,height,burn_spread,burn_time);
 			}else{
 				if(material.equals("stone")){
 					blocks[i] = new StoneBlock(x,y,width,height);
@@ -110,5 +111,33 @@ public class Scene implements SceneInterface{
 
 	public CharacterModel[] getGuards(){
 		return guards;
+	}
+
+
+	@Override
+	public int getGridWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int getGridHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int getGridUnit() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public PolygonObstacle[] getPlatform() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

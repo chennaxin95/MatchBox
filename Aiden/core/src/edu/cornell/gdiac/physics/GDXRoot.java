@@ -21,11 +21,8 @@ import com.badlogic.gdx.assets.loaders.*;
 import com.badlogic.gdx.assets.loaders.resolvers.*;
 
 import edu.cornell.gdiac.util.*;
-import edu.cornell.gdiac.physics.rocket.*;
-import edu.cornell.gdiac.physics.ragdoll.*;
 import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
-import edu.cornell.gdiac.physics.platform.*;
 
 /**
  * Root class for a LibGDX.  
