@@ -12,10 +12,10 @@ public class PathFinder {
 	
 	public Vector2 findPath(NavBoard board, Vector2 srcPos, Vector2 targetPos){
 		Vector2 start=board.convertToBoardCoord(srcPos);
-		Vector2 target=board.convertToBoardCoord(targetPos);
+		Vector2 target=board.castAround(board.convertToBoardCoord(targetPos));
 		System.out.println("Start path finding "+start+" "+target);
 		if (!board.isValidBoardCoord(start) || !board.isValidBoardCoord(target)) {
-			System.out.println("Error 1");
+			System.out.println("Error 1 "+start+" "+target);
 			return new Vector2();
 		}
 		ArrayList<Vector2> frontier=new ArrayList<Vector2>();

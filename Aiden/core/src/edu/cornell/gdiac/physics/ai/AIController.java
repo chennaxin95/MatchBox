@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.ai.NavBoard.NavTile;
 import edu.cornell.gdiac.physics.ai.NavBoard.TileType;
 import edu.cornell.gdiac.physics.ai.SightDetector.IntersectionRecord;
-import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
-import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.GameEvent;
@@ -61,7 +58,7 @@ public class AIController {
 		}
 	}
 	
-	private int pointer=0;
+	private int pointer=0; //temp
 	public GameEvent sensing(CharacterModel npc){
 		// Must set all the fields of game event
 		
@@ -134,7 +131,7 @@ public class AIController {
 			}
 			break;
 		case CHASE:
-			// Populate board here
+			// May Populate board here
 			float lx=npc.getPosition().x-npc.getWidth()/2;
 			float ly=npc.getPosition().y-npc.getHeight()/2;			
 			float ux=npc.getPosition().x+npc.getWidth()/2;
@@ -153,7 +150,9 @@ public class AIController {
 					}
 				}
 			}
-			Vector2 move=pathFinder.findPath(board, start, board.castAround(npc.getTarget()));		
+			System.out.println("start "+start);
+			Vector2 move=pathFinder.findPath(board, board.converToWorldCoord(start), 
+					npc.getTarget());		
 			System.out.println("End path finding: "+move);
 //			float far=Math.min(npc.getTarget().dst(npc.getPosition()), 1f)/1f;
 			if (move.x>0) npc.setMovement(50f/*npc.getForce()*/);

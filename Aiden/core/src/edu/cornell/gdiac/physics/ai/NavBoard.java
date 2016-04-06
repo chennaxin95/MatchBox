@@ -35,15 +35,15 @@ public class NavBoard {
 	
 	public Vector2 convertToBoardCoord(Vector2 in){
 		Vector2 out=new Vector2();
-		out.x=(int)(in.x-lx)/unitX;
-		out.y=(int)(in.y-ly)/unitX;
+		out.x=(int)((in.x-lx)/unitX);
+		out.y=(int)((in.y-ly)/unitX);
 		return out;		
 	}
 	
 	public Vector2 converToWorldCoord(Vector2 in){
 		Vector2 out=new Vector2();
-		out.x=(in.x)*(unitX) + lx;
-		out.y=(in.y)*(unitY) + ly;
+		out.x=(in.x+0.5f)*(unitX) + lx;
+		out.y=(in.y+0.5f)*(unitY) + ly;
 		return out;
 	}
 	public void clear(){
@@ -71,10 +71,10 @@ public class NavBoard {
 			if (obj instanceof BoxObstacle){
 				float w=((BoxObstacle)obj).getWidth();
 				float h=((BoxObstacle)obj).getHeight();
-				int lIndX=Math.round((pos.x-w/2-lx)/unitX);
-				int lIndY=Math.round((pos.y-h/2-ly)/unitY);	
-				int uIndX=Math.round((pos.x+w/2-lx)/unitX);
-				int uIndY=Math.round((pos.y+h/2-ly)/unitY);	
+				int lIndX=Math.round((pos.x-w/2f-lx)/unitX);
+				int lIndY=Math.round((pos.y-h/2f-ly)/unitY);	
+				int uIndX=Math.round((pos.x+w/2f-lx)/unitX)-1;
+				int uIndY=Math.round((pos.y+h/2f-ly)/unitY)-1;	
 				// Need to add "Danger" cases
 				for (int i=Math.max(lIndX, 0); i<=Math.min(uIndX, width-1); i++){
 					for (int j=Math.max(lIndY,0); j<=Math.min(uIndY, height-1); j++){
@@ -244,7 +244,8 @@ public class NavBoard {
 	}
 	
 	public boolean isValidBoardCoord(Vector2 pos){
-		if (pos.x>=0 && pos.x<width && pos.y>=0 && pos.y<height) return true;
+		if (pos.x>=0 && pos.x<width && pos.y>=0 && pos.y<height) 
+			return true;
 		else return false;
 	}
 	
