@@ -10,7 +10,7 @@ import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class PathFinder {
 	
-	public static Vector2 findPath(NavBoard board, Vector2 srcPos, Vector2 targetPos){
+	public Vector2 findPath(NavBoard board, Vector2 srcPos, Vector2 targetPos){
 		Vector2 start=board.convertToBoardCoord(srcPos);
 		Vector2 target=board.convertToBoardCoord(targetPos);
 		System.out.println("Start path finding "+start+" "+target);

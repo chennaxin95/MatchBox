@@ -1,6 +1,7 @@
 package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -120,7 +121,7 @@ public class CharacterModel extends CapsuleObstacle{
 
 		setName(name);
 		
-		eyeProportion=2/3;
+		eyeProportion=0.5f;
 	}
 	
 	public float getEyeProportion(){
@@ -130,6 +131,13 @@ public class CharacterModel extends CapsuleObstacle{
 	public void setEyeProportion(float e){
 		this.eyeProportion=e;
 	}
+	
+	public Vector2 getEyePosition(){
+		Vector2 eyePos=getPosition().cpy();
+		eyePos.y=eyePos.y+getHeight()*(getEyeProportion()-1/2f);
+		return eyePos;
+	}
+	
 
 	public void setTarget(Vector2 t){
 		this.target=t;

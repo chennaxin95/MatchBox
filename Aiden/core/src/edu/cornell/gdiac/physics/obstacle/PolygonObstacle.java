@@ -384,6 +384,13 @@ public class PolygonObstacle extends SimpleObstacle {
 			canvas.drawPhysics(tri,Color.YELLOW,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
 		}
 	}	
+	
+	public void drawDebug(GameCanvas canvas, Color c) {
+		for(PolygonShape tri : shapes) {
+			canvas.drawPhysics(tri,c,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
+		}
+	}
+	
 	public boolean contains(Vector2 p){	
 		Polygon polygon=new Polygon();
 		polygon.setVertices(this.vertices);

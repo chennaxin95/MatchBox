@@ -4,31 +4,47 @@ package edu.cornell.gdiac.physics.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.ai.NavBoard.NavTile;
 import edu.cornell.gdiac.physics.ai.NavBoard.TileType;
+import edu.cornell.gdiac.physics.ai.SightDetector.IntersectionRecord;
+import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
+import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.GameEvent;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.util.PooledList;
 
 public class AIController {
+	private SightDetector sightDetector;
+	private PathFinder pathFinder;
+	
 	NavBoard board;
 	PooledList<Obstacle> objs; //Temp
+	Scene scene; //Temp
+	
+	ArrayList<IntersectionRecord> detected;
+	ArrayList<IntersectionRecord> close;
 	
 	private static final float MIN_WAITTIME=0.5f;
 	private static final float MAX_WAITTIME=2f;
 	
 	private static final float MAX_SENSING_RADIUS=2f;
 	
-	public AIController(float lx, float ly, float ux, float uy, float unitX, float unitY,
-			PooledList<Obstacle> objects){
+	public AIController(Scene scene, float lx, float ly, float ux, 
+			float uy, float unitX, float unitY, PooledList<Obstacle> objects){
+		this.scene=scene;
 		board=new NavBoard(lx, ly, ux, uy, unitX, unitY);
 		this.objs=objects;
+		sightDetector=new SightDetector();
+		pathFinder=new PathFinder();
 	}
 	
 	public void nextMove(ArrayList<CharacterModel> npcs){
@@ -38,6 +54,7 @@ public class AIController {
 				npc.getStateMachine().transit(e);
 			}
 		}
+		board.setupBoard(new ArrayList<Obstacle>(objs)); // Temp
 		for (CharacterModel npc:npcs){
 			if (npc.canChangeMove())
 				computeMove(npc);
@@ -53,27 +70,31 @@ public class AIController {
 		e.setSpawned(npc.isSpawned()? 1: -1);
 		
 		// Check isCloseToFire
-		ArrayList<Obstacle> close=SightDetector.detectObjectsInDistance(npc, MAX_SENSING_RADIUS);
+		close=sightDetector.detectObjectInSight(npc, 0, SightDetector.WHOLE_FOV, 
+				scene, new ArrayList<Obstacle>(objs));
 		
 		// Check hasSeenFire
 		// Check hasSeenAiden; same thing as hasSeenFire?
-		Obstacle o=SightDetector.detectObjectInSight(npc);
-//		if (o instanceof FlammableBlock && ((FlammableBlock)o).isBurning() 
-//				|| o instanceof AidenModel){
-			e.setSeenFire(1);
-			Vector2[] targets=new Vector2[]{new Vector2(15,1), new Vector2(10,1)};
-			if (npc.getPosition().cpy().sub(targets[pointer]).len()<2){
-				pointer++;
-				pointer%=2;
+		detected=sightDetector.detectObjectInSight(npc, SightDetector.FOV, 
+				scene, new ArrayList<Obstacle>(objs));
+		for (IntersectionRecord inter: detected){
+			if ((inter.obj instanceof FlammableBlock && ((FlammableBlock)inter.obj).isBurning() )
+					|| inter.obj instanceof AidenModel){
+				e.setSeenFire(1);
+				npc.setTarget(inter.obj.getPosition());
 			}
-			npc.setTarget(targets[pointer]);
-//			npc.setTarget(o.getPosition());
+		}
+		if (e.hasSeenFire()==0) {
+			e.setSeenFire(-1);
+			e.setSeenAiden(-1);
+		}
+//		Vector2[] targets=new Vector2[]{new Vector2(15,2), new Vector2(10,2)};
+//		if (npc.getPosition().cpy().sub(targets[pointer]).len()<2){
+//			pointer++;
+//			pointer%=2;
 //		}
-//		else{
-//			e.setSeenFire(-1);
-//			e.setSeenAiden(-1);
-//		}
-		
+//		npc.setTarget(targets[pointer]);
+
 		// Check canFire
 //		e.setCanFire(npc.canFire()? 1: -1);
 		e.setCanFire(-1);
@@ -132,12 +153,12 @@ public class AIController {
 					}
 				}
 			}
-			board.setupBoard(new ArrayList<Obstacle>(objs)); // Temp
-			Vector2 move=PathFinder.findPath(board, start, npc.getTarget());
+			Vector2 move=pathFinder.findPath(board, start, board.castAround(npc.getTarget()));		
 			System.out.println("End path finding: "+move);
-			if (move.x>0) npc.setMovement(1f*npc.getForce());
+//			float far=Math.min(npc.getTarget().dst(npc.getPosition()), 1f)/1f;
+			if (move.x>0) npc.setMovement(50f/*npc.getForce()*/);
 			if (move.x==0) npc.setMovement(0);
-			if (move.x<0) npc.setMovement(-1f*npc.getForce());
+			if (move.x<0) npc.setMovement(-50f/*npc.getForce()*/);
 			break;
 		default: assert(false);
 				// Still
@@ -146,5 +167,24 @@ public class AIController {
 		}
 		npc.setMoveCoolDown(0.5f);
 //		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
+	}
+	
+	public void drawDebug(GameCanvas canvas, Vector2 scale, ArrayList<CharacterModel> npcs){
+		board.setDrawScale(scale);
+		board.drawDebug(canvas);
+		for (IntersectionRecord cl: close){
+			if (cl!=null){
+				cl.obj.drawDebug(canvas, Color.PURPLE);
+			}
+		}
+		for (IntersectionRecord det: detected){
+			if (det!=null){
+				det.obj.drawDebug(canvas, Color.RED);
+			}
+		}
+		if (npcs!=null)
+			for (CharacterModel npc:npcs)
+				sightDetector.drawDebug(canvas, npc.getEyePosition(), 
+						npc.getFacingDir()? 10:-10, scale, SightDetector.FOV);
 	}
 }

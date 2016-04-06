@@ -251,4 +251,43 @@ public class NavBoard {
 	public Vector2 convertToWorldUnit(Vector2 vec){
 		return new Vector2(vec.x*unitX, vec.y*unitY);
 	}
+	
+	public Vector2 castAround(Vector2 in){
+		Vector2 out1=new Vector2(in);
+		boolean found1=false;
+		for (int j=(int) in.y; j>=0; j--){
+			out1.y=j;
+			NavTile tile=this.getTile(out1);
+			if (tile.type!=TileType.NONE
+					&& tile.type!=TileType.SUPPORT 
+					&& tile.type!=TileType.DANGER){
+				found1=true;
+				break;
+			}
+		}
+		boolean found2=false;
+		Vector2 out2=new Vector2(in);
+		for (int j=(int) in.y+1; j<height; j++){
+			out2.y=j;
+			NavTile tile=this.getTile(out2);
+			if (tile.type!=TileType.NONE
+					&& tile.type!=TileType.SUPPORT 
+					&& tile.type!=TileType.DANGER){
+				found2=true;
+				break;
+			}
+		}
+		if (found1 && found2){
+			Vector2 out=new Vector2(in);
+			out.y=Math.abs(out1.y-in.y)<=Math.abs(out2.y-in.y)? out1.y: out2.y;
+			return out;
+		}
+		else if (found1){
+			return out1;
+		}
+		else if (found2){
+			return out2;
+		}
+		return new Vector2(in);
+	}
 }
