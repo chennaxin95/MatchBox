@@ -10,19 +10,21 @@ import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class PathFinder {
 	
-	public Vector2 findPath(NavBoard board, Vector2 srcPos, Vector2 targetPos){
+	public Vector2 findPath(NavBoard board, Vector2 srcPos){
 		Vector2 start=board.convertToBoardCoord(srcPos);
-		Vector2 target=board.castAround(board.convertToBoardCoord(targetPos));
-		System.out.println("Start path finding "+start+" "+target);
-		if (!board.isValidBoardCoord(start) || !board.isValidBoardCoord(target)) {
-			System.out.println("Error 1 "+start+" "+target);
+		System.out.println("Start path finding "+start);
+		if (!board.isValidBoardCoord(start)) {
+			System.out.println("Error 1 "+start);
 			return new Vector2();
 		}
+		if (board.getTile(start).isTarget) return new Vector2();
+		
 		ArrayList<Vector2> frontier=new ArrayList<Vector2>();
 		frontier.add(start);
+		Vector2 head=start.cpy();
 		while (frontier.size()>0){
-			Vector2 head=frontier.remove(0);
-			if (head.equals(target)) break;
+			head=frontier.remove(0);
+			if (board.getTile(head).isTarget) break;
 			for (Vector2 link:board.getTile(head).links){
 				NavTile tile=board.getTile(link);
 				if (!tile.hasReached()){
@@ -31,11 +33,11 @@ public class PathFinder {
 				}
 			}
 		}
-		if (board.getTile(target).hasReached()){
-			Vector2 current=target;
+		if (board.getTile(head).isTarget){
+			Vector2 current=head;
 			Vector2 parent=board.getTile(current).reachedBy;
 			while (!parent.equals(start)){
-				current=parent;
+			    current=parent;
 				parent=board.getTile(current).reachedBy;
 			}
 			return board.convertToWorldUnit(current.sub(start));

@@ -23,6 +23,8 @@ public class AIController {
 	private SightDetector sightDetector;
 	private PathFinder pathFinder;
 	
+	private float unitX, unitY;
+	
 	NavBoard board;
 	PooledList<Obstacle> objs; //Temp
 	Scene scene; //Temp
@@ -34,11 +36,14 @@ public class AIController {
 	private static final float MAX_WAITTIME=2f;
 	
 	private static final float MAX_SENSING_RADIUS=2f;
+	private static final float MAX_ATTACKING_RADIUS=1f;
 	
 	public AIController(Scene scene, float lx, float ly, float ux, 
 			float uy, float unitX, float unitY, PooledList<Obstacle> objects){
 		this.scene=scene;
 		board=new NavBoard(lx, ly, ux, uy, unitX, unitY);
+		this.unitX=unitX;
+		this.unitY=unitY;
 		this.objs=objects;
 		sightDetector=new SightDetector();
 		pathFinder=new PathFinder();
@@ -51,10 +56,11 @@ public class AIController {
 				npc.getStateMachine().transit(e);
 			}
 		}
-		board.setupBoard(new ArrayList<Obstacle>(objs)); // Temp
 		for (CharacterModel npc:npcs){
-			if (npc.canChangeMove())
+			if (npc.canChangeMove()){
+				board.setupBoard(new ArrayList<Obstacle>(objs)); // Temp
 				computeMove(npc);
+			}
 		}
 	}
 	
@@ -138,21 +144,27 @@ public class AIController {
 			float uy=npc.getPosition().y+npc.getHeight()/2;
 			Vector2 lInd=board.convertToBoardCoord(new Vector2(lx, ly));
 			Vector2 uInd=board.convertToBoardCoord(new Vector2(ux, uy));
-			Vector2 start=new Vector2(-1, -1);
-			for (int i=(int) lInd.x; i<=uInd.x; i++){
-				for (int j=(int) lInd.y; j<=uInd.y; j++){
-					NavTile tile=board.getTile(new Vector2(i,j));
-					if (tile!=null && tile.type!=TileType.NONE &&
-							tile.type!=TileType.DANGER && tile.type!=TileType.SUPPORT){
-						start.x=i; 
-						start.y=j;
-						break;
-					}
-				}
+//			Vector2 start=new Vector2(-1, -1);
+//			for (int i=(int) lInd.x; i<=uInd.x; i++){
+//				for (int j=(int) lInd.y; j<=uInd.y; j++){
+//					NavTile tile=board.getTile(new Vector2(i,j));
+//					if (tile!=null && tile.type!=TileType.NONE &&
+//							tile.type!=TileType.DANGER && tile.type!=TileType.SUPPORT){
+//						start.x=i; 
+//						start.y=j;
+//						break;
+//					}
+//				}
+//			}
+			Vector2 start=board.castAround(board.convertToBoardCoord(npc.getPosition()));
+			Vector2 target=board.convertToBoardCoord(npc.getTarget());
+			int radius=(int) (MAX_ATTACKING_RADIUS/unitX);
+			for (int dx=-radius; dx<=radius; dx++){
+					board.getTile(board.castAround(new Vector2(target.x+dx, target.y)))
+						.markAsTarget();
 			}
-			System.out.println("start "+start);
-			Vector2 move=pathFinder.findPath(board, board.converToWorldCoord(start), 
-					npc.getTarget());		
+					
+			Vector2 move=pathFinder.findPath(board, board.converToWorldCoord(start));		
 			System.out.println("End path finding: "+move);
 //			float far=Math.min(npc.getTarget().dst(npc.getPosition()), 1f)/1f;
 			if (move.x>0) npc.setMovement(50f/*npc.getForce()*/);

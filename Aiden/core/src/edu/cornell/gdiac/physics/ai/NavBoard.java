@@ -200,6 +200,7 @@ public class NavBoard {
 		public int indX, indY;
 		public ArrayList<Vector2> links;
 		public Vector2 reachedBy;
+		public boolean isTarget;
 		
 		public NavTile(int indX, int indY){
 			type=TileType.NONE;
@@ -207,6 +208,7 @@ public class NavBoard {
 			this.indX=indX;
 			this.indY=indY;
 			reachedBy=new Vector2(-1, -1);
+			isTarget=false;
 		}
 		
 		public void draw(GameCanvas canvas){
@@ -224,9 +226,19 @@ public class NavBoard {
 			CircleShape circle=new CircleShape();
 			circle.setRadius(Math.min(unitX,unitY)/2);
 			canvas.drawPhysics(circle, c, pos.x, pos.y, drawScale.x,drawScale.y);
+			if (this.isTarget) {
+				CircleShape circle2=new CircleShape();
+				circle2.setRadius(Math.min(unitX,unitY)/4);
+				canvas.drawPhysics(circle2, Color.RED, pos.x, pos.y, drawScale.x,drawScale.y);
+			}
 		}
+		
 		public boolean hasReached(){
 			return isValidBoardCoord(reachedBy);
+		}
+		
+		public void markAsTarget(){
+			this.isTarget=true;
 		}
 		
 	}
@@ -253,7 +265,12 @@ public class NavBoard {
 		return new Vector2(vec.x*unitX, vec.y*unitY);
 	}
 	
-	public Vector2 castAround(Vector2 in){
+	public Vector2 castAround(Vector2 v){
+		Vector2 in=v.cpy();
+		in.x=Math.min(width, in.x);
+		in.x=Math.max(0, in.x);
+		in.y=Math.min(height, in.y);
+		in.y=Math.max(0, in.y);
 		Vector2 out1=new Vector2(in);
 		boolean found1=false;
 		for (int j=(int) in.y; j>=0; j--){

@@ -353,7 +353,7 @@ public class AidenController extends WorldController
 		this.level = level;
 		spirit = true;
 //		Scene scene=new Scene(null); 
-		this.aiController = new AIController(scene, 0, 0, 35, 25, 0.5f, 0.5f, objects);
+		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f, objects);
 //		board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks=new ArrayList<BlockAbstract>();
 	}
