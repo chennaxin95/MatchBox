@@ -7,14 +7,15 @@
  * of this class.  It deploys your game on a PC/desktop computer.
  *
  * Author: Walker M. White
- * Based on original Optimization Lab by Don Holden, 2007
- * LibGDX version, 2/2/2015
+ * Based on original GameX Ship Demo by Rama C. Hoetzlein, 2002
+ * LibGDX version, 1/3/2015
  */
-package edu.cornell.gdiac.physics.desktop;
+package edu.cornell.gdiac.ailab.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import edu.cornell.gdiac.physics.GDXRoot;
+
+import edu.cornell.gdiac.ailab.GDXRoot;
 
 /**
  * The main class of the game.
@@ -34,9 +35,8 @@ public class DesktopLauncher {
 	 */
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width  = 1324;
-		config.height = 576;
-		config.resizable = true;
+		config.width  = 1000;
+		config.height = 800;
 		new LwjglApplication(new GDXRoot(), config);
 	}
 }
