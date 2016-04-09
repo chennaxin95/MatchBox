@@ -10,9 +10,9 @@ import edu.cornell.gdiac.physics.GameCanvas;
 
 public class Platform extends StoneBlock {
 	
-	PolygonRegion region;
-	Rectangle r;
-	float unit;
+	private PolygonRegion region;
+	protected Rectangle r;
+	private float unit;
 	
 	public Platform(Rectangle r, float unit) {
 		super(r.x+0.5f*r.getWidth(), r.y+0.5f*r.getHeight(), 

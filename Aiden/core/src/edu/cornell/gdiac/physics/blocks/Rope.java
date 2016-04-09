@@ -91,7 +91,7 @@ public class Rope extends ComplexObstacle {
 		// Create the leftmost anchor
 		// Normally, we would do this in constructor, but we have
 		// reasons to not add the anchor to the bodies list.
-		start = new LadderBlock(x0,y0+linksize/2,1, 1, 0, 0);
+		start = new LadderBlock(x0,y0+linksize/2,1, 1, 0, 0, lheight, lheight, lheight);
 		start.setName(BRIDGE_PIN_NAME+0);
 		start.setDensity(BASIC_DENSITY);		
 		start.setBodyType(BodyDef.BodyType.StaticBody);

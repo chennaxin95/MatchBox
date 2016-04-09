@@ -301,7 +301,7 @@ public class AidenController extends WorldController
 	private static final float[][] FUELS = { { 29.5f, 9f}, { 13f, 8f } };
 
 	private static final float[][] LADDER = { { },
-			{ 5f, 8f, 2f, 3f } };
+			{ 4.5f, 10.5f, 2.5f, 5.5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 9f } };
 
@@ -535,21 +535,22 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
-
+		float ewidth = earthTile.getRegionWidth() / scale.x;
+		float eheight = earthTile.getRegionHeight() / scale.y;
 		for (int ii = 0; ii < LADDER[level].length; ii += 2) {
 			TextureRegion texture = ladderTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			LadderBlock box = new LadderBlock(LADDER[level][ii],
 					LADDER[level][ii + 1],
-					dwidth,
-					dheight, 1, 5);
+					ewidth, eheight, 1, dheight, dwidth, dheight, 0);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("box" + ii);
+			box.setName("ladder" + ii);
 			box.setDrawScale(scale);
-			box.setTexture(texture);
+			box.setTexture(earthTile);
+			box.setRopeUnitTexture(texture);
 			addObject(box);
 		}
 		// Create Aiden
