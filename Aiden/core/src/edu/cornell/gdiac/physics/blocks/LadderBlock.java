@@ -63,13 +63,19 @@ public class LadderBlock extends Platform {
 	}
 	
 	public void startBurning(float distFromBottom){
-		this.rlength-=distFromBottom;
-		this.isShrinking=true;
+		if (rlength>0){
+			this.rlength-=distFromBottom;
+			this.isShrinking=true;
+		}
 	}
 	
 	public void update(float dt){
 		if (isShrinking){
 			rlength-=dt*shrinkingRate;
+		}
+		if (rlength<0){
+			isShrinking=false;
+			rlength=0;
 		}
 	}
 	
