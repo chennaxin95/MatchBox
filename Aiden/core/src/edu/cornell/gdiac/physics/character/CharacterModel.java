@@ -1,6 +1,7 @@
 package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -8,13 +9,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.physics.character.FSMNode.BasicFSMState;
 import edu.cornell.gdiac.physics.obstacle.CapsuleObstacle;
 import edu.cornell.gdiac.util.FilmStrip;
 
-public class CharacterModel extends CapsuleObstacle {
-	public enum BasicFSMState {
-		SPAWN, WANDER
-	}
+public class CharacterModel extends CapsuleObstacle{
 
 	public enum CharacterType {
 		WATER_GUARD, AIDEN, CIVILIAN
@@ -57,6 +56,9 @@ public class CharacterModel extends CapsuleObstacle {
 	/** Animation cool down */
 	protected static final float MAX_ANIME_TIME=0.1f;
 	
+	/** Firing cool down */
+	protected static final float MAX_FIRE_TIME=1f;
+	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
 	protected Fixture left;
@@ -73,7 +75,7 @@ public class CharacterModel extends CapsuleObstacle {
 	protected float spawnCoolDown;
 	protected float moveCoolDown;
 	protected CharacterType type;
-	protected BasicFSMState state;
+	protected FSMGraph stateMachine;
 	/** The current horizontal movement of the character */
 	protected float movement;
 	/** Which direction is the character facing */
@@ -85,28 +87,66 @@ public class CharacterModel extends CapsuleObstacle {
 	protected FilmStrip characterSprite;
 	/** */
 	protected float animeCoolDown; 
+	/** */
+	protected float fireCoolDown;
 	
+	/** */
+	protected boolean isFiring;
+	
+	/** */
+	protected Vector2 target;
+	
+	/**The proportion of height from ground where viewing ray is */
+	protected float eyeProportion;
+
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
 		setDensity(DUDE_DENSITY);
 		setFriction(DUDE_FRICTION); /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
-
+		
 		type = t;
+		createFSMGraph();
 
 		isAlive = true;
 		faceRight = fright;
 		isGrounded = false;
 
 		spawnCoolDown = MAX_SPAWN_TIME;
-		state = BasicFSMState.SPAWN;
-
+		
 		moveCoolDown = 0;
+		
+		fireCoolDown = 0;
 
 		setName(name);
+		
+		eyeProportion=0.5f;
 	}
+	
+	public float getEyeProportion(){
+		return this.eyeProportion;
+	}
+	
+	public void setEyeProportion(float e){
+		this.eyeProportion=e;
+	}
+	
+	public Vector2 getEyePosition(){
+		Vector2 eyePos=getPosition().cpy();
+		eyePos.y=eyePos.y+getHeight()*(getEyeProportion()-1/2f);
+		return eyePos;
+	}
+	
 
+	public void setTarget(Vector2 t){
+		this.target=t;
+	}
+	
+	public Vector2 getTarget(){
+		return this.target;
+	}
+	
 	public boolean isSpawned() {
 		return spawnCoolDown <= 0;
 	}
@@ -122,14 +162,33 @@ public class CharacterModel extends CapsuleObstacle {
 	public float getMoveCoolDown() {
 		return moveCoolDown;
 	}
-
-	public BasicFSMState getState() {
-		return state;
+	
+	public boolean canFire() {
+		switch (this.type){
+		case CIVILIAN: return false;
+		default: return fireCoolDown <= 0.0;
+		}
+	}
+	
+	public void setFireCoolDown(float t) {
+		fireCoolDown = t;
+	}
+	
+	public boolean isFiring() {
+		return isFiring;
+	}
+	
+	public void setFiring(boolean f){
+		isFiring=f;
+		if (f){
+			this.setFireCoolDown(MAX_FIRE_TIME);
+		}
 	}
 
-	public void setState(BasicFSMState s) {
-		state = s;
+	public FSMGraph getStateMachine() {
+		return stateMachine;
 	}
+	
 	public CharacterType getType(){
 		return type;
 	}
@@ -257,6 +316,56 @@ public class CharacterModel extends CapsuleObstacle {
 	public boolean isFacingRight() {
 		return faceRight;
 	}
+	
+	public void createFSMGraph(){
+		FSMNode spawnNode=new FSMNode(BasicFSMState.SPAWN);
+		FSMNode wanderNode=new FSMNode(BasicFSMState.WANDER);
+		FSMNode chaseNode=new FSMNode(BasicFSMState.CHASE);
+		FSMNode attackNode=new FSMNode(BasicFSMState.ATTACK);
+		FSMNode escapeNode=new FSMNode(BasicFSMState.ESCAPE);
+		switch (this.type){
+		case CIVILIAN: 
+			GameEvent ec1=new GameEvent();
+			ec1.setSpawned(1);
+			spawnNode.addNext(wanderNode, ec1);
+			GameEvent ec2=new GameEvent();
+			ec2.setCloseToFire(1);
+			wanderNode.addNext(escapeNode, ec2);
+			GameEvent ec3=new GameEvent();
+			ec3.setCloseToFire(-1);
+			escapeNode.addNext(wanderNode, ec3);
+			stateMachine = new FSMGraph(spawnNode);
+			break;
+		case WATER_GUARD:
+			GameEvent ew1=new GameEvent();
+			ew1.setSpawned(1);
+			spawnNode.addNext(wanderNode, ew1);
+			GameEvent ew2=new GameEvent();
+			ew2.setSeenAiden(1);
+			wanderNode.addNext(chaseNode, ew2);
+			GameEvent ew3=new GameEvent();
+			ew3.setSeenFire(1);
+			wanderNode.addNext(chaseNode, ew3);
+			GameEvent ew4=new GameEvent();
+			ew4.setSeenAiden(-1);
+			ew4.setSeenFire(-1);
+			chaseNode.addNext(wanderNode, ew4);
+			GameEvent ew5=new GameEvent();
+			ew5.setCanFire(1);
+			chaseNode.addNext(attackNode, ew5);
+			GameEvent ew6=new GameEvent();
+			ew6.setCanFire(-1);
+			attackNode.addNext(chaseNode, ew6);
+			stateMachine = new FSMGraph(spawnNode);
+			break;
+		default: 
+			GameEvent e=new GameEvent();
+			e.setSpawned(1);
+			spawnNode.addNext(wanderNode, e);
+			stateMachine = new FSMGraph(spawnNode);
+			break;
+		}
+	}
 
 	/**
 	 * Creates the physics Body(s) for this object, adding them to the world.
@@ -340,8 +449,9 @@ public class CharacterModel extends CapsuleObstacle {
 	 */
 	public void update(float dt) {
 		// Apply cooldowns
-		if (!isSpawned()) spawnCoolDown-=dt;
-		if (!canChangeMove()) moveCoolDown-=dt;
+		if (spawnCoolDown>0) spawnCoolDown-=dt;
+		if (moveCoolDown>0) moveCoolDown-=dt;
+		if (fireCoolDown>0) fireCoolDown-=dt;
 		
 		animeCoolDown-=dt;
 		super.update(dt);
@@ -404,5 +514,9 @@ public class CharacterModel extends CapsuleObstacle {
 	
 	public void animate(GameCanvas canvas, Color c, float ratio){
 		animate(canvas, c, ratio, ratio);
+	}
+
+	public boolean getFacingDir(){
+		return faceRight;
 	}
 }

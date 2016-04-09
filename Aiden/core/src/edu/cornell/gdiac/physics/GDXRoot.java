@@ -21,9 +21,8 @@ import com.badlogic.gdx.assets.loaders.*;
 import com.badlogic.gdx.assets.loaders.resolvers.*;
 
 import edu.cornell.gdiac.util.*;
-import edu.cornell.gdiac.physics.rocket.*;
-import edu.cornell.gdiac.physics.ragdoll.*;
-import edu.cornell.gdiac.physics.platform.*;
+import edu.cornell.gdiac.physics.scene.JSONParser;
+import edu.cornell.gdiac.physics.scene.Scene;
 
 /**
  * Root class for a LibGDX.  
@@ -45,6 +44,10 @@ public class GDXRoot extends Game implements ScreenListener {
 	private int current;
 	/** List of all WorldControllers */
 	private WorldController[] controllers;
+	/** List of scene objects */
+	private Scene[] scenes;
+	/** A parser for JSON files */
+	private JSONParser jsonParser;
 	
 	/**
 	 * Creates a new game from the configuration settings.
@@ -74,8 +77,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		
 		// Initialize the three game worlds
 		controllers = new WorldController[2];
+		scenes = new Scene[2];
 		controllers[0] = new AidenController(0);
 		controllers[0].preLoadContent(manager);
+//		scenes[0] = new Scene("./json/level0.json");
 		current = 0;
 		controllers[1] = new AidenController(1);
 		controllers[1].preLoadContent(manager);

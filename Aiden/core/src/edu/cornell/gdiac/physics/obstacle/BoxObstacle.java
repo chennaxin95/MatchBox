@@ -203,6 +203,10 @@ public class BoxObstacle extends SimpleObstacle {
 	public void drawDebug(GameCanvas canvas) {
 		canvas.drawPhysics(shape,Color.YELLOW,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
 	}
+	
+	public void drawDebug(GameCanvas canvas,Color c){
+		canvas.drawPhysics(shape,c,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
+	}
 
 
 }
