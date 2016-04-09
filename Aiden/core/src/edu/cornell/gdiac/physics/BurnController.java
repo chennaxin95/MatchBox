@@ -1,3 +1,14 @@
+package edu.cornell.gdiac.physics;
+
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+
+import edu.cornell.gdiac.physics.blocks.FlammableBlock;
+import edu.cornell.gdiac.physics.character.AidenModel;
+import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.util.PooledList;
+
 /** 
  * Due to AidenController (previously platformController) integrates collision
  * controller and it's hard to single it out, I implemented the burning controller code
@@ -10,3 +21,18 @@
  * FlammaBlocks should probably override the draw() method in simpleObstacles or load
  * different texture when burning
  */
+
+public class BurnController{
+	public void getBurning(PooledList<FlammableBlock> flammables,PooledList<Obstacle> objects, float dt, World world){
+		// update flammable objects;
+		for (FlammableBlock fb : flammables) {
+			fb.update(dt);
+			if (fb.isBurnt()) {
+				objects.remove(fb);
+				flammables.remove(fb);
+				fb.markRemoved(true);
+				fb.deactivatePhysics(world);
+			}
+		}
+	}
+}

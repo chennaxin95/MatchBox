@@ -23,7 +23,6 @@ public class CollisionController{
 				Obstacle bd1 = (Obstacle) body1.getUserData();
 				Obstacle bd2 = (Obstacle) body2.getUserData();
 
-				/** Burning controller code */
 
 				// checking for two flammable block's chain reaction
 				if (bd1 instanceof FlammableBlock

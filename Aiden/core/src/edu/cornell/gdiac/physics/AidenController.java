@@ -2,7 +2,6 @@
  * AidenController.java
  *
  * 
- * Author: Aaron Sy
  * Based on original Platform Controller from Lab4 
  * LibGDX version, 2/6/2015
  */
@@ -672,23 +671,15 @@ public class AidenController extends WorldController
 		// Detect contacts -- should be moved to a separate Controller
 
 		Array<Contact> cList = world.getContactList();
-		CollisionController x = new CollisionController();
-		boolean notFailure = x.getCollisions(cList,avatar);
+		CollisionController CollControl = new CollisionController();
+		boolean notFailure = CollControl.getCollisions(cList,avatar);
 		if (!notFailure){
 			setFailure(true);
 		}
 		
 
-		// update flammable objects;
-		for (FlammableBlock fb : flammables) {
-			fb.update(dt);
-			if (fb.isBurnt()) {
-				objects.remove(fb);
-				flammables.remove(fb);
-				fb.markRemoved(true);
-				fb.deactivatePhysics(world);
-			}
-		}
+		BurnController BurnControl = new BurnController();
+		BurnControl.getBurning(flammables, objects, dt, world);
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
