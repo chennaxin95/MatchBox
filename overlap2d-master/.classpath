@@ -1,0 +1,9 @@
+<classpath>
+  <classpathentry kind="src" path="overlap2d/src"/>
+  <classpathentry kind="src" path="overlap2d/test/java"/>
+  <classpathentry kind="src" path="overlap2d/test/resources"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
+  <classpathentry kind="output" path="bin"/>
+  <classpathentry kind="src" path="overlap2d/assets"/>
+</classpath>

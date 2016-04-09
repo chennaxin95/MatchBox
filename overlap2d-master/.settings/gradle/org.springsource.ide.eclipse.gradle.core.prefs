@@ -1,0 +1,5 @@
+#org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
+#Sat Apr 09 17:16:37 EDT 2016
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;overlap2d-common-api;overlap2d-runtime-libgdx;overlap2d-runtime-libgdx/extensions/spine;spine-runtimes/spine-libgdx/spine-libgdx;
+org.springsource.ide.eclipse.gradle.linkedresources=
+org.springsource.ide.eclipse.gradle.rootprojectloc=
