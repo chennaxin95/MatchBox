@@ -62,6 +62,8 @@ public class AidenController extends WorldController
 	private static final String BURNING_FILE = "platform/blockburning.png";
 
 	private static final String STONE_FILE = "platform/stone.png";
+	/** File to texture for walls and platforms */
+	private static String EARTH_FILE = "shared/earthtile.png";
 
 	/** The sound file for a jump */
 	private static final String JUMP_FILE = "platform/jump.mp3";
@@ -181,7 +183,8 @@ public class AidenController extends WorldController
 		woodTexture = createTexture(manager, WOOD_FILE, false);
 		avatarTexture = createTexture(manager, DUDE_FILE, false);
 		fuelTexture = createTexture(manager, FUEL_FILE, false);
-		ropeTexture = createTexture(manager, ROPE_FILE, false);
+		ropeTexture = createTexture(manager, ROPE_FILE, true);
+		earthTile = createTexture(manager, EARTH_FILE, true);
 		backGround = createTexture(manager, BACKGROUND, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 		stoneTexture = createTexture(manager, STONE_FILE, false);
