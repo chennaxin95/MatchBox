@@ -241,14 +241,14 @@ public class AidenModel extends CharacterModel {
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
 			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
 			movement = (temp == 0) ? Math.min(15,
-					Math.abs(getVX()) * 1.5f) * signx
-					: Math.min(15, Math.abs(getVX()) * 1.1f
-							+ Math.min(Math.abs(temp) / 10+1, 2.5f))
+					Math.abs(getVX()) * 1.05f) * signx
+					: Math.min(15, Math.abs(getVX()) * 1.05f
+							+ Math.min(Math.abs(temp) / 10+1, 1.5f))
 							* Math.signum(temp);
 			movementY = (tempy == 0) ? Math.min(15,
-					Math.abs(getVY()) * 1.5f) * signy
-					: Math.min(15, Math.abs(getVY()) * 1.1f
-							+ Math.min(Math.abs(tempy) / 10+1, 2.5f))
+					Math.abs(getVY()) * 1.05f) * signy
+					: Math.min(15, Math.abs(getVY()) * 1.05f
+							+ Math.min(Math.abs(tempy) / 10+1, 1.5f))
 							* Math.signum(tempy);
 
 			// movement = Math.max(5, Math.min(15,

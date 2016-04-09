@@ -391,7 +391,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			WoodBlock box = new WoodBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
-					dheight, 1, 5, 5);
+					dheight, 0.5f, 2, 5);
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
