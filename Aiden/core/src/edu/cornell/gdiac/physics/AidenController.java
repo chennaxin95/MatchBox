@@ -557,7 +557,7 @@ public class AidenController extends WorldController
 			box.setName("ladder" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(earthTile);
-			box.setRopeUnitTexture(ropeTexture);
+			box.setRopeUnitTexture(texture);
 			addObject(box);
 		}
 		// Create Aiden

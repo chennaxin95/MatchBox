@@ -38,25 +38,30 @@ public class LadderBlock extends Platform {
 		System.out.println(numY);
 		float[] vertices=new float[numY*8];
 		short[] tridx=new short[numY*6];
-		for (int j=0; j<numY; j++){
-				vertices[8*j]=0;
-				vertices[8*j+1]=j*ropeTexture.getRegionWidth();
-				vertices[8*j+2]=ropeTexture.getRegionWidth();
-				vertices[8*j+3]=j*ropeTexture.getRegionWidth();	
-				vertices[8*j+4]=ropeTexture.getRegionWidth();
-				vertices[8*j+5]=(j+1)*ropeTexture.getRegionHeight();
-				vertices[8*j+6]=0;
-				vertices[8*j+7]=(j+1)*ropeTexture.getRegionHeight();
-				tridx[6*j]=(short) (4*j);
-				tridx[6*j+1]=(short) (4*j+3);
-				tridx[6*j+2]=(short) (4*j+2);
-				tridx[6*j+3]=(short) (4*j+2);	
-				tridx[6*j+4]=(short) (4*j+1);
-				tridx[6*j+5]=(short) (4*j);
-			}		
+		for (int i=0; i<1; i++){
+			for (int j=0; j<numY; j++){
+				vertices[8*(i*numY+j)]=i*rtexture.getRegionWidth();
+				vertices[8*(i*numY+j)+1]=j*rtexture.getRegionHeight();
+				vertices[8*(i*numY+j)+2]=(i+1)*rtexture.getRegionWidth();
+				vertices[8*(i*numY+j)+3]=j*rtexture.getRegionHeight();	
+				vertices[8*(i*numY+j)+4]=(i+1)*rtexture.getRegionWidth();
+				vertices[8*(i*numY+j)+5]=(j+1)*rtexture.getRegionHeight();
+				vertices[8*(i*numY+j)+6]=i*rtexture.getRegionWidth();	
+				vertices[8*(i*numY+j)+7]=(j+1)*rtexture.getRegionHeight();
+				tridx[6*(i*numY+j)]=(short) (4*(i*numY+j));
+				tridx[6*(i*numY+j)+1]=(short) (4*(i*numY+j)+3);
+				tridx[6*(i*numY+j)+2]=(short) (4*(i*numY+j)+2);
+				tridx[6*(i*numY+j)+3]=(short) (4*(i*numY+j)+2);	
+				tridx[6*(i*numY+j)+4]=(short) (4*(i*numY+j)+1);
+				tridx[6*(i*numY+j)+5]=(short) (4*(i*numY+j));
+			}
+		}		
 		ropeRegion=new PolygonRegion(rtexture, vertices, tridx);
-		
-		
+		System.out.print("Rope corrds ");
+		float[] uvs=ropeRegion.getTextureCoords();
+		for (float uv:uvs){
+			System.out.print(uv+" ");
+		}
 	}
 	public TextureRegion getRopeUnitTexture(){
 		return ropeTexture;
@@ -86,8 +91,9 @@ public class LadderBlock extends Platform {
 	@Override
 	public void draw(GameCanvas canvas){
 		super.draw(canvas);
+		System.out.println(getBottomEnd());
 		if (ropeRegion != null) {
-			canvas.draw(ropeRegion,Color.WHITE,0,0,
+			canvas.draw(ropeRegion,Color.WHITE, 0,0,
 					(getX()-rwidth/2)*drawScale.x,
 					(getY()-getHeight()/2-rlength)*drawScale.y,
 					getAngle(), 1, 1);

@@ -34,9 +34,9 @@ public class Platform extends StoneBlock {
 		for (int i=0; i< numX; i++){
 			for (int j=0; j<numY; j++){
 				vertices[8*(i*numY+j)]=i*texture.getRegionWidth();
-				vertices[8*(i*numY+j)+1]=j*texture.getRegionWidth();
+				vertices[8*(i*numY+j)+1]=j*texture.getRegionHeight();
 				vertices[8*(i*numY+j)+2]=(i+1)*texture.getRegionWidth();
-				vertices[8*(i*numY+j)+3]=j*texture.getRegionWidth();	
+				vertices[8*(i*numY+j)+3]=j*texture.getRegionHeight();	
 				vertices[8*(i*numY+j)+4]=(i+1)*texture.getRegionWidth();
 				vertices[8*(i*numY+j)+5]=(j+1)*texture.getRegionHeight();
 				vertices[8*(i*numY+j)+6]=i*texture.getRegionWidth();	
@@ -50,9 +50,9 @@ public class Platform extends StoneBlock {
 			}
 		}		
 		region=new PolygonRegion(texture, vertices, tridx);
-		float[] tc=region.getTextureCoords();
-		for (int i=0; i<tc.length; i++){
-			System.out.print(tc[i]+" ");
+		float[] uvs=region.getTextureCoords();
+		for (float uv:uvs){
+			System.out.print(uv+" ");
 		}
 	}
 	@Override
