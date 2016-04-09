@@ -47,13 +47,13 @@ public class AidenController extends WorldController
 	/** The texture file for the bullet */
 	private static final String BULLET_FILE = "platform/bullet.png";
 	/** The texture file for the bridge plank */
-	private static final String ROPE_FILE = "platform/ropebridge.png";
+	private static final String ROPE_FILE = "platform/rope.png";
 	/** The textrue file for the woodenBlock */
 	private static final String WOOD_FILE = "platform/woodenBlock.png";
 	/** Texture for fuelBlock */
 	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
-	private static final String LADDER_FILE = "platform/ladder.png";
+//	private static final String LADDER_FILE = "platform/ladder.png";
 
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 	private static final String AIDEN_DIE_FILE = "platform/die_animation.png";
@@ -79,7 +79,7 @@ public class AidenController extends WorldController
 	/** texture for water */
 	private TextureRegion waterTexture;
 
-	private TextureRegion ladderTexture;
+//	private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
 	private FilmStrip AidenAnimeTexture;
 	private FilmStrip AidenDieTexture;
@@ -88,6 +88,7 @@ public class AidenController extends WorldController
 	private FilmStrip[] burningTexture;
 	
 	private TextureRegion stoneTexture;
+	private TextureRegion ropeTexture;
 
 	/** Texture for background */
 	private static final String BACKGROUND = "shared/background.png";
@@ -131,18 +132,14 @@ public class AidenController extends WorldController
 		assets.add(BARRIER_FILE);
 		manager.load(BULLET_FILE, Texture.class);
 		assets.add(BULLET_FILE);
-		manager.load(ROPE_FILE, Texture.class);
-		assets.add(ROPE_FILE);
 		manager.load(WOOD_FILE, Texture.class);
 		assets.add(WOOD_FILE);
 		manager.load(FUEL_FILE, Texture.class);
 		assets.add(FUEL_FILE);
-		manager.load(LADDER_FILE, Texture.class);
-		assets.add(LADDER_FILE);
+		manager.load(ROPE_FILE, Texture.class);
+		assets.add(ROPE_FILE);
 		manager.load(BACKGROUND, Texture.class);
 		assets.add(BACKGROUND);
-		manager.load(LADDER_FILE, Texture.class);
-		assets.add(LADDER_FILE);
 		manager.load(WATER_FILE, Texture.class);
 		assets.add(WATER_FILE);
 		manager.load(STONE_FILE, Texture.class);
@@ -184,9 +181,8 @@ public class AidenController extends WorldController
 		woodTexture = createTexture(manager, WOOD_FILE, false);
 		avatarTexture = createTexture(manager, DUDE_FILE, false);
 		fuelTexture = createTexture(manager, FUEL_FILE, false);
-		ladderTexture = createTexture(manager, LADDER_FILE, false);
+		ropeTexture = createTexture(manager, ROPE_FILE, false);
 		backGround = createTexture(manager, BACKGROUND, false);
-		ladderTexture = createTexture(manager, LADDER_FILE, false);
 		waterTexture = createTexture(manager, WATER_FILE, false);
 		stoneTexture = createTexture(manager, STONE_FILE, false);
 		
@@ -538,19 +534,19 @@ public class AidenController extends WorldController
 		float ewidth = earthTile.getRegionWidth() / scale.x;
 		float eheight = earthTile.getRegionHeight() / scale.y;
 		for (int ii = 0; ii < LADDER[level].length; ii += 2) {
-			TextureRegion texture = ladderTexture;
+			TextureRegion texture = ropeTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			LadderBlock box = new LadderBlock(LADDER[level][ii],
 					LADDER[level][ii + 1],
-					ewidth, eheight, 1, dheight, dwidth, dheight, 0);
+					ewidth, eheight, 1, 3, dwidth, dheight, 0);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(BASIC_FRICTION);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("ladder" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(earthTile);
-			box.setRopeUnitTexture(texture);
+			box.setRopeUnitTexture(ropeTexture);
 			addObject(box);
 		}
 		// Create Aiden
