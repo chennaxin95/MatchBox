@@ -135,7 +135,7 @@ public class InputController {
 	 * @return true if the primary action button was pressed.
 	 */
 	public boolean didPrimary() {
-		return primePressed && !primePrevious;
+		return primePressed; //&& !primePrevious;
 	}
 
 	/**

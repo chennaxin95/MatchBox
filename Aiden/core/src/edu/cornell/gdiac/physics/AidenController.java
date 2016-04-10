@@ -289,7 +289,8 @@ public class AidenController extends WorldController
 
 	private static final float[][] BOXES = {
 			{ 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
-					7f, 6f, 9f, 2f, 11f, 2f
+					7f, 6f, 9f, 2f, 11f, 2f,
+					9f, 4f, 11f, 4f
 			},
 			{ 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f,
 					2f, 24.75f, 8f,
@@ -496,7 +497,7 @@ public class AidenController extends WorldController
 			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
 
-					dheight, 0.5f, 2);
+					dheight, 1f, 3);
 
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
@@ -675,11 +676,10 @@ public class AidenController extends WorldController
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
-		boolean notFailure = CollControl.getCollisions(cList,avatar);
-		if (!notFailure){
+		boolean notFailure = CollControl.getCollisions(cList, avatar);
+		if (!notFailure) {
 			setFailure(true);
 		}
-		
 
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);
