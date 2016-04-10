@@ -80,6 +80,12 @@ public class AidenController extends WorldController
 	private TextureRegion fuelTexture;
 	/** texture for water */
 	private TextureRegion waterTexture;
+	private TextureRegion stoneTexture;
+	private TextureRegion ropeTexture;
+	/** Texture for background */
+	private static final String BACKGROUND = "shared/background.png";
+	/** Texture for background */
+	private TextureRegion backGround;
 
 	// private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
@@ -88,14 +94,6 @@ public class AidenController extends WorldController
 	private FilmStrip WaterWalkTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
-
-	private TextureRegion stoneTexture;
-	private TextureRegion ropeTexture;
-
-	/** Texture for background */
-	private static final String BACKGROUND = "shared/background.png";
-	/** Texture for background */
-	private TextureRegion backGround;
 
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;

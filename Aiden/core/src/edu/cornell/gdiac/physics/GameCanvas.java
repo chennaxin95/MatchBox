@@ -139,8 +139,7 @@ public class GameCanvas {
 	
 	/** Target for Perspective FOV */
 	private Vector3 target;
-	/** Eye for Perspective FOV */
-	private Vector3 eye;
+
 	// CACHE OBJECTS
 //		/** Projection Matrix */
 //		private Matrix4 proj;
@@ -190,7 +189,6 @@ public class GameCanvas {
 		
 		
 		// Initialize the perspective camera objects
-		eye = new Vector3();
 		target = new Vector3();
 		world = new Matrix4();
 //		view  = new Matrix4();
@@ -285,6 +283,10 @@ public class GameCanvas {
 			Gdx.graphics.setWindowedMode(getWidth(), height);	
 		}
 		resize();
+	}
+	
+	public Camera getCamera(){
+		return this.camera;
 	}
 	
 	/**
@@ -588,8 +590,7 @@ public class GameCanvas {
 		// Set eye and target positions.
     	//x = 512 ;//+ x*588/32;
     	//y = 288 ;//+ y*256/26
-    		
-    	Vector3 worldCoord = (new Vector3(16,8,0)).mul(camera.invProjectionView.cpy());
+    	
     	//x = worldCoord.x;
     	//y = worldCoord.y;
     	x = x*512/32*2;

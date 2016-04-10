@@ -85,10 +85,19 @@ public class InputController {
 	private Vector2 crosscache;
 	/** For the gamepad crosshair control */
 	private float momentum;
-
+	
 	/** An X-Box controller (if it is connected) */
 	XBox360Controller xbox;
 
+	public boolean leftClicked;
+	public Vector2 mousePos;
+	
+	public boolean hasNewCharacterPressed;
+	public boolean newCharacterPressed;
+	public boolean hasNewBlockPressed;
+	public boolean newBlockPressed;
+	
+	
 	/**
 	 * Returns the amount of sideways movement.
 	 *
@@ -252,7 +261,9 @@ public class InputController {
 		nextPrevious = nextPressed;
 		prevPrevious = prevPressed;
 		spiritPrevious = spiritPressed;
-
+		
+		hasNewCharacterPressed=newCharacterPressed;
+		hasNewBlockPressed=newBlockPressed;		
 		// Check to see if a GamePad is connected
 		if (xbox.isConnected()) {
 			readGamepad(bounds, scale);
@@ -330,6 +341,15 @@ public class InputController {
 		exitPressed = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 
+		leftClicked =  (secondary && nextPressed) || 
+				(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+		mousePos =  new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		
+		newCharacterPressed =(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.C));	
+		newBlockPressed =(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.B));
+		
 		// Directional controls
 		horizontal = (secondary ? horizontal : 0.0f);
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {

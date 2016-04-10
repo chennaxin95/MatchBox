@@ -21,6 +21,7 @@ import com.badlogic.gdx.assets.loaders.*;
 import com.badlogic.gdx.assets.loaders.resolvers.*;
 
 import edu.cornell.gdiac.util.*;
+import edu.cornell.gdiac.physics.editor.LevelEditor;
 import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 
@@ -87,6 +88,11 @@ public class GDXRoot extends Game implements ScreenListener {
 		controllers[2] = new AidenController(2);
 		controllers[2].preLoadContent(manager);
 		loading.setScreenListener(this);
+		
+		controllers[2] = new LevelEditor();
+		controllers[2].preLoadContent(manager);
+		loading.setScreenListener(this);
+		
 		setScreen(loading);
 	}
 
