@@ -22,7 +22,7 @@ public class SceneVO {
 
     public ArrayList<Float> verticalGuides = new ArrayList<Float>();
     public ArrayList<Float> horizontalGuides = new ArrayList<Float>();
-
+    
     public SceneVO() {
 
     }
@@ -40,6 +40,7 @@ public class SceneVO {
         Json json = new Json();
         json.setOutputType(OutputType.json);
         str = json.toJson(this);
+        System.out.println("scenevo!"+str);
         return str;
     }
 }

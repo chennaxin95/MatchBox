@@ -22,7 +22,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.puremvc.patterns.proxy.BaseProxy;
 import com.uwsoft.editor.Overlap2DFacade;
+import com.uwsoft.editor.renderer.data.SceneParser;
 import com.uwsoft.editor.renderer.data.SceneVO;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
