@@ -1419,4 +1419,9 @@ public class GameCanvas {
 		local.scale(sx,sy);
 		local.translate(-ox,-oy);
 	}
+	
+	public void drawParticle(ParticleEffect pe){
+		computeTransform(0, 0, pe.getEmitters().get(0).getX(), pe.getEmitters().get(0).getX(), 0, 1f,1f);
+		pe.draw(this.spriteBatch);
+	}
 }
