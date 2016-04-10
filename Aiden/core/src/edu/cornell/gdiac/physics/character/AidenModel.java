@@ -34,6 +34,9 @@ public class AidenModel extends CharacterModel {
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 
+	/** Amount of time spent in spirit mode */
+	private float spiritCount = 0;
+
 	/** The current vertical movement of the character */
 	private float movementY;
 	/** Whether we are actively jumping */
@@ -68,12 +71,12 @@ public class AidenModel extends CharacterModel {
 	public float getMovementY() {
 		return movementY;
 	}
-	
-	public void setDeath(FilmStrip die){
+
+	public void setDeath(FilmStrip die) {
 		this.death = die;
 		death.setFrame(0);
 	}
-	
+
 	/**
 	 * Sets up/down movement of this character while climbing.
 	 * 
@@ -219,7 +222,7 @@ public class AidenModel extends CharacterModel {
 			movement = Math.max(-10, Math.min(movement, 10));
 			if (temp == 0) {
 				movement *= 0.85;
-				
+
 				if (Math.abs(movement) <= 0.1) {
 					movement = 0;
 				}
@@ -244,19 +247,33 @@ public class AidenModel extends CharacterModel {
 			}
 		}
 		if (isSpiriting) {
-
+			//
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
 			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
+			float xaccel = (spiritCount >= 0.5 / dt) ? 0.99f : 1.03f;
+			float yaccel = (spiritCount >= 0.5 / dt) ? 0.99f : 1.05f;
+			float vx = (Math.signum(getVX()) != Math.signum(temp)) ? 0
+					: getVX();
+			float vy = (Math.signum(getVY()) != Math.signum(tempy)) ? 0
+					: getVY();
 			movement = (temp == 0) ? Math.min(15,
-					Math.abs(getVX()) * 1.03f) * signx
-					: Math.min(15, Math.abs(getVX()) * 1.03f
-							+ Math.min(Math.abs(temp),1.0f))
+					Math.abs(getVX()) * xaccel) * signx
+					: Math.min(15, Math.abs(vx) * 1.03f
+							+ Math.min(Math.abs(temp), 1.0f))
 							* Math.signum(temp);
 			movementY = (tempy == 0) ? Math.min(15,
-					Math.abs(getVY()) * 1.05f) * signy
-					: Math.min(15, Math.abs(getVY()) * 1.05f
-							+ Math.min(Math.abs(tempy), 1.0f))
+					Math.abs(getVY()) * yaccel) * signy
+					: Math.min(15, Math.abs(vy) * 1.05f
+							+ Math.min(Math.abs(tempy), 1.5f))
 							* Math.signum(tempy);
+			if (!(temp != 0 && tempy != 0)) {
+				if (temp != 0) {
+					movementY *= 0.25;
+				}
+				if (tempy != 0) {
+					movement *= 0.25;
+				}
+			}
 
 			// movement = Math.max(5, Math.min(15,
 			// getVX() + temp / 5)) * lr;
@@ -264,13 +281,13 @@ public class AidenModel extends CharacterModel {
 			// getVY() + temp / 5));
 		}
 
-//		if (temp != 0 && Math.abs(getVX()) <= 0.1) {
-//			movement *= 0.1;
-//		}
-
+		// if (temp != 0 && Math.abs(getVX()) <= 0.1) {
+		// movement *= 0.1;
+		// }
 
 		body.setLinearVelocity(movement, movementY);
 	}
+
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
 		fuel = Math.max(fuel + i, MAX_FUEL);
@@ -278,9 +295,13 @@ public class AidenModel extends CharacterModel {
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
-		fuel = (float) Math.max(0,
-				fuel - Math.max(0.015, 0.008
-						* Math.sqrt(getVX() * getVX() + getVY() * getVY())));
+
+		float fuelloss = (float) Math.max(0.015, 0.008
+				* Math.sqrt(getVX() * getVX() + getVY() * getVY()));
+		if (isSpiriting) {
+			fuelloss *= 0.75;
+		}
+		fuel = (float) Math.max(0, fuel - fuelloss);
 	}
 
 	/** return the current level of fuel */
@@ -301,6 +322,11 @@ public class AidenModel extends CharacterModel {
 		if (!complete) {
 			subFuel(dt);
 		}
+		if (isSpiriting) {
+			spiritCount += 1;
+		} else {
+			spiritCount = Math.max(0, spiritCount - 1 / dt);
+		}
 		super.update(dt);
 		ratio = fuel / MAX_FUEL;
 		ratio = Math.max(0.8f, ratio);
@@ -309,6 +335,7 @@ public class AidenModel extends CharacterModel {
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
+
 	}
 
 	/**
@@ -351,23 +378,23 @@ public class AidenModel extends CharacterModel {
 			animate(canvas, c, ratio);
 		}
 	}
-	
-	public void drawDead(GameCanvas canvas){
-		if (this.animeCoolDown<=0) {
-			animeCoolDown=MAX_ANIME_TIME;
-			death.setFrame(Math.min(death.getFrame()+1,12));
+
+	public void drawDead(GameCanvas canvas) {
+		if (this.animeCoolDown <= 0) {
+			animeCoolDown = MAX_ANIME_TIME;
+			death.setFrame(Math.min(death.getFrame() + 1, 12));
 		}
-		
+
 		// For placement purposes, put origin in center.
 		float ox = 0.5f * characterSprite.getRegionWidth();
 		float oy = 0.5f * characterSprite.getRegionHeight();
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE;
-		if (death.getFrame() <= 6){
+		if (death.getFrame() <= 6) {
 			c = preColor;
 		}
-		canvas.draw(death, c, ox, oy, getX() * drawScale.x, 
+		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect, 1f);
 	}
 }

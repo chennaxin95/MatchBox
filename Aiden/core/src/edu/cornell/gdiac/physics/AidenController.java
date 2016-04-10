@@ -226,7 +226,7 @@ public class AidenController extends WorldController
 	// Wall vertices
 
 	private static final float[][] START = {
-			{ 1.0f, 5.0f},
+			{ 1.0f, 5.0f },
 			{ 1.0f, 20.0f },
 			{ 1.0f, 13.0f }
 	};
@@ -244,12 +244,12 @@ public class AidenController extends WorldController
 							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
 					{ 16.25f, 21.0f, 17.25f, 21.0f, 17.25f, 6.0f, 16.25f, 6.0f }
 			} };
-	private static final float[][][] WALLS2 = { 
-			{ { 1.0f, 0.0f, 30.0f, 1.0f},
+	private static final float[][][] WALLS2 = {
+			{ { 1.0f, 0.0f, 30.0f, 1.0f },
 					{ 0.0f, 0.0f, 1f, 22f },
 					{ 1.0f, 21f, 30f, 1f },
-					{ 31.0f, 0.0f, 1f, 22f }},
-			
+					{ 31.0f, 0.0f, 1f, 22f } },
+
 			{ { 1.0f, 0.0f, 30.0f, 1f },
 					{ 0.0f, 0.0f, 1f, 22f },
 					{ 1.0f, 21f, 30f, 1f },
@@ -263,7 +263,7 @@ public class AidenController extends WorldController
 			} };
 	private static final float[][][] OPENINGS = {
 			{},
-			{{ 11f, 13f } },
+			{ { 11f, 13f } },
 			{} };
 
 	/** The outlines of all of the platforms */
@@ -279,17 +279,17 @@ public class AidenController extends WorldController
 			{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f }
 	} };
 
-	private static final float[][][] PLATFORMS2 = { 
+	private static final float[][][] PLATFORMS2 = {
 			{},
-			
-			{{ 6.0f, 8.0f, 10.0f, 1f },
+
+			{ { 6.0f, 8.0f, 10.0f, 1f },
 					{ 15.0f, 5.0f, 1f, 3f },
 					{ 16.0f, 5.0f, 10.0f, 1f },
 					{ 25.0f, 6.0f, 1f, 2f },
 					{ 25.0f, 8.0f, 6f, 1f },
 					{ 1.0f, 16.0f, 15.0f, 1f },
 					{ 18.0f, 16.0f, 7f, 1f } },
-			
+
 			{ { 1.0f, 10.0f, 3.0f, 1f },
 					{ 3.0f, 5.0f, 4.0f, 1f },
 					{ 10.0f, 5.0f, 4.0f, 1f },
@@ -299,8 +299,13 @@ public class AidenController extends WorldController
 	/** the vertices for the boxes */
 
 	private static final float[][] BOXES = {
-			{},
-			
+			{ 6f, 2f, 6f, 4f, 6f, 6f, 6f, 8f, 6f, 10f, 6f, 12f,
+					8f, 2f, 8f, 4f, 8f, 6f, 8f, 8f, 8f, 10f, 8f, 12f,
+					10f, 2f, 10f, 4f, 10f, 6f, 10f, 8f, 10f, 10f, 10f, 12f,
+					12f, 2f, 12f, 4f, 12f, 6f, 12f, 8f, 12f, 10f, 12f, 12f,
+					14f, 2f, 14f, 4f, 14f, 6f, 14f, 8f, 14f, 10f, 14f, 12f,
+					16f, 2f, 16f, 4f, 16f, 6f, 16f, 8f, 16f, 10f, 16f, 12f },
+
 			{ 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
 					7f, 6f, 9f, 2f, 11f, 2f,
 					9f, 4f, 11f, 4f
@@ -311,23 +316,26 @@ public class AidenController extends WorldController
 
 	/** the vertices for stone boxes */
 
-	private static final float[][] STONE_BOXES = { 
+	private static final float[][] STONE_BOXES = {
 			{},
-		
+
 			{ 16.0f, 1.0f },
-			
+
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
 					24.75f, 10f, 15.5f, 11f } };
 
 	/** WaterGuard Positions */
-	private static final float [][] WATERGUARDS = {{},{ 21.0f, 11.0f},{21.0f, 11.0f}};
+	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
+			{ 21.0f, 11.0f } };
 	/** fuel blocks */
-	private static final float[][] FUELS = { {}, { 29.5f, 9f }, { 13f, 8f } };
+	private static final float[][] FUELS = { { 2f, 2f }, { 29.5f, 9f },
+			{ 13f, 8f } };
 
 	private static final float[][] LADDER = { {}, {},
 			{ 4.5f, 10.5f, 2.5f, 5.5f } };
 
-	private static final float[][] GOAL = {{29f, 2f}, { 29f, 2f }, { 29f, 9f } };
+	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
+			{ 29f, 9f } };
 
 	// Other game objects
 	/** The goal door position */
@@ -516,7 +524,7 @@ public class AidenController extends WorldController
 			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
 					BOXES[level][ii + 1], dwidth,
 
-					dheight, 1f, 3);
+					dheight, 1f, 3f);
 
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
@@ -525,7 +533,8 @@ public class AidenController extends WorldController
 			box.setName("box" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
-			box.setBurningTexture(burningTexture[ii / 2], 2);
+			box.setBurningTexture(
+					burningTexture[(ii / 2) % burningTexture.length], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -600,10 +609,11 @@ public class AidenController extends WorldController
 		// Create NPCs
 		dwidth = waterTexture.getRegionWidth() / scale.x;
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
-		for (int ii =0; ii < WATERGUARDS[level].length; ii+=2){
+		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
 			CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 					"WaterGuard",
-					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1], dwidth, dheight, true);
+					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1], dwidth,
+					dheight, true);
 			ch1.setDrawScale(scale);
 			ch1.setTexture(waterTexture);
 			npcs.add(ch1);
@@ -666,6 +676,19 @@ public class AidenController extends WorldController
 		// spirit = !spirit;
 		// }
 
+		// if not in spirit mode or not on ladder, then not climbing
+		avatar.setClimbing(false);
+		avatar.setGravityScale(1);
+		avatar.setSpiriting(false);
+		aiController.nextMove(npcs);
+
+		Array<Contact> cList = world.getContactList();
+		CollisionController CollControl = new CollisionController();
+		boolean notFailure = CollControl.getCollisions(cList, avatar);
+		if (!notFailure) {
+			setFailure(true);
+		}
+
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
 				: InputController.getInstance().getHorizontal();
@@ -683,24 +706,12 @@ public class AidenController extends WorldController
 					EFFECT_VOLUME);
 		}
 
-		// if not in spirit mode or not on ladder, then not climbing
-		avatar.setClimbing(false);
-		avatar.setGravityScale(1);
-		avatar.setSpiriting(false);
-		aiController.nextMove(npcs);
 		// Update movements of npcs, including all interactions/side effects
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
 
 		// Detect contacts -- should be moved to a separate Controller
-
-		Array<Contact> cList = world.getContactList();
-		CollisionController CollControl = new CollisionController();
-		boolean notFailure = CollControl.getCollisions(cList, avatar);
-		if (!notFailure) {
-			setFailure(true);
-		}
 
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);

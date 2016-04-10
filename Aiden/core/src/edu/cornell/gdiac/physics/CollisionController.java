@@ -12,8 +12,9 @@ import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
-public class CollisionController{
-	public boolean getCollisions(Array<Contact> cList, AidenModel avatar){
+
+public class CollisionController {
+	public boolean getCollisions(Array<Contact> cList, AidenModel avatar) {
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
 			Fixture fix2 = c.getFixtureB();
@@ -22,7 +23,6 @@ public class CollisionController{
 			try {
 				Obstacle bd1 = (Obstacle) body1.getUserData();
 				Obstacle bd2 = (Obstacle) body2.getUserData();
-
 
 				// checking for two flammable block's chain reaction
 				if (bd1 instanceof FlammableBlock
@@ -48,9 +48,15 @@ public class CollisionController{
 					if (bd2 instanceof FlammableBlock) {
 
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if (avatar.getPosition().dst(
-								fb.getPosition()) <= fb.getWidth()
-										* Math.sqrt(2) / 2) {
+						if ((avatar.getX() >= fb.getX() - fb.getWidth() / 1.9 ||
+								avatar.getX() <= fb.getX()
+										+ fb.getWidth() / 1.9)
+								&&
+								(avatar.getY() >= fb.getY()
+										- fb.getHeight() / 1.9
+										||
+										avatar.getY() <= fb.getY()
+												+ fb.getHeight() / 1.9)) {
 							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
@@ -69,9 +75,11 @@ public class CollisionController{
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-						if (avatar.getPosition().dst(
-								fb.getPosition()) <= fb.getWidth()
-										* Math.sqrt(2) / 2) {
+						if ((avatar.getX() >= fb.getX() ||
+								avatar.getX() <= fb.getX() + fb.getWidth()) &&
+								(avatar.getY() >= fb.getY() ||
+										avatar.getY() <= fb.getY()
+												+ fb.getHeight())) {
 							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
