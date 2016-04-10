@@ -6,12 +6,17 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import edu.cornell.gdiac.physics.InputController;
 import edu.cornell.gdiac.physics.WorldController;
+import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
+import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.Platform;
+import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -20,7 +25,7 @@ import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class LevelEditor extends WorldController {
 	/** The texture file for the character avatar (no animation) */
-	private static final String DUDE_FILE = "platform/dude.png";
+	private static final String DUDE_FILE = "platform/aiden.png";
 	/** texture for water */
 	private static final String WATER_FILE = "platform/water.png";
 	/** The texture file for the spinning barrier */
@@ -70,6 +75,12 @@ public class LevelEditor extends WorldController {
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;
 
+	public static final int PLATFORM_IND=0;
+	public static final int WOOD_BOX_IND=1;
+	public static final int STONE_BOX_IND=2;
+	public static final int FUEL_BOX_IND=3;
+	public static final int LADDER_COMPLEX_IND=4;
+	
 	public void preLoadContent(AssetManager manager) {
 		if (platformAssetState != AssetState.EMPTY) {
 			return;
@@ -124,7 +135,7 @@ public class LevelEditor extends WorldController {
 	 * @param manager
 	 *            Reference to global asset manager.
 	 */
-	public void loadContent(AssetManager manager) {
+	public void loadContent(AssetManager manager) {		
 		if (platformAssetState != AssetState.LOADING) {
 			return;
 		}
@@ -146,14 +157,14 @@ public class LevelEditor extends WorldController {
 	
 	ArrayList<CharacterModel> npcs;
 	AidenModel aiden;
-	ArrayList<FlammableBlock> flammableBlocks;
+	ArrayList<BlockAbstract> blocks;
 	
 	Vector2 leftBottomPos=new Vector2();
 	public LevelEditor(){
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_GRAVITY);
 		npcs=new ArrayList<CharacterModel>();
 		aiden=null;
-		flammableBlocks=new ArrayList<FlammableBlock>();
+		blocks=new ArrayList<BlockAbstract>();
 	}
 
 	@Override
@@ -161,12 +172,12 @@ public class LevelEditor extends WorldController {
 		// TODO Auto-generated method stub
 		npcs.clear();
 		aiden=null;
-		flammableBlocks.clear();
+		blocks.clear();
 	}
 	
 	private boolean holding=false;
 	private CharacterModel holdingCharacter=null;
-	private FlammableBlock holdingBlock=null;	
+	private BlockAbstract holdingBlock=null;	
 	private float inputCoolDown=0;
 	private final static float INPUT_COOL_DOWN=0.5f;
 	
@@ -182,7 +193,7 @@ public class LevelEditor extends WorldController {
     	yPos = yPos* 8f/288f;
     		
 		System.out.println(xPos+" "+yPos);
-		System.out.println(this.flammableBlocks.size()+" "+this.npcs.size());
+		System.out.println(this.blocks.size()+" "+this.npcs.size());
 		boolean wasHolding=holding;
 		if (this.inputCoolDown>0){
 			this.inputCoolDown-=dt;
@@ -192,16 +203,24 @@ public class LevelEditor extends WorldController {
 			this.inputCoolDown=INPUT_COOL_DOWN;
 		}
 		if (holding && !wasHolding){
-			for (CharacterModel npc: npcs){
-				if (npc.getX()-npc.getWidth()/2<xPos
-						&& npc.getX()+npc.getWidth()/2>xPos
-						&& npc.getY()-npc.getHeight()/2<yPos
-						&& npc.getY()+npc.getHeight()/2>yPos){
-					holdingCharacter=npc;
-					break;
+			if (aiden.getX()-aiden.getWidth()/2<xPos
+					&& aiden.getX()+aiden.getWidth()/2>xPos
+					&& aiden.getY()-aiden.getHeight()/2<yPos
+					&& aiden.getY()+aiden.getHeight()/2>yPos){
+				holdingCharacter=aiden;
+			}
+			else{
+				for (CharacterModel npc: npcs){
+					if (npc.getX()-npc.getWidth()/2<xPos
+							&& npc.getX()+npc.getWidth()/2>xPos
+							&& npc.getY()-npc.getHeight()/2<yPos
+							&& npc.getY()+npc.getHeight()/2>yPos){
+						holdingCharacter=npc;
+						break;
+					}
 				}
 			}
-			for (FlammableBlock block: this.flammableBlocks){
+			for (BlockAbstract block: this.blocks){
 				if (block.getX()-block.getWidth()/2<xPos
 						&& block.getX()+block.getWidth()/2>xPos
 						&& block.getY()-block.getHeight()/2<yPos
@@ -232,20 +251,42 @@ public class LevelEditor extends WorldController {
 			}
 		}
 		if (holding){
-			if (holdingCharacter!=null){
-				holdingCharacter.setPosition(new Vector2(xPos, yPos));
+			if (InputController.getInstance().hasRemovePressed){
+				if (holdingCharacter!=null){
+					npcs.remove(holdingCharacter);
+					holdingCharacter=null;
+				}
+				if (holdingBlock!=null){
+					blocks.remove(holdingBlock);
+					holdingBlock=null;
+				}
+				holding=false;
 			}
-			else if (holdingBlock!=null){
-				holdingBlock.setPosition(new Vector2(xPos, yPos));
+			else{
+				if (holdingCharacter!=null){
+					holdingCharacter.setPosition(new Vector2(xPos, yPos));
+				}
+				else if (holdingBlock!=null){
+					holdingBlock.setPosition(new Vector2(xPos, yPos));
+				}
 			}
 		}
 		else{
-			if (InputController.getInstance().newCharacterPressed
+			if (InputController.getInstance().newAidenPressed
+					&& !InputController.getInstance().hasNewAidenPressed){
+				aiden=new AidenModel(xPos,yPos, 2.5f, 3f, true);
+				Vector2 trans=fitInGrid(new Vector2(aiden.getX()
+						-aiden.getWidth()/2f, 
+						aiden.getY()
+						-aiden.getHeight()/2f));
+				aiden.setPosition(aiden.getPosition().add(trans));
+				aiden.setTexture(avatarTexture);
+				aiden.setDrawScale(scale);
+			}
+			else if (InputController.getInstance().newCharacterPressed
 					&& !InputController.getInstance().hasNewCharacterPressed){
 				CharacterModel ch=new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard", 
-						xPos, yPos, 2.5f, 3f,
-						true);
-				System.out.println("width "+ch.getWidth());
+						xPos, yPos, 2.5f, 3f, true);
 				Vector2 trans=fitInGrid(new Vector2(ch.getX()
 						-ch.getWidth()/2f, 
 						ch.getY()
@@ -257,15 +298,52 @@ public class LevelEditor extends WorldController {
 			}
 			else if (InputController.getInstance().newBlockPressed &&
 					!InputController.getInstance().hasNewBlockPressed){
-				FlammableBlock block=new FlammableBlock(xPos, yPos, 2, 2, 1, 4);
-				Vector2 trans=fitInGrid(new Vector2(block.getX()
-						-block.getWidth()/2f, 
-						block.getY()
-						-block.getHeight()/2f));
-				block.setPosition(block.getPosition().add(trans));
-				block.setTexture(woodTexture);
-				block.setDrawScale(scale);
-				flammableBlocks.add(block);
+				BlockAbstract block=null;
+				Vector2 trans=new Vector2();
+				switch(InputController.getInstance().inputNumber){
+				case PLATFORM_IND:
+					block=new Platform(new Rectangle(xPos-1, yPos-1, 1, 1), gridUnit);
+					trans=fitInGrid(new Vector2(block.getX()
+							-block.getWidth()/2f, 
+							block.getY()
+							-block.getHeight()/2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(earthTile);
+					block.setDrawScale(scale);
+					break;
+				case WOOD_BOX_IND:
+					block=new FlammableBlock(xPos, yPos, 2, 2, 1, 4);
+					trans=fitInGrid(new Vector2(block.getX()
+							-block.getWidth()/2f, 
+							block.getY()
+							-block.getHeight()/2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(woodTexture);
+					block.setDrawScale(scale);
+					break;
+				case STONE_BOX_IND:
+					block=new StoneBlock(xPos, yPos, 2, 2);
+					trans=fitInGrid(new Vector2(block.getX()
+							-block.getWidth()/2f, 
+							block.getY()
+							-block.getHeight()/2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(stoneTexture);
+					block.setDrawScale(scale);
+					break;	
+				case FUEL_BOX_IND:
+					block=new FuelBlock(xPos, yPos, 2, 2, 1, 2, 25);
+					trans=fitInGrid(new Vector2(block.getX()
+							-block.getWidth()/2f, 
+							block.getY()
+							-block.getHeight()/2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(fuelTexture);
+					block.setDrawScale(scale);
+					break;	
+				default: break;
+				}
+				if (block!=null) blocks.add(block);
 			}
 		}
 	}
@@ -285,14 +363,15 @@ public class LevelEditor extends WorldController {
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				canvas.getWidth(), canvas.getHeight());
-		for (FlammableBlock obj : flammableBlocks) {
+		for (BlockAbstract obj : blocks) {
 			obj.draw(canvas);
 		}
 		for (CharacterModel obj : npcs) {
 			obj.draw(canvas);
 		}
+		System.out.println(aiden);
 		if (aiden!=null){
-			aiden.draw(canvas);
+			aiden.simpleDraw(canvas);
 		}
 		canvas.end();
 		canvas.beginDebug(1, 1);

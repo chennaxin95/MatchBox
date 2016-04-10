@@ -97,6 +97,11 @@ public class InputController {
 	public boolean hasNewBlockPressed;
 	public boolean newBlockPressed;
 	
+	public boolean hasRemovePressed;
+	public boolean newAidenPressed;
+	public boolean hasNewAidenPressed;
+	
+	public int inputNumber;
 	
 	/**
 	 * Returns the amount of sideways movement.
@@ -263,7 +268,8 @@ public class InputController {
 		spiritPrevious = spiritPressed;
 		
 		hasNewCharacterPressed=newCharacterPressed;
-		hasNewBlockPressed=newBlockPressed;		
+		hasNewBlockPressed=newBlockPressed;	
+		hasNewAidenPressed=newAidenPressed;	
 		// Check to see if a GamePad is connected
 		if (xbox.isConnected()) {
 			readGamepad(bounds, scale);
@@ -349,6 +355,32 @@ public class InputController {
 				|| (Gdx.input.isKeyPressed(Input.Keys.C));	
 		newBlockPressed =(secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.B));
+		
+		hasRemovePressed=(secondary && nextPressed)
+		|| (Gdx.input.isKeyPressed(Input.Keys.DEL));
+		
+		newAidenPressed=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.A));
+		
+		
+		inputNumber=-1;
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
+			inputNumber=0;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			inputNumber=1;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			inputNumber=2;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			inputNumber=3;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
+			inputNumber=4;
+		}
+		System.out.println("input:"+inputNumber+" "+newAidenPressed);
+		
 		
 		// Directional controls
 		horizontal = (secondary ? horizontal : 0.0f);
