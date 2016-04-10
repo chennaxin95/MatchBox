@@ -85,10 +85,24 @@ public class InputController {
 	private Vector2 crosscache;
 	/** For the gamepad crosshair control */
 	private float momentum;
-
+	
 	/** An X-Box controller (if it is connected) */
 	XBox360Controller xbox;
 
+	public boolean leftClicked;
+	public Vector2 mousePos;
+	
+	public boolean hasNewCharacterPressed;
+	public boolean newCharacterPressed;
+	public boolean hasNewBlockPressed;
+	public boolean newBlockPressed;
+	
+	public boolean hasRemovePressed;
+	public boolean newAidenPressed;
+	public boolean hasNewAidenPressed;
+	
+	public int inputNumber;
+	
 	/**
 	 * Returns the amount of sideways movement.
 	 *
@@ -252,7 +266,10 @@ public class InputController {
 		nextPrevious = nextPressed;
 		prevPrevious = prevPressed;
 		spiritPrevious = spiritPressed;
-
+		
+		hasNewCharacterPressed=newCharacterPressed;
+		hasNewBlockPressed=newBlockPressed;	
+		hasNewAidenPressed=newAidenPressed;	
 		// Check to see if a GamePad is connected
 		if (xbox.isConnected()) {
 			readGamepad(bounds, scale);
@@ -330,6 +347,41 @@ public class InputController {
 		exitPressed = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 
+		leftClicked =  (secondary && nextPressed) || 
+				(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
+		mousePos =  new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		
+		newCharacterPressed =(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.C));	
+		newBlockPressed =(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.B));
+		
+		hasRemovePressed=(secondary && nextPressed)
+		|| (Gdx.input.isKeyPressed(Input.Keys.DEL));
+		
+		newAidenPressed=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.A));
+		
+		
+		inputNumber=-1;
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
+			inputNumber=0;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			inputNumber=1;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			inputNumber=2;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			inputNumber=3;
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
+			inputNumber=4;
+		}
+		System.out.println("input:"+inputNumber+" "+newAidenPressed);
+		
+		
 		// Directional controls
 		horizontal = (secondary ? horizontal : 0.0f);
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {

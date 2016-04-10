@@ -8,7 +8,9 @@
  */
 package edu.cornell.gdiac.physics.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.cornell.gdiac.physics.*;
@@ -33,6 +35,9 @@ public class AidenModel extends CharacterModel {
 	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
+	private ParticleEffect trailLeft;
+	private ParticleEffect trailRight;
+	private ParticleEffect trailStill;
 
 	/** Amount of time spent in spirit mode */
 	private float spiritCount = 0;
@@ -190,6 +195,18 @@ public class AidenModel extends CharacterModel {
 		setName("Aiden");
 		iWidth = width;
 		iHeight = height;
+		trailLeft = new ParticleEffect();
+		trailLeft.load(Gdx.files.internal("platform/left.p"),
+				Gdx.files.internal("platform"));
+		trailRight = new ParticleEffect();
+		trailRight.load(Gdx.files.internal("platform/right.p"),
+				Gdx.files.internal("platform"));
+		trailStill = new ParticleEffect();
+		trailStill.load(Gdx.files.internal("platform/still.p"),
+				Gdx.files.internal("platform"));
+		trailStill.start();
+		trailRight.start();
+		trailLeft.start();
 	}
 
 	/**
@@ -336,6 +353,14 @@ public class AidenModel extends CharacterModel {
 		this.resizeFixture(ratio);
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
+		trailLeft.update(dt);
+		trailRight.update(dt);
+		trailStill.update(dt);
+
+	}
+
+	public void simpleDraw(GameCanvas canvas) {
+		super.draw(canvas);
 	}
 
 	/**
@@ -348,16 +373,23 @@ public class AidenModel extends CharacterModel {
 	public void draw(GameCanvas canvas) {
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE.cpy();
-		// Draw fire trail
-		// if (trailTexture != null) {
-		// canvas.draw(trailTexture, c, origin.x, origin.y,
-		// (getX() - getVX() * UNIT_TRAIL_DIST) * drawScale.x,
-		// (getY() - this.getHeight() / 4) * drawScale.y, getAngle(),
-		// (getVX() * UNIT_TRAIL_DIST) * drawScale.x
-		// / trailTexture.getRegionWidth(),
-		// 0.4f);
-		// }
-		// Draw Character
+
+		trailLeft.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailRight.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailStill.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+
+		if (Math.abs(getVX()) > 2) {
+			if (faceRight) {
+				canvas.drawParticle(trailRight);
+			} else {
+				canvas.drawParticle(trailLeft);
+			}
+		}
+		canvas.drawParticle(trailStill);
+
 		if (this.isSpiriting) {
 			c.a = 0.75f;
 		}

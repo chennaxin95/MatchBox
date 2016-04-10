@@ -80,6 +80,12 @@ public class AidenController extends WorldController
 	private TextureRegion fuelTexture;
 	/** texture for water */
 	private TextureRegion waterTexture;
+	private TextureRegion stoneTexture;
+	private TextureRegion ropeTexture;
+	/** Texture for background */
+	private static final String BACKGROUND = "shared/background.png";
+	/** Texture for background */
+	private TextureRegion backGround;
 
 	// private TextureRegion ladderTexture;
 	/** Texture for aiden animation */
@@ -88,14 +94,6 @@ public class AidenController extends WorldController
 	private FilmStrip WaterWalkTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
-
-	private TextureRegion stoneTexture;
-	private TextureRegion ropeTexture;
-
-	/** Texture for background */
-	private static final String BACKGROUND = "shared/background.png";
-	/** Texture for background */
-	private TextureRegion backGround;
 
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;
@@ -607,9 +605,11 @@ public class AidenController extends WorldController
 		addObject(avatar);
 
 		// Create NPCs
-		dwidth = waterTexture.getRegionWidth() / scale.x;
-		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.25f;
-		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
+
+		dwidth = waterTexture.getRegionWidth() / scale.x - 0.5f;
+		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.6f;
+		for (int ii =0; ii < WATERGUARDS[level].length; ii+=2){
+
 			CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 					"WaterGuard",
 					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1], dwidth,

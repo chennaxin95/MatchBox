@@ -1,23 +1,17 @@
 {
-	"Level":1,
 	"Background":"shared/background.png",
 	"Aiden":{
-		"start_pos":[{
+		"start_pos":{
 			"x":1,
 			"y":1
-		},{
-			"x":2,
-			"y":2
-		}],
-		"density":1,
+		},
+		"mass":1,
 		"width":1,
 		"height":1,
 		"fright":true,
 		"max_walk_speed":10,
 		"jump_height":5,
-		"start_fuel":30,
-		"critical_fuel":15,
-		"max_fuel":50
+		"start_fuel":30
 	},
 	"Objects":
 	[
@@ -32,10 +26,9 @@
 				"y":2
 			},
 			"texture":"platform/woodenBlock.png",
-			"width":1,
-			"height":1,
-			"fright":true,
-			"weight":5,
+			"scale_x":1,
+			"scale_y":1,
+			"density":1,
 			"link_pos":{
 				"x":0,
 				"y":0
@@ -58,7 +51,6 @@
 			"width":1,
 			"height":1,
 			"weight":5,
-			"fright":false,
 			"link_pos":{
 				"x":0,
 				"y":0

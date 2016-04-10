@@ -274,7 +274,7 @@ public abstract class WorldController implements Screen {
 	public boolean isDebug( ) {
 		return debug;
 	}
-
+	
 	/**
 	 * Sets whether debug mode is active.
 	 *
