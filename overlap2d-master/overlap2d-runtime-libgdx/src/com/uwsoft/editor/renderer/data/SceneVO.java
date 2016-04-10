@@ -40,7 +40,6 @@ public class SceneVO {
         Json json = new Json();
         json.setOutputType(OutputType.json);
         str = json.toJson(this);
-        System.out.println("scenevo!"+str);
         return str;
     }
 }

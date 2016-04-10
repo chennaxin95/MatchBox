@@ -26,10 +26,9 @@
 				"y":2
 			},
 			"texture":"platform/woodenBlock.png",
-			"width":1,
-			"height":1,
-			"fright":true,
-			"weight":5,
+			"scale_x":1,
+			"scale_y":1,
+			"density":1,
 			"link_pos":{
 				"x":0,
 				"y":0
@@ -52,7 +51,6 @@
 			"width":1,
 			"height":1,
 			"weight":5,
-			"fright":false,
 			"link_pos":{
 				"x":0,
 				"y":0

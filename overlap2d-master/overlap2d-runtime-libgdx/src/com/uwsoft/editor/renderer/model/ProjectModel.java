@@ -10,15 +10,23 @@ public class ProjectModel implements Json.Serializable{
 	
 	private String background = "shared/background.png";
 	private AidenModel aiden;
+	private ArrayList<Block> blocks;
+	private ArrayList<WaterModel> waters;
+	private GoalModel goal;
 	
-	public ProjectModel (int level, String bg, AidenModel aiden){
+	public ProjectModel (int level, String bg, AidenModel aiden, GoalModel goal){
 		this.level = level;
 		this.background = bg;
 		this.aiden = aiden;
+		this.goal = goal;
 	}
 	
-	public ProjectModel(AidenModel aiden){
+	public ProjectModel(AidenModel aiden, ArrayList<Block> blocks, 
+			ArrayList<WaterModel> waters, GoalModel goal){
 		this.aiden = aiden;
+		this.blocks = blocks;
+		this.waters = waters;
+		this.goal = goal;
 	}
 
 	@Override
@@ -27,6 +35,9 @@ public class ProjectModel implements Json.Serializable{
 		json.writeValue("level",level);
 		json.writeValue("background", background);
 		json.writeValue("aiden",aiden);
+		json.writeValue("blocks",blocks);
+		json.writeValue("waters",waters);
+		json.writeValue("goal",goal);
 	}
 
 	@Override
