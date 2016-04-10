@@ -24,6 +24,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.kotcrab.vis.ui.util.dialog.DialogUtils;
 import com.puremvc.patterns.proxy.BaseProxy;
 import com.uwsoft.editor.Overlap2DFacade;
@@ -39,6 +40,7 @@ import com.uwsoft.editor.view.ui.widget.ProgressHandler;
 import com.vo.EditorConfigVO;
 import com.vo.ProjectVO;
 import com.vo.SceneConfigVO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.NodeList;
@@ -48,6 +50,7 @@ import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -280,6 +283,8 @@ public class ProjectManager extends BaseProxy {
         saveCurrentProject();
         SceneDataManager sceneDataManager = facade.retrieveProxy(SceneDataManager.NAME);
         sceneDataManager.saveScene(vo);
+        SceneParser sp = new SceneParser(currentProjectInfoVO, vo);
+        sp.parseScene();
     }
 
 

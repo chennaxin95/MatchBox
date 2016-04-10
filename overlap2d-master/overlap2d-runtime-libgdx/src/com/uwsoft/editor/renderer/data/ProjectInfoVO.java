@@ -26,6 +26,7 @@ public class ProjectInfoVO {
         json.setOutputType(OutputType.json);
         str = json.toJson(this);
         json.prettyPrint(str);
+        //System.out.println(str);
         return str;
     }
 
