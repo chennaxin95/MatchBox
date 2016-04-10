@@ -241,6 +241,10 @@ public class NavBoard {
 			this.isTarget=true;
 		}
 		
+		public boolean isSafeToWalkOn(){
+			return type!=TileType.NONE && type!=TileType.DANGER && type!=TileType.SUPPORT;
+		}
+		
 	}
 	
 	public enum TileType{

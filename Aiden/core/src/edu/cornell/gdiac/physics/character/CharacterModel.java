@@ -221,6 +221,10 @@ public class CharacterModel extends CapsuleObstacle{
 			faceRight = true;
 		}
 	}
+	
+	public void turnAround(){
+		faceRight = !faceRight;
+	}
 
 	/**
 	 * Returns true if the dude is on the ground.

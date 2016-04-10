@@ -57,11 +57,6 @@ public class LadderBlock extends Platform {
 			}
 		}		
 		ropeRegion=new PolygonRegion(rtexture, vertices, tridx);
-		System.out.print("Rope corrds ");
-		float[] uvs=ropeRegion.getTextureCoords();
-		for (float uv:uvs){
-			System.out.print(uv+" ");
-		}
 	}
 	public TextureRegion getRopeUnitTexture(){
 		return ropeTexture;
@@ -95,7 +90,7 @@ public class LadderBlock extends Platform {
 		if (ropeRegion != null) {
 			canvas.draw(ropeRegion,Color.WHITE, 0,0,
 					(getX()-rwidth/2)*drawScale.x,
-					(getY()-getHeight()/2-rlength)*drawScale.y,
+					(getY()-rlength)*drawScale.y,
 					getAngle(), 1, 1);
 		}	
 	}
