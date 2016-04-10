@@ -56,7 +56,6 @@ public class SceneParser {
 		for (SimpleImageVO s:sImages){
 			if(s.imageName.equals(AIDEN_NAME)){
 				aiden.start_pos.add(new Point((int)s.x/2, (int)s.y/2));
-				System.out.println(aiden.start_pos.size());
 				aiden.scale_x = s.scaleX;
 				aiden.scale_y = s.scaleY;
 				String custom = s.customVars;
@@ -190,6 +189,7 @@ public class SceneParser {
 		//FileHandle file = Gdx.files.local("aiden-example.json");
 		project = new ProjectModel(aiden, blocks,waters, goal);
 		String project_str = json.prettyPrint(project);
+		Gdx.files.local("aiden-example.json").delete();
 		FileHandle file = Gdx.files.local("aiden-example.json");
 		file.writeString(project_str, true);
 	}
