@@ -77,7 +77,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		loading = new LoadingMode(canvas,manager,1);
 		
 		// Initialize the three game worlds
-		controllers = new WorldController[3];
+		controllers = new WorldController[4];
 		scenes = new Scene[2];
 		controllers[0] = new AidenController(0);
 		controllers[0].preLoadContent(manager);
@@ -89,8 +89,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		controllers[2].preLoadContent(manager);
 		loading.setScreenListener(this);
 		
-		controllers[2] = new LevelEditor();
-		controllers[2].preLoadContent(manager);
+		controllers[3] = new LevelEditor();
+		controllers[3].preLoadContent(manager);
 		loading.setScreenListener(this);
 		
 		setScreen(loading);

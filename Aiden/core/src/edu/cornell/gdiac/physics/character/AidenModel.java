@@ -328,6 +328,10 @@ public class AidenModel extends CharacterModel {
 		trailStill.update(dt);
 	}
 
+	public void simpleDraw(GameCanvas canvas){
+		super.draw(canvas);
+	}
+	
 	/**
 	 * Draws the physics object.
 	 *
