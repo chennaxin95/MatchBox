@@ -211,14 +211,18 @@ public class LevelEditor extends WorldController {
 		System.out.println(this.npcs.size()+" "+this.blocks.size());
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
-		xPos=InputController.getInstance().mousePos.x
+		float nxPos=InputController.getInstance().mousePos.x
 				+ canvas.getCamera().position.x
 				-(float)backGround.getRegionWidth()/2f;
-		yPos=-InputController.getInstance().mousePos.y
+		float nyPos=-InputController.getInstance().mousePos.y
 				+ canvas.getCamera().position.y
 				+(float)backGround.getRegionHeight()/2f;
-		xPos/=scale.x;
-		yPos/=scale.y;
+		nxPos/=scale.x;
+		nyPos/=scale.y;
+		float deltaX=nxPos-xPos;
+		float deltaY=nyPos-yPos;
+		xPos=nxPos;
+		yPos=nyPos;
     	if (InputController.getInstance().exportPressed){
     		exportToJson();
     		return;
@@ -345,10 +349,12 @@ public class LevelEditor extends WorldController {
 			}
 			else{
 				if (holdingCharacter!=null){
-					holdingCharacter.setPosition(new Vector2(xPos, yPos));
+					holdingCharacter.setPosition(holdingCharacter.
+							getPosition().add(new Vector2(deltaX, deltaY)));
 				}
 				else if (holdingBlock!=null){
-					holdingBlock.setPosition(new Vector2(xPos, yPos));
+					holdingBlock.setPosition(holdingBlock.
+							getPosition().add(new Vector2(deltaX, deltaY)));
 				}
 				else{
 					holding=false;
@@ -544,8 +550,10 @@ public class LevelEditor extends WorldController {
 		
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks, npcs, goalDoor);
 		String project_str = json.prettyPrint(project);
-		Gdx.files.local("aiden-example.json").delete();
-		FileHandle file = Gdx.files.local("aiden-example.json");
+		
+		String outputfile="aiden-example.json";
+		Gdx.files.local(outputfile).delete();
+		FileHandle file = Gdx.files.local(outputfile);
 		file.writeString(project_str, true);
 	}
 	
