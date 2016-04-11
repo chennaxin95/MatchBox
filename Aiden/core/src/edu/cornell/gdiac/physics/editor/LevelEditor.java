@@ -174,6 +174,7 @@ public class LevelEditor extends WorldController {
 		aiden=null;
 		blocks=new ArrayList<BlockAbstract>();
 		platformRect=new Rectangle(-1,-1,0,0);
+		inputCoolDown=0;
 	}
 
 	@Override
@@ -183,13 +184,14 @@ public class LevelEditor extends WorldController {
 		aiden=null;
 		blocks.clear();
 		platformRect=new Rectangle(-1,-1,0,0);
+		inputCoolDown=0;
 	}
 	
 	private boolean holding=false;
 	private CharacterModel holdingCharacter=null;
 	private BlockAbstract holdingBlock=null;	
 	private float inputCoolDown=0;
-	private final static float INPUT_COOL_DOWN=0.1f;
+	private final static float INPUT_COOL_DOWN=0.5f;
 	
 	private Rectangle platformRect;
 	private boolean isAddingRect;
