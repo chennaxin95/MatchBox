@@ -102,6 +102,7 @@ public class InputController {
 	public boolean hasNewAidenPressed;
 	public boolean hasPressedPoly;
 	
+	public boolean exportPressed;
 	
 	public int inputNumber;
 	
@@ -365,6 +366,9 @@ public class InputController {
 				|| (Gdx.input.isKeyPressed(Input.Keys.A));
 		hasPressedPoly=(secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.Y));		
+		
+		exportPressed=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.E));		
 		
 		inputNumber=-1;
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){

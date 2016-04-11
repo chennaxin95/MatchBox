@@ -1,10 +1,13 @@
 package edu.cornell.gdiac.physics.editor;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -81,7 +84,10 @@ public class LevelEditor extends WorldController {
 	public static final int WOOD_BOX_IND=1;
 	public static final int STONE_BOX_IND=2;
 	public static final int FUEL_BOX_IND=3;
-	public static final int LADDER_COMPLEX_IND=4;
+	public static final int GOAL_DOOR_IND=4;
+	public static final int LADDER_COMPLEX_IND=5;
+
+	private BlockAbstract goalDoor;
 	
 	public void preLoadContent(AssetManager manager) {
 		if (platformAssetState != AssetState.EMPTY) {
@@ -200,7 +206,9 @@ public class LevelEditor extends WorldController {
 				+(float)backGround.getRegionHeight()/2f;
 		xPos/=scale.x;
 		yPos/=scale.y;
-    		
+    	if (InputController.getInstance().exportPressed){
+    		exportToJson();
+    	}
 //		System.out.println(this.blocks.size()+" "+this.npcs.size());
 		boolean wasHolding=holding;
 		if (inputCoolDown>0) inputCoolDown-=dt;
@@ -402,6 +410,17 @@ public class LevelEditor extends WorldController {
 					block.setTexture(fuelTexture);
 					block.setDrawScale(scale);
 					break;	
+				case GOAL_DOOR_IND:
+					block=new StoneBlock(xPos, yPos, 2, 2);
+					trans=fitInGrid(new Vector2(block.getX()
+							-block.getWidth()/2f, 
+							block.getY()
+							-block.getHeight()/2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(goalTile);
+					block.setDrawScale(scale);
+					goalDoor=block;
+					break;	
 				default: break;
 				}
 				if (block!=null) blocks.add(block);
@@ -468,6 +487,16 @@ public class LevelEditor extends WorldController {
 	}
 	
 	public void exportToJson(){
-		JsonValue jv=new JsonValue(JsonValue.ValueType.object);
+		Json json = new Json();
+		json.setTypeName(null);
+		json.setUsePrototypes(false);
+		json.setIgnoreUnknownFields(true);
+		json.setOutputType(OutputType.json);
+		
+		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks, npcs, goalDoor);
+		String project_str = json.prettyPrint(project);
+		Gdx.files.local("aiden-example.json").delete();
+		FileHandle file = Gdx.files.local("aiden-example.json");
+		file.writeString(project_str, true);
 	}
 }
