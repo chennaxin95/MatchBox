@@ -620,8 +620,14 @@ public class AidenController extends WorldController
 			ch1.setCharacterSprite(WaterWalkTexture);
 			addObject(ch1);
 		}
-
-		// board.setupBoard(new ArrayList<Obstacle>(this.objects));
+		
+		dwidth = ropeTexture.getRegionWidth() / scale.x;
+		dheight = ropeTexture.getRegionHeight() / scale.y;
+		Rope r = new Rope(3, 5, 1, 1, dwidth, dheight);
+		r.setDrawScale(scale);
+		r.setTexture(ropeTexture);
+		addObject(r);
+		
 	}
 
 	// Temp
@@ -669,12 +675,6 @@ public class AidenController extends WorldController
 			setFailure(true);
 
 		}
-		// board.setupBoard(new ArrayList<Obstacle>(this.objects));
-
-		// // Toggle spirit mode
-		// if (InputController.getInstance().didSpirit()) {
-		// spirit = !spirit;
-		// }
 
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
@@ -695,6 +695,7 @@ public class AidenController extends WorldController
 		double accY = (spirit)
 				? InputController.getInstance().getVertical() * 1.5
 				: InputController.getInstance().getVertical();
+				
 		// Process actions in object model
 		avatar.setMovement((float) accX * 9);
 		avatar.setMovementY((float) accY * 8);
@@ -807,14 +808,11 @@ public class AidenController extends WorldController
 		Body body1 = fix1.getBody();
 		Body body2 = fix2.getBody();
 
-		Object fd1 = fix1.getUserData();
-		Object fd2 = fix2.getUserData();
-
 		Object bd1 = body1.getUserData();
 		Object bd2 = body2.getUserData();
 
-		if (bd1 == avatar && bd2 instanceof LadderBlock
-				|| bd2 == avatar && bd1 instanceof LadderBlock) {
+		if (bd1 == avatar && bd2 instanceof WheelObstacle
+				|| bd2 == avatar && bd1 instanceof WheelObstacle) {
 			contact.setEnabled(false);
 		}
 
@@ -849,17 +847,6 @@ public class AidenController extends WorldController
 			}
 		}
 		canvas.end();
-
-		if (debug) {
-			canvas.beginDebug(1, 1);
-			for (Obstacle obj : objects) {
-				obj.drawDebug(canvas);
-			}
-			// board.setDrawScale(scale);
-			// board.drawDebug(canvas);
-			aiController.drawDebug(canvas, scale, npcs);
-			canvas.endDebug();
-		}
 
 		// Final message
 		if (isComplete() && !isFailure()) {

@@ -206,22 +206,4 @@ public class AIController {
 //		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
 	}
 	
-	public void drawDebug(GameCanvas canvas, Vector2 scale, ArrayList<CharacterModel> npcs){
-		board.setDrawScale(scale);
-		board.drawDebug(canvas);
-		for (IntersectionRecord cl: close){
-			if (cl!=null){
-				cl.obj.drawDebug(canvas, Color.PURPLE);
-			}
-		}
-		for (IntersectionRecord det: detected){
-			if (det!=null){
-				det.obj.drawDebug(canvas, Color.RED);
-			}
-		}
-		if (npcs!=null)
-			for (CharacterModel npc:npcs)
-				sightDetector.drawDebug(canvas, npc.getEyePosition(), 
-						npc.getFacingDir()? 10:-10, scale, SightDetector.FOV);
-	}
 }

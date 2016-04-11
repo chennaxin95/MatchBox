@@ -604,16 +604,6 @@ public abstract class WorldController implements Screen {
 		}
 		canvas.end();
 		
-		if (debug) {
-			canvas.beginDebug();
-			for(Obstacle obj : objects) {
-				obj.drawDebug(canvas);
-			}
-			canvas.endDebug();
-		}
-		
-		
-		
 		// Final message
 		if (complete && !failed) {
 			displayFont.setColor(Color.YELLOW);

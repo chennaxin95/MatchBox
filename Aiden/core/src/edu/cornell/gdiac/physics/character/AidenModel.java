@@ -253,15 +253,9 @@ public class AidenModel extends CharacterModel {
 			movement = movement * 0.9f;
 		}
 
-		if (isGrounded && isClimbing) {
-			movement += getVX();
-			movement = Math.max(-10, Math.min(movement, 10));
-			if (temp == 0) {
-				movement *= 0.85;
-				if (Math.abs(movement) <= 0.1) {
-					movement = 0;
-				}
-			}
+		if (isClimbing) {
+			movement = 0;
+			movementY = 2;
 		}
 		if (isSpiriting) {
 			//
@@ -291,17 +285,7 @@ public class AidenModel extends CharacterModel {
 					movement *= 0.25;
 				}
 			}
-
-			// movement = Math.max(5, Math.min(15,
-			// getVX() + temp / 5)) * lr;
-			// movementY = Math.max(-15, Math.min(15,
-			// getVY() + temp / 5));
 		}
-
-		// if (temp != 0 && Math.abs(getVX()) <= 0.1) {
-		// movement *= 0.1;
-		// }
-
 		body.setLinearVelocity(movement, movementY);
 	}
 
