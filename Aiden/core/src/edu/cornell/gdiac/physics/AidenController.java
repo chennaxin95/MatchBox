@@ -478,7 +478,7 @@ public class AidenController extends WorldController
 							PLATFORMS2[level][ii][2], PLATFORMS2[level][ii][3]),
 					1);
 			p.setDensity(BASIC_DENSITY);
-			p.setFriction(BASIC_FRICTION);
+			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
 			p.setTexture(earthTile);
@@ -547,7 +547,7 @@ public class AidenController extends WorldController
 					dheight);
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(BASIC_FRICTION);
+			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("stone_box" + ii);
 			box.setDrawScale(scale);
@@ -564,7 +564,7 @@ public class AidenController extends WorldController
 					FUELS[level][ii + 1], dwidth,
 					dheight, 1, 1, 20);
 			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(BASIC_FRICTION);
+			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
