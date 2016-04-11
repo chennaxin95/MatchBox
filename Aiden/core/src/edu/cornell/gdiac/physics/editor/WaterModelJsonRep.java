@@ -21,5 +21,7 @@ public class WaterModelJsonRep {
 		this.name = ch.getName();
 		this.fright=ch.isFacingRight();
 		pos = new PointJsonRep(ch.getX(), ch.getY());
+		scale_x=ch.getWidth();
+		scale_y=ch.getHeight();
 	}
 }

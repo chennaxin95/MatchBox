@@ -26,6 +26,7 @@ import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.physics.scene.Scene;
 
 
 public class LevelEditor extends WorldController {
@@ -167,7 +168,15 @@ public class LevelEditor extends WorldController {
 	AidenModel aiden;
 	ArrayList<BlockAbstract> blocks;
 	
-	Vector2 leftBottomPos=new Vector2();
+	private boolean holding=false;
+	private CharacterModel holdingCharacter=null;
+	private BlockAbstract holdingBlock=null;	
+	private float inputCoolDown=0;
+	private final static float INPUT_COOL_DOWN=0.5f;
+	
+	private Rectangle platformRect;
+	private boolean isAddingRect;
+	
 	public LevelEditor(){
 		super(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_GRAVITY);
 		npcs=new ArrayList<CharacterModel>();
@@ -175,6 +184,11 @@ public class LevelEditor extends WorldController {
 		blocks=new ArrayList<BlockAbstract>();
 		platformRect=new Rectangle(-1,-1,0,0);
 		inputCoolDown=0;
+		holding=false;
+		holdingCharacter=null;
+		holdingBlock=null;	
+		isAddingRect=false;
+		
 	}
 
 	@Override
@@ -185,20 +199,16 @@ public class LevelEditor extends WorldController {
 		blocks.clear();
 		platformRect=new Rectangle(-1,-1,0,0);
 		inputCoolDown=0;
+		holding=false;
+		holdingCharacter=null;
+		holdingBlock=null;	
+		isAddingRect=false;
 	}
-	
-	private boolean holding=false;
-	private CharacterModel holdingCharacter=null;
-	private BlockAbstract holdingBlock=null;	
-	private float inputCoolDown=0;
-	private final static float INPUT_COOL_DOWN=0.5f;
-	
-	private Rectangle platformRect;
-	private boolean isAddingRect;
 	
 	
 	@Override
 	public void update(float dt) {
+		System.out.println(this.npcs.size()+" "+this.blocks.size());
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 		xPos=InputController.getInstance().mousePos.x
@@ -211,6 +221,11 @@ public class LevelEditor extends WorldController {
 		yPos/=scale.y;
     	if (InputController.getInstance().exportPressed){
     		exportToJson();
+    		return;
+    	}
+    	if (InputController.getInstance().loadPressed){
+    		loadFromJson();
+    		return;
     	}
 //		System.out.println(this.blocks.size()+" "+this.npcs.size());
 		boolean wasHolding=holding;
@@ -233,8 +248,11 @@ public class LevelEditor extends WorldController {
 			if (isAddingRect && InputController.getInstance().leftClicked){;
 //				System.out.println("SET UP RECTANGLE "+ platformRect.toString());
 				if (this.platformRect.x>=0 && this.platformRect.y>=0){
-					this.platformRect.setWidth(xPos-platformRect.x);
-					this.platformRect.setHeight(yPos-platformRect.y);
+					float occupy=Math.round(1f/this.gridUnit);
+					float width=fitToGrid((xPos-platformRect.x)/occupy)*occupy;
+					float height=fitToGrid((yPos-platformRect.y)/occupy)*occupy;
+					this.platformRect.setWidth(width);
+					this.platformRect.setHeight(height);
 					isAddingRect=false;
 					Rectangle adjust=new Rectangle(
 							Math.min(platformRect.x,
@@ -245,11 +263,6 @@ public class LevelEditor extends WorldController {
 							Math.abs(platformRect.height));
 					if (adjust.width>0 && adjust.height>0){
 						Platform block=new Platform(adjust, 1);
-						Vector2 trans=fitInGrid(new Vector2(block.getX()
-							-block.getWidth()/2f, 
-							block.getY()
-							-block.getHeight()/2f));
-						block.setPosition(block.getPosition().add(trans));
 						block.setTexture(earthTile);
 						block.setDrawScale(scale);
 						blocks.add(block);
@@ -257,8 +270,8 @@ public class LevelEditor extends WorldController {
 					this.platformRect=new Rectangle(-1, -1, 0, 0);
 				}
 				else{
-					this.platformRect.setX(xPos);
-					this.platformRect.setY(yPos);
+					this.platformRect.setX(fitToGrid(xPos));
+					this.platformRect.setY(fitToGrid(yPos));
 				}
 //				System.out.println("Finish RECTANGLE "+ platformRect.toString());
 				return;
@@ -446,15 +459,6 @@ public class LevelEditor extends WorldController {
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				canvas.getWidth(), canvas.getHeight());
-		for (BlockAbstract obj : blocks) {
-			obj.draw(canvas);
-		}
-		for (CharacterModel obj : npcs) {
-			obj.draw(canvas);
-		}
-		if (aiden!=null){
-			aiden.simpleDraw(canvas);
-		}
 		canvas.end();
 		
 		canvas.beginDebug(1, 1);
@@ -475,18 +479,48 @@ public class LevelEditor extends WorldController {
 			canvas.drawPhysics(poly, Color.YELLOW, this.gridUnit*j, 0,
 					0, scale.x,scale.y);
 		}
-//		if (this.isAddingRect){
-//			float[] pts=new float[]{0, 0, 
-//					platformRect.width, 0, 
-//					platformRect.width, platformRect.height, 
-//					0, platformRect.height};
-//			PolygonShape poly=new PolygonShape();
-//			poly.set(pts);
-//			canvas.drawPhysics(poly, Color.RED, 
-//					platformRect.x, platformRect.y,
-//					0, scale.x,scale.y);
-//		}
-		canvas.endDebug();	
+		canvas.endDebug();
+		canvas.begin(xPos, yPos);
+		for (BlockAbstract obj : blocks) {
+			obj.draw(canvas);
+		}
+		for (CharacterModel obj : npcs) {
+			obj.draw(canvas);
+		}
+		if (aiden!=null){
+			aiden.simpleDraw(canvas);
+		}
+		canvas.end();
+		canvas.beginDebug(1, 1);
+		float occupy=Math.round(1f/this.gridUnit);
+		float width=fitToGrid((xPos-platformRect.x)/occupy)*occupy;
+		float height=fitToGrid((yPos-platformRect.y)/occupy)*occupy;
+		if (this.isAddingRect && platformRect.x>=0 && platformRect.y>=0
+				&& (Math.abs(width)>0 && (Math.abs(height)>0))){
+			Rectangle adjust=new Rectangle(
+					fitToGrid(Math.min(platformRect.x,
+							platformRect.x+width)),
+					fitToGrid(Math.min(platformRect.y,
+							platformRect.y+height)),
+					Math.abs(width),
+					Math.abs(height));
+			float[] pts=new float[]{0, 0, 
+					adjust.width, 0, 
+					adjust.width, adjust.height, 
+					0, adjust.height};
+			PolygonShape poly=new PolygonShape();
+			poly.set(pts);
+			canvas.drawPhysics(poly, Color.RED, 
+					adjust.x, adjust.y,
+					0, scale.x,scale.y);
+		}
+		if (holding){
+			if (this.holdingBlock!=null)
+				holdingBlock.drawDebug(canvas, Color.GREEN);
+			if (this.holdingCharacter!=null)
+				holdingCharacter.drawDebug(canvas, Color.GREEN);
+		}
+		canvas.endDebug();
 	}
 	
 	public Vector2 fitInGrid(Vector2 pos){
@@ -495,6 +529,11 @@ public class LevelEditor extends WorldController {
 		dest.y=(Math.round(pos.y/this.gridUnit))*this.gridUnit;
 		return dest.sub(pos);
 	}
+	
+	public float fitToGrid(float value){
+		return (Math.round(value/this.gridUnit))*this.gridUnit;
+	}
+	
 	
 	public void exportToJson(){
 		Json json = new Json();
@@ -508,5 +547,50 @@ public class LevelEditor extends WorldController {
 		Gdx.files.local("aiden-example.json").delete();
 		FileHandle file = Gdx.files.local("aiden-example.json");
 		file.writeString(project_str, true);
+	}
+	
+	public void loadFromJson(){
+		System.out.println("Loading");
+		Scene scene=new Scene("aiden-example.json");
+		reset();
+		System.out.println("Loading Characters");
+		for (CharacterModel ch:scene.getGuards()){
+			npcs.add(ch);
+			System.out.println("Character "+ch.getPosition());
+			ch.setTexture(waterTexture);
+			ch.setDrawScale(scale);
+		}
+		System.out.println("Loading blocks");
+		for (BlockAbstract block:scene.getBlocks()){
+			blocks.add(block);
+			block.setDrawScale(scale);
+			System.out.println("block "+block.getPosition()+" "+block.getWidth()+" "+block.getHeight());
+			TextureRegion texture=null;
+			switch (block.type){
+			case FLAMMABLEBLOCK:
+				texture=(this.woodTexture);
+				break;
+			case FUEL:
+				texture=(this.fuelTexture);
+				break;
+			case PLATFORM:
+				texture=(this.earthTile);
+				break;
+			case STONE:
+				texture=(this.stoneTexture);
+				break;
+			case ROPECOMPLEX:
+				break;
+			default:
+				break;
+			}
+			if (texture!=null) block.setTexture(texture);
+		}	
+		aiden=scene.getAidenModel();
+		if (aiden!=null) {
+			aiden.setDrawScale(scale);
+			aiden.setTexture(avatarTexture);
+		}
+		
 	}
 }

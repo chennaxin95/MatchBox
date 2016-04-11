@@ -105,6 +105,7 @@ public class InputController {
 	public boolean exportPressed;
 	
 	public int inputNumber;
+	public boolean loadPressed;
 	
 	/**
 	 * Returns the amount of sideways movement.
@@ -369,6 +370,8 @@ public class InputController {
 		
 		exportPressed=(secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.E));		
+		loadPressed=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.L));	
 		
 		inputNumber=-1;
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){

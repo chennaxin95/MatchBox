@@ -32,6 +32,8 @@ public class AidenModelJsonRep implements Json.Serializable {
 		if (ch==null) return;
 		fright=ch.isFacingRight();
 		start_pos.add(new PointJsonRep(ch.getX(), ch.getY()));
+		scale_x=ch.getWidth();
+		scale_y=ch.getHeight();
 	}
 	
 	@Override

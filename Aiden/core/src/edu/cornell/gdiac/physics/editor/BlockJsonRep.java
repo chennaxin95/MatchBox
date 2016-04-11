@@ -54,6 +54,8 @@ public class BlockJsonRep implements Json.Serializable{
 			break;
 		}
 		pos = new PointJsonRep(block.getX(), block.getY());
+		scale_x=block.getWidth();
+		scale_y=block.getHeight();
 	}
 	
 	@Override

@@ -13,5 +13,7 @@ public class GoalModelJsonRep {
 	public GoalModelJsonRep(BlockAbstract block){
 		if (block==null) return;
 		pos = new PointJsonRep(block.getX(), block.getY());
+		scale_x=block.getWidth();
+		scale_y=block.getHeight();
 	}
 }

@@ -35,18 +35,22 @@ public class Scene implements SceneInterface{
 		JsonValue exit = jv.get("goal");
 		
 		// Aiden
+		
 		JsonValue start_pos_array = aiden.get("start_pos");
-		JsonValue start_pos = start_pos_array.get(0);
-		int start_pos_x = start_pos.getInt("x");
-		int start_pos_y = start_pos.getInt("y");
-		float density = aiden.getFloat("density");
-		float scale_x = aiden.getFloat("scale_x");
-		float scale_y = aiden.getFloat("scale_y");
-		boolean fright = aiden.getBoolean("fright");
-		int max_walk_speed = aiden.getInt("max_walk");
-		int jump_height = aiden.getInt("jump_height");
-		int start_fuel = aiden.getInt("start_fuel");
-		aidenModel = new AidenModel(start_pos_x, start_pos_y, scale_x,scale_y, fright);
+			if (start_pos_array!=null  && start_pos_array.size()>0){
+			JsonValue start_pos = start_pos_array.get(0);
+			float start_pos_x = start_pos.getFloat("x");
+			float start_pos_y = start_pos.getFloat("y");
+			float density = aiden.getFloat("density");
+			float scale_x = aiden.getFloat("scale_x");
+			float scale_y = aiden.getFloat("scale_y");
+			boolean fright = aiden.getBoolean("fright");
+			int max_walk_speed = aiden.getInt("max_walk");
+			int jump_height = aiden.getInt("jump_height");
+			int start_fuel = aiden.getInt("start_fuel");
+			aidenModel = new AidenModel(start_pos_x, start_pos_y, 
+					scale_x,scale_y, fright);
+		}
 		
 		// Blocks
 		int n = objects.size;
@@ -58,15 +62,15 @@ public class Scene implements SceneInterface{
 			int burn_spread = obj.getInt("burn_spread");
 			int burn_time = obj.getInt("burn_time");
 			JsonValue position = obj.get("pos");
-			int x = position.getInt("x");
-			int y = position.getInt("y");
+			float x = position.getFloat("x");
+			float y = position.getFloat("y");
 			String texture = obj.getString("texture");
 			float b_scale_x = obj.getFloat("scale_x");
 			float b_scale_y = obj.getFloat("scale_y");
 			float b_density = obj.getFloat("density");
 			JsonValue link_pos = obj.get("link_pos");
-			int link_x = link_pos.getInt("x");
-			int link_y = link_pos.getInt("y");
+			float link_x = link_pos.getFloat("x");
+			float link_y = link_pos.getFloat("y");
 			int fuels = obj.getInt("fuels");
 			if(material.equals("wood")){
 				woodBlocks.add(new FlammableBlock(x,y,b_scale_x,b_scale_y,burn_spread,burn_time));
@@ -78,7 +82,9 @@ public class Scene implements SceneInterface{
 						fuelBlocks.add(new FuelBlock(x,y,b_scale_x,b_scale_y,burn_spread,burn_time,fuels));
 					}else{
 						if(material.equals("platform")){
-							platforms.add(new Platform(new Rectangle(x,y,b_scale_x, b_scale_y),50));
+							platforms.add(new Platform(new Rectangle
+									(x-b_scale_x/2f,
+									y-b_scale_y/2f, b_scale_x, b_scale_y),1));
 						}else{
 							System.err.println("new material : "+material);							
 						}
@@ -99,17 +105,18 @@ public class Scene implements SceneInterface{
 			float g_scale_x = guard.getFloat("scale_x");
 			float g_scale_y = guard.getFloat("scale_y");
 			boolean g_fright = guard.getBoolean("fright");
-			//CharacterModel water = new CharacterModel(guard_name, g_x, g_y, g_scale_x, s_scale_y, g_fright);
+			CharacterModel water = new CharacterModel(CharacterType.WATER_GUARD, 
+					guard_name, g_x, g_y, g_scale_x, g_scale_y, g_fright);
+			guards.add(water);
 		}
 
 		//Exit
 		String ex_texture = exit.getString("texture");
 		JsonValue exit_pos = exit.get("pos");
-		int exit_x = exit_pos.getInt("x");
-		int exit_y = exit_pos.getInt("y");
+		float exit_x = exit_pos.getFloat("x");
+		float exit_y = exit_pos.getFloat("y");
 		float e_scale_x = exit.getFloat("scale_x");
 		float e_scale_y = exit.getFloat("scale_y");
-	
 	}
 
 
@@ -118,7 +125,12 @@ public class Scene implements SceneInterface{
 	}
 
 	public ArrayList<BlockAbstract> getBlocks(){
-		return blocks;
+		ArrayList<BlockAbstract> container=new ArrayList<BlockAbstract>();
+		container.addAll(this.getWoodBlocks());
+		container.addAll(this.getStoneBlocks());
+		container.addAll(this.getPlatform());
+		container.addAll(this.getFuelBlocks());
+		return container;
 	}
 	
 	public ArrayList<FlammableBlock> getWoodBlocks(){
