@@ -1,10 +1,10 @@
 {
-"level": 1,
+"level": 5,
 "background": "shared/background.png",
 "aiden": {
 	"start_pos": [
 		{
-			"x": -4,
+			"x": -2,
 			"y": 0
 		}
 	],
@@ -26,10 +26,10 @@
 		"blockType": "platform",
 		"texture": "earthtile",
 		"pos": {
-			"x": -1,
-			"y": 2
+			"x": 0,
+			"y": -1
 		},
-		"scale_x": 18,
+		"scale_x": 16,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -49,10 +49,10 @@
 		"blockType": "platform",
 		"texture": "earthtile",
 		"pos": {
-			"x": -1,
-			"y": -3
+			"x": 0,
+			"y": 2
 		},
-		"scale_x": 18,
+		"scale_x": 16,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -72,11 +72,11 @@
 		"blockType": "platform",
 		"texture": "earthtile",
 		"pos": {
-			"x": -1,
+			"x": 2,
 			"y": 0
 		},
-		"scale_x": 14,
-		"scale_y": 1,
+		"scale_x": 1,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -95,11 +95,11 @@
 		"blockType": "platform",
 		"texture": "earthtile",
 		"pos": {
-			"x": -1,
-			"y": -2
+			"x": -3,
+			"y": 0
 		},
-		"scale_x": 14,
-		"scale_y": 1,
+		"scale_x": 1,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -115,54 +115,8 @@
 	},
 	{
 		"id": 4,
-		"blockType": "platform",
-		"texture": "earthtile",
-		"pos": {
-			"x": -4,
-			"y": 0
-		},
-		"scale_x": 1,
-		"scale_y": 14,
-		"density": 1,
-		"fixed": true,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 5,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30
-	},
-	{
-		"id": 5,
-		"blockType": "platform",
-		"texture": "earthtile",
-		"pos": {
-			"x": 1,
-			"y": 0
-		},
-		"scale_x": 1,
-		"scale_y": 14,
-		"density": 1,
-		"fixed": true,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 5,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30
-	},
-	{
-		"id": 6,
-		"blockType": "fuel",
-		"texture": "fuelBlock",
+		"blockType": "wood",
+		"texture": "woodenBlock",
 		"pos": {
 			"x": 0,
 			"y": -1
@@ -181,13 +135,71 @@
 		"burn_time": 3,
 		"burn_left": 1,
 		"fuels": 30
+	},
+	{
+		"id": 5,
+		"blockType": "platform",
+		"texture": "earthtile",
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"scale_x": 10,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 5,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30
+	},
+	{
+		"id": 6,
+		"blockType": "fuel",
+		"texture": "fuelBlock",
+		"pos": {
+			"x": 1,
+			"y": -1
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": false,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 5,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30
 	}
 ],
-"waters": [],
+"waters": [
+	{
+		"density": 0,
+		"pos": {
+			"x": -3,
+			"y": -1
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"name": "a",
+		"fright": true
+	}
+],
 "goal": {
 	"pos": {
-		"x": 1,
-		"y": -3
+		"x": -2,
+		"y": -1
 	},
 	"scale_x": 1,
 	"scale_y": 1,
