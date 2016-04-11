@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.*;
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.scene.Scene;
 
 /**
  * Base class for a world-specific controller.
@@ -84,6 +85,8 @@ public abstract class WorldController implements Screen {
 	/** The font for giving messages to the player */
 	protected BitmapFont displayFont;
 	protected BitmapFont fuelFont;
+	
+	protected Scene scene;
 
 	/**
 	 * Preloads the assets for this controller.
