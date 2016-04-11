@@ -205,5 +205,31 @@ public class AIController {
 		npc.setMoveCoolDown(0.5f);
 //		npc.setMoveCoolDown(r.nextFloat()*(MAX_WAITTIME-MIN_WAITTIME)+MIN_WAITTIME);
 	}
+
+	public void drawDebug(GameCanvas canvas, Vector2 scale,
+			ArrayList<CharacterModel> npcs) {
+		// TODO Auto-generated method stub
+			board.setDrawScale(scale);
+			board.drawDebug(canvas);
+			if (close!=null){
+			for (IntersectionRecord cl: close){
+				if (cl!=null){
+					cl.obj.drawDebug(canvas, Color.PURPLE);
+				}
+			}
+			}
+			if (detected!=null){
+			for (IntersectionRecord det: detected){
+				if (det!=null){
+					det.obj.drawDebug(canvas, Color.RED);
+				}
+			}
+			}
+			if (npcs!=null)
+				for (CharacterModel npc:npcs)
+						sightDetector.drawDebug(canvas, npc.getEyePosition(), 
+								npc.getFacingDir()? 10:-10, scale, SightDetector.FOV);
+		
+	}
 	
 }
