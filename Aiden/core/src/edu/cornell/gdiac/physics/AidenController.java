@@ -608,7 +608,7 @@ public class AidenController extends WorldController
 
 		dwidth = waterTexture.getRegionWidth() / scale.x - 0.5f;
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.6f;
-		for (int ii =0; ii < WATERGUARDS[level].length; ii+=2){
+		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
 
 			CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 					"WaterGuard",

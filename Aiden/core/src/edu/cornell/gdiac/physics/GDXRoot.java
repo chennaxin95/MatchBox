@@ -15,13 +15,18 @@
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.assets.loaders.*;
 import com.badlogic.gdx.assets.loaders.resolvers.*;
+import com.badlogic.gdx.audio.Sound;
 
 import edu.cornell.gdiac.util.*;
+import edu.cornell.gdiac.physics.WorldController.AssetState;
 import edu.cornell.gdiac.physics.editor.LevelEditor;
+import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 
@@ -49,6 +54,12 @@ public class GDXRoot extends Game implements ScreenListener {
 	private Scene[] scenes;
 	/** A parser for JSON files */
 	private JSONParser jsonParser;
+	/** Track asset loading from all instances and subclasses */
+	protected AssetState worldAssetState = AssetState.EMPTY;
+	/** Track all loaded assets (for unloading purposes) */
+	protected Array<String> assets;	
+	/** Where all the assets are stored */
+	private AssetFile af;
 	
 	/**
 	 * Creates a new game from the configuration settings.
@@ -59,6 +70,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	public GDXRoot() {
 		// Start loading with the asset manager
 		manager = new AssetManager();
+		af = new AssetFile();
 		
 		// Add font support to the asset manager
 		FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -66,6 +78,78 @@ public class GDXRoot extends Game implements ScreenListener {
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 	}
 
+	
+	/**
+	 * Preloads the assets for this controller.
+	 *
+	 * To make the game modes more for-loop friendly, we opted for nonstatic loaders
+	 * this time.  However, we still want the assets themselves to be static.  So
+	 * we have an AssetState that determines the current loading state.  If the
+	 * assets are already loaded, this method will do nothing.
+	 * 
+	 * @param manager Reference to global asset manager.
+	 */
+	public void preLoadContent(AssetManager manager) {
+		if (worldAssetState != AssetState.EMPTY) {
+			return;
+		}
+		
+		worldAssetState = AssetState.LOADING;
+		// Load the shared tiles.
+		manager.load(af.get("EARTH_FILE"),Texture.class);
+		assets.add(af.get("EARTH_FILE"));
+		manager.load(af.get("GOAL_FILE"),Texture.class);
+		assets.add("GOAL_FILE");
+		
+		// Load the font
+		FreetypeFontLoader.FreeTypeFontLoaderParameter size2Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		FreetypeFontLoader.FreeTypeFontLoaderParameter s2p = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		size2Params.fontFileName = af.get("FONT_FILE");
+		size2Params.fontParameters.size = af.fontSize();
+		s2p.fontFileName = af.get("FUEL_FONT");
+		s2p.fontParameters.size = af.fontSize();
+		manager.load(af.get("FUEL_FONT"), BitmapFont.class, s2p);
+		manager.load(af.get("FONT_FILE"), BitmapFont.class, size2Params);
+		assets.add(af.get("FONT_FILE"));
+		assets.add(af.get("FUEL_FONT"));
+		manager.load(af.get("DUDE_FILE"), Texture.class);
+		assets.add(af.get("DUDE_FILE"));
+		manager.load(af.get("BARRIER_FILE"), Texture.class);
+		assets.add(af.get("BARRIER_FILE"));
+		manager.load(af.get("BULLET_FILE"), Texture.class);
+		assets.add(af.get("BULLET_FILE"));
+		manager.load(af.get("WOOD_FILE"), Texture.class);
+		assets.add(af.get("WOOD_FILE"));
+		manager.load(af.get("FUEL_FILE"), Texture.class);
+		assets.add(af.get("FUEL_FILE"));
+		manager.load(af.get("ROPE_FILE"), Texture.class);
+		assets.add(af.get("ROPE_FILE"));
+		manager.load(af.get("BACKGROUND"), Texture.class);
+		assets.add(af.get("BACKGROUND"));
+		manager.load(af.get("WATER_FILE"), Texture.class);
+		assets.add(af.get("WATER_FILE"));
+		manager.load(af.get("STONE_FILE"), Texture.class);
+		assets.add(af.get("STONE_FILE"));
+		manager.load(af.get("AIDEN_ANIME_FILE"), Texture.class);
+		assets.add(af.get("AIDEN_ANIME_FILE"));
+		manager.load(af.get("AIDEN_DIE_FILE"), Texture.class);
+		assets.add(af.get("AIDEN_DIE_FILE"));
+		manager.load(af.get("WATER_WALK"), Texture.class);
+		assets.add(af.get("WATER_WALK"));
+		manager.load(af.get("BURNING_FILE"), Texture.class);
+		assets.add(af.get("BURNING_FILE"));
+
+		manager.load(af.get("JUMP_FILE"), Sound.class);
+		assets.add(af.get("JUMP_FILE"));
+		manager.load(af.get("PEW_FILE"), Sound.class);
+		assets.add(af.get("PEW_FILE"));
+		manager.load(af.get("POP_FILE"), Sound.class);
+		assets.add(af.get("POP_FILE"));
+		
+	}
+
+	
+	
 	/** 
 	 * Called when the Application is first created.
 	 * 
