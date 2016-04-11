@@ -200,6 +200,7 @@ public class LevelEditor extends WorldController {
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
+		canvas.setEditor(true);
 		xPos=InputController.getInstance().mousePos.x
 				+ canvas.getCamera().position.x
 				-(float)backGround.getRegionWidth()/2f;

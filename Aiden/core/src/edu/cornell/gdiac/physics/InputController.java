@@ -361,7 +361,7 @@ public class InputController {
 		
 		hasRemovePressed=(secondary && nextPressed)
 		|| (Gdx.input.isKeyPressed(Input.Keys.DEL));
-		
+
 		newAidenPressed=(secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.A));
 		hasPressedPoly=(secondary && nextPressed)
