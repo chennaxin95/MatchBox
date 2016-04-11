@@ -208,7 +208,7 @@ public class LevelEditor extends WorldController {
 	
 	@Override
 	public void update(float dt) {
-		System.out.println(this.npcs.size()+" "+this.blocks.size());
+//		System.out.println(this.npcs.size()+" "+this.blocks.size());
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 		float nxPos=InputController.getInstance().mousePos.x
@@ -223,64 +223,73 @@ public class LevelEditor extends WorldController {
 		float deltaY=nyPos-yPos;
 		xPos=nxPos;
 		yPos=nyPos;
-    	if (InputController.getInstance().exportPressed){
+    	if (InputController.getInstance().toExport()){
     		exportToJson();
     		return;
     	}
-    	if (InputController.getInstance().loadPressed){
+    	if (InputController.getInstance().toLoad()){
     		loadFromJson();
     		return;
     	}
+    	if (InputController.getInstance().switchPolyMode()){
+//			this.inputCoolDown=INPUT_COOL_DOWN;
+			isAddingRect=!isAddingRect;
+			if (!isAddingRect){
+				this.platformRect=new Rectangle(-1, -1, 0, 0);
+			}
+			else{
+				holding=false;
+				this.holdingBlock=null;
+				this.holdingCharacter=null;
+			}
+//			this.inputCoolDown=INPUT_COOL_DOWN;
+		}
+    	if (InputController.getInstance().newLeftClick()){
+    		System.out.println("Clicked");
+    	}
+		if (isAddingRect && InputController.getInstance().newLeftClick()){;
+//			System.out.println("SET UP RECTANGLE "+ platformRect.toString());
+			if (this.platformRect.x>=0 && this.platformRect.y>=0){
+				System.out.println("Setting 2nd point");
+				float occupy=Math.round(1f/this.gridUnit);
+				float width=fitToGrid((xPos-platformRect.x)/occupy)*occupy;
+				float height=fitToGrid((yPos-platformRect.y)/occupy)*occupy;
+				this.platformRect.setWidth(width);
+				this.platformRect.setHeight(height);
+				isAddingRect=false;
+				Rectangle adjust=new Rectangle(
+						Math.min(platformRect.x,
+								platformRect.x+platformRect.width),
+						Math.min(platformRect.y,
+								platformRect.y+platformRect.height),
+						Math.abs(platformRect.width),
+						Math.abs(platformRect.height));
+				if (adjust.width>0 && adjust.height>0){
+					Platform block=new Platform(adjust, 1);
+					block.setTexture(earthTile);
+					block.setDrawScale(scale);
+					blocks.add(block);
+				}
+				this.platformRect=new Rectangle(-1, -1, 0, 0);
+			}
+			else{
+				System.out.println("Setting 1nd point");
+				this.platformRect.setX(fitToGrid(xPos));
+				this.platformRect.setY(fitToGrid(yPos));
+			}
+//			System.out.println("Finish RECTANGLE "+ platformRect.toString());
+			return;
+		}
+    	
 //		System.out.println(this.blocks.size()+" "+this.npcs.size());
 		boolean wasHolding=holding;
-		if (inputCoolDown>0) inputCoolDown-=dt;
-		if (this.inputCoolDown<=0){
-			if (InputController.getInstance().leftClicked){		
+//		if (inputCoolDown>0) inputCoolDown-=dt;
+//		if (this.inputCoolDown<=0){
+			if (InputController.getInstance().newLeftClick()){		
 				holding=!holding;
-				this.inputCoolDown=INPUT_COOL_DOWN;
+//				this.inputCoolDown=INPUT_COOL_DOWN;
 			}
-			if (InputController.getInstance().hasPressedPoly){
-				this.inputCoolDown=INPUT_COOL_DOWN;
-				if (!isAddingRect) isAddingRect=true;
-				else isAddingRect=false;
-				if (!isAddingRect){
-					this.platformRect=new Rectangle(-1, -1, 0, 0);
-				}
-				this.inputCoolDown=INPUT_COOL_DOWN;
-				System.out.println(isAddingRect);
-			}
-			if (isAddingRect && InputController.getInstance().leftClicked){;
-//				System.out.println("SET UP RECTANGLE "+ platformRect.toString());
-				if (this.platformRect.x>=0 && this.platformRect.y>=0){
-					float occupy=Math.round(1f/this.gridUnit);
-					float width=fitToGrid((xPos-platformRect.x)/occupy)*occupy;
-					float height=fitToGrid((yPos-platformRect.y)/occupy)*occupy;
-					this.platformRect.setWidth(width);
-					this.platformRect.setHeight(height);
-					isAddingRect=false;
-					Rectangle adjust=new Rectangle(
-							Math.min(platformRect.x,
-									platformRect.x+platformRect.width),
-							Math.min(platformRect.y,
-									platformRect.y+platformRect.height),
-							Math.abs(platformRect.width),
-							Math.abs(platformRect.height));
-					if (adjust.width>0 && adjust.height>0){
-						Platform block=new Platform(adjust, 1);
-						block.setTexture(earthTile);
-						block.setDrawScale(scale);
-						blocks.add(block);
-					}
-					this.platformRect=new Rectangle(-1, -1, 0, 0);
-				}
-				else{
-					this.platformRect.setX(fitToGrid(xPos));
-					this.platformRect.setY(fitToGrid(yPos));
-				}
-//				System.out.println("Finish RECTANGLE "+ platformRect.toString());
-				return;
-			}
-		}
+//		}
 		// newly holding an object
 		if (holding && !wasHolding){
 			if (aiden!=null && aiden.getX()-aiden.getWidth()/2<xPos
@@ -333,7 +342,7 @@ public class LevelEditor extends WorldController {
 		}
 		// Hold object around
 		if (holding){
-			if (InputController.getInstance().hasRemovePressed){
+			if (InputController.getInstance().toRemove()){
 				if (holdingCharacter!=null){
 					if (holdingCharacter!=aiden)	
 						npcs.remove(holdingCharacter);
@@ -363,8 +372,7 @@ public class LevelEditor extends WorldController {
 		}
 		// Under unholding mode, we can add new objects 
 		else{
-			if (InputController.getInstance().newAidenPressed
-					&& !InputController.getInstance().hasNewAidenPressed){
+			if (InputController.getInstance().newAiden()){
 				aiden=new AidenModel(xPos,yPos, 2.5f, 3f, true);
 				Vector2 trans=fitInGrid(new Vector2(aiden.getX()
 						-aiden.getWidth()/2f, 
@@ -374,8 +382,7 @@ public class LevelEditor extends WorldController {
 				aiden.setTexture(avatarTexture);
 				aiden.setDrawScale(scale);
 			}
-			else if (InputController.getInstance().newCharacterPressed
-					&& !InputController.getInstance().hasNewCharacterPressed){
+			else if (InputController.getInstance().newCharacter()){
 				CharacterModel ch=new CharacterModel(CharacterType.WATER_GUARD, "WaterGuard", 
 						xPos, yPos, 2.5f, 3f, true);
 				Vector2 trans=fitInGrid(new Vector2(ch.getX()
@@ -387,8 +394,7 @@ public class LevelEditor extends WorldController {
 				ch.setDrawScale(scale);
 				npcs.add(ch);
 			}
-			else if (InputController.getInstance().newBlockPressed &&
-					!InputController.getInstance().hasNewBlockPressed){
+			else if (InputController.getInstance().newBlock()){
 				BlockAbstract block=null;
 				Vector2 trans=new Vector2();
 				switch(InputController.getInstance().inputNumber){

@@ -88,24 +88,65 @@ public class InputController {
 	
 	/** An X-Box controller (if it is connected) */
 	XBox360Controller xbox;
-
-	public boolean leftClicked;
+	
+	private boolean hasLeftClicked;
+	private boolean leftClicked;
+	public boolean newLeftClick(){
+		return leftClicked && !hasLeftClicked;
+	}
+	
 	public Vector2 mousePos;
-	
-	public boolean hasNewCharacterPressed;
-	public boolean newCharacterPressed;
-	public boolean hasNewBlockPressed;
-	public boolean newBlockPressed;
-	
-	public boolean hasRemovePressed;
-	public boolean newAidenPressed;
-	public boolean hasNewAidenPressed;
-	public boolean hasPressedPoly;
-	
-	public boolean exportPressed;
-	
 	public int inputNumber;
-	public boolean loadPressed;
+	
+	private boolean hasNewCharacterPressed;
+	private boolean newCharacterPressed;
+	
+	public boolean newCharacter(){
+		return newCharacterPressed && !hasNewCharacterPressed;
+	}
+	
+	private boolean hasNewBlockPressed;
+	private boolean newBlockPressed;
+	
+	public boolean newBlock(){
+		return newBlockPressed && !hasNewBlockPressed;
+	}
+	
+	private boolean hasRemovePressed;
+	private boolean removePressed;
+	
+	public boolean toRemove(){
+		return removePressed && !hasRemovePressed;
+	}
+	
+	private boolean newAidenPressed;
+	private boolean hasNewAidenPressed;
+	
+	public boolean newAiden(){
+		return newAidenPressed && !hasNewAidenPressed;
+	}
+	
+	private boolean hasPolyPressed;
+	private boolean polyPressed;
+	
+	public boolean switchPolyMode(){
+		return polyPressed && !hasPolyPressed;
+	}
+	
+	private boolean hasExportPressed;
+	private boolean exportPressed;
+	
+	public boolean toExport(){
+		return exportPressed && !hasExportPressed;
+	}
+	
+	private boolean hasLoadPressed;
+	private boolean loadPressed;
+	
+	public boolean toLoad(){
+		return loadPressed && !hasLoadPressed;
+	}
+	
 	
 	/**
 	 * Returns the amount of sideways movement.
@@ -274,6 +315,11 @@ public class InputController {
 		hasNewCharacterPressed=newCharacterPressed;
 		hasNewBlockPressed=newBlockPressed;	
 		hasNewAidenPressed=newAidenPressed;	
+		this.hasLoadPressed=this.loadPressed;
+		this.hasExportPressed=this.exportPressed;
+		this.hasPolyPressed=this.polyPressed;
+		this.hasRemovePressed=this.removePressed;
+		hasLeftClicked=this.leftClicked;
 		// Check to see if a GamePad is connected
 		if (xbox.isConnected()) {
 			readGamepad(bounds, scale);
@@ -351,27 +397,36 @@ public class InputController {
 		exitPressed = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 
+		// Unable to detect redundance here
 		leftClicked =  (secondary && nextPressed) || 
 				(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
 		mousePos =  new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		
+		// Can check here
 		newCharacterPressed =(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.C));	
+				|| (Gdx.input.isKeyPressed(Input.Keys.C) 
+						&& !Gdx.input.isKeyJustPressed(Input.Keys.C));	
 		newBlockPressed =(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.B));
+				|| (Gdx.input.isKeyPressed(Input.Keys.B) 
+						&& !Gdx.input.isKeyJustPressed(Input.Keys.B));
 		
-		hasRemovePressed=(secondary && nextPressed)
-		|| (Gdx.input.isKeyPressed(Input.Keys.DEL));
+		removePressed=(secondary && nextPressed)
+		|| (Gdx.input.isKeyPressed(Input.Keys.DEL)
+				&& !Gdx.input.isKeyJustPressed(Input.Keys.DEL));
 
 		newAidenPressed=(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.A));
-		hasPressedPoly=(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.Y));		
+				|| (Gdx.input.isKeyPressed(Input.Keys.A)
+						&& !Gdx.input.isKeyJustPressed(Input.Keys.A));
+		polyPressed=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.Y)
+						&& !Gdx.input.isKeyJustPressed(Input.Keys.Y));		
 		
 		exportPressed=(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.E));		
+				|| (Gdx.input.isKeyPressed(Input.Keys.E)
+						&& !Gdx.input.isKeyJustPressed(Input.Keys.E));		
 		loadPressed=(secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.L));	
+				|| (Gdx.input.isKeyPressed(Input.Keys.L)
+						&& Gdx.input.isKeyJustPressed(Input.Keys.L));	
 		
 		inputNumber=-1;
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
