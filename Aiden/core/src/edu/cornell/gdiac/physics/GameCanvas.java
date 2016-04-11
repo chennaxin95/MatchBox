@@ -20,6 +20,7 @@ package edu.cornell.gdiac.physics;
 import static com.badlogic.gdx.Gdx.gl20;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -56,6 +57,11 @@ public class GameCanvas {
 	private static final float INIT_TARGET_PAN = 0.1f;
 	private static final float INIT_EYE_PAN = 0.05f;
 	
+	private boolean isEditor = false;
+	
+	public void setEditor(boolean b){
+		isEditor = b;
+	}
 	
 	/** Enumeration to track which pass we are in */
 	private enum DrawPass {
@@ -600,15 +606,32 @@ public class GameCanvas {
 				
 		// Position the camera
 		float f = -1f;
-		
-		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-		if (d.x*d.x + d.y*d.y>10){
-			//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
-			camera.translate(new Vector3(d.x/100, d.y/100, 0));
-		}	
-		if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
-		if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
-		//camera.translate(new Vector3(0,0,zdist));
+		if(!isEditor){
+			System.out.println("editor");
+			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
+			if (d.x*d.x + d.y*d.y>10){
+				//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
+				camera.translate(new Vector3(d.x/100, d.y/100, 0));
+			}	
+			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+			if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
+
+		}else{
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+				camera.translate(new Vector3(-2,0,0));
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+				camera.translate(new Vector3(2,0,0));
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+				camera.translate(new Vector3(0,2,0));
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+				camera.translate(new Vector3(0,-2,0));
+			}
+			
+		}
+				//camera.translate(new Vector3(0,0,zdist));
 		//camera.lookAt(target);
 		
 //		view.setToLookAt(eye,target,UP);
