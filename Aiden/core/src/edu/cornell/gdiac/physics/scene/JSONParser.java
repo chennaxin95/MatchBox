@@ -1,10 +1,8 @@
 package edu.cornell.gdiac.physics.scene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 
-import java.io.File;
-
-import javax.print.DocFlavor.URL;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonValue;
@@ -15,8 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 public class JSONParser {
 	private JsonValue jv;
 	public JSONParser(String s){
-		File f = new File(s);
-		FileHandle fh = new FileHandle(f);
+		FileHandle fh = Gdx.files.local(s);
 		JsonReader jr = new JsonReader();
 		jv = jr.parse(fh);
 	}

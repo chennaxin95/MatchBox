@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.character.FSMNode.BasicFSMState;
@@ -523,4 +525,5 @@ public class CharacterModel extends CapsuleObstacle{
 	public boolean getFacingDir(){
 		return faceRight;
 	}
+
 }

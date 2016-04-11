@@ -9,10 +9,12 @@ package edu.cornell.gdiac.physics;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.assets.*;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
@@ -104,10 +106,6 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
-
-	public void buildObjects(Scene s) {
-
-	}
 
 	/**
 	 * Preloads the assets for this controller.
@@ -382,7 +380,9 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		// Scene scene=new Scene(null);
+		
+		//FileHandle file = Gdx.files.local("aiden-example.json");
+		scene=new Scene("aiden-example.json");
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);

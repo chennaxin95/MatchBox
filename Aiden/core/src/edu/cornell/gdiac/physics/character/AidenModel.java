@@ -429,4 +429,5 @@ public class AidenModel extends CharacterModel {
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect, 1f);
 	}
+	
 }
