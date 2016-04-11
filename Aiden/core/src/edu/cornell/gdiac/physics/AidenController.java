@@ -346,15 +346,15 @@ public class AidenController extends WorldController
 	// Physics objects for the game
 	// Characters
 	/** Reference to the character avatar */
-	private AidenModel avatar;
+//	private AidenModel avatar;
 	/** Reference to the list of non-player characters */
-	private ArrayList<CharacterModel> npcs = new ArrayList<CharacterModel>();
+//	private ArrayList<CharacterModel> npcs = new ArrayList<CharacterModel>();
 	// Blocks
 	/** Flammable Objects */
-	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
+//	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
 	// Exit
 	/** Reference to the goalDoor (for collision detection) */
-	private BoxObstacle goalDoor;
+//	private BoxObstacle goalDoor;
 
 	/** Mark set to handle more sophisticated collision callbacks */
 	protected ObjectSet<Fixture> sensorFixtures;
@@ -407,7 +407,7 @@ public class AidenController extends WorldController
 		}
 		objects.clear();
 		addQueue.clear();
-		npcs.clear();
+//		npcs.clear();
 		world.dispose();
 		fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
@@ -418,7 +418,7 @@ public class AidenController extends WorldController
 		// board.clear();
 		blocks.clear();
 
-		populateLevel();
+//		populateLevel();
 	}
 
 	/**
@@ -626,7 +626,7 @@ public class AidenController extends WorldController
 
 	// Temp
 	Scene scene;
-	ArrayList<BlockAbstract> blocks;
+//	ArrayList<BlockAbstract> blocks;
 
 	/**
 	 * Returns whether to process the update loop
