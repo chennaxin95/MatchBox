@@ -456,17 +456,24 @@ public class LevelEditor extends WorldController {
 			aiden.simpleDraw(canvas);
 		}
 		canvas.end();
+		
 		canvas.beginDebug(1, 1);
+		
 		int numX=(int) (this.gridWidth/this.gridUnit);
 		int numY=(int) (this.gridHeight/this.gridUnit);
-		for (int i=0; i<numX; i++){
-			for (int j=0; j<numY; j++){
-				float[] pts=new float[]{0, 0, gridUnit, 0, gridUnit, gridUnit, 0, gridUnit};
-				PolygonShape poly=new PolygonShape();
-				poly.set(pts);
-				canvas.drawPhysics(poly, Color.YELLOW, this.gridUnit*i, this.gridUnit*j,
-						0, scale.x,scale.y);
-			}
+		for (int i=0; i<numY; i+=2){
+			float[] pts=new float[]{0, 0, gridWidth, 0, gridWidth, gridUnit, 0, gridUnit};
+			PolygonShape poly=new PolygonShape();
+			poly.set(pts);
+			canvas.drawPhysics(poly, Color.YELLOW, 0, this.gridUnit*i,
+					0, scale.x,scale.y);
+		}
+		for (int j=0; j<numX; j+=2){
+			float[] pts=new float[]{0, 0, gridUnit, 0, gridUnit, gridHeight, 0, gridHeight};
+			PolygonShape poly=new PolygonShape();
+			poly.set(pts);
+			canvas.drawPhysics(poly, Color.YELLOW, this.gridUnit*j, 0,
+					0, scale.x,scale.y);
 		}
 //		if (this.isAddingRect){
 //			float[] pts=new float[]{0, 0, 

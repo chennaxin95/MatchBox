@@ -16,10 +16,12 @@ package edu.cornell.gdiac.physics.blocks;
  */
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.*;
 
+import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.*;
 
 /**
@@ -164,5 +166,17 @@ public class Rope extends ComplexObstacle {
 			return null;
 		}
 		return ((SimpleObstacle)bodies.get(0)).getTexture();
+	}
+
+	@Override
+	public void drawDebug(GameCanvas canvas) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawDebug(GameCanvas canvas, Color c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -847,6 +847,16 @@ public class AidenController extends WorldController
 			}
 		}
 		canvas.end();
+		if (debug) {
+			canvas.beginDebug(1, 1);
+			for (Obstacle obj : objects) {
+				obj.drawDebug(canvas);
+			}
+			// board.setDrawScale(scale);
+			// board.drawDebug(canvas);
+			aiController.drawDebug(canvas, scale, npcs);
+			canvas.endDebug();
+		}
 
 		// Final message
 		if (isComplete() && !isFailure()) {

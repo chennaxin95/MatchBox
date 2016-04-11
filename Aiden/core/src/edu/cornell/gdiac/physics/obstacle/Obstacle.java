@@ -990,5 +990,15 @@ public abstract class Obstacle {
 	 * @param canvas Drawing context
 	 */
 	public abstract void draw(GameCanvas canvas);
+	
+	/**
+	 * Draws the outline of the physics body.
+	 *
+	 * This method can be helpful for understanding issues with collisions.
+	 *
+	 * @param canvas Drawing context
+	 */
+	public abstract void drawDebug(GameCanvas canvas);
+	public abstract void drawDebug(GameCanvas canvas, Color c);
 
 }
