@@ -100,6 +100,8 @@ public class InputController {
 	public boolean hasRemovePressed;
 	public boolean newAidenPressed;
 	public boolean hasNewAidenPressed;
+	public boolean hasPressedPoly;
+	
 	
 	public int inputNumber;
 	
@@ -361,7 +363,8 @@ public class InputController {
 		
 		newAidenPressed=(secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.A));
-		
+		hasPressedPoly=(secondary && nextPressed)
+				|| (Gdx.input.isKeyPressed(Input.Keys.Y));		
 		
 		inputNumber=-1;
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_0)){
@@ -379,8 +382,6 @@ public class InputController {
 		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
 			inputNumber=4;
 		}
-		System.out.println("input:"+inputNumber+" "+newAidenPressed);
-		
 		
 		// Directional controls
 		horizontal = (secondary ? horizontal : 0.0f);
