@@ -48,15 +48,11 @@ public class CollisionController {
 					if (bd2 instanceof FlammableBlock) {
 
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if ((avatar.getX() >= fb.getX() - fb.getWidth() / 1.9 ||
-								avatar.getX() <= fb.getX()
-										+ fb.getWidth() / 1.9)
-								&&
-								(avatar.getY() >= fb.getY()
-										- fb.getHeight() / 1.9
-										||
+						if ((avatar.getX() >= fb.getX() &&
+								avatar.getX() <= fb.getX() + fb.getWidth()) &&
+								(avatar.getY() >= fb.getY() &&
 										avatar.getY() <= fb.getY()
-												+ fb.getHeight() / 1.9)) {
+												+ fb.getHeight())) {
 							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
@@ -75,9 +71,9 @@ public class CollisionController {
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-						if ((avatar.getX() >= fb.getX() ||
+						if ((avatar.getX() >= fb.getX() &&
 								avatar.getX() <= fb.getX() + fb.getWidth()) &&
-								(avatar.getY() >= fb.getY() ||
+								(avatar.getY() >= fb.getY() &&
 										avatar.getY() <= fb.getY()
 												+ fb.getHeight())) {
 							avatar.setClimbing(true);
@@ -93,34 +89,6 @@ public class CollisionController {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
 							}
 						}
-					}
-				}
-
-				// Set climbing state for climbable blocks
-				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-					BlockAbstract b = (BlockAbstract) bd2;
-					if (b.getMaterial().isClimbable()) {
-						float x = Math.abs(bd1.getX() - bd2.getX());
-						float y = Math.abs(bd1.getY() - bd2.getY());
-						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
-
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-						}
-
-					}
-				}
-				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-					BlockAbstract b = (BlockAbstract) bd1;
-					if (b.getMaterial().isClimbable()) {
-						float x = Math.abs(bd1.getX() - bd2.getX());
-						float y = Math.abs(bd1.getY() - bd2.getY());
-						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
-
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-						}
-
 					}
 				}
 

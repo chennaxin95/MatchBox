@@ -156,6 +156,36 @@ public class Rope extends ComplexObstacle {
 		}
 	}
 	
+	/**update parts burn state*/
+	public boolean updateParts(World world){
+		FlammableBlock temp;
+		for (int i = 0; i < bodies.size; i++){
+			temp = (FlammableBlock) bodies.get(i);
+			if(temp.isBurnt()){
+				if (i == 0){
+					this.deactivatePhysics(world);
+					this.markRemoved(true);
+					return true;
+				}
+				else{
+					updateHelper(i, world);
+					return false;
+				}	
+			}
+		}
+		return false;
+	}
+	
+	public void updateHelper(int i, World world){
+		int j = i;
+		while (j < bodies.size){
+			bodies.get(i);
+			world.destroyBody(bodies.get(i).getBody());
+			bodies.removeIndex(i);
+		}
+	}
+	
+	
 	/**
 	 * Returns the texture for the individual planks
 	 *
