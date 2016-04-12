@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
@@ -24,7 +25,9 @@ public class Scene implements SceneInterface{
 	private ArrayList<StoneBlock> stoneBlocks = new ArrayList();
 	private ArrayList<CharacterModel> guards = new ArrayList();
 	private ArrayList<Platform> platforms = new ArrayList();
-
+	private BlockAbstract goalDoor;
+	
+	
 	public Scene(String s){
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
@@ -35,24 +38,26 @@ public class Scene implements SceneInterface{
 		JsonValue exit = jv.get("goal");
 		
 		// Aiden
-		
-		JsonValue start_pos_array = aiden.get("start_pos");
-			if (start_pos_array!=null  && start_pos_array.size()>0){
-			JsonValue start_pos = start_pos_array.get(0);
-			float start_pos_x = start_pos.getFloat("x");
-			float start_pos_y = start_pos.getFloat("y");
-			float density = aiden.getFloat("density");
-			float scale_x = aiden.getFloat("scale_x");
-			float scale_y = aiden.getFloat("scale_y");
-			boolean fright = aiden.getBoolean("fright");
-			int max_walk_speed = aiden.getInt("max_walk");
-			int jump_height = aiden.getInt("jump_height");
-			int start_fuel = aiden.getInt("start_fuel");
-			aidenModel = new AidenModel(start_pos_x, start_pos_y, 
+		if (aiden!=null){
+			JsonValue start_pos_array = aiden.get("start_pos");
+			if (start_pos_array!=null  && start_pos_array.size>0){
+				JsonValue start_pos = start_pos_array.get(0);
+				float start_pos_x = start_pos.getFloat("x");
+				float start_pos_y = start_pos.getFloat("y");
+				float density = aiden.getFloat("density");
+				float scale_x = aiden.getFloat("scale_x");
+				float scale_y = aiden.getFloat("scale_y");
+				boolean fright = aiden.getBoolean("fright");
+				int max_walk_speed = aiden.getInt("max_walk");
+				int jump_height = aiden.getInt("jump_height");
+				int start_fuel = aiden.getInt("start_fuel");
+				aidenModel = new AidenModel(start_pos_x, start_pos_y, 
 					scale_x,scale_y, fright);
+			}
 		}
 		
 		// Blocks
+		if (objects!=null){
 		int n = objects.size;
 		for(int i = 0; i<n; i++){
 			JsonValue obj = objects.get(i);
@@ -92,9 +97,11 @@ public class Scene implements SceneInterface{
 				}
 			}
 
+			}
 		}
 
 		// Water guards
+		if (jguards!=null){
 		int guard_n = jguards.size;
 		for(int i = 0; i<guard_n; i++){
 			JsonValue guard = jguards.get(i);
@@ -109,21 +116,26 @@ public class Scene implements SceneInterface{
 					guard_name, g_x, g_y, g_scale_x, g_scale_y, g_fright);
 			guards.add(water);
 		}
+		}
 
 		//Exit
-		String ex_texture = exit.getString("texture");
-		JsonValue exit_pos = exit.get("pos");
-		float exit_x = exit_pos.getFloat("x");
-		float exit_y = exit_pos.getFloat("y");
-		float e_scale_x = exit.getFloat("scale_x");
-		float e_scale_y = exit.getFloat("scale_y");
+		if (exit!=null){
+			String ex_texture = exit.getString("texture");
+			JsonValue exit_pos = exit.get("pos");
+			float exit_x = exit_pos.getFloat("x");
+			float exit_y = exit_pos.getFloat("y");
+			float e_scale_x = exit.getFloat("scale_x");
+			float e_scale_y = exit.getFloat("scale_y");
+			goalDoor=new StoneBlock(exit_x, exit_y, e_scale_x, e_scale_y);
+		}
 	}
 
 
 	public AidenModel getAidenModel(){
 		return aidenModel;
 	}
-
+	
+	/** All the blocks but goal door */
 	public ArrayList<BlockAbstract> getBlocks(){
 		ArrayList<BlockAbstract> container=new ArrayList<BlockAbstract>();
 		container.addAll(this.getWoodBlocks());
@@ -179,5 +191,9 @@ public class Scene implements SceneInterface{
 	@Override
 	public ArrayList<FuelBlock> getFuelBlocks() {
 		return fuelBlocks;
+	}
+	
+	public BlockAbstract getGoalDoor(){
+		return goalDoor;
 	}
 }

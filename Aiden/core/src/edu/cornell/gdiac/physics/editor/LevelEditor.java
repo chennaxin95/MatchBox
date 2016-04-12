@@ -210,7 +210,8 @@ public class LevelEditor extends WorldController {
 	
 	@Override
 	public void update(float dt) {
-//		System.out.println(this.npcs.size()+" "+this.blocks.size());
+		System.out.println(this.npcs.size()+" "+this.blocks.size()
+				+" "+this.goalDoor);
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 		float nxPos=InputController.getInstance().mousePos.x
@@ -354,6 +355,7 @@ public class LevelEditor extends WorldController {
 				}
 				if (holdingBlock!=null){
 					blocks.remove(holdingBlock);
+					if (holdingBlock==this.goalDoor) goalDoor=null;
 					holdingBlock=null;
 				}
 				holding=false;
@@ -600,11 +602,18 @@ public class LevelEditor extends WorldController {
 			}
 			if (texture!=null) block.setTexture(texture);
 		}	
+		goalDoor=scene.getGoalDoor();
+		if (goalDoor!=null){
+			goalDoor.setTexture(goalTile);
+			goalDoor.setDrawScale(scale);
+			blocks.add(goalDoor);
+		}
 		aiden=scene.getAidenModel();
 		if (aiden!=null) {
 			aiden.setDrawScale(scale);
 			aiden.setTexture(avatarTexture);
 		}
+		System.out.println(this.blocks.size()+" "+this.npcs.size());
 		
 	}
 }
