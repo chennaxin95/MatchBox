@@ -24,6 +24,7 @@ import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.ai.NavBoard;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -40,63 +41,8 @@ import edu.cornell.gdiac.physics.CollisionController;
  */
 public class AidenController extends WorldController
 		implements ContactListener {
-	/** The texture file for the character avatar (no animation) */
-	private static final String DUDE_FILE = "platform/dude.png";
-	/** texture for water */
-	private static final String WATER_FILE = "platform/water.png";
-	/** The texture file for the spinning barrier */
-	private static final String BARRIER_FILE = "platform/barrier.png";
-	/** The texture file for the bullet */
-	private static final String BULLET_FILE = "platform/bullet.png";
-	/** The texture file for the bridge plank */
-	private static final String ROPE_FILE = "platform/rope.png";
-	/** The textrue file for the woodenBlock */
-	private static final String WOOD_FILE = "platform/woodenBlock.png";
-	/** Texture for fuelBlock */
-	private static final String FUEL_FILE = "platform/fuelBlock.png";
 
-	// private static final String LADDER_FILE = "platform/ladder.png";
-
-	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
-	private static final String AIDEN_DIE_FILE = "platform/die_animation.png";
-	private static final String WATER_WALK = "platform/water_animation.png";
-	private static final String WATER_DIE = "platform/water-die-animation.png";
-	private static final String BURNING_FILE = "platform/blockburning.png";
-
-	private static final String STONE_FILE = "platform/stone.png";
-	/** File to texture for walls and platforms */
-	private static String EARTH_FILE = "shared/earthtile.png";
-
-	/** The sound file for a jump */
-	private static final String JUMP_FILE = "platform/jump.mp3";
-	/** The sound file for a bullet fire */
-	private static final String PEW_FILE = "platform/pew.mp3";
-	/** The sound file for a bullet collision */
-	private static final String POP_FILE = "platform/plop.mp3";
-
-	/** Texture asset for character avatar */
-	private TextureRegion avatarTexture;
-	/** Texture for woodblock */
-	private TextureRegion woodTexture;
-	/** Texture for fuel */
-	private TextureRegion fuelTexture;
-	/** texture for water */
-	private TextureRegion waterTexture;
-	private TextureRegion stoneTexture;
-	private TextureRegion ropeTexture;
-	/** Texture for background */
-	private static final String BACKGROUND = "shared/background.png";
-	/** Texture for background */
-	private TextureRegion backGround;
-
-	// private TextureRegion ladderTexture;
-	/** Texture for aiden animation */
-	private FilmStrip AidenAnimeTexture;
-	private FilmStrip AidenDieTexture;
-	private FilmStrip WaterWalkTexture;
-	private FilmStrip WaterDieTexture;
-	/** Texture for burning animation */
-	private FilmStrip[] burningTexture;
+	private AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
 	private AssetState platformAssetState = AssetState.EMPTY;
@@ -107,105 +53,6 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
-
-	/**
-	 * Preloads the assets for this controller.
-	 *
-	 * To make the game modes more for-loop friendly, we opted for nonstatic
-	 * loaders this time. However, we still want the assets themselves to be
-	 * static. So we have an AssetState that determines the current loading
-	 * state. If the assets are already loaded, this method will do nothing.
-	 * 
-	 * @param manager
-	 *            Reference to global asset manager.
-	 */
-	public void preLoadContent(AssetManager manager) {
-		if (platformAssetState != AssetState.EMPTY) {
-			return;
-		}
-
-		platformAssetState = AssetState.LOADING;
-		manager.load(DUDE_FILE, Texture.class);
-		assets.add(DUDE_FILE);
-		manager.load(BARRIER_FILE, Texture.class);
-		assets.add(BARRIER_FILE);
-		manager.load(BULLET_FILE, Texture.class);
-		assets.add(BULLET_FILE);
-		manager.load(WOOD_FILE, Texture.class);
-		assets.add(WOOD_FILE);
-		manager.load(FUEL_FILE, Texture.class);
-		assets.add(FUEL_FILE);
-		manager.load(ROPE_FILE, Texture.class);
-		assets.add(ROPE_FILE);
-		manager.load(BACKGROUND, Texture.class);
-		assets.add(BACKGROUND);
-		manager.load(WATER_FILE, Texture.class);
-		assets.add(WATER_FILE);
-		manager.load(STONE_FILE, Texture.class);
-		assets.add(STONE_FILE);
-		manager.load(AIDEN_ANIME_FILE, Texture.class);
-		assets.add(AIDEN_ANIME_FILE);
-		manager.load(AIDEN_DIE_FILE, Texture.class);
-		assets.add(AIDEN_DIE_FILE);
-		manager.load(WATER_WALK, Texture.class);
-		assets.add(WATER_WALK);
-		manager.load(WATER_DIE, Texture.class);
-		assets.add(WATER_DIE);
-		manager.load(BURNING_FILE, Texture.class);
-		assets.add(BURNING_FILE);
-
-		manager.load(JUMP_FILE, Sound.class);
-		assets.add(JUMP_FILE);
-		manager.load(PEW_FILE, Sound.class);
-		assets.add(PEW_FILE);
-		manager.load(POP_FILE, Sound.class);
-		assets.add(POP_FILE);
-
-		super.preLoadContent(manager);
-	}
-
-	/**
-	 * Load the assets for this controller.
-	 *
-	 * To make the game modes more for-loop friendly, we opted for nonstatic
-	 * loaders this time. However, we still want the assets themselves to be
-	 * static. So we have an AssetState that determines the current loading
-	 * state. If the assets are already loaded, this method will do nothing.
-	 * 
-	 * @param manager
-	 *            Reference to global asset manager.
-	 */
-	public void loadContent(AssetManager manager) {
-		if (platformAssetState != AssetState.LOADING) {
-			return;
-		}
-		woodTexture = createTexture(manager, WOOD_FILE, false);
-		avatarTexture = createTexture(manager, DUDE_FILE, false);
-		fuelTexture = createTexture(manager, FUEL_FILE, false);
-		ropeTexture = createTexture(manager, ROPE_FILE, true);
-		earthTile = createTexture(manager, EARTH_FILE, true);
-		backGround = createTexture(manager, BACKGROUND, false);
-		waterTexture = createTexture(manager, WATER_FILE, false);
-		stoneTexture = createTexture(manager, STONE_FILE, false);
-
-		WaterWalkTexture = createFilmStrip(manager, WATER_WALK, 4, 1, 4);
-		WaterDieTexture = createFilmStrip(manager, WATER_DIE, 12, 1, 12);
-		AidenDieTexture = createFilmStrip(manager, AIDEN_DIE_FILE, 13, 1, 13);
-		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
-				12);
-
-		burningTexture = new FilmStrip[10];
-		for (int i = 0; i < 10; i++) {
-			burningTexture[i] = createFilmStrip(manager, BURNING_FILE, 7, 1, 7);
-		}
-
-		SoundController sounds = SoundController.getInstance();
-		sounds.allocate(manager, JUMP_FILE);
-		sounds.allocate(manager, PEW_FILE);
-		sounds.allocate(manager, POP_FILE);
-		super.loadContent(manager);
-		platformAssetState = AssetState.COMPLETE;
-	}
 
 	// Physics constants for initialization
 	/** The new heavier gravity for this world (so it is not so floaty) */
@@ -319,10 +166,10 @@ public class AidenController extends WorldController
 	private static final float[][] STONE_BOXES = {
 			{},
 
-			{ 16.0f, 1.0f,},
+			{ 16.0f, 1.0f, },
 
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f , 20.75f, 13.0f} };
+					24.75f, 10f, 15.5f, 11f, 20.75f, 13.0f } };
 
 	/** WaterGuard Positions */
 	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
@@ -336,7 +183,7 @@ public class AidenController extends WorldController
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
 			{ 29f, 9f } };
-	
+
 	// Physics objects for the game
 	// Characters
 	/** Reference to the character avatar */
@@ -390,6 +237,11 @@ public class AidenController extends WorldController
 	 */
 	public int level = 0;
 
+	/** Sets asset file */
+	public void setAssetFile(AssetFile a) {
+		this.af = a;
+	}
+
 	/**
 	 * Resets the status of the game so that we can play again.
 	 *
@@ -409,7 +261,7 @@ public class AidenController extends WorldController
 		addQueue.clear();
 		npcs.clear();
 		world.dispose();
-		fuelFont.setColor(Color.WHITE);
+		af.fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
 		world.setContactListener(this);
 		setComplete(false);
@@ -426,8 +278,8 @@ public class AidenController extends WorldController
 	 */
 	private void populateLevel() {
 		// Add level goal
-		float dwidth = goalTile.getRegionWidth() / scale.x;
-		float dheight = goalTile.getRegionHeight() / scale.y;
+		float dwidth = af.goalTile.getRegionWidth() / scale.x;
+		float dheight = af.goalTile.getRegionHeight() / scale.y;
 		float x = GOAL[level][0];
 		float y = GOAL[level][1];
 		goalDoor = new BoxObstacle(x, y, dwidth, dheight);
@@ -437,7 +289,7 @@ public class AidenController extends WorldController
 		goalDoor.setRestitution(0.0f);
 		goalDoor.setSensor(true);
 		goalDoor.setDrawScale(scale);
-		goalDoor.setTexture(goalTile);
+		goalDoor.setTexture(af.goalTile);
 		goalDoor.setName("goal");
 		addObject(goalDoor);
 
@@ -449,10 +301,10 @@ public class AidenController extends WorldController
 							WALLS2[level][ii][2], WALLS2[level][ii][3]),
 					1);
 			p.setDensity(BASIC_DENSITY);
-			p.setFriction(BASIC_FRICTION);
+			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(earthTile);
+			p.setTexture(af.earthTile);
 			p.setName(wname + ii);
 			addObject(p);
 		}
@@ -468,14 +320,14 @@ public class AidenController extends WorldController
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(earthTile);
+			p.setTexture(af.earthTile);
 			p.setName(pname + ii);
 			addObject(p);
 		}
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
-			TextureRegion texture = woodTexture;
+			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 
@@ -486,20 +338,20 @@ public class AidenController extends WorldController
 
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(BASIC_FRICTION);
+			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("box" + ii);
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			box.setBurningTexture(
-					burningTexture[(ii / 2) % burningTexture.length], 2);
+					af.burningTexture[(ii / 2) % af.burningTexture.length], 2);
 			addObject(box);
 			flammables.add(box);
 		}
 
 		// Adding stone boxes
 		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
-			TextureRegion texture = woodTexture;
+			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			Stone box = new Stone(STONE_BOXES[level][ii],
@@ -511,13 +363,13 @@ public class AidenController extends WorldController
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("stone_box" + ii);
 			box.setDrawScale(scale);
-			box.setTexture(stoneTexture);
+			box.setTexture(af.stoneTexture);
 			addObject(box);
 		}
 
 		// Adding boxes
 		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
-			TextureRegion texture = fuelTexture;
+			TextureRegion texture = af.fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
@@ -533,45 +385,50 @@ public class AidenController extends WorldController
 			flammables.add(box);
 		}
 		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
-			dwidth = ropeTexture.getRegionWidth() / scale.x;
-			dheight = ropeTexture.getRegionHeight() / scale.y;
+			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
+			dheight = af.ropeTexture.getRegionHeight() / scale.y;
 			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
 					dwidth, dheight);
 			r.setDrawScale(scale);
-			r.setTexture(ropeTexture);
+			r.setTexture(af.ropeTexture);
 			addObject(r);
 			ropes.add(r);
 		}
 		// Create Aiden
-		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
+		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
+		dheight = af.avatarTexture.getRegionHeight() / scale.y;
 		avatar = new AidenModel(START[level][0], START[level][1], dwidth,
 				dheight, true);
 		avatar.setDrawScale(scale);
-		avatar.setTexture(avatarTexture);
-		avatar.setDeath(AidenDieTexture);
+		avatar.setTexture(af.avatarTexture);
+		avatar.setDeath(af.AidenDieTexture);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
-		avatar.setCharacterSprite(AidenAnimeTexture);
+
+		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
 		addObject(avatar);
 
 		// Create NPCs
-		dwidth = waterTexture.getRegionWidth() / scale.x - 0.8f;
-		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.4f;
+		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.8f;
+		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.4f;
+
 		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
 
 			WaterGuard ch1 = new WaterGuard(CharacterType.WATER_GUARD,
 					"WaterGuard",
-					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1]-0.5f, dwidth,
+					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1] - 0.5f,
+					dwidth,
 					dheight, (level != 2));
 			ch1.setDrawScale(scale);
-			ch1.setTexture(waterTexture);
+
+			ch1.setTexture(af.waterTexture);
 			ch1.setName("wg");
 			npcs.add(ch1);
-			ch1.setDeath(WaterDieTexture);
-			ch1.setCharacterSprite(WaterWalkTexture);
+			ch1.setDeath(af.WaterDieTexture);
+			ch1.setCharacterSprite(af.WaterWalkTexture);
+
 			addObject(ch1);
 		}
 	}
@@ -649,7 +506,8 @@ public class AidenController extends WorldController
 		avatar.setDt(dt);
 		avatar.applyForce();
 		if (avatar.isJumping()) {
-			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
+			SoundController.getInstance().play(af.get("JUMP_FILE"),
+					af.get("JUMP_FILE"), false,
 					EFFECT_VOLUME);
 		}
 
@@ -703,31 +561,36 @@ public class AidenController extends WorldController
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 			}
-			
-			//Check for aiden top
-			if ((avatar.getTopName().equals(fd2) && avatar != bd1 && bd1 instanceof Stone) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2 && bd2 instanceof Stone)) {
+
+			// Check for aiden top
+			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+					&& bd1 instanceof Stone) ||
+					(avatar.getTopName().equals(fd1) && avatar != bd2
+							&& bd2 instanceof Stone)) {
 				System.out.println("Gotcha");
 				setFailure(true);
 			}
-			
-			//Check for aiden down water top
-			if ((avatar.getTopName().equals(fd2) && avatar != bd1 && bd1 instanceof WaterGuard) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2 && bd2 instanceof WaterGuard)) {
+
+			// Check for aiden down water top
+			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+					&& bd1 instanceof WaterGuard) ||
+					(avatar.getTopName().equals(fd1) && avatar != bd2
+							&& bd2 instanceof WaterGuard)) {
 				setFailure(true);
 			}
-			
-			//Check for water top
-			for (CharacterModel wg : npcs){
+
+			// Check for water top
+			for (CharacterModel wg : npcs) {
 				WaterGuard w = (WaterGuard) wg;
-				if ((w.getTopName().equals(fd2) && w != bd1 && bd1 instanceof BlockAbstract) ||
-						(w.getTopName().equals(fd1) && w != bd2 && bd2 instanceof BlockAbstract)) {
+				if ((w.getTopName().equals(fd2) && w != bd1
+						&& bd1 instanceof BlockAbstract) ||
+						(w.getTopName().equals(fd1) && w != bd2
+								&& bd2 instanceof BlockAbstract)) {
 					fix1.setRestitution(0);
 					fix2.setRestitution(0);
 					w.setDead(true);
 				}
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -739,7 +602,7 @@ public class AidenController extends WorldController
 	 * Callback method for the start of a collision
 	 *
 	 * This method is called when two objects cease to touch. The main use of
-	 * this method is to determine when the characer is NOT on the ground. This
+	 * this method is to determine when the character is NOT on the ground. This
 	 * is how we prevent double jumping.
 	 */
 	public void endContact(Contact contact) {
@@ -801,7 +664,7 @@ public class AidenController extends WorldController
 		canvas.clear();
 		canvas.begin(avatar.getX(), avatar.getY());
 		// canvas.draw(backGround, 0, 0);
-		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				canvas.getWidth(), canvas.getHeight() / 18 * 22);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
@@ -810,11 +673,10 @@ public class AidenController extends WorldController
 				} else {
 					avatar.drawDead(canvas);
 				}
-			} 
-			else if(obj instanceof WaterGuard && ((WaterGuard) obj).isDead()){
+			} else if (obj instanceof WaterGuard
+					&& ((WaterGuard) obj).isDead()) {
 				((WaterGuard) obj).drawDead(canvas);
-			}
-			else {
+			} else {
 				obj.draw(canvas);
 			}
 		}
@@ -830,19 +692,19 @@ public class AidenController extends WorldController
 
 		// Final message
 		if (isComplete() && !isFailure()) {
-			displayFont.setColor(Color.YELLOW);
+			af.displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawText("VICTORY!", displayFont, pos.x, pos.y);
+			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		} else if (isFailure()) {
-			displayFont.setColor(Color.RED);
+			af.displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
 			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
-			canvas.drawText("FAILURE!", displayFont, pos.x, pos.y);
+			canvas.drawText("FAILURE!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
 		}
@@ -853,7 +715,7 @@ public class AidenController extends WorldController
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(512, 400);
 			String fuelT = "fuel: " + (int) avatar.getFuel();
-			canvas.drawText(fuelT, fuelFont, pos.x, pos.y);
+			canvas.drawText(fuelT, af.fuelFont, pos.x, pos.y);
 			canvas.end();
 
 		}
