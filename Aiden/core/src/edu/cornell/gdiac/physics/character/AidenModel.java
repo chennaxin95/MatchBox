@@ -62,9 +62,8 @@ public class AidenModel extends CharacterModel {
 	private float ratio;
 	private float cRatio;
 	/** Texture for fire trail */
-	private TextureRegion trailTexture;
 	private FilmStrip death;
-	private Color preColor;
+	private Color preColor = Color.WHITE;
 
 	/**
 	 * Returns up/down movement of this character.
@@ -209,14 +208,6 @@ public class AidenModel extends CharacterModel {
 		trailLeft.start();
 	}
 
-	/**
-	 * Set texture for special effect
-	 * 
-	 * @param t
-	 */
-	public void setTraillTexture(TextureRegion t) {
-		trailTexture = t;
-	}
 
 	/**
 	 * Applies the force to the body of this dude
