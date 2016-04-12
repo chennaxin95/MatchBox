@@ -12,6 +12,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.util.FilmStrip;
@@ -38,6 +42,11 @@ public class AidenModel extends CharacterModel {
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
+	protected static final float MAX_JUMP_TIME=0.1f;
+	private boolean smallSized = false;
+	private int jumpFrame = 0;
+	private boolean drawJumping = false;
+	private FilmStrip jump;	
 
 	/** Amount of time spent in spirit mode */
 	private float spiritCount = 0;
@@ -74,6 +83,10 @@ public class AidenModel extends CharacterModel {
 	 */
 	public float getMovementY() {
 		return movementY;
+	}
+	
+	public void setJump(FilmStrip jump){
+		this.jump = jump;
 	}
 
 	public void setDeath(FilmStrip die) {
@@ -237,8 +250,10 @@ public class AidenModel extends CharacterModel {
 
 			}
 		}
-		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
-			movementY = 11;
+		if (!isClimbing && !isSpiriting && isGrounded) {
+			if (jumpFrame == 2){
+				movementY = 11;
+			}
 		}
 		if (!isGrounded) {
 			movement = movement * 0.9f;
@@ -326,12 +341,89 @@ public class AidenModel extends CharacterModel {
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
+		if(ratio <= 0.85 && !smallSized){
+			resizeSensor();
+			smallSized = true;
+		}
+		if(ratio >= 0.9 && smallSized){
+			resizeSensor();
+			smallSized = false;
+		}
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
 		trailLeft.update(dt);
 		trailRight.update(dt);
 		trailStill.update(dt);
+	}
+	
+	@Override
+	public boolean activatePhysics(World world) {
+		// create the box from our superclass
+		if (!super.activatePhysics(world)) {
+			return false;
+		}
 
+		// Ground Sensor
+		// -------------
+		// We only allow the dude to jump when he's on the ground.
+		// Double jumping is not allowed.
+		//
+		// To determine whether or not the dude is on the ground,
+		// we create a thin sensor under his feet, which reports
+		// collisions with the world but has no collision response.
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
+		FixtureDef sensorDef = new FixtureDef();
+		sensorDef.density = DUDE_DENSITY;
+		sensorDef.isSensor = true;
+		sensorShape = new PolygonShape();
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		sensorDef.shape = sensorShape;
+
+		sensorFixture = body.createFixture(sensorDef);
+		sensorFixture.setUserData(getSensorName());
+		
+		//top Sensor
+		sensorCenter.y = getHeight()/2;
+		FixtureDef topDef = new FixtureDef();
+		topDef.density = DUDE_DENSITY;
+		topDef.isSensor = true;
+		topShape = new PolygonShape();
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		topDef.shape = topShape;
+
+		top = body.createFixture(topDef);
+		top.setUserData(getTopName());
+		return true;
+	}
+	
+
+	public void resizeSensor(){
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
+		FixtureDef sensorDef = new FixtureDef();
+		sensorDef.density = DUDE_DENSITY;
+		sensorDef.isSensor = true;
+		sensorShape = new PolygonShape();
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		sensorDef.shape = sensorShape;
+
+		sensorFixture = body.createFixture(sensorDef);
+		sensorFixture.setUserData(getSensorName());
+		
+		//top Sensor
+		sensorCenter.y = getHeight()/2;
+		FixtureDef topDef = new FixtureDef();
+		topDef.density = DUDE_DENSITY;
+		topDef.isSensor = true;
+		topShape = new PolygonShape();
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		topDef.shape = topShape;
+
+		top = body.createFixture(topDef);
+		top.setUserData(getTopName());
 	}
 
 	public void simpleDraw(GameCanvas canvas) {
@@ -378,11 +470,19 @@ public class AidenModel extends CharacterModel {
 			return;
 
 		} else {
+			if(isJumping && drawJumping == false && isGrounded()){
+				drawJumping = true;
+			}
 			c.r = Math.min(1, cRatio * 2);
 			c.g = cRatio;
 			c.b = c.g;
 			preColor = c;
-			animate(canvas, c, ratio);
+			if (drawJumping){
+				drawJump(canvas, ratio);
+			}
+			else{
+				animate(canvas, c, ratio);
+			}
 		}
 	}
 
@@ -403,6 +503,26 @@ public class AidenModel extends CharacterModel {
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect, 1f);
+	}
+	
+	public void drawJump(GameCanvas canvas, float ratio) {
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_JUMP_TIME;
+			jumpFrame++;
+			jump.setFrame(jumpFrame);
+		}
+
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		canvas.draw(jump, preColor, ox, oy, getX() * drawScale.x,
+				getY() * drawScale.y, getAngle(), -effect*ratio, ratio);
+		if (jumpFrame == jump.getSize()-1){
+			jumpFrame = 0;
+			drawJumping = false;
+		}
 	}
 	
 }
