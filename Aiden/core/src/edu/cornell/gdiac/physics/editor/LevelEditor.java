@@ -92,7 +92,10 @@ public class LevelEditor extends WorldController {
 
 	@Override
 	public void update(float dt) {
-		// System.out.println(this.npcs.size()+" "+this.blocks.size());
+
+		System.out.println(this.npcs.size() + " " + this.blocks.size()
+				+ " " + this.goalDoor);
+
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 		float nxPos = InputController.getInstance().mousePos.x
@@ -237,6 +240,8 @@ public class LevelEditor extends WorldController {
 				}
 				if (holdingBlock != null) {
 					blocks.remove(holdingBlock);
+					if (holdingBlock == this.goalDoor)
+						goalDoor = null;
 					holdingBlock = null;
 				}
 				holding = false;
@@ -443,15 +448,19 @@ public class LevelEditor extends WorldController {
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks,
 				npcs, goalDoor);
 		String project_str = json.prettyPrint(project);
-		String outputfile = "aiden-example.json";
+
+		String outputfile = "Level2.json";
 		FileHandle file = Gdx.files
 				.absolute(Gdx.files.getLocalStoragePath() + outputfile);
+
 		file.writeString(project_str, false);
 	}
 
 	public void loadFromJson() {
 		System.out.println("Loading");
-		Scene scene = new Scene("aiden-example.json");
+
+		Scene scene = new Scene("Level2.json");
+
 		reset();
 		System.out.println("Loading Characters");
 		for (CharacterModel ch : scene.getGuards()) {
@@ -485,14 +494,24 @@ public class LevelEditor extends WorldController {
 			default:
 				break;
 			}
+
 			if (texture != null)
 				block.setTexture(texture);
 		}
+		goalDoor = scene.getGoalDoor();
+		if (goalDoor != null) {
+			goalDoor.setTexture(af.goalTile);
+			goalDoor.setDrawScale(scale);
+			blocks.add(goalDoor);
+		}
 		aiden = scene.getAidenModel();
 		if (aiden != null) {
+
 			aiden.setDrawScale(scale);
 			aiden.setTexture(af.avatarTexture);
 		}
+
+		System.out.println(this.blocks.size() + " " + this.npcs.size());
 
 	}
 }

@@ -35,7 +35,7 @@ public class ProjectModelJsonRep implements Json.Serializable{
 
 	public ProjectModelJsonRep(AidenModel inputAiden, ArrayList<BlockAbstract> inputBlocks, 
 			ArrayList<CharacterModel> npcs, BlockAbstract inputGoal){
-		this.aiden=new AidenModelJsonRep(inputAiden);
+		if (inputAiden!=null) this.aiden=new AidenModelJsonRep(inputAiden);
 		this.blocks=new ArrayList<BlockJsonRep>();
 		this.waters=new ArrayList<WaterModelJsonRep>();
 		int id=0;
@@ -48,7 +48,7 @@ public class ProjectModelJsonRep implements Json.Serializable{
 		for (CharacterModel npc: npcs){
 			waters.add(new WaterModelJsonRep(npc));
 		}
-		this.goal =new GoalModelJsonRep(inputGoal);
+		if (inputGoal!=null) this.goal =new GoalModelJsonRep(inputGoal);
 	}
 
 	@Override
@@ -56,10 +56,10 @@ public class ProjectModelJsonRep implements Json.Serializable{
 		// TODO Auto-generated method stub
 		json.writeValue("level",level);
 		json.writeValue("background", background);
-		json.writeValue("aiden",aiden);
+		if (aiden!=null) json.writeValue("aiden",aiden);
 		json.writeValue("blocks",blocks);
 		json.writeValue("waters",waters);
-		json.writeValue("goal",goal);
+		if (goal!=null) json.writeValue("goal",goal);
 	}
 
 	@Override

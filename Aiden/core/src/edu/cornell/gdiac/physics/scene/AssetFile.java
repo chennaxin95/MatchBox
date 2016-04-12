@@ -34,6 +34,7 @@ public class AssetFile {
 	public TextureRegion fuelTexture;
 	/** texture for water */
 	public TextureRegion waterTexture;
+
 	public TextureRegion stoneTexture;
 	public TextureRegion ropeTexture;
 	/** Texture for background */
@@ -43,6 +44,7 @@ public class AssetFile {
 	public FilmStrip AidenAnimeTexture;
 	public FilmStrip AidenDieTexture;
 	public FilmStrip WaterWalkTexture;
+	public FilmStrip WaterDieTexture;
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
 
@@ -71,6 +73,7 @@ public class AssetFile {
 		files.put("BACKGROUND_FILE", "shared/loading.png");
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/play.png");
+		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
 		System.out.println(files);
 	}
 
@@ -175,6 +178,10 @@ public class AssetFile {
 				1, 13);
 		AidenAnimeTexture = createFilmStrip(manager,
 				files.get("AIDEN_ANIME_FILE"),
+				12, 1,
+				12);
+		WaterDieTexture = createFilmStrip(manager,
+				files.get("WATER_DIE_FILE"),
 				12, 1,
 				12);
 

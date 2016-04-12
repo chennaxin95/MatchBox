@@ -166,6 +166,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("AIDEN_ANIME_FILE"));
 		manager.load(af.get("AIDEN_DIE_FILE"), Texture.class);
 		assets.add(af.get("AIDEN_DIE_FILE"));
+		manager.load(af.get("WATER_DIE_FILE"), Texture.class);
+		assets.add(af.get("WATER_DIE_FILE"));
 		manager.load(af.get("WATER_WALK"), Texture.class);
 		assets.add(af.get("WATER_WALK"));
 		manager.load(af.get("BURNING_FILE"), Texture.class);

@@ -11,6 +11,7 @@ import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class CollisionController {
@@ -91,14 +92,10 @@ public class CollisionController {
 					}
 				}
 
-				if (bd1 == avatar && bd2 instanceof CharacterModel
-						&& ((CharacterModel) bd2)
-								.getType() == CharacterType.WATER_GUARD) {
+				if (bd1 == avatar && bd2 instanceof WaterGuard) {
 					return false;
 				}
-				if (bd2 == avatar && bd1 instanceof CharacterModel
-						&& ((CharacterModel) bd1)
-								.getType() == CharacterType.WATER_GUARD) {
+				if (bd2 == avatar && bd1 instanceof WaterGuard){
 					return false;
 				}
 

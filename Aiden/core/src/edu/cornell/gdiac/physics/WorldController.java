@@ -29,6 +29,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
 
 import edu.cornell.gdiac.util.*;
+import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
@@ -470,6 +471,13 @@ public abstract class WorldController implements Screen {
 				entry.remove();
 			} else {
 				// Note that update is called last!
+				if(obj instanceof Rope){
+					boolean remove = ((Rope) obj).updateParts(world);
+					if(remove){
+						obj.deactivatePhysics(world);
+						entry.remove();
+					}
+				}
 				obj.update(dt);
 			}
 		}

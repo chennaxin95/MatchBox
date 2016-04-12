@@ -63,11 +63,10 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
-	protected Fixture left;
+	protected Fixture top;
 	protected Fixture right;
 	protected PolygonShape sensorShape;
-	protected PolygonShape leftShape;
-	protected PolygonShape rightShape;
+	protected PolygonShape topShape;
 
 	/** Cache for internal force calculations */
 	protected Vector2 forceCache = new Vector2();
@@ -97,6 +96,7 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	/** */
 	protected Vector2 target;
+	protected Vector2 targetMove;
 	
 	/**The proportion of height from ground where viewing ray is */
 	protected float eyeProportion;
@@ -147,6 +147,14 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	public Vector2 getTarget(){
 		return this.target;
+	}
+
+	public Vector2 getTargetMove(){
+		return this.target;
+	}
+	
+	public void setTargetMove(Vector2 move){
+		this.targetMove=move;
 	}
 	
 	public boolean isSpawned() {
@@ -306,12 +314,8 @@ public class CharacterModel extends CapsuleObstacle{
 		return getName() + "GroundSensor";
 	}
 
-	public String getLeft() {
-		return getName() + "left";
-	}
-
-	public String getRight() {
-		return getName() + "right";
+	public String getTopName(){
+		return getName() + "TopSensor";
 	}
 
 	/**
@@ -348,14 +352,19 @@ public class CharacterModel extends CapsuleObstacle{
 			spawnNode.addNext(wanderNode, ew1);
 			GameEvent ew2=new GameEvent();
 			ew2.setSeenAiden(1);
+			ew2.setCanReachTarget(1);
 			wanderNode.addNext(chaseNode, ew2);
 			GameEvent ew3=new GameEvent();
 			ew3.setSeenFire(1);
+			ew3.setCanReachTarget(1);
 			wanderNode.addNext(chaseNode, ew3);
 			GameEvent ew4=new GameEvent();
 			ew4.setSeenAiden(-1);
 			ew4.setSeenFire(-1);
 			chaseNode.addNext(wanderNode, ew4);
+			GameEvent ew4T=new GameEvent();
+			ew4T.setCanReachTarget(-1);
+			chaseNode.addNext(wanderNode, ew4T);
 			GameEvent ew5=new GameEvent();
 			ew5.setCanFire(1);
 			chaseNode.addNext(attackNode, ew5);
@@ -408,7 +417,19 @@ public class CharacterModel extends CapsuleObstacle{
 
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
+		
+		//top Sensor
+		sensorCenter.y = getHeight()/2;
+		FixtureDef topDef = new FixtureDef();
+		topDef.density = DUDE_DENSITY;
+		topDef.isSensor = true;
+		topShape = new PolygonShape();
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		topDef.shape = topShape;
 
+		top = body.createFixture(topDef);
+		top.setUserData(getTopName());
 		return true;
 	}
 	
@@ -495,6 +516,8 @@ public class CharacterModel extends CapsuleObstacle{
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
 		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
+		canvas.drawPhysics(topShape, Color.RED, getX(), getY(), getAngle(),
 				drawScale.x, drawScale.y);
 	}
 	

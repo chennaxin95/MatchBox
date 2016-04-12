@@ -12,6 +12,7 @@ public class GameEvent {
 	private int canFire;
 	private int isSpawned;
 	private int closeToFire;
+	private int canReachTarget;
 	
 	public GameEvent(){
 		seenAiden=0;
@@ -19,6 +20,14 @@ public class GameEvent {
 		canFire=0;
 		isSpawned=0;
 		closeToFire=0;
+		canReachTarget=0;
+	}
+	
+	public int canReachTarget(){
+		return canReachTarget;
+	}
+	public void setCanReachTarget(int canReachTarget) {
+		this.canReachTarget = canReachTarget;
 	}
 	
 	public int hasSeenAiden() {
@@ -59,7 +68,8 @@ public class GameEvent {
 				((GameEvent)o).hasSeenAiden()*hasSeenAiden()>=0 &&
 				((GameEvent)o).hasSeenFire()*hasSeenFire()>=0 &&
 				((GameEvent)o).isSpawned()*isSpawned()>=0 &&
-				((GameEvent)o).isCloseToFire()*isCloseToFire()>=0){
+				((GameEvent)o).isCloseToFire()*isCloseToFire()>=0 &&
+				((GameEvent)o).canReachTarget()*canReachTarget()>=0){
 				return true;
 			}
 		}
@@ -72,6 +82,7 @@ public class GameEvent {
 		i+=(int) (hasSeenFire()*Math.pow(2, 3));
 		i+=(int) (isSpawned()*Math.pow(2, 2));
 		i+=(int) (isCloseToFire()*Math.pow(2, 1));
+		i+=(int) (canReachTarget()*Math.pow(2, 0));
 		return i;
 	}
 	
@@ -79,6 +90,6 @@ public class GameEvent {
 	public String toString(){
 		return "canFire="+canFire()+"; hasSeenAiden="+hasSeenAiden()
 				+"; hasSeenFire="+hasSeenFire()+"; isSpawned="+isSpawned()
-				+"; isCloseToFire="+isCloseToFire();
+				+"; isCloseToFire="+isCloseToFire()+"; canReachTarget="+canReachTarget();
 	}
 }

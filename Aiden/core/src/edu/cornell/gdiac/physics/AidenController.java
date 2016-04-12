@@ -41,6 +41,7 @@ import edu.cornell.gdiac.physics.CollisionController;
  */
 public class AidenController extends WorldController
 		implements ContactListener {
+
 	private AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
@@ -165,10 +166,10 @@ public class AidenController extends WorldController
 	private static final float[][] STONE_BOXES = {
 			{},
 
-			{ 16.0f, 1.0f },
+			{ 16.0f, 1.0f, },
 
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f } };
+					24.75f, 10f, 15.5f, 11f, 20.75f, 13.0f } };
 
 	/** WaterGuard Positions */
 	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
@@ -178,20 +179,10 @@ public class AidenController extends WorldController
 			{ 13f, 8f } };
 
 	private static final float[][] ROPE = { {}, {},
-			{ 4.5f, 10.5f, 2.5f, 5.5f } };
+			{ 4f, 10.5f, 3f, 5.5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
 			{ 29f, 9f } };
-
-	// Other game objects
-	/** The goal door position */
-	private static Vector2 GOAL_POS = new Vector2(4.0f, 14.0f);
-	/** The position of the spinning barrier */
-	private static Vector2 SPIN_POS = new Vector2(13.0f, 12.5f);
-	/** The initial position of the dude */
-	private static Vector2 DUDE_POS = new Vector2(2.5f, 5.0f);
-	/** The position of the rope bridge */
-	private static Vector2 BRIDGE_POS = new Vector2(9.0f, 3.8f);
 
 	// Physics objects for the game
 	// Characters
@@ -363,7 +354,7 @@ public class AidenController extends WorldController
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			StoneBlock box = new StoneBlock(STONE_BOXES[level][ii],
+			Stone box = new Stone(STONE_BOXES[level][ii],
 					STONE_BOXES[level][ii + 1], dwidth,
 					dheight);
 			box.setFixedRotation(true);
@@ -397,7 +388,7 @@ public class AidenController extends WorldController
 			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
 			dheight = af.ropeTexture.getRegionHeight() / scale.y;
 			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
-					5, 5, dwidth, dheight);
+					dwidth, dheight);
 			r.setDrawScale(scale);
 			r.setTexture(af.ropeTexture);
 			addObject(r);
@@ -414,23 +405,30 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
+
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
+		avatar.setName("aiden");
 		addObject(avatar);
 
 		// Create NPCs
-		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.5f;
-		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.6f;
+		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.8f;
+		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.4f;
+
 		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
 
-			CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
+			WaterGuard ch1 = new WaterGuard(CharacterType.WATER_GUARD,
 					"WaterGuard",
-					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1], dwidth,
+					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1] - 0.5f,
+					dwidth,
 					dheight, (level != 2));
 			ch1.setDrawScale(scale);
+
 			ch1.setTexture(af.waterTexture);
-			ch1.setFriction(0);
+			ch1.setName("wg");
 			npcs.add(ch1);
+			ch1.setDeath(af.WaterDieTexture);
 			ch1.setCharacterSprite(af.WaterWalkTexture);
+
 			addObject(ch1);
 		}
 	}
@@ -518,14 +516,6 @@ public class AidenController extends WorldController
 			npc.applyForce();
 		}
 
-		// need to manually update ropes
-		for (Rope r : ropes) {
-			boolean isremoved = r.updateParts(world);
-			if (isremoved) {
-				objects.remove(r);
-			}
-		}
-
 		// Detect contacts -- should be moved to a separate Controller
 
 		BurnController BurnControl = new BurnController();
@@ -570,6 +560,36 @@ public class AidenController extends WorldController
 			if ((bd1 == avatar && bd2 == goalDoor) ||
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
+			}
+
+			// Check for aiden top
+			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+					&& bd1 instanceof Stone) ||
+					(avatar.getTopName().equals(fd1) && avatar != bd2
+							&& bd2 instanceof Stone)) {
+				System.out.println("Gotcha");
+				setFailure(true);
+			}
+
+			// Check for aiden down water top
+			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+					&& bd1 instanceof WaterGuard) ||
+					(avatar.getTopName().equals(fd1) && avatar != bd2
+							&& bd2 instanceof WaterGuard)) {
+				setFailure(true);
+			}
+
+			// Check for water top
+			for (CharacterModel wg : npcs) {
+				WaterGuard w = (WaterGuard) wg;
+				if ((w.getTopName().equals(fd2) && w != bd1
+						&& bd1 instanceof BlockAbstract) ||
+						(w.getTopName().equals(fd1) && w != bd2
+								&& bd2 instanceof BlockAbstract)) {
+					fix1.setRestitution(0);
+					fix2.setRestitution(0);
+					w.setDead(true);
+				}
 			}
 
 		} catch (Exception e) {
@@ -653,6 +673,9 @@ public class AidenController extends WorldController
 				} else {
 					avatar.drawDead(canvas);
 				}
+			} else if (obj instanceof WaterGuard
+					&& ((WaterGuard) obj).isDead()) {
+				((WaterGuard) obj).drawDead(canvas);
 			} else {
 				obj.draw(canvas);
 			}

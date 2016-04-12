@@ -5,8 +5,8 @@ import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 public class GoalModelJsonRep {
 	public PointJsonRep pos = new PointJsonRep(1,1);
 	
-	public float scale_x;
-	public float scale_y;
+	public float scale_x=1;
+	public float scale_y=1;
 	
 	public String texture = "platform/goaldoor.png";
 	
