@@ -352,6 +352,8 @@ public class AidenController extends WorldController
 	// Blocks
 	/** Flammable Objects */
 	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
+	//Ropes
+	protected PooledList<Rope> ropes = new PooledList<Rope>();
 	// Exit
 	/** Reference to the goalDoor (for collision detection) */
 	private BoxObstacle goalDoor;
@@ -405,6 +407,11 @@ public class AidenController extends WorldController
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
+		for (FlammableBlock fb : flammables){
+			fb.deactivatePhysics(world);
+		}
+		objects.clear();
+		flammables.clear();
 		objects.clear();
 		addQueue.clear();
 		npcs.clear();
@@ -621,12 +628,14 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 		
+		// ropesssssssssssssssssssssssssss
 		dwidth = ropeTexture.getRegionWidth() / scale.x;
 		dheight = ropeTexture.getRegionHeight() / scale.y;
-		Rope r = new Rope(3, 5, 1, 1, dwidth, dheight);
+		Rope r = new Rope(3, 5, 5, 5, dwidth, dheight);
 		r.setDrawScale(scale);
 		r.setTexture(ropeTexture);
 		addObject(r);
+		ropes.add(r);
 		
 	}
 
@@ -711,6 +720,14 @@ public class AidenController extends WorldController
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
+		
+	    //need to manually update ropes
+			for (Rope r : ropes){
+				boolean isremoved = r.updateParts(world);
+				if (isremoved){
+					objects.remove(r);
+				}
+			}
 
 		// Detect contacts -- should be moved to a separate Controller
 
