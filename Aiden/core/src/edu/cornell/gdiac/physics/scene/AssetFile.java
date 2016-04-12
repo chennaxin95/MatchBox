@@ -43,6 +43,7 @@ public class AssetFile {
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
 	public FilmStrip AidenDieTexture;
+	public FilmStrip AidenJumpTexture;
 	public FilmStrip WaterWalkTexture;
 	public FilmStrip WaterDieTexture;
 	/** Texture for burning animation */
@@ -74,6 +75,8 @@ public class AssetFile {
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/play.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
+
+		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
 		System.out.println(files);
 	}
 
@@ -180,6 +183,8 @@ public class AssetFile {
 				files.get("AIDEN_ANIME_FILE"),
 				12, 1,
 				12);
+		AidenJumpTexture = createFilmStrip(manager,
+				files.get("AIDEN_JUMP_FILE"), 5, 1, 5);
 		WaterDieTexture = createFilmStrip(manager,
 				files.get("WATER_DIE_FILE"),
 				12, 1,

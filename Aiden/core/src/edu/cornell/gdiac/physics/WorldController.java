@@ -73,14 +73,12 @@ public abstract class WorldController implements Screen {
 	/** Reference to the character avatar */
 	private AidenModel avatar;
 
-
 	protected Scene scene;
 
 	/** Sets asset file */
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
 	}
-
 
 	/** Exit code for quitting the game */
 	public static final int EXIT_QUIT = 0;
@@ -462,9 +460,9 @@ public abstract class WorldController implements Screen {
 				entry.remove();
 			} else {
 				// Note that update is called last!
-				if(obj instanceof Rope){
+				if (obj instanceof Rope) {
 					boolean remove = ((Rope) obj).updateParts(world);
-					if(remove){
+					if (remove) {
 						obj.deactivatePhysics(world);
 						entry.remove();
 					}

@@ -49,6 +49,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	private LoadingMode loading;
 	/** Player mode for the the game proper (CONTROLLER CLASS) */
 	private int current;
+	/** Current scene for level */
+	private int currentS;
+
 	/** List of all WorldControllers */
 	private WorldController[] controllers;
 	/** List of scene objects */
@@ -172,6 +175,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("WATER_WALK"));
 		manager.load(af.get("BURNING_FILE"), Texture.class);
 		assets.add(af.get("BURNING_FILE"));
+		manager.load(af.get("AIDEN_JUMP_FILE"), Texture.class);
+		assets.add(af.get("AIDEN_JUMP_FILE"));
 
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
@@ -263,7 +268,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		for (WorldController c : controllers) {
 			c.setAssetFile(af);
 		}
-
+		for (Scene s : scenes){
+			s.setAssetFile(af);
+		}
 		worldAssetState = AssetState.COMPLETE;
 	}
 
@@ -284,7 +291,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
 		// controllers[1].preLoadContent(manager);
-		// scenes[0] = new Scene("./json/level0.json");
+//		scenes[0] = new Scene("./aiden-level1.json");
 		current = 0;
 		controllers[2] = new AidenController(2);
 		// controllers[2].preLoadContent(manager);
@@ -369,11 +376,31 @@ public class GDXRoot extends Game implements ScreenListener {
 			loading.dispose();
 			loading = null;
 		} else if (exitCode == WorldController.EXIT_NEXT) {
+			boolean isle = controllers[current] instanceof LevelEditor;
+			// currentS = (isle) ? 0 : (currentS + 1) % scenes.length;
+			// if (currentS == scenes.length - 1 || isle) {
 			current = (current + 1) % controllers.length;
+			// }
+			// if (controllers[current] instanceof AidenController){
+			//// controllers[current].setScene(scenes[currentS]);
+			// }
+
 			controllers[current].reset();
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_PREV) {
+			boolean isle = controllers[current] instanceof LevelEditor;
+			// currentS = (isle) ? scenes.length - 1
+			// : (currentS + scenes.length - 1) % scenes.length;
+			//
+			// if (currentS == 0 || isle) {
 			current = (current + controllers.length - 1) % controllers.length;
+			// }
+			// if (controllers[current] instanceof AidenController){
+			//// controllers[current].setScene(scenes[currentS]);
+			// }
+
+			// currentS = (currentS + scenes.length - 1) % scenes.length;
+
 			controllers[current].reset();
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_QUIT) {
