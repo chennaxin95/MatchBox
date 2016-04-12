@@ -40,6 +40,9 @@ public class Rope extends ComplexObstacle {
 	/** The left side of the bridge */
 	private WheelObstacle start = null;
 	
+	protected float SPREAD = 0.5f;
+	protected float BURN = 4f;
+	
 
 	// Dimension information
 	/** The size of the entire bridge */
@@ -63,7 +66,7 @@ public class Rope extends ComplexObstacle {
 	 * @param x0  		The x position of the left anchor
 	 * @param y0  		The y position of the left anchor
 	 */
-	public Rope(float x0, float y0, float spreadRate, float burnRate, float lwidth, float lheight) {
+	public Rope(float x0, float y0, float lwidth, float lheight) {
 		super(x0,y0);
 		setName("rope");
 		Vector2 pos = new Vector2(x0, y0);
@@ -72,7 +75,7 @@ public class Rope extends ComplexObstacle {
 		linksize = lheight/4;
 		for (int i = 0; i < SEGMENTS; i++){
 			FlammableBlock part = new FlammableBlock(pos.x, pos.y, lwidth, lheight,
-					spreadRate, burnRate);
+					SPREAD, BURN);
 			part.setName("rope_part");
 	        part.setDensity(BASIC_DENSITY);
 	        bodies.add(part);
@@ -159,33 +162,23 @@ public class Rope extends ComplexObstacle {
 	/**update parts burn state*/
 	public boolean updateParts(World world){
 		FlammableBlock temp;
+		if (bodies.size == 0){
+			this.start.markRemoved(true);
+			return true;
+		}
 		for (int i = 0; i < bodies.size; i++){
 			temp = (FlammableBlock) bodies.get(i);
 			if(temp.isBurnt()){
-				if (i == 0){
-					this.start.markRemoved(true);
-					this.markRemoved(true);
-					this.deactivatePhysics(world);
-					return true;
-				}
-				else{
-					updateHelper(i, world);
-					return false;
-				}	
+				world.destroyBody(bodies.get(i).getBody());
+				bodies.removeIndex(i);
+//				world.destroyJoint(joints.get(i));
+//				System.out.println("====================");
+//				System.out.println("hhhhhhhhhhhhhhhhhhhh");
+				return false;
 			}
 		}
 		return false;
 	}
-	
-	public void updateHelper(int i, World world){
-		int j = i;
-		while (j < bodies.size){
-			bodies.get(i);
-			world.destroyBody(bodies.get(i).getBody());
-			bodies.removeIndex(i);
-		}
-	}
-	
 	
 	/**
 	 * Returns the texture for the individual planks

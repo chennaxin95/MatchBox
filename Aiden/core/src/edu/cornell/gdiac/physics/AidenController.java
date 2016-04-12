@@ -328,21 +328,11 @@ public class AidenController extends WorldController
 			{ 13f, 8f } };
 
 	private static final float[][] ROPE = { {}, {},
-			{ 4.5f, 10.5f, 2.5f, 5.5f } };
+			{ 4f, 10.5f, 3f, 5.5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
 			{ 29f, 9f } };
-
-	// Other game objects
-	/** The goal door position */
-	private static Vector2 GOAL_POS = new Vector2(4.0f, 14.0f);
-	/** The position of the spinning barrier */
-	private static Vector2 SPIN_POS = new Vector2(13.0f, 12.5f);
-	/** The initial position of the dude */
-	private static Vector2 DUDE_POS = new Vector2(2.5f, 5.0f);
-	/** The position of the rope bridge */
-	private static Vector2 BRIDGE_POS = new Vector2(9.0f, 3.8f);
-
+	
 	// Physics objects for the game
 	// Characters
 	/** Reference to the character avatar */
@@ -542,7 +532,7 @@ public class AidenController extends WorldController
 			dwidth = ropeTexture.getRegionWidth() / scale.x;
 			dheight = ropeTexture.getRegionHeight() / scale.y;
 			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
-					5, 5, dwidth, dheight);
+					dwidth, dheight);
 			r.setDrawScale(scale);
 			r.setTexture(ropeTexture);
 			addObject(r);
@@ -659,14 +649,6 @@ public class AidenController extends WorldController
 		// Update movements of npcs, including all interactions/side effects
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
-		}
-
-		// need to manually update ropes
-		for (Rope r : ropes) {
-			boolean isremoved = r.updateParts(world);
-			if (isremoved) {
-				objects.remove(r);
-			}
 		}
 
 		// Detect contacts -- should be moved to a separate Controller
