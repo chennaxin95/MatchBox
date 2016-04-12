@@ -109,7 +109,7 @@ public class AIController {
 			else{
 				e.setCanReachTarget(1);
 			}
-			System.out.println(move);
+//			System.out.println(move);
 		}
 		if (e.hasSeenFire()==0) {
 			e.setSeenFire(-1);
@@ -119,13 +119,13 @@ public class AIController {
 		// Check canFire
 //		e.setCanFire(npc.canFire()? 1: -1);
 		e.setCanFire(-1);
-		System.out.println(e);
+//		System.out.println(e);
 		return e;
 	}
 	
 	private void computeMove(CharacterModel npc){
 		Random r=new Random();
-		System.out.println(npc.getStateMachine().getCurrentState());
+//		System.out.println(npc.getStateMachine().getCurrentState());
 		float lx=npc.getPosition().x-npc.getWidth()/2;
 		float ly=npc.getPosition().y-npc.getHeight()/2;			
 		float ux=npc.getPosition().x+npc.getWidth()/2;
