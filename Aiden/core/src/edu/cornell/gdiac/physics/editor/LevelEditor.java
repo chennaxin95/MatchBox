@@ -558,14 +558,14 @@ public class LevelEditor extends WorldController {
 		
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks, npcs, goalDoor);
 		String project_str = json.prettyPrint(project);
-		String outputfile="aiden-example.json";
+		String outputfile="Tutorial5.json";
 		FileHandle file = Gdx.files.absolute(Gdx.files.getLocalStoragePath()+outputfile);
 		file.writeString(project_str, false);
 	}
 	
 	public void loadFromJson(){
 		System.out.println("Loading");
-		Scene scene=new Scene("aiden-example.json");
+		Scene scene=new Scene("Tutorial5.json");
 		reset();
 		System.out.println("Loading Characters");
 		for (CharacterModel ch:scene.getGuards()){
