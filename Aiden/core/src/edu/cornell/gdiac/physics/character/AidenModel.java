@@ -12,10 +12,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 
 import edu.cornell.gdiac.physics.*;
 import edu.cornell.gdiac.util.FilmStrip;
@@ -30,11 +26,9 @@ public class AidenModel extends CharacterModel {
 	// Physics constants
 	/** The impulse for the character jump */
 	private static final float DUDE_JUMP = 18f;
-	/** Animation cool down */
-	protected static final float MAX_JUMP_TIME=0.1f;
+
 	/** The unit distance away for fire trail */
 	private static final float UNIT_TRAIL_DIST = 0.2f;
-	private boolean smallSized = false;
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
@@ -52,8 +46,6 @@ public class AidenModel extends CharacterModel {
 	private float movementY;
 	/** Whether we are actively jumping */
 	private boolean isJumping;
-	private int jumpFrame = 0;
-	private boolean drawJumping = false;
 	/** Whether we are actively climbing */
 	private boolean isClimbing;
 	/** Whether we are moving through blocks in spirit mode */
@@ -71,7 +63,6 @@ public class AidenModel extends CharacterModel {
 	private float cRatio;
 	/** Texture for fire trail */
 	private FilmStrip death;
-	private FilmStrip jump;
 	private Color preColor = Color.WHITE;
 
 	/**
@@ -90,9 +81,6 @@ public class AidenModel extends CharacterModel {
 		death.setFrame(0);
 	}
 
-	public void setJump(FilmStrip jump){
-		this.jump = jump;
-	}
 	/**
 	 * Sets up/down movement of this character while climbing.
 	 * 
@@ -249,10 +237,8 @@ public class AidenModel extends CharacterModel {
 
 			}
 		}
-		if (!isClimbing && !isSpiriting && isGrounded) {
-			if (jumpFrame == 2){
-				movementY = 11;
-			}
+		if (isJumping && !isClimbing && !isSpiriting && isGrounded) {
+			movementY = 11;
 		}
 		if (!isGrounded) {
 			movement = movement * 0.9f;
@@ -337,14 +323,6 @@ public class AidenModel extends CharacterModel {
 		ratio = fuel / MAX_FUEL;
 		ratio = Math.max(0.8f, ratio);
 		ratio = Math.min(1.0f, ratio);
-		if(ratio <= 0.85 && !smallSized){
-			resizeSensor();
-			smallSized = true;
-		}
-		if(ratio >= 0.9 && smallSized){
-			resizeSensor();
-			smallSized = false;
-		}
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
@@ -353,75 +331,7 @@ public class AidenModel extends CharacterModel {
 		trailLeft.update(dt);
 		trailRight.update(dt);
 		trailStill.update(dt);
-	}
-	
-	@Override
-	public boolean activatePhysics(World world) {
-		// create the box from our superclass
-		if (!super.activatePhysics(world)) {
-			return false;
-		}
 
-		// Ground Sensor
-		// -------------
-		// We only allow the dude to jump when he's on the ground.
-		// Double jumping is not allowed.
-		//
-		// To determine whether or not the dude is on the ground,
-		// we create a thin sensor under his feet, which reports
-		// collisions with the world but has no collision response.
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
-		FixtureDef sensorDef = new FixtureDef();
-		sensorDef.density = DUDE_DENSITY;
-		sensorDef.isSensor = true;
-		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
-				sensorCenter, 0.0f);
-		sensorDef.shape = sensorShape;
-
-		sensorFixture = body.createFixture(sensorDef);
-		sensorFixture.setUserData(getSensorName());
-		
-		//top Sensor
-		sensorCenter.y = getHeight()/2;
-		FixtureDef topDef = new FixtureDef();
-		topDef.density = DUDE_DENSITY;
-		topDef.isSensor = true;
-		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
-				sensorCenter, 0.0f);
-		topDef.shape = topShape;
-
-		top = body.createFixture(topDef);
-		top.setUserData(getTopName());
-		return true;
-	}
-	
-	public void resizeSensor(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
-		FixtureDef sensorDef = new FixtureDef();
-		sensorDef.density = DUDE_DENSITY;
-		sensorDef.isSensor = true;
-		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
-				sensorCenter, 0.0f);
-		sensorDef.shape = sensorShape;
-
-		sensorFixture = body.createFixture(sensorDef);
-		sensorFixture.setUserData(getSensorName());
-		
-		//top Sensor
-		sensorCenter.y = getHeight()/2;
-		FixtureDef topDef = new FixtureDef();
-		topDef.density = DUDE_DENSITY;
-		topDef.isSensor = true;
-		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
-				sensorCenter, 0.0f);
-		topDef.shape = topShape;
-
-		top = body.createFixture(topDef);
-		top.setUserData(getTopName());
 	}
 
 	public void simpleDraw(GameCanvas canvas) {
@@ -468,19 +378,11 @@ public class AidenModel extends CharacterModel {
 			return;
 
 		} else {
-			if(isJumping && drawJumping == false && isGrounded()){
-				drawJumping = true;
-			}
 			c.r = Math.min(1, cRatio * 2);
 			c.g = cRatio;
 			c.b = c.g;
 			preColor = c;
-			if (drawJumping){
-				drawJump(canvas, ratio);
-			}
-			else{
-				animate(canvas, c, ratio);
-			}
+			animate(canvas, c, ratio);
 		}
 	}
 
@@ -503,23 +405,4 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y, getAngle(), effect, 1f);
 	}
 	
-	public void drawJump(GameCanvas canvas, float ratio) {
-		if (this.animeCoolDown<=0) {
-			animeCoolDown=MAX_JUMP_TIME;
-			jumpFrame++;
-			jump.setFrame(jumpFrame);
-		}
-
-		// For placement purposes, put origin in center.
-		float ox = 0.5f * characterSprite.getRegionWidth();
-		float oy = 0.5f * characterSprite.getRegionHeight();
-
-		float effect = faceRight ? 1.0f : -1.0f;
-		canvas.draw(jump, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y, getAngle(), -effect*ratio, ratio);
-		if (jumpFrame == jump.getSize()-1){
-			jumpFrame = 0;
-			drawJumping = false;
-		}
-	}
 }

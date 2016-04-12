@@ -59,7 +59,6 @@ public class AidenController extends WorldController
 
 	private static final String AIDEN_ANIME_FILE = "platform/aidenAnime.png";
 	private static final String AIDEN_DIE_FILE = "platform/die_animation.png";
-	private static final String AIDEN_JUMP_FILE = "platform/jump-s.png";
 	private static final String WATER_WALK = "platform/water_animation.png";
 	private static final String WATER_DIE = "platform/water-die-animation.png";
 	private static final String BURNING_FILE = "platform/blockburning.png";
@@ -94,7 +93,6 @@ public class AidenController extends WorldController
 	/** Texture for aiden animation */
 	private FilmStrip AidenAnimeTexture;
 	private FilmStrip AidenDieTexture;
-	private FilmStrip AidenJumpTexture;
 	private FilmStrip WaterWalkTexture;
 	private FilmStrip WaterDieTexture;
 	/** Texture for burning animation */
@@ -155,8 +153,6 @@ public class AidenController extends WorldController
 		assets.add(WATER_DIE);
 		manager.load(BURNING_FILE, Texture.class);
 		assets.add(BURNING_FILE);
-		manager.load(AIDEN_JUMP_FILE, Texture.class);
-		assets.add(AIDEN_JUMP_FILE);
 
 		manager.load(JUMP_FILE, Sound.class);
 		assets.add(JUMP_FILE);
@@ -197,7 +193,6 @@ public class AidenController extends WorldController
 		AidenDieTexture = createFilmStrip(manager, AIDEN_DIE_FILE, 13, 1, 13);
 		AidenAnimeTexture = createFilmStrip(manager, AIDEN_ANIME_FILE, 12, 1,
 				12);
-		AidenJumpTexture = createFilmStrip(manager, AIDEN_JUMP_FILE, 5, 1, 5);
 
 		burningTexture = new FilmStrip[10];
 		for (int i = 0; i < 10; i++) {
@@ -337,7 +332,7 @@ public class AidenController extends WorldController
 			{ 13f, 8f } };
 
 	private static final float[][] ROPE = { {}, {},
-			{ 4f, 10f, 3f, 5f } };
+			{ 4f, 10.5f, 3f, 5.5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
 			{ 29f, 9f } };
@@ -554,7 +549,6 @@ public class AidenController extends WorldController
 				dheight, true);
 		avatar.setDrawScale(scale);
 		avatar.setTexture(avatarTexture);
-		avatar.setJump(AidenJumpTexture);
 		avatar.setDeath(AidenDieTexture);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
@@ -713,9 +707,8 @@ public class AidenController extends WorldController
 			//Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1 && bd1 instanceof Stone) ||
 					(avatar.getTopName().equals(fd1) && avatar != bd2 && bd2 instanceof Stone)) {
-				if(Math.abs(bd1.getVY())>1){
-					setFailure(true);			
-				}
+				System.out.println("Gotcha");
+				setFailure(true);
 			}
 			
 			//Check for aiden down water top
