@@ -265,12 +265,13 @@ public class GDXRoot extends Game implements ScreenListener {
 			return;
 		}
 		af.loadContent(manager);
+		for (Scene s : scenes) {
+			s.setAssetFile(af);
+		}
 		for (WorldController c : controllers) {
 			c.setAssetFile(af);
 		}
-		for (Scene s : scenes){
-			s.setAssetFile(af);
-		}
+
 		worldAssetState = AssetState.COMPLETE;
 	}
 
@@ -286,15 +287,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 		controllers = new WorldController[4];
-		scenes = new Scene[2];
+		scenes = new Scene[1];
 		controllers[0] = new AidenController(0);
 		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
 		// controllers[1].preLoadContent(manager);
-		scenes[0] = new Scene("./aiden-example.json");
-
-		scenes[1] = new Scene("./aiden-example.json");
-
+		scenes[0] = new Scene("Tutorial3.json");
 		current = 0;
 		controllers[2] = new AidenController(2);
 		// controllers[2].preLoadContent(manager);
