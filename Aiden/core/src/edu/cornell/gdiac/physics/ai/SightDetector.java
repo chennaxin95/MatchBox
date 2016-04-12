@@ -18,7 +18,7 @@ import edu.cornell.gdiac.physics.obstacle.Obstacle;
 import edu.cornell.gdiac.physics.scene.Scene;
 
 public class SightDetector {
-	public static final float FOV=0.9f;
+	public static final float FOV=1f;
 	public static final float UNIT_ANGLE=0.01f;
 	public static final float WHOLE_FOV=(float) Math.PI;
 	
