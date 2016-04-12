@@ -405,7 +405,7 @@ public class AidenController extends WorldController
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
-
+		avatar.setJump(af.AidenJumpTexture);
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
 		addObject(avatar);
