@@ -563,7 +563,6 @@ public class AidenController extends WorldController
 		addObject(avatar);
 
 		// Create NPCs
-
 		dwidth = waterTexture.getRegionWidth() / scale.x - 0.5f;
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.6f;
 		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
@@ -578,16 +577,6 @@ public class AidenController extends WorldController
 			ch1.setCharacterSprite(WaterWalkTexture);
 			addObject(ch1);
 		}
-
-		// ropesssssssssssssssssssssssssss
-		dwidth = ropeTexture.getRegionWidth() / scale.x;
-		dheight = ropeTexture.getRegionHeight() / scale.y;
-		Rope r = new Rope(3, 5, 5, 5, dwidth, dheight);
-		r.setDrawScale(scale);
-		r.setTexture(ropeTexture);
-		addObject(r);
-		ropes.add(r);
-
 	}
 
 	// Temp
@@ -796,9 +785,6 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-
-		// canvas.begin(512,288);
-		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
@@ -820,8 +806,6 @@ public class AidenController extends WorldController
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
-			// board.setDrawScale(scale);
-			// board.drawDebug(canvas);
 			aiController.drawDebug(canvas, scale, npcs);
 			canvas.endDebug();
 		}
