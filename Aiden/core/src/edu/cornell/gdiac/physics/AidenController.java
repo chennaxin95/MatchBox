@@ -378,11 +378,15 @@ public class AidenController extends WorldController
 		spirit = true;
 
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		scene = new Scene("aiden-example.json");
+		scene = new Scene("Tutorial3.json");
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
-		blocks = new ArrayList<BlockAbstract>();
+		//blocks = new ArrayList<BlockAbstract>();
+		activateObjects();
+		
+		
+		
 	}
 
 	/**
@@ -398,183 +402,203 @@ public class AidenController extends WorldController
 	public void reset() {
 		Vector2 gravity = new Vector2(world.getGravity());
 
-		for (Obstacle obj : objects) {
+		for (Obstacle obj : scene.getBlocks()) {
 			obj.deactivatePhysics(world);
 		}
-		for (FlammableBlock fb : flammables) {
-			fb.deactivatePhysics(world);
+		scene.getAidenModel().deactivatePhysics(world);
+		for (CharacterModel chars : scene.getGuards()){
+			chars.deactivatePhysics(world);
 		}
-		objects.clear();
-		flammables.clear();
-		addQueue.clear();
-		npcs.clear();
+		scene.getGoalDoor().deactivatePhysics(world);
+		
+//		objects.clear();
+//		flammables.clear();
+//		addQueue.clear();
+//		npcs.clear();
 		world.dispose();
 		fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
 		world.setContactListener(this);
+		scene = new Scene("Tutorial3.json");
+		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
+				objects);
+		// board=new NavBoard(0,0, 35, 25, 1, 1);
+		//blocks = new ArrayList<BlockAbstract>();
+		activateObjects();
 		setComplete(false);
 		setFailure(false);
 
 		// board.clear();
-		blocks.clear();
+		//blocks.clear();
 
-		populateLevel();
+		//populateLevel();
+	}
+	private void activateObjects(){
+		scene.getAidenModel().activatePhysics(world);
+		scene.getGoalDoor().activatePhysics(world);
+		for(BlockAbstract obj:scene.getBlocks()){
+			obj.activatePhysics(world);
+		}
+		for(CharacterModel chars:scene.getGuards()){
+			chars.activatePhysics(world);
+		}
 	}
 
 	/**
 	 * Lays out the game geography.
 	 */
-	private void populateLevel() {
-		// Add level goal
-		float dwidth = goalTile.getRegionWidth() / scale.x;
-		float dheight = goalTile.getRegionHeight() / scale.y;
-		float x = GOAL[level][0];
-		float y = GOAL[level][1];
-		goalDoor = new BoxObstacle(x, y, dwidth, dheight);
-		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
-		goalDoor.setDensity(0.0f);
-		goalDoor.setFriction(0.0f);
-		goalDoor.setRestitution(0.0f);
-		goalDoor.setSensor(true);
-		goalDoor.setDrawScale(scale);
-		goalDoor.setTexture(goalTile);
-		goalDoor.setName("goal");
-		addObject(goalDoor);
-
-		String wname = "wall";
-		for (int ii = 0; ii < WALLS2[level].length; ii++) {
-			// PolygonObstacle obj;
-			Platform p = new Platform(
-					new Rectangle(WALLS2[level][ii][0], WALLS2[level][ii][1],
-							WALLS2[level][ii][2], WALLS2[level][ii][3]),
-					1);
-			p.setDensity(BASIC_DENSITY);
-			p.setFriction(BASIC_FRICTION);
-			p.setRestitution(BASIC_RESTITUTION);
-			p.setDrawScale(scale);
-			p.setTexture(earthTile);
-			p.setName(wname + ii);
-			addObject(p);
-		}
-
-		String pname = "platform";
-		for (int ii = 0; ii < PLATFORMS2[level].length; ii++) {
-			Platform p = new Platform(
-					new Rectangle(PLATFORMS2[level][ii][0],
-							PLATFORMS2[level][ii][1],
-							PLATFORMS2[level][ii][2], PLATFORMS2[level][ii][3]),
-					1);
-			p.setDensity(BASIC_DENSITY);
-			p.setFriction(0);
-			p.setRestitution(BASIC_RESTITUTION);
-			p.setDrawScale(scale);
-			p.setTexture(earthTile);
-			p.setName(pname + ii);
-			addObject(p);
-		}
-
-		// Adding boxes
-		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
-			TextureRegion texture = woodTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
-
-			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
-					BOXES[level][ii + 1], dwidth,
-
-					dheight, 1f, 3f);
-
-			box.setFixedRotation(true);
-			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(BASIC_FRICTION);
-			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("box" + ii);
-			box.setDrawScale(scale);
-			box.setTexture(texture);
-			box.setBurningTexture(
-					burningTexture[(ii / 2) % burningTexture.length], 2);
-			addObject(box);
-			flammables.add(box);
-		}
-
-		// Adding stone boxes
-		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
-			TextureRegion texture = woodTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
-			Stone box = new Stone(STONE_BOXES[level][ii],
-					STONE_BOXES[level][ii + 1], dwidth,
-					dheight);
-			box.setFixedRotation(true);
-			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(0);
-			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("stone_box" + ii);
-			box.setDrawScale(scale);
-			box.setTexture(stoneTexture);
-			addObject(box);
-		}
-
-		// Adding boxes
-		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
-			TextureRegion texture = fuelTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
-			FuelBlock box = new FuelBlock(FUELS[level][ii],
-					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 20);
-			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(0);
-			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("fuelbox" + ii);
-			box.setDrawScale(scale);
-			box.setTexture(texture);
-			addObject(box);
-			flammables.add(box);
-		}
-		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
-			dwidth = ropeTexture.getRegionWidth() / scale.x;
-			dheight = ropeTexture.getRegionHeight() / scale.y;
-			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
-					dwidth, dheight);
-			r.setDrawScale(scale);
-			r.setTexture(ropeTexture);
-			addObject(r);
-			ropes.add(r);
-		}
-		// Create Aiden
-		dwidth = avatarTexture.getRegionWidth() / scale.x;
-		dheight = avatarTexture.getRegionHeight() / scale.y;
-		avatar = new AidenModel(START[level][0], START[level][1], dwidth,
-				dheight, true);
-		avatar.setDrawScale(scale);
-		avatar.setTexture(avatarTexture);
-		avatar.setDeath(AidenDieTexture);
-		avatar.setFriction(0);
-		avatar.setLinearDamping(.1f);
-		avatar.setRestitution(0f);
-		avatar.setCharacterSprite(AidenAnimeTexture);
-		avatar.setName("aiden");
-		addObject(avatar);
-
-		// Create NPCs
-		dwidth = waterTexture.getRegionWidth() / scale.x - 0.8f;
-		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.4f;
-		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
-
-			WaterGuard ch1 = new WaterGuard(CharacterType.WATER_GUARD,
-					"WaterGuard",
-					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1]-0.5f, dwidth,
-					dheight, (level != 2));
-			ch1.setDrawScale(scale);
-			ch1.setTexture(waterTexture);
-			ch1.setName("wg");
-			npcs.add(ch1);
-			ch1.setDeath(WaterDieTexture);
-			ch1.setCharacterSprite(WaterWalkTexture);
-			addObject(ch1);
-		}
-	}
+//	private void populateLevel() {
+//		// Add level goal
+//		BlockAbstract door = scene.getGoalDoor();
+//		float dwidth = goalTile.getRegionWidth() / scale.x;
+//		float dheight = goalTile.getRegionHeight() / scale.y;
+//		float x = door.getX();
+//		float y = door.getY();
+//		goalDoor = new BoxObstacle(x, y, dwidth, dheight);
+//		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
+//		goalDoor.setDensity(0.0f);
+//		goalDoor.setFriction(0.0f);
+//		goalDoor.setRestitution(0.0f);
+//		goalDoor.setSensor(true);
+//		goalDoor.setDrawScale(scale);
+//		goalDoor.setTexture(goalTile);
+//		goalDoor.setName("goal");
+//		addObject(goalDoor);
+//
+//		String wname = "wall";
+//		for (int ii = 0; ii < WALLS2[level].length; ii++) {
+//			// PolygonObstacle obj;
+//			Platform p = new Platform(
+//					new Rectangle(WALLS2[level][ii][0], WALLS2[level][ii][1],
+//							WALLS2[level][ii][2], WALLS2[level][ii][3]),
+//					1);
+//			p.setDensity(BASIC_DENSITY);
+//			p.setFriction(BASIC_FRICTION);
+//			p.setRestitution(BASIC_RESTITUTION);
+//			p.setDrawScale(scale);
+//			p.setTexture(earthTile);
+//			p.setName(wname + ii);
+//			addObject(p);
+//		}
+//
+//		String pname = "platform";
+//		for (int ii = 0; ii < PLATFORMS2[level].length; ii++) {
+//			Platform p = new Platform(
+//					new Rectangle(PLATFORMS2[level][ii][0],
+//							PLATFORMS2[level][ii][1],
+//							PLATFORMS2[level][ii][2], PLATFORMS2[level][ii][3]),
+//					1);
+//			p.setDensity(BASIC_DENSITY);
+//			p.setFriction(0);
+//			p.setRestitution(BASIC_RESTITUTION);
+//			p.setDrawScale(scale);
+//			p.setTexture(earthTile);
+//			p.setName(pname + ii);
+//			addObject(p);
+//		}
+//
+//		// Adding boxes
+//		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
+//			TextureRegion texture = woodTexture;
+//			dwidth = texture.getRegionWidth() / scale.x;
+//			dheight = texture.getRegionHeight() / scale.y;
+//
+//			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
+//					BOXES[level][ii + 1], dwidth,
+//
+//					dheight, 1f, 3f);
+//
+//			box.setFixedRotation(true);
+//			box.setDensity(HEAVY_DENSITY);
+//			box.setFriction(BASIC_FRICTION);
+//			box.setRestitution(BASIC_RESTITUTION);
+//			box.setName("box" + ii);
+//			box.setDrawScale(scale);
+//			box.setTexture(texture);
+//			box.setBurningTexture(
+//					burningTexture[(ii / 2) % burningTexture.length], 2);
+//			addObject(box);
+//			flammables.add(box);
+//		}
+//
+//		// Adding stone boxes
+//		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
+//			TextureRegion texture = woodTexture;
+//			dwidth = texture.getRegionWidth() / scale.x;
+//			dheight = texture.getRegionHeight() / scale.y;
+//			Stone box = new Stone(STONE_BOXES[level][ii],
+//					STONE_BOXES[level][ii + 1], dwidth,
+//					dheight);
+//			box.setFixedRotation(true);
+//			box.setDensity(HEAVY_DENSITY);
+//			box.setFriction(0);
+//			box.setRestitution(BASIC_RESTITUTION);
+//			box.setName("stone_box" + ii);
+//			box.setDrawScale(scale);
+//			box.setTexture(stoneTexture);
+//			addObject(box);
+//		}
+//
+//		// Adding boxes
+//		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
+//			TextureRegion texture = fuelTexture;
+//			dwidth = texture.getRegionWidth() / scale.x;
+//			dheight = texture.getRegionHeight() / scale.y;
+//			FuelBlock box = new FuelBlock(FUELS[level][ii],
+//					FUELS[level][ii + 1], dwidth,
+//					dheight, 1, 1, 20);
+//			box.setDensity(HEAVY_DENSITY);
+//			box.setFriction(0);
+//			box.setRestitution(BASIC_RESTITUTION);
+//			box.setName("fuelbox" + ii);
+//			box.setDrawScale(scale);
+//			box.setTexture(texture);
+//			addObject(box);
+//			flammables.add(box);
+//		}
+//		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
+//			dwidth = ropeTexture.getRegionWidth() / scale.x;
+//			dheight = ropeTexture.getRegionHeight() / scale.y;
+//			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
+//					dwidth, dheight);
+//			r.setDrawScale(scale);
+//			r.setTexture(ropeTexture);
+//			addObject(r);
+//			ropes.add(r);
+//		}
+//		// Create Aiden
+//		dwidth = avatarTexture.getRegionWidth() / scale.x;
+//		dheight = avatarTexture.getRegionHeight() / scale.y;
+//		avatar = new AidenModel(START[level][0], START[level][1], dwidth,
+//				dheight, true);
+//		avatar.setDrawScale(scale);
+//		avatar.setTexture(avatarTexture);
+//		avatar.setDeath(AidenDieTexture);
+//		avatar.setFriction(0);
+//		avatar.setLinearDamping(.1f);
+//		avatar.setRestitution(0f);
+//		avatar.setCharacterSprite(AidenAnimeTexture);
+//		avatar.setName("aiden");
+//		addObject(avatar);
+//
+//		// Create NPCs
+//		dwidth = waterTexture.getRegionWidth() / scale.x - 0.8f;
+//		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.4f;
+//		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
+//
+//			WaterGuard ch1 = new WaterGuard(CharacterType.WATER_GUARD,
+//					"WaterGuard",
+//					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1]-0.5f, dwidth,
+//					dheight, (level != 2));
+//			ch1.setDrawScale(scale);
+//			ch1.setTexture(waterTexture);
+//			ch1.setName("wg");
+//			npcs.add(ch1);
+//			ch1.setDeath(WaterDieTexture);
+//			ch1.setCharacterSprite(WaterWalkTexture);
+//			addObject(ch1);
+//		}
+//	}
 
 	// Temp
 	Scene scene;
@@ -595,8 +619,7 @@ public class AidenController extends WorldController
 		if (!super.preUpdate(dt)) {
 			return false;
 		}
-
-		if (!isFailure() && avatar.getY() < -1) {
+		if (!isFailure() && scene.getAidenModel().getY() < -1) {
 			setFailure(true);
 			return false;
 		}
@@ -617,20 +640,20 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
-		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
+		if (scene.getAidenModel().getFuel() == 0 || !scene.getAidenModel().isAlive()) {
 			setFailure(true);
 
 		}
 
 		// if not in spirit mode or not on ladder, then not climbing
-		avatar.setClimbing(false);
-		avatar.setGravityScale(1);
-		avatar.setSpiriting(false);
+		scene.getAidenModel().setClimbing(false);
+		scene.getAidenModel().setGravityScale(1);
+		scene.getAidenModel().setSpiriting(false);
 		aiController.nextMove(npcs);
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
-		boolean notFailure = CollControl.getCollisions(cList, avatar);
+		boolean notFailure = CollControl.getCollisions(cList, scene.getAidenModel());
 		if (!notFailure) {
 			setFailure(true);
 		}
@@ -643,12 +666,12 @@ public class AidenController extends WorldController
 				: InputController.getInstance().getVertical();
 
 		// Process actions in object model
-		avatar.setMovement((float) accX * 9);
-		avatar.setMovementY((float) accY * 8);
-		avatar.setJumping(InputController.getInstance().didPrimary());
-		avatar.setDt(dt);
-		avatar.applyForce();
-		if (avatar.isJumping()) {
+		scene.getAidenModel().setMovement((float) accX * 9);
+		scene.getAidenModel().setMovementY((float) accY * 8);
+		scene.getAidenModel().setJumping(InputController.getInstance().didPrimary());
+		scene.getAidenModel().setDt(dt);
+		scene.getAidenModel().applyForce();
+		if (scene.getAidenModel().isJumping()) {
 			SoundController.getInstance().play(JUMP_FILE, JUMP_FILE, false,
 					EFFECT_VOLUME);
 		}
@@ -692,28 +715,28 @@ public class AidenController extends WorldController
 			Obstacle bd2 = (Obstacle) body2.getUserData();
 
 			// See if we have landed on the ground.
-			if ((avatar.getSensorName().equals(fd2) && avatar != bd1) ||
-					(avatar.getSensorName().equals(fd1) && avatar != bd2)) {
-				avatar.setGrounded(true);
-				sensorFixtures.add(avatar == bd1 ? fix2 : fix1);
+			if ((scene.getAidenModel().getSensorName().equals(fd2) && scene.getAidenModel() != bd1) ||
+					(scene.getAidenModel().getSensorName().equals(fd1) && scene.getAidenModel() != bd2)) {
+				scene.getAidenModel().setGrounded(true);
+				sensorFixtures.add(scene.getAidenModel() == bd1 ? fix2 : fix1);
 			}
 
 			// Check for win condition
-			if ((bd1 == avatar && bd2 == goalDoor) ||
-					(bd1 == goalDoor && bd2 == avatar)) {
+			if ((bd1 == scene.getAidenModel() && bd2 == goalDoor) ||
+					(bd1 == goalDoor && bd2 == scene.getAidenModel())) {
 				setComplete(true);
 			}
 			
 			//Check for aiden top
-			if ((avatar.getTopName().equals(fd2) && avatar != bd1 && bd1 instanceof Stone) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2 && bd2 instanceof Stone)) {
+			if ((scene.getAidenModel().getTopName().equals(fd2) && scene.getAidenModel() != bd1 && bd1 instanceof Stone) ||
+					(scene.getAidenModel().getTopName().equals(fd1) && scene.getAidenModel() != bd2 && bd2 instanceof Stone)) {
 				System.out.println("Gotcha");
 				setFailure(true);
 			}
 			
 			//Check for aiden down water top
-			if ((avatar.getTopName().equals(fd2) && avatar != bd1 && bd1 instanceof WaterGuard) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2 && bd2 instanceof WaterGuard)) {
+			if ((scene.getAidenModel().getTopName().equals(fd2) && scene.getAidenModel() != bd1 && bd1 instanceof WaterGuard) ||
+					(scene.getAidenModel().getTopName().equals(fd1) && scene.getAidenModel() != bd2 && bd2 instanceof WaterGuard)) {
 				setFailure(true);
 			}
 			
@@ -755,11 +778,11 @@ public class AidenController extends WorldController
 		Object bd1 = body1.getUserData();
 		Object bd2 = body2.getUserData();
 
-		if ((avatar.getSensorName().equals(fd2) && avatar != bd1) ||
-				(avatar.getSensorName().equals(fd1) && avatar != bd2)) {
-			sensorFixtures.remove(avatar == bd1 ? fix2 : fix1);
+		if ((scene.getAidenModel().getSensorName().equals(fd2) && scene.getAidenModel() != bd1) ||
+				(scene.getAidenModel().getSensorName().equals(fd1) && scene.getAidenModel() != bd2)) {
+			sensorFixtures.remove(scene.getAidenModel() == bd1 ? fix2 : fix1);
 			if (sensorFixtures.size == 0) {
-				avatar.setGrounded(false);
+				scene.getAidenModel().setGrounded(false);
 			}
 		}
 	}
@@ -782,14 +805,14 @@ public class AidenController extends WorldController
 		Object bd1 = body1.getUserData();
 		Object bd2 = body2.getUserData();
 
-		if (bd1 == avatar && bd2 instanceof WheelObstacle
-				|| bd2 == avatar && bd1 instanceof WheelObstacle) {
+		if (bd1 == scene.getAidenModel() && bd2 instanceof WheelObstacle
+				|| bd2 == scene.getAidenModel() && bd1 instanceof WheelObstacle) {
 			contact.setEnabled(false);
 		}
 
 		if (spirit) {
-			if (bd1 == avatar && bd2 instanceof FlammableBlock
-					|| bd2 == avatar && bd1 instanceof FlammableBlock) {
+			if (bd1 == scene.getAidenModel() && bd2 instanceof FlammableBlock
+					|| bd2 == scene.getAidenModel() && bd1 instanceof FlammableBlock) {
 				contact.setEnabled(false);
 			}
 		}
@@ -799,25 +822,28 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-		canvas.begin(avatar.getX(), avatar.getY());
+		canvas.begin(scene.getAidenModel().getX(), scene.getAidenModel().getY());
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				canvas.getWidth(), canvas.getHeight() / 18 * 22);
-		for (Obstacle obj : objects) {
-			if (obj == avatar) {
-				if (!isFailure()) {
-					obj.draw(canvas);
-				} else {
-					avatar.drawDead(canvas);
-				}
-			} 
-			else if(obj instanceof WaterGuard && ((WaterGuard) obj).isDead()){
+		if (!isFailure()){
+			scene.getAidenModel().draw(canvas);
+		}
+		else{
+			scene.getAidenModel().drawDead(canvas);
+		}
+		for (Obstacle obj : scene.getGuards()){
+			if (((WaterGuard) obj).isDead()){
 				((WaterGuard) obj).drawDead(canvas);
 			}
-			else {
+			else{
 				obj.draw(canvas);
 			}
 		}
+		for (Obstacle obj : scene.getBlocks()) {
+			obj.draw(canvas);
+		}
+		scene.getGoalDoor().draw(canvas);
 		canvas.end();
 		if (debug) {
 			canvas.beginDebug(1, 1);
@@ -833,26 +859,26 @@ public class AidenController extends WorldController
 			displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(scene.getAidenModel().getX(), scene.getAidenModel().getY()); // DO NOT SCALE
 			canvas.drawText("VICTORY!", displayFont, pos.x, pos.y);
 			canvas.end();
-			avatar.setComplete(true);
+			scene.getAidenModel().setComplete(true);
 		} else if (isFailure()) {
 			displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(scene.getAidenModel().getX(), scene.getAidenModel().getY()); // DO NOT SCALE
 			canvas.drawText("FAILURE!", displayFont, pos.x, pos.y);
 			canvas.end();
-			avatar.setComplete(true);
+			scene.getAidenModel().setComplete(true);
 		}
 
 		// drawing the fuel level
-		if (avatar != null) {
-			canvas.begin(avatar.getX(), avatar.getY());
+		if (scene.getAidenModel() != null) {
+			canvas.begin(scene.getAidenModel().getX(), scene.getAidenModel().getY());
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(512, 400);
-			String fuelT = "fuel: " + (int) avatar.getFuel();
+			String fuelT = "fuel: " + (int) scene.getAidenModel().getFuel();
 			canvas.drawText(fuelT, fuelFont, pos.x, pos.y);
 			canvas.end();
 

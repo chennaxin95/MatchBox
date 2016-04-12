@@ -277,6 +277,7 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
+		System.out.println(body);
 		body.setLinearVelocity(movement, movementY);
 	}
 
