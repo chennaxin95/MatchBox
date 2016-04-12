@@ -1,4 +1,6 @@
 package edu.cornell.gdiac.physics.editor;
+import java.io.BufferedWriter;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
@@ -556,11 +558,9 @@ public class LevelEditor extends WorldController {
 		
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks, npcs, goalDoor);
 		String project_str = json.prettyPrint(project);
-		
 		String outputfile="aiden-example.json";
-		Gdx.files.local(outputfile).delete();
-		FileHandle file = Gdx.files.local(outputfile);
-		file.writeString(project_str, true);
+		FileHandle file = Gdx.files.absolute(Gdx.files.getLocalStoragePath()+outputfile);
+		file.writeString(project_str, false);
 	}
 	
 	public void loadFromJson(){
