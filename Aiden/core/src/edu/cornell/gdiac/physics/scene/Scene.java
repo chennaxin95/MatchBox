@@ -18,6 +18,8 @@ import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public class Scene implements SceneInterface {
 
+	private AssetFile af;
+
 	private AidenModel aidenModel;
 	private ArrayList<BlockAbstract> blocks;
 	private ArrayList<FlammableBlock> woodBlocks = new ArrayList();
@@ -27,6 +29,11 @@ public class Scene implements SceneInterface {
 	private ArrayList<Platform> platforms = new ArrayList();
 
 	private BlockAbstract goalDoor;
+
+	/** Sets asset file */
+	public void setAssetFile(AssetFile a) {
+		this.af = a;
+	}
 
 	public Scene(String s) {
 

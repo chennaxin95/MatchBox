@@ -74,7 +74,7 @@ public class AssetFile {
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/play.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
-		System.out.println(files);
+		// System.out.println(files);
 	}
 
 	public String get(String s) {

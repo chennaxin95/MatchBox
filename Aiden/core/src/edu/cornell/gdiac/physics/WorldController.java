@@ -70,18 +70,8 @@ public abstract class WorldController implements Screen {
 	/** Track all loaded assets (for unloading purposes) */
 	protected Array<String> assets;
 
-	// Pathnames to shared assets
-	/** File to texture for walls and platforms */
-	private static String EARTH_FILE = "shared/earthtile.png";
-	/** File to texture for the win door */
-	private static String GOAL_FILE = "platform/goaldoor.png";
-	/** Retro font for displaying messages */
-	private static String FONT_FILE = "shared/RetroGame.ttf";
-	private static int FONT_SIZE = 64;
-	private static String FUEL_FONT = "shared/ShadowsIntoLight.ttf";
 	/** Reference to the character avatar */
 	private AidenModel avatar;
-
 
 	protected Scene scene;
 
@@ -89,7 +79,6 @@ public abstract class WorldController implements Screen {
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
 	}
-
 
 	/** Exit code for quitting the game */
 	public static final int EXIT_QUIT = 0;
@@ -471,9 +460,9 @@ public abstract class WorldController implements Screen {
 				entry.remove();
 			} else {
 				// Note that update is called last!
-				if(obj instanceof Rope){
+				if (obj instanceof Rope) {
 					boolean remove = ((Rope) obj).updateParts(world);
-					if(remove){
+					if (remove) {
 						obj.deactivatePhysics(world);
 						entry.remove();
 					}
