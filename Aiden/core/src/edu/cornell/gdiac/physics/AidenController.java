@@ -225,12 +225,12 @@ public class AidenController extends WorldController
 		spirit = true;
 
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		scene = new Scene("Tutorial3.json");
+
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		//blocks = new ArrayList<BlockAbstract>();
-		activateObjects();
+//		activateObjects();
 		
 		
 		

@@ -241,7 +241,7 @@ public class SoundController {
 	 * @param filename The filename for the sound asset
 	 */
 	public void allocate(AssetManager manager, String filename) {
-		Sound sound = manager.get(filename,Sound.class);
+		Sound sound = manager.get(filename, Sound.class);
 		soundbank.put(filename,sound);
 	}
 

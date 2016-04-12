@@ -14,6 +14,7 @@ import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public class Scene implements SceneInterface {
@@ -62,6 +63,10 @@ public class Scene implements SceneInterface {
 				int start_fuel = aiden.getInt("start_fuel");
 				aidenModel = new AidenModel(start_pos_x, start_pos_y,
 						scale_x, scale_y, fright);
+				System.out.println(af.avatarTexture);
+				aidenModel.setTexture(af.avatarTexture);
+				aidenModel.setCharacterSprite(af.AidenAnimeTexture);
+				aidenModel.setDeath(af.AidenDieTexture);
 			}
 
 		}
@@ -88,25 +93,28 @@ public class Scene implements SceneInterface {
 				float link_y = link_pos.getFloat("y");
 				int fuels = obj.getInt("fuels");
 				if (material.equals("wood")) {
-					woodBlocks
-							.add(new FlammableBlock(x, y, b_scale_x, b_scale_y,
-									burn_spread, burn_time));
+					FlammableBlock flamb = new FlammableBlock(x, y, b_scale_x, b_scale_y,
+							burn_spread, burn_time);
+					woodBlocks.add(flamb);
+					flamb.setTexture(af.woodTexture);
 				} else {
 					if (material.equals("stone")) {
-						stoneBlocks.add(
-								new StoneBlock(x, y, b_scale_x, b_scale_y));
+						StoneBlock stoneb = new StoneBlock(x, y, b_scale_x, b_scale_y);
+						stoneBlocks.add(stoneb);
+						stoneb.setTexture(af.stoneTexture);
+								;
 					} else {
 						if (material.equals("fuel")) {
-							fuelBlocks.add(
-									new FuelBlock(x, y, b_scale_x, b_scale_y,
-											burn_spread, burn_time, fuels));
+							FuelBlock fuelb = new FuelBlock(x, y, b_scale_x, b_scale_y,
+									burn_spread, burn_time, fuels);
+							fuelBlocks.add(fuelb);
 						} else {
 							if (material.equals("platform")) {
-								platforms.add(new Platform(
-										new Rectangle(x - b_scale_x / 2f,
-												y - b_scale_y / 2f, b_scale_x,
-												b_scale_y),
-										1));
+								Platform platf = new Platform(new Rectangle(x - b_scale_x / 2f,
+										y - b_scale_y / 2f, b_scale_x,
+										b_scale_y),1);
+								platforms.add(platf);
+								platf.setTexture(af.earthTile);
 							} else {
 								System.err
 										.println("new material : " + material);
@@ -130,10 +138,13 @@ public class Scene implements SceneInterface {
 				float g_scale_x = guard.getFloat("scale_x");
 				float g_scale_y = guard.getFloat("scale_y");
 				boolean g_fright = guard.getBoolean("fright");
-				CharacterModel water = new CharacterModel(
+				WaterGuard water = new WaterGuard(
 						CharacterType.WATER_GUARD,
 						guard_name, g_x, g_y, g_scale_x, g_scale_y, g_fright);
 				guards.add(water);
+				water.setTexture(af.waterTexture);
+				water.setCharacterSprite(af.WaterWalkTexture);
+				water.setDeath(af.WaterDieTexture);
 			}
 		}
 
@@ -146,6 +157,7 @@ public class Scene implements SceneInterface {
 			float e_scale_x = exit.getFloat("scale_x");
 			float e_scale_y = exit.getFloat("scale_y");
 			goalDoor = new StoneBlock(exit_x, exit_y, e_scale_x, e_scale_y);
+			goalDoor.setTexture(af.goalTile);
 		}
 
 	}
