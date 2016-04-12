@@ -60,7 +60,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	/** Track all loaded assets (for unloading purposes) */
 	protected Array<String> assets;
 	/** Where all the assets are stored */
-	private AssetFile af;
+	private AssetFile af = new AssetFile();
 
 	/** The texture for walls and platforms */
 	protected TextureRegion earthTile;
@@ -99,7 +99,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	public GDXRoot() {
 		// Start loading with the asset manager
 		manager = new AssetManager();
-		af = new AssetFile();
+		assets = new Array<String>();
 
 		// Add font support to the asset manager
 		FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -128,9 +128,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		worldAssetState = AssetState.LOADING;
 		// Load the shared tiles.
 		manager.load(af.get("EARTH_FILE"), Texture.class);
+		System.out.println(af.get("EARTH_FILE"));
 		assets.add(af.get("EARTH_FILE"));
 		manager.load(af.get("GOAL_FILE"), Texture.class);
-		assets.add("GOAL_FILE");
+		assets.add(af.get("GOAL_FILE"));
 
 		// Load the font
 		FreetypeFontLoader.FreeTypeFontLoaderParameter size2Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
@@ -165,6 +166,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("AIDEN_ANIME_FILE"));
 		manager.load(af.get("AIDEN_DIE_FILE"), Texture.class);
 		assets.add(af.get("AIDEN_DIE_FILE"));
+		manager.load(af.get("WATER_DIE_FILE"), Texture.class);
+		assets.add(af.get("WATER_DIE_FILE"));
 		manager.load(af.get("WATER_WALK"), Texture.class);
 		assets.add(af.get("WATER_WALK"));
 		manager.load(af.get("BURNING_FILE"), Texture.class);
@@ -249,52 +252,17 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * static. So we have an AssetState that determines the current loading
 	 * state. If the assets are already loaded, this method will do nothing.
 	 * 
-	 * @param manager
+	 * @param managernn
 	 *            Reference to global asset manager.
 	 */
 	public void loadContent(AssetManager manager) {
 		if (worldAssetState != AssetState.LOADING) {
 			return;
 		}
-		// af.get("")
-		// Allocate the tiles
-		earthTile = createTexture(manager, af.get("EARTH_FILE"), true);
-		goalTile = createTexture(manager, af.get("GOAL_FILE"), true);
-
-		// Allocate the font
-		if (manager.isLoaded(af.get("FONT_FILE"))) {
-			displayFont = manager.get(af.get("FONT_FILE"), BitmapFont.class);
-			fuelFont = manager.get(af.get("FUEL_FONT"), BitmapFont.class);
-			fuelFont.getData().setScale(0.5f, 0.5f);
-		} else {
-			displayFont = null;
+		af.loadContent(manager);
+		for (WorldController c : controllers) {
+			c.setAssetFile(af);
 		}
-		woodTexture = createTexture(manager, af.get("WOOD_FILE"), false);
-		avatarTexture = createTexture(manager, af.get("DUDE_FILE"), false);
-		fuelTexture = createTexture(manager, af.get("FUEL_FILE"), false);
-		ropeTexture = createTexture(manager, af.get("ROPE_FILE"), true);
-
-		backGround = createTexture(manager, af.get("BACKGROUND"), false);
-		waterTexture = createTexture(manager, af.get("WATER_FILE"), false);
-		stoneTexture = createTexture(manager, af.get("STONE_FILE"), false);
-		WaterWalkTexture = createFilmStrip(manager, af.get("WATER_WALK"), 4, 1,
-				4);
-		AidenDieTexture = createFilmStrip(manager, af.get("AIDEN_DIE_FILE"), 13,
-				1, 13);
-		AidenAnimeTexture = createFilmStrip(manager, af.get("AIDEN_ANIME_FILE"),
-				12, 1,
-				12);
-
-		burningTexture = new FilmStrip[10];
-		for (int i = 0; i < 10; i++) {
-			burningTexture[i] = createFilmStrip(manager, af.get("BURNING_FILE"),
-					7, 1, 7);
-		}
-
-		SoundController sounds = SoundController.getInstance();
-		sounds.allocate(manager, af.get("JUMP_FILE"));
-		sounds.allocate(manager, af.get("PEW_FILE"));
-		sounds.allocate(manager, af.get("POP_FILE"));
 
 		worldAssetState = AssetState.COMPLETE;
 	}
@@ -313,20 +281,28 @@ public class GDXRoot extends Game implements ScreenListener {
 		controllers = new WorldController[4];
 		scenes = new Scene[2];
 		controllers[0] = new AidenController(0);
-		controllers[0].preLoadContent(manager);
+		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
-		controllers[1].preLoadContent(manager);
+		// controllers[1].preLoadContent(manager);
 		// scenes[0] = new Scene("./json/level0.json");
 		current = 0;
 		controllers[2] = new AidenController(2);
-		controllers[2].preLoadContent(manager);
+		// controllers[2].preLoadContent(manager);
 		loading.setScreenListener(this);
 
 		controllers[3] = new LevelEditor();
-		controllers[3].preLoadContent(manager);
+		// controllers[3].preLoadContent(manager);
 		loading.setScreenListener(this);
-
+		preLoadContent(manager);
 		setScreen(loading);
+	}
+
+	public void unloadContent(AssetManager manager) {
+		for (String s : assets) {
+			if (manager.isLoaded(s)) {
+				manager.unload(s);
+			}
+		}
 	}
 
 	/**
@@ -337,8 +313,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void dispose() {
 		// Call dispose on our children
 		setScreen(null);
+		unloadContent(manager);
 		for (int ii = 0; ii < controllers.length; ii++) {
-			controllers[ii].unloadContent(manager);
+			// controllers[ii].unloadContent(manager);
 			controllers[ii].dispose();
 		}
 
@@ -380,8 +357,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void exitScreen(Screen screen, int exitCode) {
 		canvas.setEditor(false);
 		if (screen == loading) {
+			loadContent(manager);
 			for (int ii = 0; ii < controllers.length; ii++) {
-				controllers[ii].loadContent(manager);
+				// controllers[ii].loadContent(manager);
 				controllers[ii].setScreenListener(this);
 				controllers[ii].setCanvas(canvas);
 			}
