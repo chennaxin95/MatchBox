@@ -63,11 +63,10 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	/** Ground sensor to represent our feet */
 	protected Fixture sensorFixture;
-	protected Fixture left;
+	protected Fixture top;
 	protected Fixture right;
 	protected PolygonShape sensorShape;
-	protected PolygonShape leftShape;
-	protected PolygonShape rightShape;
+	protected PolygonShape topShape;
 
 	/** Cache for internal force calculations */
 	protected Vector2 forceCache = new Vector2();
@@ -315,12 +314,8 @@ public class CharacterModel extends CapsuleObstacle{
 		return getName() + "GroundSensor";
 	}
 
-	public String getLeft() {
-		return getName() + "left";
-	}
-
-	public String getRight() {
-		return getName() + "right";
+	public String getTopName(){
+		return getName() + "TopSensor";
 	}
 
 	/**
@@ -422,7 +417,19 @@ public class CharacterModel extends CapsuleObstacle{
 
 		sensorFixture = body.createFixture(sensorDef);
 		sensorFixture.setUserData(getSensorName());
+		
+		//top Sensor
+		sensorCenter.y = getHeight()/2;
+		FixtureDef topDef = new FixtureDef();
+		topDef.density = DUDE_DENSITY;
+		topDef.isSensor = true;
+		topShape = new PolygonShape();
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+				sensorCenter, 0.0f);
+		topDef.shape = topShape;
 
+		top = body.createFixture(topDef);
+		top.setUserData(getTopName());
 		return true;
 	}
 	
@@ -509,6 +516,8 @@ public class CharacterModel extends CapsuleObstacle{
 	public void drawDebug(GameCanvas canvas) {
 		super.drawDebug(canvas);
 		canvas.drawPhysics(sensorShape, Color.RED, getX(), getY(), getAngle(),
+				drawScale.x, drawScale.y);
+		canvas.drawPhysics(topShape, Color.RED, getX(), getY(), getAngle(),
 				drawScale.x, drawScale.y);
 	}
 	

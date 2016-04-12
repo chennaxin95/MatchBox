@@ -10,6 +10,7 @@ public class FuelBlock extends FlammableBlock{
 		super(x, y, width, height, spreadRate, burnRate);
 		this.setBlockType(BlockType.FUEL);
 		this.fuelBonus=fuels;
+		this.setFriction(5f);
 		// TODO Auto-generated constructor stub
 	}
 	
