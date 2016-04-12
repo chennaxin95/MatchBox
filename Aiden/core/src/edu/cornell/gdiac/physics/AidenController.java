@@ -412,7 +412,6 @@ public class AidenController extends WorldController
 		}
 		objects.clear();
 		flammables.clear();
-		objects.clear();
 		addQueue.clear();
 		npcs.clear();
 		world.dispose();

@@ -163,7 +163,7 @@ public class Rope extends ComplexObstacle {
 			temp = (FlammableBlock) bodies.get(i);
 			if(temp.isBurnt()){
 				if (i == 0){
-					this.deactivatePhysics(world);
+					this.start.markRemoved(true);
 					this.markRemoved(true);
 					return true;
 				}
