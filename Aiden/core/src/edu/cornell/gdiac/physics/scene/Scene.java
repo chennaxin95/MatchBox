@@ -15,7 +15,7 @@ import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
-public class Scene implements SceneInterface{
+public class Scene implements SceneInterface {
 
 	private AidenModel aidenModel;
 	private ArrayList<BlockAbstract> blocks;
@@ -25,7 +25,7 @@ public class Scene implements SceneInterface{
 	private ArrayList<CharacterModel> guards = new ArrayList();
 	private ArrayList<Platform> platforms = new ArrayList();
 
-	public Scene(String s){
+	public Scene(String s) {
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
 		String background = jv.getString("background");
@@ -33,11 +33,11 @@ public class Scene implements SceneInterface{
 		JsonValue objects = jv.get("blocks");
 		JsonValue jguards = jv.get("waters");
 		JsonValue exit = jv.get("goal");
-		
+
 		// Aiden
-		
+
 		JsonValue start_pos_array = aiden.get("start_pos");
-			if (start_pos_array!=null  && start_pos_array.size()>0){
+		if (start_pos_array != null && start_pos_array.size() > 0) {
 			JsonValue start_pos = start_pos_array.get(0);
 			float start_pos_x = start_pos.getFloat("x");
 			float start_pos_y = start_pos.getFloat("y");
@@ -48,13 +48,13 @@ public class Scene implements SceneInterface{
 			int max_walk_speed = aiden.getInt("max_walk");
 			int jump_height = aiden.getInt("jump_height");
 			int start_fuel = aiden.getInt("start_fuel");
-			aidenModel = new AidenModel(start_pos_x, start_pos_y, 
-					scale_x,scale_y, fright);
+			aidenModel = new AidenModel(start_pos_x, start_pos_y,
+					scale_x, scale_y, fright);
 		}
-		
+
 		// Blocks
 		int n = objects.size;
-		for(int i = 0; i<n; i++){
+		for (int i = 0; i < n; i++) {
 			JsonValue obj = objects.get(i);
 			int id = obj.getInt("id");
 			String material = obj.getString("blockType");
@@ -72,21 +72,25 @@ public class Scene implements SceneInterface{
 			float link_x = link_pos.getFloat("x");
 			float link_y = link_pos.getFloat("y");
 			int fuels = obj.getInt("fuels");
-			if(material.equals("wood")){
-				woodBlocks.add(new FlammableBlock(x,y,b_scale_x,b_scale_y,burn_spread,burn_time));
-			}else{
-				if(material.equals("stone")){
-					stoneBlocks.add(new StoneBlock(x,y,b_scale_x,b_scale_y));
-				}else{
-					if(material.equals("fuel")){
-						fuelBlocks.add(new FuelBlock(x,y,b_scale_x,b_scale_y,burn_spread,burn_time,fuels));
-					}else{
-						if(material.equals("platform")){
-							platforms.add(new Platform(new Rectangle
-									(x-b_scale_x/2f,
-									y-b_scale_y/2f, b_scale_x, b_scale_y),1));
-						}else{
-							System.err.println("new material : "+material);							
+			if (material.equals("wood")) {
+				woodBlocks.add(new FlammableBlock(x, y, b_scale_x, b_scale_y,
+						burn_spread, burn_time));
+			} else {
+				if (material.equals("stone")) {
+					stoneBlocks.add(new StoneBlock(x, y, b_scale_x, b_scale_y));
+				} else {
+					if (material.equals("fuel")) {
+						fuelBlocks.add(new FuelBlock(x, y, b_scale_x, b_scale_y,
+								burn_spread, burn_time, fuels));
+					} else {
+						if (material.equals("platform")) {
+							platforms.add(new Platform(
+									new Rectangle(x - b_scale_x / 2f,
+											y - b_scale_y / 2f, b_scale_x,
+											b_scale_y),
+									1));
+						} else {
+							System.err.println("new material : " + material);
 						}
 					}
 				}
@@ -96,7 +100,7 @@ public class Scene implements SceneInterface{
 
 		// Water guards
 		int guard_n = jguards.size;
-		for(int i = 0; i<guard_n; i++){
+		for (int i = 0; i < guard_n; i++) {
 			JsonValue guard = jguards.get(i);
 			String guard_name = guard.getString("name");
 			JsonValue g_start_pos = guard.get("pos");
@@ -105,12 +109,12 @@ public class Scene implements SceneInterface{
 			float g_scale_x = guard.getFloat("scale_x");
 			float g_scale_y = guard.getFloat("scale_y");
 			boolean g_fright = guard.getBoolean("fright");
-			CharacterModel water = new CharacterModel(CharacterType.WATER_GUARD, 
+			CharacterModel water = new CharacterModel(CharacterType.WATER_GUARD,
 					guard_name, g_x, g_y, g_scale_x, g_scale_y, g_fright);
 			guards.add(water);
 		}
 
-		//Exit
+		// Exit
 		String ex_texture = exit.getString("texture");
 		JsonValue exit_pos = exit.get("pos");
 		float exit_x = exit_pos.getFloat("x");
@@ -119,29 +123,26 @@ public class Scene implements SceneInterface{
 		float e_scale_y = exit.getFloat("scale_y");
 	}
 
-
-	public AidenModel getAidenModel(){
+	public AidenModel getAidenModel() {
 		return aidenModel;
 	}
 
-	public ArrayList<BlockAbstract> getBlocks(){
-		ArrayList<BlockAbstract> container=new ArrayList<BlockAbstract>();
+	public ArrayList<BlockAbstract> getBlocks() {
+		ArrayList<BlockAbstract> container = new ArrayList<BlockAbstract>();
 		container.addAll(this.getWoodBlocks());
 		container.addAll(this.getStoneBlocks());
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
 		return container;
 	}
-	
-	public ArrayList<FlammableBlock> getWoodBlocks(){
+
+	public ArrayList<FlammableBlock> getWoodBlocks() {
 		return woodBlocks;
 	}
 
-
-	public ArrayList<CharacterModel> getGuards(){
+	public ArrayList<CharacterModel> getGuards() {
 		return guards;
 	}
-
 
 	@Override
 	public int getGridWidth() {
@@ -149,13 +150,11 @@ public class Scene implements SceneInterface{
 		return 0;
 	}
 
-
 	@Override
 	public int getGridHeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int getGridUnit() {
@@ -163,21 +162,19 @@ public class Scene implements SceneInterface{
 		return 0;
 	}
 
-
 	@Override
 	public ArrayList<Platform> getPlatform() {
 		return platforms;
 	}
-
 
 	@Override
 	public ArrayList<StoneBlock> getStoneBlocks() {
 		return stoneBlocks;
 	}
 
-
 	@Override
 	public ArrayList<FuelBlock> getFuelBlocks() {
 		return fuelBlocks;
 	}
+
 }
