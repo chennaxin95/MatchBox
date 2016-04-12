@@ -607,7 +607,6 @@ public class GameCanvas {
 		// Position the camera
 		float f = -1f;
 		if(!isEditor){
-			System.out.println("editor");
 			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
 			if (d.x*d.x + d.y*d.y>10){
 				//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);

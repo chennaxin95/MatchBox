@@ -15,7 +15,7 @@ public class PathFinder {
 		System.out.println("Start path finding "+start);
 		if (!board.isValidBoardCoord(start)) {
 			System.out.println("Error 1 "+start);
-			return new Vector2();
+			return new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
 		}
 		if (board.getTile(start).isTarget) return new Vector2();
 		
@@ -44,7 +44,7 @@ public class PathFinder {
 		}
 		else{
 			System.out.println("Error 2");
-			return new Vector2();
+			return new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
 		}
 	}
 }

@@ -97,6 +97,7 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	/** */
 	protected Vector2 target;
+	protected Vector2 targetMove;
 	
 	/**The proportion of height from ground where viewing ray is */
 	protected float eyeProportion;
@@ -147,6 +148,14 @@ public class CharacterModel extends CapsuleObstacle{
 	
 	public Vector2 getTarget(){
 		return this.target;
+	}
+
+	public Vector2 getTargetMove(){
+		return this.target;
+	}
+	
+	public void setTargetMove(Vector2 move){
+		this.targetMove=move;
 	}
 	
 	public boolean isSpawned() {
@@ -348,14 +357,19 @@ public class CharacterModel extends CapsuleObstacle{
 			spawnNode.addNext(wanderNode, ew1);
 			GameEvent ew2=new GameEvent();
 			ew2.setSeenAiden(1);
+			ew2.setCanReachTarget(1);
 			wanderNode.addNext(chaseNode, ew2);
 			GameEvent ew3=new GameEvent();
 			ew3.setSeenFire(1);
+			ew3.setCanReachTarget(1);
 			wanderNode.addNext(chaseNode, ew3);
 			GameEvent ew4=new GameEvent();
 			ew4.setSeenAiden(-1);
 			ew4.setSeenFire(-1);
 			chaseNode.addNext(wanderNode, ew4);
+			GameEvent ew4T=new GameEvent();
+			ew4T.setCanReachTarget(-1);
+			chaseNode.addNext(wanderNode, ew4T);
 			GameEvent ew5=new GameEvent();
 			ew5.setCanFire(1);
 			chaseNode.addNext(attackNode, ew5);
