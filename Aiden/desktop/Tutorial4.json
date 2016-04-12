@@ -8,8 +8,8 @@
 			"y": 2.425
 		}
 	],
-	"scale_x": 1.225,
-	"scale_y": 2.7075,
+	"scale_x": 0.8575,
+	"scale_y": 2.572125,
 	"density": 0,
 	"start_fuel": 30,
 	"critical_fuel": 15,
@@ -508,7 +508,7 @@
 "waters": [],
 "goal": {
 	"pos": {
-		"x": 23,
+		"x": 22,
 		"y": 13
 	},
 	"scale_x": 2,
