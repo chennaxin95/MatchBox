@@ -48,15 +48,11 @@ public class CollisionController {
 					if (bd2 instanceof FlammableBlock) {
 
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if ((avatar.getX() >= fb.getX() - fb.getWidth() / 1.9 ||
-								avatar.getX() <= fb.getX()
-										+ fb.getWidth() / 1.9)
-								&&
-								(avatar.getY() >= fb.getY()
-										- fb.getHeight() / 1.9
-										||
+						if ((avatar.getX() >= fb.getX() &&
+								avatar.getX() <= fb.getX() + fb.getWidth()) &&
+								(avatar.getY() >= fb.getY() &&
 										avatar.getY() <= fb.getY()
-												+ fb.getHeight() / 1.9)) {
+												+ fb.getHeight())) {
 							avatar.setClimbing(true);
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
@@ -75,9 +71,9 @@ public class CollisionController {
 
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-						if ((avatar.getX() >= fb.getX() ||
+						if ((avatar.getX() >= fb.getX() &&
 								avatar.getX() <= fb.getX() + fb.getWidth()) &&
-								(avatar.getY() >= fb.getY() ||
+								(avatar.getY() >= fb.getY() &&
 										avatar.getY() <= fb.getY()
 												+ fb.getHeight())) {
 							avatar.setClimbing(true);

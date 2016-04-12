@@ -352,7 +352,7 @@ public class AidenController extends WorldController
 	// Blocks
 	/** Flammable Objects */
 	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
-	//Ropes
+	// Ropes
 	protected PooledList<Rope> ropes = new PooledList<Rope>();
 	// Exit
 	/** Reference to the goalDoor (for collision detection) */
@@ -382,9 +382,9 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		
-		//FileHandle file = Gdx.files.local("aiden-example.json");
-		scene=new Scene("aiden-example.json");
+
+		// FileHandle file = Gdx.files.local("aiden-example.json");
+		scene = new Scene("aiden-example.json");
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
@@ -407,7 +407,7 @@ public class AidenController extends WorldController
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
-		for (FlammableBlock fb : flammables){
+		for (FlammableBlock fb : flammables) {
 			fb.deactivatePhysics(world);
 		}
 		objects.clear();
@@ -620,14 +620,14 @@ public class AidenController extends WorldController
 			CharacterModel ch1 = new CharacterModel(CharacterType.WATER_GUARD,
 					"WaterGuard",
 					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1], dwidth,
-					dheight, true);
+					dheight, (level != 2));
 			ch1.setDrawScale(scale);
 			ch1.setTexture(waterTexture);
 			npcs.add(ch1);
 			ch1.setCharacterSprite(WaterWalkTexture);
 			addObject(ch1);
 		}
-		
+
 		// ropesssssssssssssssssssssssssss
 		dwidth = ropeTexture.getRegionWidth() / scale.x;
 		dheight = ropeTexture.getRegionHeight() / scale.y;
@@ -636,7 +636,7 @@ public class AidenController extends WorldController
 		r.setTexture(ropeTexture);
 		addObject(r);
 		ropes.add(r);
-		
+
 	}
 
 	// Temp
@@ -704,7 +704,7 @@ public class AidenController extends WorldController
 		double accY = (spirit)
 				? InputController.getInstance().getVertical() * 1.5
 				: InputController.getInstance().getVertical();
-				
+
 		// Process actions in object model
 		avatar.setMovement((float) accX * 9);
 		avatar.setMovementY((float) accY * 8);
@@ -720,14 +720,14 @@ public class AidenController extends WorldController
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
-		
-	    //need to manually update ropes
-			for (Rope r : ropes){
-				boolean isremoved = r.updateParts(world);
-				if (isremoved){
-					objects.remove(r);
-				}
+
+		// need to manually update ropes
+		for (Rope r : ropes) {
+			boolean isremoved = r.updateParts(world);
+			if (isremoved) {
+				objects.remove(r);
 			}
+		}
 
 		// Detect contacts -- should be moved to a separate Controller
 
