@@ -623,6 +623,7 @@ public class AidenController extends WorldController
 					dheight, (level != 2));
 			ch1.setDrawScale(scale);
 			ch1.setTexture(waterTexture);
+			ch1.setFriction(0);
 			npcs.add(ch1);
 			ch1.setCharacterSprite(WaterWalkTexture);
 			addObject(ch1);
