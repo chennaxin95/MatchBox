@@ -1060,4 +1060,11 @@ public abstract class ComplexObstacle extends Obstacle {
 			obj.draw(canvas);
 		}
 	}
+	
+	public void drawDebug(GameCanvas canvas) {
+		// Delegate to components
+		for(Obstacle obj : bodies) {
+			obj.drawDebug(canvas);
+		}
+	}
 }

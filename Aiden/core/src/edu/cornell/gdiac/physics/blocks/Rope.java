@@ -141,7 +141,7 @@ public class Rope extends ComplexObstacle {
 	public void deactivatePhysics(World world) {
 		super.deactivatePhysics(world);
 		if (start != null) {
-			start.deactivatePhysics(world);
+			start.markRemoved(true);
 		}
 	}
 	
@@ -163,8 +163,9 @@ public class Rope extends ComplexObstacle {
 			temp = (FlammableBlock) bodies.get(i);
 			if(temp.isBurnt()){
 				if (i == 0){
-					this.deactivatePhysics(world);
+					this.start.markRemoved(true);
 					this.markRemoved(true);
+					this.deactivatePhysics(world);
 					return true;
 				}
 				else{
@@ -196,12 +197,6 @@ public class Rope extends ComplexObstacle {
 			return null;
 		}
 		return ((SimpleObstacle)bodies.get(0)).getTexture();
-	}
-
-	@Override
-	public void drawDebug(GameCanvas canvas) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -94,34 +94,6 @@ public class CollisionController {
 					}
 				}
 
-				// Set climbing state for climbable blocks
-				if (bd1 == avatar && bd2 instanceof BlockAbstract) {
-					BlockAbstract b = (BlockAbstract) bd2;
-					if (b.getMaterial().isClimbable()) {
-						float x = Math.abs(bd1.getX() - bd2.getX());
-						float y = Math.abs(bd1.getY() - bd2.getY());
-						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
-
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-						}
-
-					}
-				}
-				if (bd2 == avatar && bd1 instanceof BlockAbstract) {
-					BlockAbstract b = (BlockAbstract) bd1;
-					if (b.getMaterial().isClimbable()) {
-						float x = Math.abs(bd1.getX() - bd2.getX());
-						float y = Math.abs(bd1.getY() - bd2.getY());
-						if (x <= b.getWidth() / 2 && y <= b.getHeight() / 2) {
-
-							avatar.setClimbing(true);
-							avatar.setGravityScale(0);
-						}
-
-					}
-				}
-
 				if (bd1 == avatar && bd2 instanceof CharacterModel
 						&& ((CharacterModel) bd2)
 								.getType() == CharacterType.WATER_GUARD) {

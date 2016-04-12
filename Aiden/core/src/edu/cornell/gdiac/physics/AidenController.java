@@ -327,7 +327,7 @@ public class AidenController extends WorldController
 	private static final float[][] FUELS = { { 2f, 2f }, { 29.5f, 9f },
 			{ 13f, 8f } };
 
-	private static final float[][] LADDER = { {}, {},
+	private static final float[][] ROPE = { {}, {},
 			{ 4.5f, 10.5f, 2.5f, 5.5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
@@ -412,7 +412,6 @@ public class AidenController extends WorldController
 		}
 		objects.clear();
 		flammables.clear();
-		objects.clear();
 		addQueue.clear();
 		npcs.clear();
 		world.dispose();
@@ -463,19 +462,6 @@ public class AidenController extends WorldController
 			p.setName(wname + ii);
 			addObject(p);
 		}
-		// String wname = "wall";
-		// for (int ii = 0; ii < WALLS[level].length; ii++) {
-		// PolygonObstacle obj;
-		// obj = new PolygonObstacle(WALLS[level][ii], 0, 0);
-		// obj.setBodyType(BodyDef.BodyType.StaticBody);
-		// obj.setDensity(BASIC_DENSITY);
-		// obj.setFriction(BASIC_FRICTION);
-		// obj.setRestitution(BASIC_RESTITUTION);
-		// obj.setDrawScale(scale);
-		// obj.setTexture(earthTile);
-		// obj.setName(wname + ii);
-		// addObject(obj);
-		// }
 
 		String pname = "platform";
 		for (int ii = 0; ii < PLATFORMS2[level].length; ii++) {
@@ -492,33 +478,6 @@ public class AidenController extends WorldController
 			p.setName(pname + ii);
 			addObject(p);
 		}
-
-		// String oname = "OPENINGS";
-		// for (int ii = 0; ii < OPENINGS[level].length; ii++) {
-		// LadderBlock obj;
-		// obj = new LadderBlock(OPENINGS[level][ii][0], OPENINGS[level][ii][1],
-		// 1, 1, 0, 0);
-		// obj.setBodyType(BodyDef.BodyType.StaticBody);
-		// obj.setDensity(BASIC_DENSITY);
-		// obj.setFriction(BASIC_FRICTION);
-		// obj.setRestitution(BASIC_RESTITUTION);
-		// obj.setDrawScale(scale);
-		// obj.setTexture(earthTile);
-		// obj.setName(oname + ii);
-		// addObject(obj);
-		// }
-		// // Adding ropes
-		// dwidth = earthTile.getRegionWidth() / scale.x;
-		// dheight = earthTile.getRegionHeight() / scale.y;
-		// Rope r=new Rope(17, 18, 18, 15, dwidth, dheight);
-		// r.setDensity(BASIC_DENSITY);
-		// r.setFriction(BASIC_FRICTION);
-		// r.setRestitution(BASIC_RESTITUTION);
-		// r.setRopeTexture(earthTile);
-		// r.setStartTexture(earthTile);
-		// r.setName("Rope");
-		// r.setDrawScale(scale);
-		// addObject(r);
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
@@ -579,23 +538,15 @@ public class AidenController extends WorldController
 			addObject(box);
 			flammables.add(box);
 		}
-		float ewidth = earthTile.getRegionWidth() / scale.x;
-		float eheight = earthTile.getRegionHeight() / scale.y;
-		for (int ii = 0; ii < LADDER[level].length; ii += 2) {
-			TextureRegion texture = ropeTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
-			LadderBlock box = new LadderBlock(LADDER[level][ii],
-					LADDER[level][ii + 1],
-					ewidth, eheight, 1, 3, dwidth, dheight, 0);
-			box.setDensity(HEAVY_DENSITY);
-			box.setFriction(BASIC_FRICTION);
-			box.setRestitution(BASIC_RESTITUTION);
-			box.setName("ladder" + ii);
-			box.setDrawScale(scale);
-			box.setTexture(earthTile);
-			box.setRopeUnitTexture(texture);
-			addObject(box);
+		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
+			dwidth = ropeTexture.getRegionWidth() / scale.x;
+			dheight = ropeTexture.getRegionHeight() / scale.y;
+			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
+					5, 5, dwidth, dheight);
+			r.setDrawScale(scale);
+			r.setTexture(ropeTexture);
+			addObject(r);
+			ropes.add(r);
 		}
 		// Create Aiden
 		dwidth = avatarTexture.getRegionWidth() / scale.x;
@@ -612,7 +563,6 @@ public class AidenController extends WorldController
 		addObject(avatar);
 
 		// Create NPCs
-
 		dwidth = waterTexture.getRegionWidth() / scale.x - 0.5f;
 		dheight = (waterTexture.getRegionHeight() / scale.y) - 0.6f;
 		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
@@ -628,16 +578,6 @@ public class AidenController extends WorldController
 			ch1.setCharacterSprite(WaterWalkTexture);
 			addObject(ch1);
 		}
-
-		// ropesssssssssssssssssssssssssss
-		dwidth = ropeTexture.getRegionWidth() / scale.x;
-		dheight = ropeTexture.getRegionHeight() / scale.y;
-		Rope r = new Rope(3, 5, 5, 5, dwidth, dheight);
-		r.setDrawScale(scale);
-		r.setTexture(ropeTexture);
-		addObject(r);
-		ropes.add(r);
-
 	}
 
 	// Temp
@@ -846,9 +786,6 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-
-		// canvas.begin(512,288);
-		// canvas.begin();
 		canvas.begin(avatar.getX(), avatar.getY());
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
@@ -870,8 +807,6 @@ public class AidenController extends WorldController
 			for (Obstacle obj : objects) {
 				obj.drawDebug(canvas);
 			}
-			// board.setDrawScale(scale);
-			// board.drawDebug(canvas);
 			aiController.drawDebug(canvas, scale, npcs);
 			canvas.endDebug();
 		}
