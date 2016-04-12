@@ -987,17 +987,17 @@ public abstract class ComplexObstacle extends Obstacle {
 	 * @param world Box2D world that stores body
 	 */
 	public void deactivatePhysics(World world) {
-//		if (bodyinfo.active) {
-//			// Should be good for most (simple) applications.
-//			for (Joint joint : joints) {
-//				world.destroyJoint(joint);
-//			}
-//			joints.clear();
-//			for (Obstacle obj : bodies) {
-//				obj.deactivatePhysics(world);
-//			}
-//			bodyinfo.active = false;
-//		}
+		if (bodyinfo.active) {
+			// Should be good for most (simple) applications.
+			for (Joint joint : joints) {
+				world.destroyJoint(joint);
+			}
+			joints.clear();
+			for (Obstacle obj : bodies) {
+				obj.deactivatePhysics(world);
+			}
+			bodyinfo.active = false;
+		}
 	}
 
 	/**
@@ -1058,6 +1058,13 @@ public abstract class ComplexObstacle extends Obstacle {
 		// Delegate to components
 		for(Obstacle obj : bodies) {
 			obj.draw(canvas);
+		}
+	}
+	
+	public void drawDebug(GameCanvas canvas) {
+		// Delegate to components
+		for(Obstacle obj : bodies) {
+			obj.drawDebug(canvas);
 		}
 	}
 }

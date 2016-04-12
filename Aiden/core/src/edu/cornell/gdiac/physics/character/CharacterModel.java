@@ -29,7 +29,7 @@ public class CharacterModel extends CapsuleObstacle{
 	/** The amount to slow the character down */
 	protected static final float DUDE_DAMPING = 10.0f;
 	/** The dude is a slippery one */
-	protected static final float DUDE_FRICTION = 0.5f;
+	protected static final float DUDE_FRICTION = 0f;
 	/** The maximum character speed */
 	protected static final float DUDE_MAXSPEED = 5.0f;
 	/** Height of the sensor attached to the player's feet */
