@@ -169,7 +169,7 @@ public class AidenController extends WorldController
 			{ 16.0f, 1.0f, },
 
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f, 20.75f, 13.0f } };
+					24.75f, 10f, 15.5f, 11f/*, 20.75f, 13.0f */} };
 
 	/** WaterGuard Positions */
 	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },

@@ -376,7 +376,7 @@ public class AidenModel extends CharacterModel {
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 
@@ -389,7 +389,7 @@ public class AidenModel extends CharacterModel {
 		topDef.density = DUDE_DENSITY;
 		topDef.isSensor = true;
 		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		topDef.shape = topShape;
 
@@ -405,7 +405,7 @@ public class AidenModel extends CharacterModel {
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 
@@ -418,7 +418,7 @@ public class AidenModel extends CharacterModel {
 		topDef.density = DUDE_DENSITY;
 		topDef.isSensor = true;
 		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		topDef.shape = topShape;
 

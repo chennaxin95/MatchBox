@@ -291,7 +291,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
 		// controllers[1].preLoadContent(manager);
-//		scenes[0] = new Scene("./aiden-level1.json");
+		scenes[0] = new Scene("./aiden-example.json");
+
+		scenes[1] = new Scene("./aiden-example.json");
+
 		current = 0;
 		controllers[2] = new AidenController(2);
 		// controllers[2].preLoadContent(manager);
