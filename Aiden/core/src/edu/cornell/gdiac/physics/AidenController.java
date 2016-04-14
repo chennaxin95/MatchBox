@@ -368,7 +368,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 12);
+					dheight, 1, 1, 18);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
