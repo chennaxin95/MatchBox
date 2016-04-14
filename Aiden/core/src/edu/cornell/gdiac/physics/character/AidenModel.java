@@ -237,6 +237,7 @@ public class AidenModel extends CharacterModel {
 	public void applyForce() {
 		
 		if(failed){
+			body.setLinearVelocity(0, 0);
 			return;
 		}
 
