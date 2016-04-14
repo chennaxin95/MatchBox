@@ -42,7 +42,7 @@ public class AidenModel extends CharacterModel {
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
-	protected static final float MAX_JUMP_TIME=0.1f;
+	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
 	private boolean drawJumping = false;
@@ -250,10 +250,8 @@ public class AidenModel extends CharacterModel {
 
 			}
 		}
-		if (!isClimbing && !isSpiriting && isGrounded) {
-			if (jumpFrame == 2){
-				movementY = 11;
-			}
+		if (!isClimbing && !isSpiriting && isGrounded && isJumping) {
+			movementY = 11;
 		}
 		if (!isGrounded) {
 			movement = movement * 0.9f;
@@ -292,12 +290,13 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
+		movementY = Math.min(movementY, 10);
 		body.setLinearVelocity(movement, movementY);
 	}
 
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
-		fuel = Math.max(fuel + i, MAX_FUEL);
+		fuel = Math.min(fuel + i, MAX_FUEL);
 	}
 
 	/** subtract fuel from Aiden */

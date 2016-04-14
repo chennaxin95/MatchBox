@@ -411,7 +411,7 @@ public class CharacterModel extends CapsuleObstacle{
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 

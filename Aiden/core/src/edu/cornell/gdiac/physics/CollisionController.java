@@ -49,44 +49,43 @@ public class CollisionController {
 					if (bd2 instanceof FlammableBlock) {
 
 						FlammableBlock fb = (FlammableBlock) bd2;
-						// if ((avatar.getX() >= fb.getX() &&
-						// avatar.getX() <= fb.getX() + fb.getWidth()) &&
-						// (avatar.getY() >= fb.getY() &&
-						// avatar.getY() <= fb.getY()
-						// + fb.getHeight())) {
-
+						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
+							avatar.setGravityScale(0);
+							avatar.setSpiriting(true);
+						}
 						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
-						avatar.setSpiriting(true);
-
+						
 						if (!fb.isBurnt()) {
 							if (!fb.isBurning()) {
-								System.out.println(fb.getName());
 								fb.activateBurnTimer();
 								// if it's a fuel box
 								if (fb instanceof FuelBlock) {
 									avatar.addFuel(
 											((FuelBlock) fb).getFuelBonus());
+									avatar.setSpiriting(false);
+									c.setEnabled(true);
 								}
 							}
 						}
 					}
 				}
 				if (bd2 == avatar) {
-
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
 
+						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
+							avatar.setGravityScale(0);
+							avatar.setSpiriting(true);
+						}
 						avatar.setClimbing(true);
-						avatar.setGravityScale(0);
-						avatar.setSpiriting(true);
 
 						if (!fb.isBurning() && !fb.isBurnt()) {
-							System.out.println(fb.getName());
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
+								avatar.setSpiriting(false);
+								c.setEnabled(true);
 							}
 						}
 					}
