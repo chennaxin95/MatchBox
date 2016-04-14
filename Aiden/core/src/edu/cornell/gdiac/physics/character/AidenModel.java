@@ -67,7 +67,19 @@ public class AidenModel extends CharacterModel {
 	/** Texture for fire trail */
 	private FilmStrip death;
 	private Color preColor = Color.WHITE;
-
+	private boolean drawFail = false;
+	private boolean failed = false;
+	
+	public boolean canDrawFail(){
+		return drawFail;
+	}
+	public boolean getFailed(){
+		return failed;
+	}
+	
+	public void setFail(boolean fail){
+		failed = fail;
+	}
 	/**
 	 * Returns up/down movement of this character.
 	 * 
@@ -223,6 +235,10 @@ public class AidenModel extends CharacterModel {
 	 */
 	@Override
 	public void applyForce() {
+		
+		if(failed){
+			return;
+		}
 
 		if (!isActive()) {
 			return;
@@ -256,7 +272,6 @@ public class AidenModel extends CharacterModel {
 			movementY = 2;
 		}
 		if (isSpiriting) {
-			//
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
 			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
 			float xaccel = (spiritCount >= 0.5 / dt) ? 0.99f : 1.03f;
@@ -496,6 +511,9 @@ public class AidenModel extends CharacterModel {
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect, 1f);
+		if(death.getFrame() == death.getSize()-1){
+			drawFail = true;
+		}
 	}
 	
 	public void drawJump(GameCanvas canvas, float ratio) {

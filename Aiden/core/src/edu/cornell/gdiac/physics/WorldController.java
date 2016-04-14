@@ -125,6 +125,7 @@ public abstract class WorldController implements Screen {
 	protected boolean debug;
 	/** Countdown active for winning or losing */
 	private int countdown;
+	private boolean drawFail;
 
 	/**
 	 * Returns true if debug mode is active.
@@ -185,7 +186,10 @@ public abstract class WorldController implements Screen {
 	public boolean isFailure() {
 		return failed;
 	}
-
+	
+	public boolean canDrawFail(){
+		return drawFail;
+	}
 	/**
 	 * Sets whether the level is failed.
 	 *

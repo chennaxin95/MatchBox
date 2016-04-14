@@ -451,6 +451,10 @@ public class AidenController extends WorldController
 			setFailure(true);
 			return false;
 		}
+		
+		if(isFailure()){
+			avatar.setFail(true);
+		}
 
 		return true;
 	}
@@ -704,7 +708,7 @@ public class AidenController extends WorldController
 			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
-		} else if (isFailure()) {
+		} else if (avatar.canDrawFail()) {
 			af.displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
