@@ -290,7 +290,7 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
-		movementY = Math.min(movementY, 10);
+		movementY = Math.min(movementY, 13);
 		body.setLinearVelocity(movement, movementY);
 	}
 
@@ -302,7 +302,7 @@ public class AidenModel extends CharacterModel {
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
 
-		float fuelloss = (float) Math.max(0.015, 0.008
+		float fuelloss = (float) Math.max(0, 0.008
 				* Math.sqrt(getVX() * getVX() + getVY() * getVY()));
 		if (isSpiriting) {
 			fuelloss *= 0.75;

@@ -47,12 +47,11 @@ public class CollisionController {
 				if (bd1 == avatar) {
 
 					if (bd2 instanceof FlammableBlock) {
-
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
-						}
+//						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
+						avatar.setGravityScale(0);
+						avatar.setSpiriting(true);
+//						}
 						avatar.setClimbing(true);
 						
 						if (!fb.isBurnt()) {
@@ -62,8 +61,6 @@ public class CollisionController {
 								if (fb instanceof FuelBlock) {
 									avatar.addFuel(
 											((FuelBlock) fb).getFuelBonus());
-									avatar.setSpiriting(false);
-									c.setEnabled(true);
 								}
 							}
 						}
@@ -72,11 +69,9 @@ public class CollisionController {
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-
-						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
-							avatar.setGravityScale(0);
-							avatar.setSpiriting(true);
-						}
+//						if (bd2.getPosition().y - bd1.getPosition().y < fb.getHeight()/1.8f){
+						avatar.setGravityScale(0);
+						avatar.setSpiriting(true);
 						avatar.setClimbing(true);
 
 						if (!fb.isBurning() && !fb.isBurnt()) {
@@ -84,8 +79,6 @@ public class CollisionController {
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
-								avatar.setSpiriting(false);
-								c.setEnabled(true);
 							}
 						}
 					}

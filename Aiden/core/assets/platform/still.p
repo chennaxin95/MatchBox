@@ -207,8 +207,8 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Scale - 
-lowMin: 0.0
-lowMax: 0.0
+lowMin: 6.0
+lowMax: 6.0
 highMin: 10.0
 highMax: 10.0
 relative: false
@@ -300,8 +300,8 @@ lowMax: 30000.0
 min: 50
 max: 1500
 - Emission - 
-lowMin: 100.0
-lowMax: 100.0
+lowMin: 300.0
+lowMax: 300.0
 highMin: 300.0
 highMax: 300.0
 relative: false
@@ -310,10 +310,10 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 2000.0
-lowMax: 2000.0
-highMin: 2000.0
-highMax: 2000.0
+lowMin: 2500.0
+lowMax: 2500.0
+highMin: 2500.0
+highMax: 2500.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
@@ -356,8 +356,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 5.0
-highMax: 5.0
+highMin: 7.0
+highMax: 7.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -400,8 +400,8 @@ active: false
 - Tint - 
 colorsCount: 9
 colors0: 0.40392157
-colors1: 0.06666667
-colors2: 0.06666667
+colors1: 0.0
+colors2: 0.0
 colors3: 0.40392157
 colors4: 0.06666667
 colors5: 0.06666667
