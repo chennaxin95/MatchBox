@@ -11,7 +11,6 @@ package edu.cornell.gdiac.physics.character;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -28,11 +27,6 @@ import edu.cornell.gdiac.util.FilmStrip;
  */
 public class AidenModel extends CharacterModel {
 	// Physics constants
-	/** The impulse for the character jump */
-	private static final float DUDE_JUMP = 18f;
-
-	/** The unit distance away for fire trail */
-	private static final float UNIT_TRAIL_DIST = 0.2f;
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;

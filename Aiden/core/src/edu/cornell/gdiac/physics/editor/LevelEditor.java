@@ -1,18 +1,18 @@
 package edu.cornell.gdiac.physics.editor;
 
-import java.io.BufferedWriter;
-import java.io.OutputStream;
+//import java.io.BufferedWriter;
+//import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
+//import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
+//import com.badlogic.gdx.assets.AssetManager;
+//import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+//import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -28,7 +28,7 @@ import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
-import edu.cornell.gdiac.physics.obstacle.Obstacle;
+//import edu.cornell.gdiac.physics.obstacle.Obstacle;
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.Scene;
 
@@ -56,8 +56,8 @@ public class LevelEditor extends WorldController {
 	private boolean holding = false;
 	private CharacterModel holdingCharacter = null;
 	private BlockAbstract holdingBlock = null;
-	private float inputCoolDown = 0;
-	private final static float INPUT_COOL_DOWN = 0.5f;
+//	private float inputCoolDown = 0;
+//	private final static float INPUT_COOL_DOWN = 0.5f;
 
 	private Rectangle platformRect;
 	private boolean isAddingRect;
@@ -68,7 +68,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks = new ArrayList<BlockAbstract>();
 		platformRect = new Rectangle(-1, -1, 0, 0);
-		inputCoolDown = 0;
+//		inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;
@@ -83,7 +83,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks.clear();
 		platformRect = new Rectangle(-1, -1, 0, 0);
-		inputCoolDown = 0;
+//		inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;

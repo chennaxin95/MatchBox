@@ -16,17 +16,13 @@
  */
 package edu.cornell.gdiac.physics;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.assets.*;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.graphics.g2d.freetype.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.blocks.Rope;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.GameCanvas;
-import edu.cornell.gdiac.physics.obstacle.Obstacle;
+//import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class LadderBlock extends Platform {
 

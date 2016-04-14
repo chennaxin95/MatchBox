@@ -22,11 +22,11 @@ public class Scene implements SceneInterface {
 
 	private AidenModel aidenModel;
 	private ArrayList<BlockAbstract> blocks;
-	private ArrayList<FlammableBlock> woodBlocks = new ArrayList();
-	private ArrayList<FuelBlock> fuelBlocks = new ArrayList();
-	private ArrayList<StoneBlock> stoneBlocks = new ArrayList();
-	private ArrayList<CharacterModel> guards = new ArrayList();
-	private ArrayList<Platform> platforms = new ArrayList();
+	private ArrayList<FlammableBlock> woodBlocks = new ArrayList<FlammableBlock>();
+	private ArrayList<FuelBlock> fuelBlocks = new ArrayList<FuelBlock>();
+	private ArrayList<StoneBlock> stoneBlocks = new ArrayList<StoneBlock>();
+	private ArrayList<CharacterModel> guards = new ArrayList<CharacterModel>();
+	private ArrayList<Platform> platforms = new ArrayList<Platform>();
 
 	private BlockAbstract goalDoor;
 

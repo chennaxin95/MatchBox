@@ -1,11 +1,6 @@
 package edu.cornell.gdiac.physics.blocks;
 
-import com.badlogic.gdx.graphics.Color;
-
-import edu.cornell.gdiac.physics.GameCanvas;
-import edu.cornell.gdiac.physics.blocks.BlockAbstract.BlockType;
 import edu.cornell.gdiac.physics.material.GeneralMaterial;
-import edu.cornell.gdiac.physics.obstacle.BoxObstacle;
 
 public class StoneBlock extends BlockAbstract {
 

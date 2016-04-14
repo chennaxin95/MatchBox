@@ -56,7 +56,7 @@ public class Rope extends ComplexObstacle {
 	/** the length for rope_parts */
 	private float lheight = 1.0f;
 	/** the width of the rope_parts */
-	private float lwidth = 0.05f;
+//	private float lwidth = 0.05f;
 	/** number of rope segments */
 	protected int SEGMENTS = 15;
 
@@ -70,7 +70,6 @@ public class Rope extends ComplexObstacle {
 		super(x0,y0);
 		setName("rope");
 		Vector2 pos = new Vector2(x0, y0);
-		this.lwidth = lwidth;
 		this.lheight = lheight;
 		linksize = lheight/4;
 		for (int i = 0; i < SEGMENTS; i++){

@@ -9,19 +9,14 @@ package edu.cornell.gdiac.physics;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.audio.*;
-import com.badlogic.gdx.assets.*;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.ai.AIController;
-import edu.cornell.gdiac.physics.ai.NavBoard;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
@@ -45,7 +40,7 @@ public class AidenController extends WorldController
 	private AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
-	private AssetState platformAssetState = AssetState.EMPTY;
+//	private AssetState platformAssetState = AssetState.EMPTY;
 
 	/**
 	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
@@ -62,7 +57,7 @@ public class AidenController extends WorldController
 	/** The density for a bullet */
 	private static final float HEAVY_DENSITY = 50.0f;
 	/** Friction of most platforms */
-	private static final float BASIC_FRICTION = 0.4f;
+//	private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
 	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
@@ -373,7 +368,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 10);
+					dheight, 1, 1, 12);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);

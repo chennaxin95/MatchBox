@@ -58,7 +58,6 @@ public class InputController {
 	private boolean prevPrevious;
 	/** Whether the primary action button was pressed. */
 	private boolean primePressed;
-	private boolean primePrevious;
 	/** Whether the secondary action button was pressed. */
 	private boolean secondPressed;
 	private boolean secondPrevious;
@@ -303,7 +302,6 @@ public class InputController {
 	public void readInput(Rectangle bounds, Vector2 scale) {
 		// Copy state from last animation frame
 		// Helps us ignore buttons that are held down
-		primePrevious = primePressed;
 		secondPrevious = secondPressed;
 		resetPrevious = resetPressed;
 		debugPrevious = debugPressed;
