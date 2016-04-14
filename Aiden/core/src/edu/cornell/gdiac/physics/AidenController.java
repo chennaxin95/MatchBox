@@ -169,7 +169,7 @@ public class AidenController extends WorldController
 			{ 16.0f, 1.0f, },
 
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f, 20.75f, 13.0f } };
+					24.75f, 10f, 15.5f, 11f} };
 
 	/** WaterGuard Positions */
 	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
@@ -562,14 +562,14 @@ public class AidenController extends WorldController
 				setComplete(true);
 			}
 
-			// Check for aiden top
-			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof Stone) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2
-							&& bd2 instanceof Stone)) {
-				System.out.println("Gotcha");
-				setFailure(true);
-			}
+//			// Check for aiden top
+//			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+//					&& bd1 instanceof Stone) ||
+//					(avatar.getTopName().equals(fd1) && avatar != bd2
+//							&& bd2 instanceof Stone)) {
+//				System.out.println("Gotcha");
+//				setFailure(true);
+//			}
 
 			// Check for aiden down water top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
@@ -583,9 +583,9 @@ public class AidenController extends WorldController
 			for (CharacterModel wg : npcs) {
 				WaterGuard w = (WaterGuard) wg;
 				if ((w.getTopName().equals(fd2) && w != bd1
-						&& bd1 instanceof BlockAbstract) ||
+						&& bd1 instanceof StoneBlock) ||
 						(w.getTopName().equals(fd1) && w != bd2
-								&& bd2 instanceof BlockAbstract)) {
+								&& bd2 instanceof StoneBlock)) {
 					fix1.setRestitution(0);
 					fix2.setRestitution(0);
 					w.setDead(true);
