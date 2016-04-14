@@ -75,22 +75,9 @@ public class AidenController extends WorldController
 	private static final float[][] START = {
 			{ 1.0f, 5.0f },
 			{ 1.0f, 20.0f },
-			{ 1.0f, 13.0f }
+			{ 1.0f, 13.0f },
+			{1.1125f, 14.3575f}
 	};
-	private static final float[][][] WALLS = { {
-			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-			{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
-					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
-			{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-					31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f } },
-
-			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
-							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
-					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
-					{ 16.25f, 21.0f, 17.25f, 21.0f, 17.25f, 6.0f, 16.25f, 6.0f }
-			} };
 	private static final float[][][] WALLS2 = {
 			{ { 1.0f, 0.0f, 30.0f, 1.0f },
 					{ 0.0f, 0.0f, 1f, 22f },
@@ -159,7 +146,8 @@ public class AidenController extends WorldController
 			},
 			{ 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f,
 					2f, 24.75f, 8f,
-					8f, 2f, 10f, 2f, 15.5f, 9f } };
+					8f, 2f, 10f, 2f, 15.5f, 9f },
+			{ 1f, 1f}};
 
 	/** the vertices for stone boxes */
 
@@ -564,11 +552,16 @@ public class AidenController extends WorldController
 
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof Stone) ||
-					(avatar.getTopName().equals(fd1) && avatar != bd2
-							&& bd2 instanceof Stone)) {
-				System.out.println("Gotcha");
-				setFailure(true);
+					&& bd1 instanceof Stone)){
+				if (Math.abs(bd1.getVY()) >= 1){
+					setFailure(true);
+				}
+			}
+			if((avatar.getTopName().equals(fd1) && avatar != bd2
+							&& bd2 instanceof Stone)){
+				if (Math.abs(bd2.getVY()) >= 1){
+					setFailure(true);
+				}
 			}
 
 			// Check for aiden down water top
@@ -586,8 +579,6 @@ public class AidenController extends WorldController
 						&& bd1 instanceof BlockAbstract) ||
 						(w.getTopName().equals(fd1) && w != bd2
 								&& bd2 instanceof BlockAbstract)) {
-					fix1.setRestitution(0);
-					fix2.setRestitution(0);
 					w.setDead(true);
 				}
 			}
@@ -655,6 +646,14 @@ public class AidenController extends WorldController
 					|| bd2 == avatar && bd1 instanceof FlammableBlock) {
 				contact.setEnabled(false);
 			}
+		}
+		if (bd1 instanceof StoneBlock){
+			Vector2 velocity  = ((StoneBlock) bd1).getLinearVelocity();
+			((StoneBlock) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		if (bd2 instanceof StoneBlock){
+			Vector2 velocity  = ((StoneBlock) bd2).getLinearVelocity();
+			((StoneBlock) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
 	}
