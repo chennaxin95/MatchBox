@@ -418,7 +418,7 @@ public class AidenController extends WorldController
 			ch1.setDrawScale(scale);
 
 			ch1.setTexture(af.waterTexture);
-			ch1.setName("wg");
+			ch1.setName("wg"+ii);
 			npcs.add(ch1);
 			ch1.setDeath(af.WaterDieTexture);
 			ch1.setCharacterSprite(af.WaterWalkTexture);

@@ -50,10 +50,6 @@ public class BurnablePlatform extends FlammableBlock {
 			}
 		}		
 		region=new PolygonRegion(texture, vertices, tridx);
-//		float[] uvs=region.getTextureCoords();
-//		for (float uv:uvs){
-//			System.out.print(uv+" ");
-//		}
 	}
 	@Override
 	public void draw(GameCanvas canvas){
