@@ -184,7 +184,7 @@ public class AssetFile {
 				12, 1,
 				12);
 		AidenJumpTexture = createFilmStrip(manager,
-				files.get("AIDEN_JUMP_FILE"), 5, 1, 5);
+				files.get("AIDEN_JUMP_FILE"), 12, 1, 12);
 		WaterDieTexture = createFilmStrip(manager,
 				files.get("WATER_DIE_FILE"),
 				12, 1,

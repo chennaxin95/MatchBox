@@ -16,7 +16,7 @@ public class BurnablePlatform extends FlammableBlock {
 	
 	public BurnablePlatform(Rectangle r, float unit) {
 		super(r.x+0.5f*r.getWidth(), r.y+0.5f*r.getHeight(), 
-				r.getWidth(), r.getHeight());
+				r.getWidth(), r.getHeight(), 3, 3);
 		this.r=r;
 		this.unit=unit;
 		setBodyType(BodyDef.BodyType.StaticBody);

@@ -128,6 +128,13 @@ public class AidenController extends WorldController
 				{17.1f, 5f, 5f, 1f},
 			}
 	};
+	
+	private static final float[][][] BPLAT = {
+			{{20f, 2f, 4f, 1f}},
+			{},
+			{},
+			{}
+	};
 
 	/** the vertices for the boxes */
 
@@ -317,6 +324,23 @@ public class AidenController extends WorldController
 			p.setTexture(af.earthTile);
 			p.setName(pname + ii);
 			addObject(p);
+		}
+		
+		pname = "bPlat";
+		for (int ii = 0; ii < BPLAT[level].length; ii++) {
+			BurnablePlatform p = new BurnablePlatform(
+					new Rectangle(BPLAT[level][ii][0],
+							BPLAT[level][ii][1],
+							BPLAT[level][ii][2], BPLAT[level][ii][3]),
+					1);
+			p.setDensity(BASIC_DENSITY);
+			p.setFriction(0);
+			p.setRestitution(BASIC_RESTITUTION);
+			p.setDrawScale(scale);
+			p.setTexture(af.earthTile);
+			p.setName(pname + ii);
+			addObject(p);
+			flammables.add(p);
 		}
 
 		// Adding boxes
@@ -652,18 +676,20 @@ public class AidenController extends WorldController
 		}
 
 		if (spirit) {
-			if (bd1 == avatar && bd2 instanceof FlammableBlock
-					|| bd2 == avatar && bd1 instanceof FlammableBlock) {
+			if (bd1 == avatar && bd2 instanceof FlammableBlock && 
+					!(bd2 instanceof BurnablePlatform)
+						|| bd2 == avatar && bd1 instanceof FlammableBlock
+							&& !(bd1 instanceof BurnablePlatform)) {
 				contact.setEnabled(false);
 			}
 		}
-		if (bd1 instanceof StoneBlock){
-			Vector2 velocity  = ((StoneBlock) bd1).getLinearVelocity();
-			((StoneBlock) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		if (bd1 instanceof BlockAbstract){
+			Vector2 velocity  = ((BlockAbstract) bd1).getLinearVelocity();
+			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
 		}
-		if (bd2 instanceof StoneBlock){
-			Vector2 velocity  = ((StoneBlock) bd2).getLinearVelocity();
-			((StoneBlock) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		if (bd2 instanceof BlockAbstract){
+			Vector2 velocity  = ((BlockAbstract) bd2).getLinearVelocity();
+			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
 	}

@@ -5,8 +5,11 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.Rope;
+import edu.cornell.gdiac.physics.blocks.RopePart;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
@@ -45,12 +48,13 @@ public class CollisionController {
 
 					if (bd2 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd2;
-//						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
-						avatar.setGravityScale(0);
-						avatar.setSpiriting(true);
-//						}
-						avatar.setClimbing(true);
-						
+						if (!(bd2 instanceof BurnablePlatform) && !(bd2 instanceof RopePart)){
+							avatar.setGravityScale(0);	
+							avatar.setSpiriting(true);
+						}
+						if (bd2 instanceof RopePart){
+							avatar.setClimbing(true);
+						}
 						if (!fb.isBurnt()) {
 							if (!fb.isBurning()) {
 								fb.activateBurnTimer();
@@ -66,11 +70,13 @@ public class CollisionController {
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-//						if (bd2.getPosition().y - bd1.getPosition().y < fb.getHeight()/1.8f){
-						avatar.setGravityScale(0);
-						avatar.setSpiriting(true);
-						avatar.setClimbing(true);
-
+						if (!(bd1 instanceof BurnablePlatform) && !(bd1 instanceof RopePart)){
+							avatar.setGravityScale(0);
+							avatar.setSpiriting(true);
+						}
+						if ((bd1 instanceof RopePart)){
+							avatar.setClimbing(true);
+						}
 						if (!fb.isBurning() && !fb.isBurnt()) {
 							fb.activateBurnTimer();
 							// if it's a fuel box
