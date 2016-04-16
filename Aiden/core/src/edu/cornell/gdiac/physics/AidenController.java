@@ -100,9 +100,9 @@ public class AidenController extends WorldController
 	private static final float[][][] PLATFORMS2 = {
 			{},
 
-			{ { 6.0f, 8.0f, 10.0f, 1f },
-					{ 15.0f, 5.0f, 1f, 3f },
-					{ 16.0f, 5.0f, 10.0f, 1f },
+			{ { 6.5f, 8.0f, 10.0f, 1f },
+					{ 15.5f, 5.0f, 1f, 3f },
+					{ 16.5f, 5.0f, 10.0f, 1f },
 					{ 25.0f, 6.0f, 1f, 2f },
 					{ 25.0f, 8.0f, 6f, 1f },
 					{ 1.0f, 16.0f, 15.0f, 1f },
@@ -146,7 +146,7 @@ public class AidenController extends WorldController
 					14f, 2f, 14f, 4f, 14f, 6f, 14f, 8f, 14f, 10f, 14f, 12f,
 					16f, 2f, 16f, 4f, 16f, 6f, 16f, 8f, 16f, 10f, 16f, 12f },
 
-			{ 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
+			{ 26.5f, 9f, 28.5f, 9f, 26.5f, 10f, 7f, 2f, 7f, 4f,
 					7f, 6f, 9f, 2f, 11f, 2f,
 					9f, 4f, 11f, 4f
 			},
@@ -337,7 +337,7 @@ public class AidenController extends WorldController
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(af.earthTile);
+			p.setTexture(af.burnablePlatform);
 			p.setName(pname + ii);
 			addObject(p);
 			flammables.add(p);
