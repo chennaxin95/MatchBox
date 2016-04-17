@@ -388,8 +388,8 @@ public class AidenController extends WorldController
 		// Adding boxes
 		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
 			TextureRegion texture = af.fuelTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
+			dwidth = texture.getRegionWidth() / scale.x / 2;
+			dheight = texture.getRegionHeight() / scale.y / 2;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
 					dheight, 1, 1, 18);
@@ -398,6 +398,7 @@ public class AidenController extends WorldController
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
+			box.ratio = new Vector2(.5f, .5f);
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
