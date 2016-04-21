@@ -10,7 +10,7 @@ import edu.cornell.gdiac.physics.character.CharacterModel;
 public class AidenModelJsonRep implements Json.Serializable {
 	public float density = 0f;
 	
-	public ArrayList<PointJsonRep> start_pos = new ArrayList();
+	public ArrayList<PointJsonRep> start_pos = new ArrayList<PointJsonRep>();
 	
 	public float scale_x = 1f;
 	public float scale_y = 1f;

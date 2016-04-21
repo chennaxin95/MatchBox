@@ -1,11 +1,8 @@
 package edu.cornell.gdiac.physics;
 
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
-import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
 import edu.cornell.gdiac.util.PooledList;
 

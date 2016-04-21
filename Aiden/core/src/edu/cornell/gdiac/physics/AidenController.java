@@ -9,19 +9,14 @@ package edu.cornell.gdiac.physics;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.audio.*;
-import com.badlogic.gdx.assets.*;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.ai.AIController;
-import edu.cornell.gdiac.physics.ai.NavBoard;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
@@ -45,7 +40,7 @@ public class AidenController extends WorldController
 	private AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
-	private AssetState platformAssetState = AssetState.EMPTY;
+	// private AssetState platformAssetState = AssetState.EMPTY;
 
 	/**
 	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
@@ -62,7 +57,7 @@ public class AidenController extends WorldController
 	/** The density for a bullet */
 	private static final float HEAVY_DENSITY = 50.0f;
 	/** Friction of most platforms */
-	private static final float BASIC_FRICTION = 0.4f;
+	// private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
 	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
@@ -75,22 +70,9 @@ public class AidenController extends WorldController
 	private static final float[][] START = {
 			{ 1.0f, 5.0f },
 			{ 1.0f, 20.0f },
-			{ 1.0f, 13.0f }
+			{ 1.0f, 13.0f },
+			{ 1.1125f, 16.5f }
 	};
-	private static final float[][][] WALLS = { {
-			{ 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-			{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
-					1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
-			{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-					31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f } },
-
-			{ { 1.0f, 0.0f, 31.0f, 0.0f, 31.0f, 1.0f, 1.0f, 1.0f },
-					{ 16.0f, 22.0f, 16.0f, 21.0f, 1.0f, 21.0f,
-							1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 22.0f },
-					{ 32.0f, 22.0f, 32.0f, 0.0f, 31.0f, 0.0f,
-							31.0f, 21.0f, 16.0f, 21.0f, 16.0f, 22.0f },
-					{ 16.25f, 21.0f, 17.25f, 21.0f, 17.25f, 6.0f, 16.25f, 6.0f }
-			} };
 	private static final float[][][] WALLS2 = {
 			{ { 1.0f, 0.0f, 30.0f, 1.0f },
 					{ 0.0f, 0.0f, 1f, 22f },
@@ -106,25 +88,13 @@ public class AidenController extends WorldController
 					{ 0.0f, 0.0f, 1f, 22f },
 					{ 1.0f, 21f, 30f, 1f },
 					{ 31.0f, 0.0f, 1f, 22f },
-					{ 16.25f, 6f, 1f, 15f }
-			} };
-	private static final float[][][] OPENINGS = {
-			{},
-			{ { 11f, 13f } },
-			{} };
-
-	/** The outlines of all of the platforms */
-	private static final float[][][] PLATFORMS = { {
-			{ 6.0f, 8.0f, 15.0f, 8.0f, 15.0f, 5.0f, 26.0f, 5.0f, 26.0f, 8.0f,
-					31.0f, 8.0f, 31.0f, 9.0f, 25.0f, 9.0f, 25.0f, 6.0f, 16.0f,
-					6.0f, 16.0f, 9.0f, 6.0f, 9.0f },
-			{ 1.0f, 16.0f, 16.0f, 16.0f, 16.0f, 17.0f, 1.0f, 17.0f },
-			{ 18.0f, 16.0f, 25.0f, 16.0f, 25.0f, 17.0f, 18.0f, 17.0f }
-	}, { { 1.0f, 10.0f, 4.0f, 10.0f, 4.0f, 11.0f, 1.0f, 11.0f },
-			{ 3.0f, 5.0f, 7.0f, 5.0f, 7.0f, 6.0f, 3.0f, 6.0f },
-			{ 10.0f, 5.0f, 14.0f, 5.0f, 14.0f, 6.0f, 10.0f, 6.0f },
-			{ 26.0f, 7.0f, 31.0f, 7.0f, 31.0f, 8.0f, 26.0f, 8.0f }
-	} };
+					{ 16.25f, 6f, 1f, 15f } },
+			{ { 1.0f, 0.0f, 30.0f, 1f },
+					{ 0.0f, 0.0f, 1f, 22f },
+					{ 1.0f, 21f, 30f, 1f },
+					{ 31.0f, 0.0f, 1f, 22f },
+			}
+	};
 
 	private static final float[][][] PLATFORMS2 = {
 			{},
@@ -141,7 +111,22 @@ public class AidenController extends WorldController
 					{ 3.0f, 5.0f, 4.0f, 1f },
 					{ 10.0f, 5.0f, 4.0f, 1f },
 					{ 26.0f, 7.0f, 5.0f, 1f }
-			} };
+			},
+			{ { 1f, 7f, 6f, 1f },
+					{ 1f, 15f, 6f, 1f },
+					{ 7f, 11f, 1f, 5f },
+					{ 8f, 11f, 5f, 1f },
+					{ 13f, 11f, 1f, 3f },
+					{ 14f, 8f, 1f, 6f },
+					{ 15f, 13f, 5f, 1f },
+					{ 19f, 11f, 1f, 2f },
+					{ 20f, 11f, 6f, 1f },
+					{ 25f, 12f, 1f, 5f },
+					{ 26f, 16f, 3f, 1f },
+					{ 26f, 6f, 5f, 1f },
+					{ 17.1f, 5f, 5f, 1f },
+			}
+	};
 
 	/** the vertices for the boxes */
 
@@ -159,7 +144,10 @@ public class AidenController extends WorldController
 			},
 			{ 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f,
 					2f, 24.75f, 8f,
-					8f, 2f, 10f, 2f, 15.5f, 9f } };
+					8f, 2f, 10f, 2f, 15.5f, 9f },
+			{ 2f, 2f, 6f, 2f, 4f, 2f, 8f, 2f, 10f, 2f, 12f, 2f, 6f, 4f, 6f, 6f,
+					4f, 6f, 2f, 6f, 8f, 6f, 10f, 6f, 8f, 8f, 8f, 10f, 6f, 16f,
+					6f, 17f, 27f, 1f, 29f, 1f, 25f, 1f, 16.5f, 7f } };
 
 	/** the vertices for stone boxes */
 
@@ -169,20 +157,26 @@ public class AidenController extends WorldController
 			{ 16.0f, 1.0f, },
 
 			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f} };
+
+					24.75f, 10f, 15.5f, 11f/* , 20.75f, 13.0f */ },
+			{ 2f, 4f, 4f, 4f, 10f, 4f, 12f, 4f, 12f, 6f, 12f, 8f, 8f, 4f,
+					12f, 10f, 10f, 10f, 10f, 8f, 16f, 9f } };
 
 	/** WaterGuard Positions */
 	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
-			{ 21.0f, 11.0f } };
+			{ 21.0f, 11.0f },
+			{ 16f, 1f, 9f, 16f } };
 	/** fuel blocks */
 	private static final float[][] FUELS = { { 2f, 2f }, { 29.5f, 9f },
-			{ 13f, 8f } };
+			{ 13f, 8f },
+			{ 17f, 14f, 18f, 7f } };
 
 	private static final float[][] ROPE = { {}, {},
-			{ 4f, 10.5f, 3f, 5.5f } };
+			{ 4f, 10.5f, 3f, 5.5f },
+			{ 22f, 19f, 22.1f, 5f } };
 
 	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
-			{ 29f, 9f } };
+			{ 29f, 9f }, { 2.5f, 9.25f } };
 
 	// Physics objects for the game
 	// Characters
@@ -374,7 +368,7 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 20);
+					dheight, 1, 1, 25);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -395,8 +389,8 @@ public class AidenController extends WorldController
 			ropes.add(r);
 		}
 		// Create Aiden
-		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
-		dheight = af.avatarTexture.getRegionHeight() / scale.y;
+		dwidth = af.avatarTexture.getRegionWidth() / scale.x - 0.5f;
+		dheight = af.avatarTexture.getRegionHeight() / scale.y - 0.4f;
 		avatar = new AidenModel(START[level][0], START[level][1], dwidth,
 				dheight, true);
 		avatar.setDrawScale(scale);
@@ -412,7 +406,7 @@ public class AidenController extends WorldController
 
 		// Create NPCs
 		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.8f;
-		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.4f;
+		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.8f;
 
 		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
 
@@ -456,6 +450,10 @@ public class AidenController extends WorldController
 		if (!isFailure() && avatar.getY() < -1) {
 			setFailure(true);
 			return false;
+		}
+
+		if (isFailure()) {
+			avatar.setFail(true);
 		}
 
 		return true;
@@ -562,14 +560,19 @@ public class AidenController extends WorldController
 				setComplete(true);
 			}
 
-//			// Check for aiden top
-//			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-//					&& bd1 instanceof Stone) ||
-//					(avatar.getTopName().equals(fd1) && avatar != bd2
-//							&& bd2 instanceof Stone)) {
-//				System.out.println("Gotcha");
-//				setFailure(true);
-//			}
+			// Check for aiden top
+			if ((avatar.getTopName().equals(fd2) && avatar != bd1
+					&& bd1 instanceof Stone)) {
+				if (Math.abs(bd1.getVY()) >= 1) {
+					setFailure(true);
+				}
+			}
+			if ((avatar.getTopName().equals(fd1) && avatar != bd2
+					&& bd2 instanceof Stone)) {
+				if (Math.abs(bd2.getVY()) >= 1) {
+					setFailure(true);
+				}
+			}
 
 			// Check for aiden down water top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
@@ -586,8 +589,10 @@ public class AidenController extends WorldController
 						&& bd1 instanceof StoneBlock) ||
 						(w.getTopName().equals(fd1) && w != bd2
 								&& bd2 instanceof StoneBlock)) {
+
 					fix1.setRestitution(0);
 					fix2.setRestitution(0);
+
 					w.setDead(true);
 				}
 			}
@@ -656,6 +661,14 @@ public class AidenController extends WorldController
 				contact.setEnabled(false);
 			}
 		}
+		if (bd1 instanceof StoneBlock) {
+			Vector2 velocity = ((StoneBlock) bd1).getLinearVelocity();
+			((StoneBlock) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		if (bd2 instanceof StoneBlock) {
+			Vector2 velocity = ((StoneBlock) bd2).getLinearVelocity();
+			((StoneBlock) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		}
 
 	}
 
@@ -699,7 +712,7 @@ public class AidenController extends WorldController
 			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
-		} else if (isFailure()) {
+		} else if (avatar.canDrawFail()) {
 			af.displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);

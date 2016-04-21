@@ -15,7 +15,6 @@
  */
 package edu.cornell.gdiac.physics.obstacle;
 
-import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.math.*;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.physics.*;  // For GameCanvas
-import edu.cornell.gdiac.physics.ai.NavBoard.TileType;
 
 
 /**

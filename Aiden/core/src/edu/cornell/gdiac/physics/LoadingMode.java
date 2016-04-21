@@ -48,8 +48,6 @@ import edu.cornell.gdiac.util.*;
  */
 public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	// Textures necessary to support the loading screen
-	private static final String BACKGROUND_FILE = "shared/loading.png";
-	private static final String PROGRESS_FILE = "shared/progressbar.png";
 	private static final String PLAY_BTN_FILE = "shared/play.png";
 
 	/** Background texture for start-up */

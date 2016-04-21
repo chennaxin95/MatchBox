@@ -1,14 +1,11 @@
 package edu.cornell.gdiac.physics.character;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.character.FSMNode.BasicFSMState;
@@ -411,7 +408,7 @@ public class CharacterModel extends CapsuleObstacle{
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 

@@ -11,7 +11,6 @@ package edu.cornell.gdiac.physics.character;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -28,11 +27,6 @@ import edu.cornell.gdiac.util.FilmStrip;
  */
 public class AidenModel extends CharacterModel {
 	// Physics constants
-	/** The impulse for the character jump */
-	private static final float DUDE_JUMP = 18f;
-
-	/** The unit distance away for fire trail */
-	private static final float UNIT_TRAIL_DIST = 0.2f;
 
 	/** The Fuel system for Aiden */
 	private static final float START_FUEL = 30;
@@ -42,7 +36,7 @@ public class AidenModel extends CharacterModel {
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
-	protected static final float MAX_JUMP_TIME=0.1f;
+	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
 	private boolean drawJumping = false;
@@ -73,7 +67,19 @@ public class AidenModel extends CharacterModel {
 	/** Texture for fire trail */
 	private FilmStrip death;
 	private Color preColor = Color.WHITE;
-
+	private boolean drawFail = false;
+	private boolean failed = false;
+	
+	public boolean canDrawFail(){
+		return drawFail;
+	}
+	public boolean getFailed(){
+		return failed;
+	}
+	
+	public void setFail(boolean fail){
+		failed = fail;
+	}
 	/**
 	 * Returns up/down movement of this character.
 	 * 
@@ -229,6 +235,11 @@ public class AidenModel extends CharacterModel {
 	 */
 	@Override
 	public void applyForce() {
+		
+		if(failed){
+			body.setLinearVelocity(0, 0);
+			return;
+		}
 
 		if (!isActive()) {
 			return;
@@ -250,10 +261,8 @@ public class AidenModel extends CharacterModel {
 
 			}
 		}
-		if (!isClimbing && !isSpiriting && isGrounded) {
-			if (jumpFrame == 2){
-				movementY = 11;
-			}
+		if (!isClimbing && !isSpiriting && isGrounded && isJumping) {
+			movementY = 11;
 		}
 		if (!isGrounded) {
 			movement = movement * 0.9f;
@@ -264,7 +273,6 @@ public class AidenModel extends CharacterModel {
 			movementY = 2;
 		}
 		if (isSpiriting) {
-			//
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
 			float signy = (Math.abs(getVY()) <= 2) ? 0 : Math.signum(getVY());
 			float xaccel = (spiritCount >= 0.5 / dt) ? 0.99f : 1.03f;
@@ -292,18 +300,19 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
+		movementY = Math.min(movementY, 13);
 		body.setLinearVelocity(movement, movementY);
 	}
 
 	/** Add fuel when touch fuel box */
 	public void addFuel(float i) {
-		fuel = Math.max(fuel + i, MAX_FUEL);
+		fuel = Math.min(fuel + i, MAX_FUEL);
 	}
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
 
-		float fuelloss = (float) Math.max(0.015, 0.008
+		float fuelloss = (float) Math.max(0, 0.008
 				* Math.sqrt(getVX() * getVX() + getVY() * getVY()));
 		if (isSpiriting) {
 			fuelloss *= 0.75;
@@ -376,7 +385,7 @@ public class AidenModel extends CharacterModel {
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 
@@ -389,7 +398,7 @@ public class AidenModel extends CharacterModel {
 		topDef.density = DUDE_DENSITY;
 		topDef.isSensor = true;
 		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		topDef.shape = topShape;
 
@@ -405,7 +414,7 @@ public class AidenModel extends CharacterModel {
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
 		sensorShape = new PolygonShape();
-		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.0f, SENSOR_HEIGHT,
+		sensorShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		sensorDef.shape = sensorShape;
 
@@ -418,7 +427,7 @@ public class AidenModel extends CharacterModel {
 		topDef.density = DUDE_DENSITY;
 		topDef.isSensor = true;
 		topShape = new PolygonShape();
-		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.f, SENSOR_HEIGHT,
+		topShape.setAsBox(DUDE_SSHRINK * getWidth() / 2.5f, SENSOR_HEIGHT,
 				sensorCenter, 0.0f);
 		topDef.shape = topShape;
 
@@ -503,6 +512,9 @@ public class AidenModel extends CharacterModel {
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y, getAngle(), effect, 1f);
+		if(death.getFrame() == death.getSize()-1){
+			drawFail = true;
+		}
 	}
 	
 	public void drawJump(GameCanvas canvas, float ratio) {

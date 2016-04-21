@@ -5,12 +5,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 
-import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
-import edu.cornell.gdiac.physics.character.CharacterModel;
-import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
@@ -47,21 +44,15 @@ public class CollisionController {
 				if (bd1 == avatar) {
 
 					if (bd2 instanceof FlammableBlock) {
-
 						FlammableBlock fb = (FlammableBlock) bd2;
-						// if ((avatar.getX() >= fb.getX() &&
-						// avatar.getX() <= fb.getX() + fb.getWidth()) &&
-						// (avatar.getY() >= fb.getY() &&
-						// avatar.getY() <= fb.getY()
-						// + fb.getHeight())) {
-
-						avatar.setClimbing(true);
+//						if (bd1.getPosition().y - bd2.getPosition().y < fb.getHeight()/2){
 						avatar.setGravityScale(0);
 						avatar.setSpiriting(true);
-
+//						}
+						avatar.setClimbing(true);
+						
 						if (!fb.isBurnt()) {
 							if (!fb.isBurning()) {
-								System.out.println(fb.getName());
 								fb.activateBurnTimer();
 								// if it's a fuel box
 								if (fb instanceof FuelBlock) {
@@ -73,16 +64,14 @@ public class CollisionController {
 					}
 				}
 				if (bd2 == avatar) {
-
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-
-						avatar.setClimbing(true);
+//						if (bd2.getPosition().y - bd1.getPosition().y < fb.getHeight()/1.8f){
 						avatar.setGravityScale(0);
 						avatar.setSpiriting(true);
+						avatar.setClimbing(true);
 
 						if (!fb.isBurning() && !fb.isBurnt()) {
-							System.out.println(fb.getName());
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {

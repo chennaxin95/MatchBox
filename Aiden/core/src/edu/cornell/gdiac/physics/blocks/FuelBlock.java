@@ -1,6 +1,6 @@
 package edu.cornell.gdiac.physics.blocks;
 
-import edu.cornell.gdiac.physics.blocks.BlockAbstract.BlockType;
+//import edu.cornell.gdiac.physics.blocks.BlockAbstract.BlockType;
 
 public class FuelBlock extends FlammableBlock{
 	
