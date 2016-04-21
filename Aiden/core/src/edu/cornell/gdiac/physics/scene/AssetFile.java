@@ -67,9 +67,10 @@ public class AssetFile {
 		files.put("WATER_WALK", "platform/water_animation.png");
 		files.put("BURNING_FILE", "platform/blockburning.png");
 		files.put("STONE_FILE", "platform/stone.png");
-		files.put("JUMP_FILE", "platform/jump.mp3");
-		files.put("PEW_FILE", "platform/pew.mp3");
-		files.put("POP_FILE", "platform/plop.mp3");
+		files.put("JUMP_FILE", "music/jump.mp3");
+		files.put("PEW_FILE", "music/pew.mp3");
+		files.put("POP_FILE", "music/plop.mp3");
+		files.put("BGM_FILE", "music/bgm.mp3");
 		files.put("BACKGROUND", "shared/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
@@ -201,6 +202,7 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
+		sounds.allocate(manager, files.get("BGM_FILE"));
 
 	}
 

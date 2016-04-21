@@ -231,6 +231,7 @@ public class AidenController extends WorldController
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks = new ArrayList<BlockAbstract>();
+		
 	}
 
 	/**
@@ -270,8 +271,12 @@ public class AidenController extends WorldController
 
 		// board.clear();
 		blocks.clear();
-
+		
 		populateLevel();
+		SoundController.getInstance().play(af.get("BGM_FILE"),
+				af.get("BGM_FILE"), true,
+				EFFECT_VOLUME);
+		SoundController.getInstance().setTimeLimit(Long.MAX_VALUE);
 	}
 
 	/**
@@ -449,6 +454,7 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
+		
 	}
 
 	// Temp
@@ -527,10 +533,12 @@ public class AidenController extends WorldController
 		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setDt(dt);
 		avatar.applyForce();
+		
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(af.get("JUMP_FILE"),
 					af.get("JUMP_FILE"), false,
 					EFFECT_VOLUME);
+			
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -545,6 +553,7 @@ public class AidenController extends WorldController
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
+		
 	}
 
 	/**
@@ -754,5 +763,6 @@ public class AidenController extends WorldController
 			canvas.end();
 
 		}
+
 	}
 }
