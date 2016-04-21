@@ -73,7 +73,7 @@ public class Rope extends ComplexObstacle {
 		this.lheight = lheight;
 		linksize = lheight/4;
 		for (int i = 0; i < SEGMENTS; i++){
-			FlammableBlock part = new FlammableBlock(pos.x, pos.y, lwidth, lheight,
+			RopePart part = new RopePart(pos.x, pos.y, lwidth, lheight,
 					SPREAD, BURN);
 			part.setName("rope_part");
 	        part.setDensity(BASIC_DENSITY);

@@ -99,9 +99,9 @@ public class AidenController extends WorldController
 	private static final float[][][] PLATFORMS2 = {
 			{},
 
-			{ { 6.0f, 8.0f, 10.0f, 1f },
-					{ 15.0f, 5.0f, 1f, 3f },
-					{ 16.0f, 5.0f, 10.0f, 1f },
+			{ { 6.5f, 8.0f, 10.0f, 1f },
+					{ 15.5f, 5.0f, 1f, 3f },
+					{ 16.5f, 5.0f, 10.0f, 1f },
 					{ 25.0f, 6.0f, 1f, 2f },
 					{ 25.0f, 8.0f, 6f, 1f },
 					{ 1.0f, 16.0f, 15.0f, 1f },
@@ -127,6 +127,13 @@ public class AidenController extends WorldController
 					{ 17.1f, 5f, 5f, 1f },
 			}
 	};
+	
+	private static final float[][][] BPLAT = {
+			{{20f, 2f, 4f, 1f}},
+			{},
+			{},
+			{}
+	};
 
 	/** the vertices for the boxes */
 
@@ -138,7 +145,7 @@ public class AidenController extends WorldController
 					14f, 2f, 14f, 4f, 14f, 6f, 14f, 8f, 14f, 10f, 14f, 12f,
 					16f, 2f, 16f, 4f, 16f, 6f, 16f, 8f, 16f, 10f, 16f, 12f },
 
-			{ 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
+			{ 26.5f, 9f, 28.5f, 9f, 26.5f, 10f, 7f, 2f, 7f, 4f,
 					7f, 6f, 9f, 2f, 11f, 2f,
 					9f, 4f, 11f, 4f
 			},
@@ -318,6 +325,23 @@ public class AidenController extends WorldController
 			p.setName(pname + ii);
 			addObject(p);
 		}
+		
+		pname = "bPlat";
+		for (int ii = 0; ii < BPLAT[level].length; ii++) {
+			BurnablePlatform p = new BurnablePlatform(
+					new Rectangle(BPLAT[level][ii][0],
+							BPLAT[level][ii][1],
+							BPLAT[level][ii][2], BPLAT[level][ii][3]),
+					1);
+			p.setDensity(BASIC_DENSITY);
+			p.setFriction(0);
+			p.setRestitution(BASIC_RESTITUTION);
+			p.setDrawScale(scale);
+			p.setTexture(af.burnablePlatform);
+			p.setName(pname + ii);
+			addObject(p);
+			flammables.add(p);
+		}
 
 		// Adding boxes
 		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
@@ -364,16 +388,19 @@ public class AidenController extends WorldController
 		// Adding boxes
 		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
 			TextureRegion texture = af.fuelTexture;
-			dwidth = texture.getRegionWidth() / scale.x;
-			dheight = texture.getRegionHeight() / scale.y;
+			dwidth = texture.getRegionWidth() / scale.x / 2;
+			dheight = texture.getRegionHeight() / scale.y / 2;
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 25);
+
+					dheight, 1, 1, 18);
+
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
+			box.ratio = new Vector2(.5f, .5f);
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
@@ -418,7 +445,7 @@ public class AidenController extends WorldController
 			ch1.setDrawScale(scale);
 
 			ch1.setTexture(af.waterTexture);
-			ch1.setName("wg");
+			ch1.setName("wg"+ii);
 			npcs.add(ch1);
 			ch1.setDeath(af.WaterDieTexture);
 			ch1.setCharacterSprite(af.WaterWalkTexture);
@@ -656,18 +683,21 @@ public class AidenController extends WorldController
 		}
 
 		if (spirit) {
-			if (bd1 == avatar && bd2 instanceof FlammableBlock
-					|| bd2 == avatar && bd1 instanceof FlammableBlock) {
+			if (bd1 == avatar && bd2 instanceof FlammableBlock && 
+					!(bd2 instanceof BurnablePlatform)
+						|| bd2 == avatar && bd1 instanceof FlammableBlock
+							&& !(bd1 instanceof BurnablePlatform)) {
 				contact.setEnabled(false);
 			}
 		}
-		if (bd1 instanceof StoneBlock) {
-			Vector2 velocity = ((StoneBlock) bd1).getLinearVelocity();
-			((StoneBlock) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+
+		if (bd1 instanceof BlockAbstract){
+			Vector2 velocity  = ((BlockAbstract) bd1).getLinearVelocity();
+			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
 		}
-		if (bd2 instanceof StoneBlock) {
-			Vector2 velocity = ((StoneBlock) bd2).getLinearVelocity();
-			((StoneBlock) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		if (bd2 instanceof BlockAbstract){
+			Vector2 velocity  = ((BlockAbstract) bd2).getLinearVelocity();
+			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
 	}

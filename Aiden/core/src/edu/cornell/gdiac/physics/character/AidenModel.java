@@ -269,8 +269,8 @@ public class AidenModel extends CharacterModel {
 		}
 
 		if (isClimbing) {
-			movement = 0;
-			movementY = 2;
+			movement = Math.min(movement, 5);
+			movementY = Math.min(movementY, 5);
 		}
 		if (isSpiriting) {
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
@@ -300,7 +300,8 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
-		movementY = Math.min(movementY, 13);
+		movementY = Math.max(Math.min(movementY, 9), -10);
+		movement = Math.max(Math.min(movement, 9), -10);
 		body.setLinearVelocity(movement, movementY);
 	}
 
@@ -511,7 +512,7 @@ public class AidenModel extends CharacterModel {
 			c = preColor;
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y, getAngle(), effect, 1f);
+				getY() * drawScale.y, getAngle(), effect, ratio);
 		if(death.getFrame() == death.getSize()-1){
 			drawFail = true;
 		}

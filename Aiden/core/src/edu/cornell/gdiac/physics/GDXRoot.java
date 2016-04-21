@@ -131,10 +131,11 @@ public class GDXRoot extends Game implements ScreenListener {
 		worldAssetState = AssetState.LOADING;
 		// Load the shared tiles.
 		manager.load(af.get("EARTH_FILE"), Texture.class);
-		System.out.println(af.get("EARTH_FILE"));
 		assets.add(af.get("EARTH_FILE"));
 		manager.load(af.get("GOAL_FILE"), Texture.class);
 		assets.add(af.get("GOAL_FILE"));
+		manager.load(af.get("BURNP_FILE"), Texture.class);
+		assets.add(af.get("BURNP_FILE"));
 
 		// Load the font
 		FreetypeFontLoader.FreeTypeFontLoaderParameter size2Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
