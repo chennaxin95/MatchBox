@@ -186,7 +186,7 @@ public class AidenController extends WorldController
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(af.earthTile);
+			p.setTexture(af.burnablePlatform);
 			p.setName(pname + ii);
 			addObject(p);
 		}
@@ -239,6 +239,7 @@ public class AidenController extends WorldController
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
+			box.ratio = new Vector2(.5f, .5f);
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);

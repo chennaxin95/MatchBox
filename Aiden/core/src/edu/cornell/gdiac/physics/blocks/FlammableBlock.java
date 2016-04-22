@@ -3,6 +3,8 @@ package edu.cornell.gdiac.physics.blocks;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.material.Flammable;
@@ -13,6 +15,7 @@ public class FlammableBlock extends BlockAbstract{
 	public FilmStrip burningSprite;
 	protected float animeCoolDown; 
 	protected int splitFrame;
+	public Vector2 ratio = new Vector2(1, 1);
 	
 	/** Animation cool down */
 	protected static final float MAX_ANIME_TIME=0.1f;
@@ -42,7 +45,7 @@ public class FlammableBlock extends BlockAbstract{
 	public void draw(GameCanvas canvas) {
 		if (texture != null) {
 			if (((Flammable)material).isBurnt()){
-				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+				canvas.draw(texture,Color.BLACK,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),ratio.x, ratio.y);
 			}
 			else if (((Flammable)material).isBurning()){
 				Color c=new Color();
@@ -50,12 +53,12 @@ public class FlammableBlock extends BlockAbstract{
 					c=new Color(1, ((Flammable)material).getBurnRatio(), 0, 1);
 				}
 				else{
-					c=new Color(((Flammable)material).getBurnRatio()/0.3f,((Flammable)material).getBurnRatio(), 0, 1);
+					c=new Color(((Flammable)material).getBurnRatio()/0.3f,((Flammable)material).getBurnRatio(), ratio.x, ratio.y);
 				}
-				canvas.draw(texture,c,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+				canvas.draw(texture,c,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(), ratio.x, ratio.y);
 			}
 			else{
-				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+				canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),ratio.x, ratio.y);
 			}
 		}
 		if (((Flammable)material).isBurning()){

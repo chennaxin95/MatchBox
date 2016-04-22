@@ -22,6 +22,8 @@ public class AssetFile {
 	public TextureRegion earthTile;
 	/** The texture for the exit condition */
 	public TextureRegion goalTile;
+	public TextureRegion burnablePlatform;
+	
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -39,7 +41,7 @@ public class AssetFile {
 	public TextureRegion ropeTexture;
 	/** Texture for background */
 	public TextureRegion backGround;
-
+	
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
 	public FilmStrip AidenDieTexture;
@@ -52,6 +54,7 @@ public class AssetFile {
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
 		files.put("EARTH_FILE", "shared/earthtile.png");
+		files.put("BURNP_FILE", "shared/burnableearth.png");
 		files.put("GOAL_FILE", "platform/goaldoor.png");
 		files.put("FONT_FILE", "shared/RetroGame.ttf");
 		files.put("FUEL_FONT", "shared/ShadowsIntoLight.ttf");
@@ -76,7 +79,6 @@ public class AssetFile {
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/play.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
-
 		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
 		System.out.println(files);
 	}
@@ -157,7 +159,8 @@ public class AssetFile {
 		// Allocate the tiles
 		earthTile = createTexture(manager, files.get("EARTH_FILE"), true);
 		goalTile = createTexture(manager, files.get("GOAL_FILE"), true);
-
+		burnablePlatform = createTexture(manager, files.get("BURNP_FILE"), true);
+		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
 			displayFont = manager.get(files.get("FONT_FILE"), BitmapFont.class);
@@ -170,7 +173,6 @@ public class AssetFile {
 		avatarTexture = createTexture(manager, files.get("DUDE_FILE"), false);
 		fuelTexture = createTexture(manager, files.get("FUEL_FILE"), false);
 		ropeTexture = createTexture(manager, files.get("ROPE_FILE"), true);
-
 		backGround = createTexture(manager, files.get("BACKGROUND"), false);
 		waterTexture = createTexture(manager, files.get("WATER_FILE"), false);
 		stoneTexture = createTexture(manager, files.get("STONE_FILE"), false);

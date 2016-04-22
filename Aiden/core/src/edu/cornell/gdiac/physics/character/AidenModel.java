@@ -36,7 +36,7 @@ public class AidenModel extends CharacterModel {
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
-	protected static final float MAX_JUMP_TIME=0.03f;
+	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
 	private boolean drawJumping = false;
@@ -300,8 +300,8 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
-		movementY = Math.min(movementY, 9);
-		movement = Math.min(movement, 9);
+		movementY = Math.max(Math.min(movementY, 9), -10);
+		movement = Math.max(Math.min(movement, 9), -10);
 		body.setLinearVelocity(movement, movementY);
 	}
 
