@@ -67,123 +67,11 @@ public class AidenController extends WorldController
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
 
-	private static final float[][] START = {
-			{ 1.0f, 5.0f },
-			{ 1.0f, 20.0f },
-			{ 1.0f, 13.0f },
-			{1.1125f, 16.5f}
-	};
-	private static final float[][][] WALLS2 = {
-			{ { 1.0f, 0.0f, 30.0f, 1.0f },
-					{ 0.0f, 0.0f, 1f, 22f },
-					{ 1.0f, 21f, 30f, 1f },
-					{ 31.0f, 0.0f, 1f, 22f } },
 
-			{ { 1.0f, 0.0f, 30.0f, 1f },
-					{ 0.0f, 0.0f, 1f, 22f },
-					{ 1.0f, 21f, 30f, 1f },
-					{ 31.0f, 0.0f, 1f, 22f } },
-
-			{ { 1.0f, 0.0f, 30.0f, 1f },
-					{ 0.0f, 0.0f, 1f, 22f },
-					{ 1.0f, 21f, 30f, 1f },
-					{ 31.0f, 0.0f, 1f, 22f },
-					{ 16.25f, 6f, 1f, 15f } },
-			{	{ 1.0f, 0.0f, 30.0f, 1f },
-				{ 0.0f, 0.0f, 1f, 22f },
-				{ 1.0f, 21f, 30f, 1f },
-				{ 31.0f, 0.0f, 1f, 22f },
-			}
-			};
-
-	
-	private static final float[][][] PLATFORMS2 = {
-			{},
-
-			{ { 6.0f, 8.0f, 10.0f, 1f },
-					{ 15.0f, 5.0f, 1f, 3f },
-					{ 16.0f, 5.0f, 10.0f, 1f },
-					{ 25.0f, 6.0f, 1f, 2f },
-					{ 25.0f, 8.0f, 6f, 1f },
-					{ 1.0f, 16.0f, 15.0f, 1f },
-					{ 18.0f, 16.0f, 7f, 1f } },
-
-			{ { 1.0f, 10.0f, 3.0f, 1f },
-					{ 3.0f, 5.0f, 4.0f, 1f },
-					{ 10.0f, 5.0f, 4.0f, 1f },
-					{ 26.0f, 7.0f, 5.0f, 1f }
-			},
-			{ { 1f, 7f, 6f, 1f},
-				{1f, 15f, 6f, 1f},
-				{7f, 11f, 1f, 5f},
-				{8f, 11f, 5f, 1f},
-				{13f, 11f, 1f, 3f},
-				{14f, 8f, 1f, 6f},
-				{15f, 13f, 5f, 1f},
-				{19f, 11f, 1f, 2f},
-				{20f, 11f, 6f, 1f},
-				{25f, 12f, 1f, 5f},
-				{26f, 16f, 3f, 1f},
-				{26f, 6f, 5f, 1f},
-				{17.1f, 5f, 5f, 1f},
-			}
-	};
-	
-	private static final float[][][] BPLAT = {
-			{{20f, 2f, 4f, 1f}},
-			{},
-			{},
-			{}
-	};
-
-	/** the vertices for the boxes */
-
-	private static final float[][] BOXES = {
-			{ 6f, 2f, 6f, 4f, 6f, 6f, 6f, 8f, 6f, 10f, 6f, 12f,
-					8f, 2f, 8f, 4f, 8f, 6f, 8f, 8f, 8f, 10f, 8f, 12f,
-					10f, 2f, 10f, 4f, 10f, 6f, 10f, 8f, 10f, 10f, 10f, 12f,
-					12f, 2f, 12f, 4f, 12f, 6f, 12f, 8f, 12f, 10f, 12f, 12f,
-					14f, 2f, 14f, 4f, 14f, 6f, 14f, 8f, 14f, 10f, 14f, 12f,
-					16f, 2f, 16f, 4f, 16f, 6f, 16f, 8f, 16f, 10f, 16f, 12f },
-
-			{ 26.5f, 9f, 28.5f, 9f, 7f, 2f, 7f, 4f,
-					7f, 6f, 9f, 2f, 11f, 2f,
-					9f, 4f, 11f, 4f
-			},
-			{ 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f,
-					2f, 24.75f, 8f,
-					8f, 2f, 10f, 2f, 15.5f, 9f },
-			{ 2f, 2f, 6f, 2f, 4f, 2f, 8f, 2f, 10f, 2f, 12f, 2f, 6f, 4f, 6f, 6f, 
-					4f, 6f, 2f, 6f, 8f, 6f, 10f, 6f, 8f, 8f, 8f, 10f, 6f, 16f,
-					6f, 17f, 27f, 1f, 29f, 1f, 25f, 1f, 16.5f, 7f}};
-
-	/** the vertices for stone boxes */
-
-	private static final float[][] STONE_BOXES = {
-			{},
-
-			{ 16.0f, 1.0f, },
-
-			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
-					24.75f, 10f, 15.5f, 11f/*, 20.75f, 13.0f */},
-			{ 2f, 4f, 4f, 4f, 10f, 4f, 12f, 4f, 12f, 6f, 12f, 8f, 8f, 4f, 
-			  12f, 10f, 10f, 10f, 10f, 8f, 16f, 9f}};
-
-	/** WaterGuard Positions */
-	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
-			{ 21.0f, 11.0f },
-			{ 16f, 1f, 9f, 16f}};
-	/** fuel blocks */
-	private static final float[][] FUELS = { { 2f, 2f }, { 29.5f, 9f },
-			{ 13f, 8f },
-			{ 17f, 14f, 18f, 7f}};
 
 	private static final float[][] ROPE = { {}, {},
 			{ 4f, 10.5f, 3f, 5.5f}, 
 			{ 22f, 19f, 22.1f, 5f}};
-
-	private static final float[][] GOAL = { { 29f, 2f }, { 29f, 2f },
-			{ 29f, 9f }, {2.5f, 9.25f}};
 
 	// Physics objects for the game
 	// Characters
@@ -226,7 +114,6 @@ public class AidenController extends WorldController
 		spirit = true;
 
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		scene = new Scene("aiden-example.json");
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
@@ -286,42 +173,14 @@ public class AidenController extends WorldController
 		// Add level goal
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
 		float dheight = af.goalTile.getRegionHeight() / scale.y;
-		float x = GOAL[level][0];
-		float y = GOAL[level][1];
-		goalDoor = new BoxObstacle(x, y, dwidth, dheight);
-		goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
-		goalDoor.setDensity(0.0f);
-		goalDoor.setFriction(0.0f);
-		goalDoor.setRestitution(0.0f);
-		goalDoor.setSensor(true);
+		goalDoor = scene.getGoalDoor();
 		goalDoor.setDrawScale(scale);
-		goalDoor.setTexture(af.goalTile);
-		goalDoor.setName("goal");
 		addObject(goalDoor);
 
-		String wname = "wall";
-		for (int ii = 0; ii < WALLS2[level].length; ii++) {
-			// PolygonObstacle obj;
-			Platform p = new Platform(
-					new Rectangle(WALLS2[level][ii][0], WALLS2[level][ii][1],
-							WALLS2[level][ii][2], WALLS2[level][ii][3]),
-					1);
-			p.setDensity(BASIC_DENSITY);
-			p.setFriction(0);
-			p.setRestitution(BASIC_RESTITUTION);
-			p.setDrawScale(scale);
-			p.setTexture(af.earthTile);
-			p.setName(wname + ii);
-			addObject(p);
-		}
-
 		String pname = "platform";
-		for (int ii = 0; ii < PLATFORMS2[level].length; ii++) {
-			Platform p = new Platform(
-					new Rectangle(PLATFORMS2[level][ii][0],
-							PLATFORMS2[level][ii][1],
-							PLATFORMS2[level][ii][2], PLATFORMS2[level][ii][3]),
-					1);
+		for (int ii = 0; ii<scene.getPlatform().size();ii++) {
+			// PolygonObstacle obj;
+			Platform p = scene.getPlatform().get(ii);
 			p.setDensity(BASIC_DENSITY);
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
@@ -329,35 +188,15 @@ public class AidenController extends WorldController
 			p.setTexture(af.earthTile);
 			p.setName(pname + ii);
 			addObject(p);
-		}
-		
-		pname = "bPlat";
-		for (int ii = 0; ii < BPLAT[level].length; ii++) {
-			BurnablePlatform p = new BurnablePlatform(
-					new Rectangle(BPLAT[level][ii][0],
-							BPLAT[level][ii][1],
-							BPLAT[level][ii][2], BPLAT[level][ii][3]),
-					1);
-			p.setDensity(BASIC_DENSITY);
-			p.setFriction(0);
-			p.setRestitution(BASIC_RESTITUTION);
-			p.setDrawScale(scale);
-			p.setTexture(af.earthTile);
-			p.setName(pname + ii);
-			addObject(p);
-			flammables.add(p);
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < BOXES[level].length; ii += 2) {
+		for (int ii = 0; ii < scene.getWoodBlocks().size(); ii ++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
 
-			FlammableBlock box = new FlammableBlock(BOXES[level][ii],
-					BOXES[level][ii + 1], dwidth,
-
-					dheight, 1f, 3f);
+			FlammableBlock box = scene.getWoodBlocks().get(ii);
 
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
@@ -373,13 +212,11 @@ public class AidenController extends WorldController
 		}
 
 		// Adding stone boxes
-		for (int ii = 0; ii < STONE_BOXES[level].length; ii += 2) {
+		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii ++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			Stone box = new Stone(STONE_BOXES[level][ii],
-					STONE_BOXES[level][ii + 1], dwidth,
-					dheight);
+			StoneBlock box = scene.getStoneBlocks().get(ii);
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
@@ -391,13 +228,11 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < FUELS[level].length; ii += 2) {
+		for (int ii = 0; ii < scene.getFuelBlocks().size(); ii += 2) {
 			TextureRegion texture = af.fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			FuelBlock box = new FuelBlock(FUELS[level][ii],
-					FUELS[level][ii + 1], dwidth,
-					dheight, 1, 1, 18);
+			FuelBlock box = scene.getFuelBlocks().get(ii);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
 			box.setRestitution(BASIC_RESTITUTION);
@@ -420,8 +255,7 @@ public class AidenController extends WorldController
 		// Create Aiden
 		dwidth = af.avatarTexture.getRegionWidth() / scale.x - 0.5f;
 		dheight = af.avatarTexture.getRegionHeight() / scale.y - 0.4f;
-		avatar = new AidenModel(START[level][0], START[level][1], dwidth,
-				dheight, true);
+		avatar = scene.getAidenModel();
 		avatar.setDrawScale(scale);
 		avatar.setTexture(af.avatarTexture);
 		avatar.setDeath(af.AidenDieTexture);
@@ -437,13 +271,9 @@ public class AidenController extends WorldController
 		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.8f;
 		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.8f;
 
-		for (int ii = 0; ii < WATERGUARDS[level].length; ii += 2) {
+		for (int ii = 0; ii < scene.getGuards().size(); ii += 2) {
 
-			WaterGuard ch1 = new WaterGuard(CharacterType.WATER_GUARD,
-					"WaterGuard",
-					WATERGUARDS[level][ii], WATERGUARDS[level][ii + 1] - 0.5f,
-					dwidth,
-					dheight, (level != 2));
+			WaterGuard ch1 = scene.getGuards().get(ii);
 			ch1.setDrawScale(scale);
 
 			ch1.setTexture(af.waterTexture);
@@ -763,6 +593,14 @@ public class AidenController extends WorldController
 			canvas.end();
 
 		}
+		
 
 	}
+	
+	@Override
+	public void setScene(Scene[] scenes){
+		this.scene = scenes[level];
+	}
+	
+
 }

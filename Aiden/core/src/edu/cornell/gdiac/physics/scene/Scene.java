@@ -3,6 +3,7 @@ package edu.cornell.gdiac.physics.scene;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
@@ -14,6 +15,7 @@ import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public class Scene implements SceneInterface {
@@ -25,7 +27,7 @@ public class Scene implements SceneInterface {
 	private ArrayList<FlammableBlock> woodBlocks = new ArrayList<FlammableBlock>();
 	private ArrayList<FuelBlock> fuelBlocks = new ArrayList<FuelBlock>();
 	private ArrayList<StoneBlock> stoneBlocks = new ArrayList<StoneBlock>();
-	private ArrayList<CharacterModel> guards = new ArrayList<CharacterModel>();
+	private ArrayList<WaterGuard> guards = new ArrayList<WaterGuard>();
 	private ArrayList<Platform> platforms = new ArrayList<Platform>();
 
 	private BlockAbstract goalDoor;
@@ -60,6 +62,7 @@ public class Scene implements SceneInterface {
 				int max_walk_speed = aiden.getInt("max_walk");
 				int jump_height = aiden.getInt("jump_height");
 				int start_fuel = aiden.getInt("start_fuel");
+				System.out.println(start_pos_x+" "+start_pos_y+" "+scale_x+" "+scale_y);
 				aidenModel = new AidenModel(start_pos_x, start_pos_y,
 						scale_x, scale_y, fright);
 			}
@@ -130,7 +133,7 @@ public class Scene implements SceneInterface {
 				float g_scale_x = guard.getFloat("scale_x");
 				float g_scale_y = guard.getFloat("scale_y");
 				boolean g_fright = guard.getBoolean("fright");
-				CharacterModel water = new CharacterModel(
+				WaterGuard water = new WaterGuard(
 						CharacterType.WATER_GUARD,
 						guard_name, g_x, g_y, g_scale_x, g_scale_y, g_fright);
 				guards.add(water);
@@ -146,6 +149,13 @@ public class Scene implements SceneInterface {
 			float e_scale_x = exit.getFloat("scale_x");
 			float e_scale_y = exit.getFloat("scale_y");
 			goalDoor = new StoneBlock(exit_x, exit_y, e_scale_x, e_scale_y);
+			goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
+			goalDoor.setDensity(0.0f);
+			goalDoor.setFriction(0.0f);
+			goalDoor.setRestitution(0.0f);
+			goalDoor.setSensor(true);
+			//goalDoor.setTexture(af.goalTile);
+			goalDoor.setName("goal");
 		}
 
 	}
@@ -169,7 +179,7 @@ public class Scene implements SceneInterface {
 		return woodBlocks;
 	}
 
-	public ArrayList<CharacterModel> getGuards() {
+	public ArrayList<WaterGuard> getGuards() {
 		return guards;
 	}
 

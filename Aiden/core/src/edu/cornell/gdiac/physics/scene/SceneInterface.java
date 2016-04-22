@@ -9,6 +9,7 @@ import edu.cornell.gdiac.physics.blocks.Platform;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
+import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public interface SceneInterface {
@@ -31,5 +32,5 @@ public interface SceneInterface {
 	
 	public ArrayList<Platform> getPlatform();
 	
-	public ArrayList<CharacterModel> getGuards();
+	public ArrayList<WaterGuard> getGuards();
 }
