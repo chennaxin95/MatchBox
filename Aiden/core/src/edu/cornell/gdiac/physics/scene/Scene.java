@@ -154,7 +154,7 @@ public class Scene implements SceneInterface {
 			goalDoor.setFriction(0.0f);
 			goalDoor.setRestitution(0.0f);
 			goalDoor.setSensor(true);
-			//goalDoor.setTexture(af.goalTile);
+			//
 			goalDoor.setName("goal");
 		}
 

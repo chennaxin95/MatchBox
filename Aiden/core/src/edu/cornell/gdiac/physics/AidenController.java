@@ -175,6 +175,7 @@ public class AidenController extends WorldController
 		float dheight = af.goalTile.getRegionHeight() / scale.y;
 		goalDoor = scene.getGoalDoor();
 		goalDoor.setDrawScale(scale);
+		goalDoor.setTexture(af.goalTile);
 		addObject(goalDoor);
 
 		String pname = "platform";
