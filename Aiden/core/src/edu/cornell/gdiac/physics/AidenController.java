@@ -34,6 +34,7 @@ import edu.cornell.gdiac.physics.CollisionController;
  * be static. This is the purpose of our AssetState variable; it ensures that
  * multiple instances place nicely with the static assets.
  */
+
 public class AidenController extends WorldController
 		implements ContactListener {
 
@@ -393,7 +394,7 @@ public class AidenController extends WorldController
 			FuelBlock box = new FuelBlock(FUELS[level][ii],
 					FUELS[level][ii + 1], dwidth,
 
-					dheight, 1, 1, 18);
+					dheight, 1, 1, 18, false);
 
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);

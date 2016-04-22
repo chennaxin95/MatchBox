@@ -56,8 +56,8 @@ public class LevelEditor extends WorldController {
 	private boolean holding = false;
 	private CharacterModel holdingCharacter = null;
 	private BlockAbstract holdingBlock = null;
-//	private float inputCoolDown = 0;
-//	private final static float INPUT_COOL_DOWN = 0.5f;
+	// private float inputCoolDown = 0;
+	// private final static float INPUT_COOL_DOWN = 0.5f;
 
 	private Rectangle platformRect;
 	private boolean isAddingRect;
@@ -68,7 +68,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks = new ArrayList<BlockAbstract>();
 		platformRect = new Rectangle(-1, -1, 0, 0);
-//		inputCoolDown = 0;
+		// inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;
@@ -83,7 +83,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks.clear();
 		platformRect = new Rectangle(-1, -1, 0, 0);
-//		inputCoolDown = 0;
+		// inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;
@@ -315,7 +315,7 @@ public class LevelEditor extends WorldController {
 					block.setDrawScale(scale);
 					break;
 				case FUEL_BOX_IND:
-					block = new FuelBlock(xPos, yPos, 2, 2, 1, 2, 25);
+					block = new FuelBlock(xPos, yPos, 2, 2, 1, 2, 25, false);
 					trans = fitInGrid(new Vector2(block.getX()
 							- block.getWidth() / 2f,
 							block.getY()
