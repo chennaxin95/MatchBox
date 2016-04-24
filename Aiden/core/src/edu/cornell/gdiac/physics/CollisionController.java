@@ -13,9 +13,23 @@ import edu.cornell.gdiac.physics.blocks.RopePart;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.physics.scene.GameSave;
+import edu.cornell.gdiac.util.PooledList;
 
 public class CollisionController {
-	public boolean getCollisions(Array<Contact> cList, AidenModel avatar) {
+
+	/**
+	 * If checkpoint has been reached, chkptReached = checkpoint index. Else is
+	 * -1.
+	 */
+	private int chkptReached = -1;
+
+	public int getCheckpoint() {
+		return chkptReached;
+	}
+
+	public boolean getCollisions(Array<Contact> cList, AidenModel avatar,
+			GameSave gs, PooledList<FuelBlock> checkpoints) {
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
 			Fixture fix2 = c.getFixtureB();
@@ -48,11 +62,12 @@ public class CollisionController {
 
 					if (bd2 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if (!(bd2 instanceof BurnablePlatform) && !(bd2 instanceof RopePart)){
-							avatar.setGravityScale(0);	
+						if (!(bd2 instanceof BurnablePlatform)
+								&& !(bd2 instanceof RopePart)) {
+							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
-						if (bd2 instanceof RopePart){
+						if (bd2 instanceof RopePart) {
 							avatar.setClimbing(true);
 						}
 						if (!fb.isBurnt()) {
@@ -62,6 +77,13 @@ public class CollisionController {
 								if (fb instanceof FuelBlock) {
 									avatar.addFuel(
 											((FuelBlock) fb).getFuelBonus());
+									if (((FuelBlock) fb).isCheckpoint()) {
+										int dex = checkpoints.indexOf(fb);
+										if (gs.getCheckpoint() != dex) {
+											chkptReached = dex;
+										}
+									}
+
 								}
 							}
 						}
@@ -70,11 +92,12 @@ public class CollisionController {
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-						if (!(bd1 instanceof BurnablePlatform) && !(bd1 instanceof RopePart)){
+						if (!(bd1 instanceof BurnablePlatform)
+								&& !(bd1 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
 						}
-						if ((bd1 instanceof RopePart)){
+						if ((bd1 instanceof RopePart)) {
 							avatar.setClimbing(true);
 						}
 						if (!fb.isBurning() && !fb.isBurnt()) {
@@ -82,15 +105,22 @@ public class CollisionController {
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
 								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
+								if (((FuelBlock) fb).isCheckpoint()) {
+									int dex = checkpoints.indexOf(fb);
+									if (gs.getCheckpoint() != dex) {
+										chkptReached = dex;
+									}
+								}
 							}
 						}
+
 					}
 				}
 
 				if (bd1 == avatar && bd2 instanceof WaterGuard) {
 					return false;
 				}
-				if (bd2 == avatar && bd1 instanceof WaterGuard){
+				if (bd2 == avatar && bd1 instanceof WaterGuard) {
 					return false;
 				}
 

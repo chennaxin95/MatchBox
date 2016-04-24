@@ -20,6 +20,7 @@ import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
+import edu.cornell.gdiac.physics.scene.GameSave;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -40,6 +41,9 @@ public class AidenController extends WorldController
 
 	private AssetFile af;
 
+	/** The game save shared across all levels */
+	private static GameSave gs = new GameSave("savedGame.json");
+
 	/** Track asset loading from all instances and subclasses */
 	// private AssetState platformAssetState = AssetState.EMPTY;
 
@@ -49,6 +53,8 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
+
+	private PooledList<FuelBlock> checkpoints;
 
 	// Physics constants for initialization
 	/** The new heavier gravity for this world (so it is not so floaty) */
@@ -128,9 +134,9 @@ public class AidenController extends WorldController
 					{ 17.1f, 5f, 5f, 1f },
 			}
 	};
-	
+
 	private static final float[][][] BPLAT = {
-			{{20f, 2f, 4f, 1f}},
+			{ { 20f, 2f, 4f, 1f } },
 			{},
 			{},
 			{}
@@ -228,7 +234,7 @@ public class AidenController extends WorldController
 				objects);
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks = new ArrayList<BlockAbstract>();
-		
+
 	}
 
 	/**
@@ -239,6 +245,11 @@ public class AidenController extends WorldController
 	/** Sets asset file */
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
+	}
+
+	/** Sets game save file */
+	public void setGameSave(GameSave s) {
+		gs = s;
 	}
 
 	/**
@@ -268,7 +279,7 @@ public class AidenController extends WorldController
 
 		// board.clear();
 		blocks.clear();
-		
+
 		populateLevel();
 		SoundController.getInstance().play(af.get("BGM_FILE"),
 				af.get("BGM_FILE"), true,
@@ -289,7 +300,7 @@ public class AidenController extends WorldController
 		addObject(goalDoor);
 
 		String pname = "platform";
-		for (int ii = 0; ii<scene.getPlatform().size();ii++) {
+		for (int ii = 0; ii < scene.getPlatform().size(); ii++) {
 			// PolygonObstacle obj;
 			Platform p = scene.getPlatform().get(ii);
 			p.setDensity(BASIC_DENSITY);
@@ -302,7 +313,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < scene.getWoodBlocks().size(); ii ++) {
+		for (int ii = 0; ii < scene.getWoodBlocks().size(); ii++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -323,7 +334,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding stone boxes
-		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii ++) {
+		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -353,6 +364,10 @@ public class AidenController extends WorldController
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
+			if (box.isCheckpoint()) {
+				checkpoints.add(box);
+			}
+
 		}
 		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
 			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
@@ -377,6 +392,10 @@ public class AidenController extends WorldController
 		avatar.setJump(af.AidenJumpTexture);
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
+		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {
+			avatar.setPosition(
+					checkpoints.get(gs.getCheckpoint()).getPosition());
+		}
 		addObject(avatar);
 
 		// Create NPCs
@@ -389,14 +408,14 @@ public class AidenController extends WorldController
 			ch1.setDrawScale(scale);
 
 			ch1.setTexture(af.waterTexture);
-			ch1.setName("wg"+ii);
+			ch1.setName("wg" + ii);
 			npcs.add(ch1);
 			ch1.setDeath(af.WaterDieTexture);
 			ch1.setCharacterSprite(af.WaterWalkTexture);
 
 			addObject(ch1);
 		}
-		
+
 	}
 
 	// Temp
@@ -444,6 +463,13 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+
+		if (this.isActive() && level != gs.getLevel()) {
+			gs.setLevel(level);
+			gs.setCheckpoint(-1);
+			gs.exportToJson();
+		}
+
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
 
@@ -457,7 +483,13 @@ public class AidenController extends WorldController
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
-		boolean notFailure = CollControl.getCollisions(cList, avatar);
+		boolean notFailure = CollControl.getCollisions(cList, avatar, gs,
+				checkpoints);
+		if (CollControl.getCheckpoint() != -1) {
+			gs.setCheckpoint(CollControl.getCheckpoint());
+			gs.exportToJson();
+		}
+
 		if (!notFailure) {
 			setFailure(true);
 		}
@@ -475,12 +507,12 @@ public class AidenController extends WorldController
 		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setDt(dt);
 		avatar.applyForce();
-		
+
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(af.get("JUMP_FILE"),
 					af.get("JUMP_FILE"), false,
 					EFFECT_VOLUME);
-			
+
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -495,7 +527,11 @@ public class AidenController extends WorldController
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
-		
+
+		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
+			gs.setUnlocked(gs.getUnlocked() + 1);
+		}
+
 	}
 
 	/**
@@ -631,20 +667,20 @@ public class AidenController extends WorldController
 		}
 
 		if (spirit) {
-			if (bd1 == avatar && bd2 instanceof FlammableBlock && 
+			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof BurnablePlatform)
-						|| bd2 == avatar && bd1 instanceof FlammableBlock
+					|| bd2 == avatar && bd1 instanceof FlammableBlock
 							&& !(bd1 instanceof BurnablePlatform)) {
 				contact.setEnabled(false);
 			}
 		}
 
-		if (bd1 instanceof BlockAbstract){
-			Vector2 velocity  = ((BlockAbstract) bd1).getLinearVelocity();
+		if (bd1 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
 			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
 		}
-		if (bd2 instanceof BlockAbstract){
-			Vector2 velocity  = ((BlockAbstract) bd2).getLinearVelocity();
+		if (bd2 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
 			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
@@ -710,14 +746,12 @@ public class AidenController extends WorldController
 			canvas.end();
 
 		}
-		
 
 	}
-	
+
 	@Override
-	public void setScene(Scene[] scenes){
+	public void setScene(Scene[] scenes) {
 		this.scene = scenes[level];
 	}
-	
 
 }
