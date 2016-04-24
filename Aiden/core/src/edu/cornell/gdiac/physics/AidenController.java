@@ -34,13 +34,14 @@ import edu.cornell.gdiac.physics.CollisionController;
  * be static. This is the purpose of our AssetState variable; it ensures that
  * multiple instances place nicely with the static assets.
  */
+
 public class AidenController extends WorldController
 		implements ContactListener {
 
 	private AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
-//	private AssetState platformAssetState = AssetState.EMPTY;
+	// private AssetState platformAssetState = AssetState.EMPTY;
 
 	/**
 	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
@@ -57,7 +58,7 @@ public class AidenController extends WorldController
 	/** The density for a bullet */
 	private static final float HEAVY_DENSITY = 50.0f;
 	/** Friction of most platforms */
-//	private static final float BASIC_FRICTION = 0.4f;
+	// private static final float BASIC_FRICTION = 0.4f;
 	/** The restitution for all physics objects */
 	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
@@ -67,11 +68,120 @@ public class AidenController extends WorldController
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
 
+	private static final float[][] START = {
+			{ 1.0f, 5.0f },
+			{ 1.0f, 20.0f },
+			{ 1.0f, 13.0f },
+			{ 1.1125f, 16.5f }
+	};
+	private static final float[][][] WALLS2 = {
+			{ { 1.0f, 0.0f, 30.0f, 1.0f },
+					{ 0.0f, 0.0f, 1f, 22f },
+					{ 1.0f, 21f, 30f, 1f },
+					{ 31.0f, 0.0f, 1f, 22f } },
 
+			{ { 1.0f, 0.0f, 30.0f, 1f },
+					{ 0.0f, 0.0f, 1f, 22f },
+					{ 1.0f, 21f, 30f, 1f },
+					{ 31.0f, 0.0f, 1f, 22f } },
+
+			{ { 1.0f, 0.0f, 30.0f, 1f },
+					{ 0.0f, 0.0f, 1f, 22f },
+					{ 1.0f, 21f, 30f, 1f },
+					{ 31.0f, 0.0f, 1f, 22f },
+					{ 16.25f, 6f, 1f, 15f } },
+			{ { 1.0f, 0.0f, 30.0f, 1f },
+					{ 0.0f, 0.0f, 1f, 22f },
+					{ 1.0f, 21f, 30f, 1f },
+					{ 31.0f, 0.0f, 1f, 22f },
+			}
+	};
+
+	private static final float[][][] PLATFORMS2 = {
+			{},
+
+			{ { 6.5f, 8.0f, 10.0f, 1f },
+					{ 15.5f, 5.0f, 1f, 3f },
+					{ 16.5f, 5.0f, 10.0f, 1f },
+					{ 25.0f, 6.0f, 1f, 2f },
+					{ 25.0f, 8.0f, 6f, 1f },
+					{ 1.0f, 16.0f, 15.0f, 1f },
+					{ 18.0f, 16.0f, 7f, 1f } },
+
+			{ { 1.0f, 10.0f, 3.0f, 1f },
+					{ 3.0f, 5.0f, 4.0f, 1f },
+					{ 10.0f, 5.0f, 4.0f, 1f },
+					{ 26.0f, 7.0f, 5.0f, 1f }
+			},
+			{ { 1f, 7f, 6f, 1f },
+					{ 1f, 15f, 6f, 1f },
+					{ 7f, 11f, 1f, 5f },
+					{ 8f, 11f, 5f, 1f },
+					{ 13f, 11f, 1f, 3f },
+					{ 14f, 8f, 1f, 6f },
+					{ 15f, 13f, 5f, 1f },
+					{ 19f, 11f, 1f, 2f },
+					{ 20f, 11f, 6f, 1f },
+					{ 25f, 12f, 1f, 5f },
+					{ 26f, 16f, 3f, 1f },
+					{ 26f, 6f, 5f, 1f },
+					{ 17.1f, 5f, 5f, 1f },
+			}
+	};
+	
+	private static final float[][][] BPLAT = {
+			{{20f, 2f, 4f, 1f}},
+			{},
+			{},
+			{}
+	};
+
+	/** the vertices for the boxes */
+
+	private static final float[][] BOXES = {
+			{ 6f, 2f, 6f, 4f, 6f, 6f, 6f, 8f, 6f, 10f, 6f, 12f,
+					8f, 2f, 8f, 4f, 8f, 6f, 8f, 8f, 8f, 10f, 8f, 12f,
+					10f, 2f, 10f, 4f, 10f, 6f, 10f, 8f, 10f, 10f, 10f, 12f,
+					12f, 2f, 12f, 4f, 12f, 6f, 12f, 8f, 12f, 10f, 12f, 12f,
+					14f, 2f, 14f, 4f, 14f, 6f, 14f, 8f, 14f, 10f, 14f, 12f,
+					16f, 2f, 16f, 4f, 16f, 6f, 16f, 8f, 16f, 10f, 16f, 12f },
+
+			{ 26.5f, 9f, 28.5f, 9f, 26.5f, 10f, 7f, 2f, 7f, 4f,
+					7f, 6f, 9f, 2f, 11f, 2f,
+					9f, 4f, 11f, 4f
+			},
+			{ 13.5f, 7f, 20.75f, 2f, 20.75f, 6f, 22.75f, 2f, 22.75f, 4f, 24.75f,
+					2f, 24.75f, 8f,
+					8f, 2f, 10f, 2f, 15.5f, 9f },
+			{ 2f, 2f, 6f, 2f, 4f, 2f, 8f, 2f, 10f, 2f, 12f, 2f, 6f, 4f, 6f, 6f,
+					4f, 6f, 2f, 6f, 8f, 6f, 10f, 6f, 8f, 8f, 8f, 10f, 6f, 16f,
+					6f, 17f, 27f, 1f, 29f, 1f, 25f, 1f, 16.5f, 7f } };
+
+	/** the vertices for stone boxes */
+
+	private static final float[][] STONE_BOXES = {
+			{},
+
+			{ 16.0f, 1.0f, },
+
+			{ 20.75f, 4f, 22.75f, 6f, 22.75f, 8f, 24.75f, 4f, 24.75f, 6f,
+
+					24.75f, 10f, 15.5f, 11f/* , 20.75f, 13.0f */ },
+			{ 2f, 4f, 4f, 4f, 10f, 4f, 12f, 4f, 12f, 6f, 12f, 8f, 8f, 4f,
+					12f, 10f, 10f, 10f, 10f, 8f, 16f, 9f } };
+
+	/** WaterGuard Positions */
+	private static final float[][] WATERGUARDS = { {}, { 21.0f, 11.0f },
+			{ 21.0f, 11.0f },
+			{ 16f, 1f, 9f, 16f } };
+	/** fuel blocks */
+	private static final float[][] FUELS = { { 2f, 2f }, { 29.5f, 9f },
+			{ 13f, 8f },
+			{ 17f, 14f, 18f, 7f } };
 
 	private static final float[][] ROPE = { {}, {},
-			{ 4f, 10.5f, 3f, 5.5f}, 
-			{ 22f, 19f, 22.1f, 5f}};
+			{ 4f, 10.5f, 3f, 5.5f },
+			{ 22f, 19f, 22.1f, 5f } };
 
 	// Physics objects for the game
 	// Characters
@@ -313,8 +423,8 @@ public class AidenController extends WorldController
 			setFailure(true);
 			return false;
 		}
-		
-		if(isFailure()){
+
+		if (isFailure()) {
 			avatar.setFail(true);
 		}
 
@@ -427,14 +537,14 @@ public class AidenController extends WorldController
 
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof Stone)){
-				if (Math.abs(bd1.getVY()) >= 1){
+					&& bd1 instanceof Stone)) {
+				if (Math.abs(bd1.getVY()) >= 1) {
 					setFailure(true);
 				}
 			}
-			if((avatar.getTopName().equals(fd1) && avatar != bd2
-							&& bd2 instanceof Stone)){
-				if (Math.abs(bd2.getVY()) >= 1){
+			if ((avatar.getTopName().equals(fd1) && avatar != bd2
+					&& bd2 instanceof Stone)) {
+				if (Math.abs(bd2.getVY()) >= 1) {
 					setFailure(true);
 				}
 			}
@@ -454,6 +564,10 @@ public class AidenController extends WorldController
 						&& bd1 instanceof StoneBlock) ||
 						(w.getTopName().equals(fd1) && w != bd2
 								&& bd2 instanceof StoneBlock)) {
+
+					fix1.setRestitution(0);
+					fix2.setRestitution(0);
+
 					w.setDead(true);
 				}
 			}
@@ -524,6 +638,7 @@ public class AidenController extends WorldController
 				contact.setEnabled(false);
 			}
 		}
+
 		if (bd1 instanceof BlockAbstract){
 			Vector2 velocity  = ((BlockAbstract) bd1).getLinearVelocity();
 			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));

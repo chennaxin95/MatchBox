@@ -30,5 +30,7 @@ public class PointJsonRep  implements Json.Serializable{
 	public void read(Json json, JsonValue jsonData) {
 		// TODO Auto-generated method stub
 		
+		
+		
 	}
 }
