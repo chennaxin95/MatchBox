@@ -39,6 +39,8 @@ public class AidenController extends WorldController
 		implements ContactListener {
 
 	private AssetFile af;
+	
+	private Scene[] scenes;
 
 	/** Track asset loading from all instances and subclasses */
 	// private AssetState platformAssetState = AssetState.EMPTY;
@@ -158,11 +160,15 @@ public class AidenController extends WorldController
 		// board.clear();
 		blocks.clear();
 		
+		createScenes();
+		setScene(this.scenes);
+		
 		populateLevel();
 		SoundController.getInstance().play(af.get("BGM_FILE"),
 				af.get("BGM_FILE"), true,
 				EFFECT_VOLUME);
 		SoundController.getInstance().setTimeLimit(Long.MAX_VALUE);
+		
 	}
 
 	/**
@@ -170,13 +176,14 @@ public class AidenController extends WorldController
 	 */
 	private void populateLevel() {
 		// Add level goal
+		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
 		float dheight = af.goalTile.getRegionHeight() / scale.y;
 		goalDoor = scene.getGoalDoor();
 		goalDoor.setDrawScale(scale);
 		goalDoor.setTexture(af.goalTile);
 		addObject(goalDoor);
-
+		
 		String pname = "platform";
 		for (int ii = 0; ii<scene.getPlatform().size();ii++) {
 			// PolygonObstacle obj;
@@ -606,6 +613,15 @@ public class AidenController extends WorldController
 	@Override
 	public void setScene(Scene[] scenes){
 		this.scene = scenes[level];
+	}
+	
+	private void createScenes(){
+		Scene[] scenes = new Scene[4];
+		scenes[0] = new Scene("Tutorial1.json");
+		scenes[1] = new Scene("Tutorial2.json");
+		scenes[2] = new Scene("Tutorial3.json");
+		scenes[3] = new Scene("Tutorial4.json");
+		this.scenes = scenes;
 	}
 	
 
