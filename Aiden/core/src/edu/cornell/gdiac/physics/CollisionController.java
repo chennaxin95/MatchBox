@@ -29,7 +29,7 @@ public class CollisionController {
 	}
 
 	public boolean getCollisions(Array<Contact> cList, AidenModel avatar,
-			GameSave gs, PooledList<FuelBlock> checkpoints) {
+			GameSave gs, Array<FuelBlock> checkpoints) {
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
 			Fixture fix2 = c.getFixtureB();
@@ -75,10 +75,12 @@ public class CollisionController {
 								fb.activateBurnTimer();
 								// if it's a fuel box
 								if (fb instanceof FuelBlock) {
+									FuelBlock fbb = (FuelBlock) fb;
 									avatar.addFuel(
-											((FuelBlock) fb).getFuelBonus());
-									if (((FuelBlock) fb).isCheckpoint()) {
-										int dex = checkpoints.indexOf(fb);
+											fbb.getFuelBonus());
+									if (fbb.isCheckpoint()) {
+										int dex = checkpoints.indexOf(fbb,
+												true);
 										if (gs.getCheckpoint() != dex) {
 											chkptReached = dex;
 										}
@@ -104,13 +106,16 @@ public class CollisionController {
 							fb.activateBurnTimer();
 							// if it's a fuel box
 							if (fb instanceof FuelBlock) {
-								avatar.addFuel(((FuelBlock) fb).getFuelBonus());
-								if (((FuelBlock) fb).isCheckpoint()) {
-									int dex = checkpoints.indexOf(fb);
+								FuelBlock fbb = (FuelBlock) fb;
+								avatar.addFuel(
+										fbb.getFuelBonus());
+								if (fbb.isCheckpoint()) {
+									int dex = checkpoints.indexOf(fbb, true);
 									if (gs.getCheckpoint() != dex) {
 										chkptReached = dex;
 									}
 								}
+
 							}
 						}
 

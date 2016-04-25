@@ -62,7 +62,6 @@ public class Scene implements SceneInterface {
 				int max_walk_speed = aiden.getInt("max_walk");
 				int jump_height = aiden.getInt("jump_height");
 				int start_fuel = aiden.getInt("start_fuel");
-				System.out.println(start_pos_x+" "+start_pos_y+" "+scale_x+" "+scale_y);
 				aidenModel = new AidenModel(start_pos_x, start_pos_y,
 						scale_x, scale_y, fright);
 			}

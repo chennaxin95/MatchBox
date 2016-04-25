@@ -56,7 +56,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	/** List of all WorldControllers */
 	private WorldController[] controllers;
 	/** List of scene objects */
-	private Scene[] scenes;
+	// private Scene[] scenes;
 	/** A parser for JSON files */
 	private JSONParser jsonParser;
 	/** Track asset loading from all instances and subclasses */
@@ -269,9 +269,9 @@ public class GDXRoot extends Game implements ScreenListener {
 			return;
 		}
 		af.loadContent(manager);
-		for (Scene s : scenes) {
+		/*for (Scene s : scenes) {
 			s.setAssetFile(af);
-		}
+		}*/
 		for (WorldController c : controllers) {
 			c.setAssetFile(af);
 		}
@@ -296,7 +296,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 		controllers = new WorldController[5];
-		scenes = new Scene[4];
+		//scenes = new Scene[4];
 		controllers[0] = new AidenController(0);
 		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
@@ -305,14 +305,14 @@ public class GDXRoot extends Game implements ScreenListener {
 		current = 0;
 		controllers[2] = new AidenController(2);
 		controllers[4] = new AidenController(3);
-		scenes[0] = new Scene("Tutorial1.json");
+		/*scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
 		controllers[0].setScene(scenes);
 		controllers[1].setScene(scenes);
 		controllers[2].setScene(scenes);
-		controllers[4].setScene(scenes);
+		controllers[4].setScene(scenes);*/
 
 		// controllers[2].preLoadContent(manager);
 		loading.setScreenListener(this);
@@ -394,6 +394,7 @@ public class GDXRoot extends Game implements ScreenListener {
 			loading.dispose();
 			loading = null;
 		} else if (exitCode == WorldController.EXIT_NEXT) {
+			System.out.println("next level"+current);
 			boolean isle = controllers[current] instanceof LevelEditor;
 			// currentS = (isle) ? 0 : (currentS + 1) % scenes.length;
 			// if (currentS == scenes.length - 1 || isle) {
@@ -402,7 +403,6 @@ public class GDXRoot extends Game implements ScreenListener {
 			// if (controllers[current] instanceof AidenController){
 			//// controllers[current].setScene(scenes[currentS]);
 			// }
-
 			controllers[current].reset();
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_PREV) {

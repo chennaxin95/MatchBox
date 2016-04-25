@@ -1,6 +1,6 @@
 {
-level: 2
+level: 0
 checkpoint: -1
-unlocked: 1
+unlocked: 0
 filename: savedGame.json
 }
