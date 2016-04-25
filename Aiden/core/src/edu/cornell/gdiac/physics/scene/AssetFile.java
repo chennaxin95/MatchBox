@@ -44,6 +44,8 @@ public class AssetFile {
 	public TextureRegion black;
 	public TextureRegion longRope;
 	public TextureRegion trapDoor;
+	public TextureRegion barOutter;
+	public TextureRegion barInner;
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion homeButton;
@@ -98,6 +100,8 @@ public class AssetFile {
 		files.put("RESUME_BUTTON", "shared/resume.png");
 		files.put("RESTART_BUTTON", "shared/restart.png");
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
+		files.put("BAR_OUTTER", "platform/barOuter.png");
+		files.put("BAR_INNER", "platform/barInner.png");
 		System.out.println(files);
 	}
 
@@ -185,6 +189,8 @@ public class AssetFile {
 		restartButton = createTexture(manager, files.get("RESTART_BUTTON"), false);
 		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
+		barOutter = createTexture(manager, files.get("BAR_OUTTER"),false);
+		barInner = createTexture(manager, files.get("BAR_INNER"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
