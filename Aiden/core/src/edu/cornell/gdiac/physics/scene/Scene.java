@@ -8,14 +8,18 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Platform;
+import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
+import edu.cornell.gdiac.physics.blocks.TrapDoor;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
 import edu.cornell.gdiac.physics.character.WaterGuard;
+import edu.cornell.gdiac.physics.obstacle.Obstacle;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
 
 public class Scene implements SceneInterface {
@@ -29,6 +33,9 @@ public class Scene implements SceneInterface {
 	private ArrayList<StoneBlock> stoneBlocks = new ArrayList<StoneBlock>();
 	private ArrayList<WaterGuard> guards = new ArrayList<WaterGuard>();
 	private ArrayList<Platform> platforms = new ArrayList<Platform>();
+	private ArrayList<Rope> ropes = new ArrayList<Rope>();
+	private ArrayList<TrapDoor> trapdoors = new ArrayList<TrapDoor>();
+	private ArrayList<BurnablePlatform> bplatforms = new ArrayList<BurnablePlatform>();
 
 	private BlockAbstract goalDoor;
 
@@ -91,8 +98,8 @@ public class Scene implements SceneInterface {
 				int fuels = obj.getInt("fuels");
 				if (material.equals("wood")) {
 					woodBlocks
-							.add(new FlammableBlock(x, y, b_scale_x, b_scale_y,
-									burn_spread, burn_time));
+					.add(new FlammableBlock(x, y, b_scale_x, b_scale_y,
+							burn_spread, burn_time));
 				} else {
 					if (material.equals("stone")) {
 						stoneBlocks.add(
@@ -111,8 +118,22 @@ public class Scene implements SceneInterface {
 												b_scale_y),
 										1));
 							} else {
-								System.err
-										.println("new material : " + material);
+								if(material.equals("rope")){
+									ropes.add(new Rope(x,y,b_scale_x, b_scale_y));
+								}else{
+									boolean is_left = obj.getBoolean("isLeft");
+									if(material.equals("trapdoor")){
+										trapdoors.add(new TrapDoor(x,y,b_scale_x, b_scale_y, is_left));
+									}else{
+										if(material.equals("burnable_platform")){
+											bplatforms.add(new BurnablePlatform(new Rectangle(x,y,b_scale_x, b_scale_y),1));
+										}else{
+											System.err
+											.println("new material : " + material);
+										}
+									}
+								}
+
 							}
 						}
 					}
@@ -164,14 +185,16 @@ public class Scene implements SceneInterface {
 		return aidenModel;
 	}
 
-	/** All the blocks but goal door */
+	/** All the blocks but goal door and ropes */
 	public ArrayList<BlockAbstract> getBlocks() {
 		ArrayList<BlockAbstract> container = new ArrayList<BlockAbstract>();
 
 		container.addAll(this.getWoodBlocks());
-		container.addAll(this.getStoneBlocks());
+		container.addAll(this.getStoneBlocks(true));
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
+		container.addAll(this.getTrapDoors());
+		container.addAll(this.getTrapDoors());
 		return container;
 	}
 
@@ -207,7 +230,12 @@ public class Scene implements SceneInterface {
 	}
 
 	@Override
-	public ArrayList<StoneBlock> getStoneBlocks() {
+	public ArrayList<StoneBlock> getStoneBlocks(boolean trapdoor) {
+		if(trapdoor){
+			ArrayList<StoneBlock> container = new ArrayList<StoneBlock>();
+			container.addAll(stoneBlocks);
+			container.addAll(trapdoors);
+		}
 		return stoneBlocks;
 	}
 
@@ -219,5 +247,51 @@ public class Scene implements SceneInterface {
 	public BlockAbstract getGoalDoor() {
 		return goalDoor;
 	}
+
+	@Override
+	public ArrayList<Rope> getRopes() {
+		// TODO Auto-generated method stub
+		return ropes;
+	}
+
+	@Override
+	public ArrayList<TrapDoor> getTrapDoors() {
+		// TODO Auto-generated method stub
+		return trapdoors;
+	}
+
+	@Override
+	public ArrayList<FlammableBlock> getFlammables(boolean rope, boolean fuel, boolean bplatform) {
+		// TODO Auto-generated method stub
+		ArrayList<FlammableBlock> container = new ArrayList<FlammableBlock>();
+		container.addAll(woodBlocks);
+		if (rope){
+			//container.addAll(ropes);
+		}
+		if(fuel){
+			container.addAll(fuelBlocks);
+		}
+		if(bplatform){
+			container.addAll(bplatforms);
+		}
+		return container;
+	}
+
+	@Override
+	public ArrayList<Obstacle> getObstacles(boolean aiden, boolean npc) {
+		// TODO Auto-generated method stub
+		ArrayList<Obstacle> container = new ArrayList<Obstacle>();
+		container.addAll(getBlocks());
+		container.addAll(ropes);
+		if(aiden){
+			container.add(aidenModel);
+		}
+		if(npc){
+			container.addAll(this.getGuards());
+		}
+		return container;
+	}
+
+
 
 }

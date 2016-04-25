@@ -228,11 +228,11 @@ public class AidenController extends WorldController
 		}
 
 		// Adding stone boxes
-		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii++) {
+		for (int ii = 0; ii < scene.getStoneBlocks(false).size(); ii++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
-			StoneBlock box = scene.getStoneBlocks().get(ii);
+			StoneBlock box = scene.getStoneBlocks(false).get(ii);
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
@@ -308,6 +308,21 @@ public class AidenController extends WorldController
 			ch1.setCharacterSprite(af.WaterWalkTexture);
 
 			addObject(ch1);
+		}
+		
+		// Ropes
+		
+		for(int ii = 0; ii<scene.getRopes().size(); ii +=2){
+			Rope rope = scene.getRopes().get(ii);
+			rope.setTexture(af.ropeTexture);
+			addObject(rope);
+		}
+		
+		// Trapdoor
+		
+		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
+			TrapDoor td = scene.getTrapDoors().get(ii);
+			addObject(td);
 		}
 
 	}
