@@ -8,8 +8,8 @@
 			"y": 2.425
 		}
 	],
-	"scale_x": 0.100884005,
-	"scale_y": 1.890748,
+	"scale_x": 1,
+	"scale_y": 1.6,
 	"density": 0,
 	"start_fuel": 30,
 	"critical_fuel": 15,
@@ -24,7 +24,7 @@
 	{
 		"id": 0,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 0.5,
 			"y": 12
@@ -47,7 +47,7 @@
 	{
 		"id": 1,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 0.5,
 			"y": 3
@@ -70,7 +70,7 @@
 	{
 		"id": 2,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 16.5,
 			"y": 0.5
@@ -93,7 +93,7 @@
 	{
 		"id": 3,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 31.5,
 			"y": 9.5
@@ -116,7 +116,7 @@
 	{
 		"id": 4,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 16.5,
 			"y": 17.5
@@ -139,7 +139,7 @@
 	{
 		"id": 5,
 		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
+		"texture": "shared/earthtile.png",
 		"pos": {
 			"x": 1.5,
 			"y": 17.5

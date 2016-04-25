@@ -69,6 +69,7 @@ public class InputController {
 	/** Whether the exit button was pressed. */
 	private boolean exitPressed;
 	private boolean exitPrevious;
+	private boolean didPause;
 
 	/** Whether spirit mode was toggled */
 	private boolean spiritPressed;
@@ -273,6 +274,11 @@ public class InputController {
 	public boolean didSpirit() {
 		return spiritPressed && !spiritPrevious;
 	}
+	
+	private boolean pausePrevious;
+	public boolean didPause(){
+		return this.didPause && !pausePrevious;
+	}
 
 	/**
 	 * Creates a new input controller
@@ -309,6 +315,7 @@ public class InputController {
 		nextPrevious = nextPressed;
 		prevPrevious = prevPressed;
 		spiritPrevious = spiritPressed;
+		pausePrevious = didPause;
 		
 		hasNewCharacterPressed=newCharacterPressed;
 		hasNewBlockPressed=newBlockPressed;	
@@ -394,7 +401,10 @@ public class InputController {
 				|| (Gdx.input.isKeyPressed(Input.Keys.N));
 		exitPressed = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
-
+		
+		didPause = (secondary && exitPressed)
+				||Gdx.input.isKeyPressed(Input.Keys.BACKSPACE);
+		
 		// Unable to detect redundance here
 		leftClicked =  (secondary && nextPressed) || 
 				(Gdx.input.isButtonPressed(Input.Buttons.LEFT));
@@ -460,9 +470,6 @@ public class InputController {
 			vertical -= 1f;
 		}
 
-		// Toggling spirit mode
-		spiritPressed = Gdx.input.isKeyPressed(Input.Keys.TAB);
-
 		// Mouse results
 		tertiaryPressed = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 		crosshair.set(Gdx.input.getX(), Gdx.input.getY());
@@ -470,6 +477,7 @@ public class InputController {
 		crosshair.y += bounds.height;
 		clampPosition(bounds);
 	}
+	
 
 	/**
 	 * Clamp the cursor position so that it does not go outside the window

@@ -23,6 +23,12 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.blocks.Rope;
@@ -58,8 +64,10 @@ public abstract class WorldController implements Screen {
 		/** Assets are complete */
 		COMPLETE
 	}
+	//Menu stuffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+	ImageButton pauseButton;
 
-	private AssetFile af;
+	public AssetFile af;
 
 	/** Track asset loading from all instances and subclasses */
 	protected AssetState worldAssetState = AssetState.EMPTY;
@@ -75,7 +83,9 @@ public abstract class WorldController implements Screen {
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
 	}
-
+	
+	protected boolean pause = false;
+	protected int instr = 0;
 	/** Exit code for quitting the game */
 	public static final int EXIT_QUIT = 0;
 	/** Exit code for advancing to next level */
@@ -93,9 +103,9 @@ public abstract class WorldController implements Screen {
 	public static final int WORLD_POSIT = 2;
 
 	/** Width of the game world in Box2d units */
-	protected static final float DEFAULT_WIDTH = 32.0f;
+	protected static final float DEFAULT_WIDTH = 60.0f;
 	/** Height of the game world in Box2d units */
-	protected static final float DEFAULT_HEIGHT = 18.0f;
+	protected static final float DEFAULT_HEIGHT = 33.75f;
 	/** The default value of gravity (going down) */
 	protected static final float DEFAULT_GRAVITY = -4.9f;
 
@@ -126,6 +136,7 @@ public abstract class WorldController implements Screen {
 	/** Countdown active for winning or losing */
 	private int countdown;
 	private boolean drawFail;
+	protected Stage stage;
 
 	/**
 	 * Returns true if debug mode is active.
@@ -362,7 +373,8 @@ public abstract class WorldController implements Screen {
 	 * This method disposes of the world and creates a new one.
 	 */
 	public abstract void reset();
-
+	
+	protected float count = 0.2f;
 	/**
 	 * Returns whether to process the update loop
 	 *
@@ -375,6 +387,33 @@ public abstract class WorldController implements Screen {
 	 * @return whether to process the update loop
 	 */
 	public boolean preUpdate(float dt) {
+		if(pause && instr != 0){
+			if (count <= 0){
+				if (instr == 1){
+					instr = 0;
+					count = 0.2f;
+					this.pause();
+					return false;
+				}
+				if(instr == 2){
+					instr = 0;
+					count = 0.2f;
+					listener.exitScreen(this, EXIT_NEXT);
+					return false;
+				}
+				if(instr == 3){
+					instr = 0;
+					count = 0.2f;
+					this.pause();
+					reset();
+				}
+			}
+			else{
+				count -= dt;
+				return false;
+			}
+			
+		}
 		InputController input = InputController.getInstance();
 		input.readInput(bounds, scale);
 		if (listener == null) {
@@ -390,8 +429,12 @@ public abstract class WorldController implements Screen {
 		if (input.didReset()) {
 			reset();
 		}
-
+		
 		// Now it is time to maybe switch screens.
+		if (input.didPause()){
+			this.pause();
+			return false;
+		}
 		if (input.didExit()) {
 			listener.exitScreen(this, EXIT_QUIT);
 			return false;
@@ -440,6 +483,10 @@ public abstract class WorldController implements Screen {
 	 *            Number of seconds since last animation frame
 	 */
 	public void postUpdate(float dt) {
+		
+		if (pause){
+			return;
+		}
 		// Add any objects created by actions
 		while (!addQueue.isEmpty()) {
 			addObject(addQueue.poll());
@@ -507,7 +554,6 @@ public abstract class WorldController implements Screen {
 
 		// drawing the fuel level
 		if (avatar != null) {
-			System.out.println("ahaha");
 			String fuelT = "fuel: " + avatar.getFuel();
 			canvas.drawText(fuelT, af.displayFont, 1000, 1000);
 		}
@@ -554,7 +600,7 @@ public abstract class WorldController implements Screen {
 	 * is also paused before it is destroyed.
 	 */
 	public void pause() {
-		// TODO Auto-generated method stub
+		this.pause = !this.pause;
 	}
 
 	/**
@@ -594,5 +640,4 @@ public abstract class WorldController implements Screen {
 	public void setScene(Scene[] scenes){
 		
 	}
-
 }

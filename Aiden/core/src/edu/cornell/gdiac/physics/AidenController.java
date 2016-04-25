@@ -38,8 +38,6 @@ import edu.cornell.gdiac.physics.CollisionController;
 public class AidenController extends WorldController
 		implements ContactListener {
 
-	private AssetFile af;
-	
 	private Scene[] scenes;
 
 	/** Track asset loading from all instances and subclasses */
@@ -78,6 +76,7 @@ public class AidenController extends WorldController
 	// Characters
 	/** Reference to the character avatar */
 	private AidenModel avatar;
+	Vector2 prevMovement;
 	/** Reference to the list of non-player characters */
 	private ArrayList<CharacterModel> npcs = new ArrayList<CharacterModel>();
 	// Blocks
@@ -113,7 +112,6 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-
 		// FileHandle file = Gdx.files.local("aiden-example.json");
 		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
 				objects);
@@ -245,7 +243,7 @@ public class AidenController extends WorldController
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
-			box.ratio = new Vector2(.5f, .5f);
+			box.ratio = new Vector2(1f, 1f);
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
@@ -261,8 +259,8 @@ public class AidenController extends WorldController
 			ropes.add(r);
 		}
 		// Create Aiden
-		dwidth = af.avatarTexture.getRegionWidth() / scale.x - 0.5f;
-		dheight = af.avatarTexture.getRegionHeight() / scale.y - 0.4f;
+		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
+		dheight = af.avatarTexture.getRegionHeight() / scale.y;
 		avatar = scene.getAidenModel();
 		avatar.setDrawScale(scale);
 		avatar.setTexture(af.avatarTexture);
@@ -276,8 +274,8 @@ public class AidenController extends WorldController
 		addObject(avatar);
 
 		// Create NPCs
-		dwidth = af.waterTexture.getRegionWidth() / scale.x - 0.8f;
-		dheight = (af.waterTexture.getRegionHeight() / scale.y) - 0.8f;
+		dwidth = af.waterTexture.getRegionWidth() / scale.x;
+		dheight = (af.waterTexture.getRegionHeight() / scale.y);
 
 		for (int ii = 0; ii < scene.getGuards().size(); ii += 2) {
 
@@ -326,6 +324,51 @@ public class AidenController extends WorldController
 
 		return true;
 	}
+	
+	//---------------------------------------------------------------------//
+	public Vector2 posTemp;
+	public Vector2 largeSize = new Vector2(10f, 4f);
+	public Color homeC = Color.WHITE;
+	public Vector2 homeScreen = new Vector2(800, 476);
+	public Vector2 homePos = new Vector2(800, 476).scl(1/32f);
+	
+	public Color resuC = Color.WHITE;
+	public Vector2 resuScreen = new Vector2(800, 732);
+	public Vector2 resuPos = new Vector2(800, 732).scl(1/32f);
+	
+	public Color restC = Color.WHITE;
+	public Vector2 restScreen = new Vector2(800, 220);
+	public Vector2 restPos = new Vector2(800, 220).scl(1/32f);
+	
+	public void buttonPressed(){
+		boolean isPressed = InputController.getInstance().didTertiary();
+		if (isPressed){
+			Vector2 mPos = InputController.getInstance().getCrossHair();
+			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
+					mPos.y >= homePos.y && mPos.y<=homePos.y+largeSize.y){
+				homeC = Color.GRAY;
+				instr = 2;
+				return;
+			}
+			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
+					mPos.y >= resuPos.y && mPos.y<=resuPos.y+largeSize.y){
+				resuC = Color.GRAY;
+				instr = 1;
+				return;
+			}
+			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeSize.x &&
+					mPos.y >= restPos.y && mPos.y<=restPos.y+largeSize.y){
+				restC = Color.GRAY;
+				instr = 3;
+				return;
+			}
+		}
+		if(count == 0.2f){
+			resuC = Color.WHITE;
+			homeC = Color.WHITE;
+			restC = Color.WHITE;
+		}
+	}
 
 	/**
 	 * The core gameplay loop of this world.
@@ -340,43 +383,55 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+		if (pause){
+			avatar.resume = true;
+			prevMovement = avatar.getLinearVelocity();
+			buttonPressed();
+			return;
+		}
+		
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
-
 		}
 
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
-		aiController.nextMove(npcs);
-
-		Array<Contact> cList = world.getContactList();
-		CollisionController CollControl = new CollisionController();
-		boolean notFailure = CollControl.getCollisions(cList, avatar);
-		if (!notFailure) {
-			setFailure(true);
+		
+		if (avatar.resume){
+			avatar.setLinearVelocity(prevMovement);
+			avatar.resume = false;
 		}
+		else{
+			aiController.nextMove(npcs);
 
-		double accX = (spirit)
-				? InputController.getInstance().getHorizontal() * 1.5
-				: InputController.getInstance().getHorizontal();
-		double accY = (spirit)
-				? InputController.getInstance().getVertical() * 1.5
-				: InputController.getInstance().getVertical();
+			Array<Contact> cList = world.getContactList();
+			CollisionController CollControl = new CollisionController();
+			boolean notFailure = CollControl.getCollisions(cList, avatar);
+			if (!notFailure) {
+				setFailure(true);
+			}
 
-		// Process actions in object model
-		avatar.setMovement((float) accX * 9);
-		avatar.setMovementY((float) accY * 8);
-		avatar.setJumping(InputController.getInstance().didPrimary());
-		avatar.setDt(dt);
-		avatar.applyForce();
+			double accX = (spirit)
+					? InputController.getInstance().getHorizontal() * 1.5
+					: InputController.getInstance().getHorizontal();
+			double accY = (spirit)
+					? InputController.getInstance().getVertical() * 1.5
+					: InputController.getInstance().getVertical();
+
+			// Process actions in object model
+			avatar.setMovement((float) accX * 9);
+			avatar.setMovementY((float) accY * 8);
+			avatar.setJumping(InputController.getInstance().didPrimary());
+			avatar.setDt(dt);
+			avatar.applyForce();
+		}
 		
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(af.get("JUMP_FILE"),
 					af.get("JUMP_FILE"), false,
 					EFFECT_VOLUME);
-			
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -384,15 +439,13 @@ public class AidenController extends WorldController
 			npc.applyForce();
 		}
 
-		// Detect contacts -- should be moved to a separate Controller
-
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
-		
 	}
+
 
 	/**
 	 * Callback method for the start of a collision
@@ -567,6 +620,16 @@ public class AidenController extends WorldController
 				obj.draw(canvas);
 			}
 		}
+		if(pause){
+			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+			Vector2 pos1 = canvas.relativeVector(0, 0);
+			canvas.draw(af.black, pos1.x, pos1.y);
+			canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y, 320, 128);
+			posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+			canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y, 320, 128);
+			posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+			canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y, 320, 128);
+		}
 		canvas.end();
 		if (debug) {
 			canvas.beginDebug(1, 1);
@@ -595,18 +658,6 @@ public class AidenController extends WorldController
 			canvas.end();
 			avatar.setComplete(true);
 		}
-
-		// drawing the fuel level
-		if (avatar != null) {
-			canvas.begin(avatar.getX(), avatar.getY());
-			// canvas.begin();
-			Vector2 pos = canvas.relativeVector(512, 400);
-			String fuelT = "fuel: " + (int) avatar.getFuel();
-			canvas.drawText(fuelT, af.fuelFont, pos.x, pos.y);
-			canvas.end();
-
-		}
-		
 
 	}
 	
