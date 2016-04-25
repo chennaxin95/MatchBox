@@ -20,6 +20,7 @@ import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.blocks.*;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
+import edu.cornell.gdiac.physics.scene.GameSave;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -40,6 +41,9 @@ public class AidenController extends WorldController
 
 	private Scene[] scenes;
 
+	/** The game save shared across all levels */
+	private static GameSave gs = new GameSave("savedGame.json");
+
 	/** Track asset loading from all instances and subclasses */
 	// private AssetState platformAssetState = AssetState.EMPTY;
 
@@ -49,6 +53,8 @@ public class AidenController extends WorldController
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
+
+	private Array<FuelBlock> checkpoints = new Array<FuelBlock>();
 
 	// Physics constants for initialization
 	/** The new heavier gravity for this world (so it is not so floaty) */
@@ -130,6 +136,11 @@ public class AidenController extends WorldController
 		this.af = a;
 	}
 
+	/** Sets game save file */
+	public void setGameSave(GameSave s) {
+		gs = s;
+	}
+
 	/**
 	 * Resets the status of the game so that we can play again.
 	 *
@@ -196,7 +207,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < scene.getWoodBlocks().size(); ii ++) {
+		for (int ii = 0; ii < scene.getWoodBlocks().size(); ii++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -217,7 +228,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding stone boxes
-		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii ++) {
+		for (int ii = 0; ii < scene.getStoneBlocks().size(); ii++) {
 			TextureRegion texture = af.woodTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -247,6 +258,10 @@ public class AidenController extends WorldController
 			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
+			if (box.isCheckpoint()) {
+				checkpoints.add(box);
+			}
+
 		}
 		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
 			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
@@ -271,6 +286,10 @@ public class AidenController extends WorldController
 		avatar.setJump(af.AidenJumpTexture);
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
+		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {
+			avatar.setPosition(
+					checkpoints.get(gs.getCheckpoint()).getPosition());
+		}
 		addObject(avatar);
 
 		// Create NPCs
@@ -283,14 +302,14 @@ public class AidenController extends WorldController
 			ch1.setDrawScale(scale);
 
 			ch1.setTexture(af.waterTexture);
-			ch1.setName("wg"+ii);
+			ch1.setName("wg" + ii);
 			npcs.add(ch1);
 			ch1.setDeath(af.WaterDieTexture);
 			ch1.setCharacterSprite(af.WaterWalkTexture);
 
 			addObject(ch1);
 		}
-		
+
 	}
 
 	// Temp
@@ -389,44 +408,55 @@ public class AidenController extends WorldController
 			buttonPressed();
 			return;
 		}
-		
+
+		if (this.isActive() && level != gs.getLevel()) {
+			gs.setLevel(level);
+			gs.setCheckpoint(-1);
+			gs.exportToJson();
+		}
+
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
+		}
+		
+
+		if (avatar.resume){
+			avatar.setLinearVelocity(prevMovement);
+			avatar.resume = false;
 		}
 
 		// if not in spirit mode or not on ladder, then not climbing
 		avatar.setClimbing(false);
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
+		aiController.nextMove(npcs);
+
+		Array<Contact> cList = world.getContactList();
+		CollisionController CollControl = new CollisionController();
+		boolean notFailure = CollControl.getCollisions(cList, avatar, gs,
+				checkpoints);
+		if (CollControl.getCheckpoint() != -1) {
+			gs.setCheckpoint(CollControl.getCheckpoint());
+			gs.exportToJson();
+		}
+
+		if (!notFailure) {
+			setFailure(true);
+		}
 		
-		if (avatar.resume){
-			avatar.setLinearVelocity(prevMovement);
-			avatar.resume = false;
-		}
-		else{
-			aiController.nextMove(npcs);
+		double accX = (spirit)
+				? InputController.getInstance().getHorizontal() * 1.5
+				: InputController.getInstance().getHorizontal();
+		double accY = (spirit)
+				? InputController.getInstance().getVertical() * 1.5
+				: InputController.getInstance().getVertical();
 
-			Array<Contact> cList = world.getContactList();
-			CollisionController CollControl = new CollisionController();
-			boolean notFailure = CollControl.getCollisions(cList, avatar);
-			if (!notFailure) {
-				setFailure(true);
-			}
-
-			double accX = (spirit)
-					? InputController.getInstance().getHorizontal() * 1.5
-					: InputController.getInstance().getHorizontal();
-			double accY = (spirit)
-					? InputController.getInstance().getVertical() * 1.5
-					: InputController.getInstance().getVertical();
-
-			// Process actions in object model
-			avatar.setMovement((float) accX * 9);
-			avatar.setMovementY((float) accY * 8);
-			avatar.setJumping(InputController.getInstance().didPrimary());
-			avatar.setDt(dt);
-			avatar.applyForce();
-		}
+		// Process actions in object model
+		avatar.setMovement((float) accX * 9);
+		avatar.setMovementY((float) accY * 8);
+		avatar.setJumping(InputController.getInstance().didPrimary());
+		avatar.setDt(dt);
+		avatar.applyForce();
 		
 		if (avatar.isJumping()) {
 			SoundController.getInstance().play(af.get("JUMP_FILE"),
@@ -444,6 +474,10 @@ public class AidenController extends WorldController
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
+		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
+			gs.setUnlocked(level + 1);
+		}
+
 	}
 
 
@@ -580,20 +614,20 @@ public class AidenController extends WorldController
 		}
 
 		if (spirit) {
-			if (bd1 == avatar && bd2 instanceof FlammableBlock && 
+			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof BurnablePlatform)
-						|| bd2 == avatar && bd1 instanceof FlammableBlock
+					|| bd2 == avatar && bd1 instanceof FlammableBlock
 							&& !(bd1 instanceof BurnablePlatform)) {
 				contact.setEnabled(false);
 			}
 		}
 
-		if (bd1 instanceof BlockAbstract){
-			Vector2 velocity  = ((BlockAbstract) bd1).getLinearVelocity();
+		if (bd1 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
 			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
 		}
-		if (bd2 instanceof BlockAbstract){
-			Vector2 velocity  = ((BlockAbstract) bd2).getLinearVelocity();
+		if (bd2 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
 			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
@@ -659,14 +693,25 @@ public class AidenController extends WorldController
 			avatar.setComplete(true);
 		}
 
+		// drawing the fuel level
+		if (avatar != null) {
+			canvas.begin(avatar.getX(), avatar.getY());
+			// canvas.begin();
+			Vector2 pos = canvas.relativeVector(512, 400);
+			String fuelT = "fuel: " + (int) avatar.getFuel();
+			canvas.drawText(fuelT, af.fuelFont, pos.x, pos.y);
+			canvas.end();
+
+		}
+
 	}
-	
+
 	@Override
-	public void setScene(Scene[] scenes){
+	public void setScene(Scene[] scenes) {
 		this.scene = scenes[level];
 	}
-	
-	private void createScenes(){
+
+	private void createScenes() {
 		Scene[] scenes = new Scene[4];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
@@ -674,6 +719,5 @@ public class AidenController extends WorldController
 		scenes[3] = new Scene("Tutorial4.json");
 		this.scenes = scenes;
 	}
-	
 
 }

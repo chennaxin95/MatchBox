@@ -27,6 +27,7 @@ import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.WorldController.AssetState;
 import edu.cornell.gdiac.physics.editor.LevelEditor;
 import edu.cornell.gdiac.physics.scene.AssetFile;
+import edu.cornell.gdiac.physics.scene.GameSave;
 import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 
@@ -298,10 +299,10 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * prepares the asynchronous loader for all other assets.
 	 */
 	public void create() {
-		
+
 		canvas = new GameCanvas();
 		loading = new LoadingMode(canvas, manager, 1);
-		
+
 		loading.setScreenListener(this);
 		preLoadContent(manager);
 		setScreen(loading);
@@ -313,14 +314,25 @@ public class GDXRoot extends Game implements ScreenListener {
 		// controllers[0].preLoadContent(manager);
 		controllers[1] = new AidenController(1);
 		// controllers[1].preLoadContent(manager);
-		
+
 		current = 0;
 		controllers[2] = new AidenController(2);
 		controllers[4] = new AidenController(3);
+		/*scenes[0] = new Scene("Tutorial1.json");
+		scenes[1] = new Scene("Tutorial2.json");
+		scenes[2] = new Scene("Tutorial3.json");
+		scenes[3] = new Scene("Tutorial4.json");
+		controllers[0].setScene(scenes);
+		controllers[1].setScene(scenes);
+		controllers[2].setScene(scenes);
+		controllers[4].setScene(scenes);*/
+
+		// controllers[2].preLoadContent(manager);
 		loading.setScreenListener(this);
 
 		controllers[3] = new LevelEditor();
-		
+		// controllers[3].preLoadContent(manager);
+
 	}
 
 	public void unloadContent(AssetManager manager) {

@@ -27,6 +27,7 @@ public class AssetFile {
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
+	public BitmapFont panelFont;
 
 	/** Texture asset for character avatar */
 	public TextureRegion avatarTexture;
@@ -48,6 +49,7 @@ public class AssetFile {
 	public TextureRegion homeButton;
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
+	public TextureRegion editorPanelTexture;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
@@ -95,6 +97,8 @@ public class AssetFile {
 		files.put("HOME_BUTTON", "shared/home.png");
 		files.put("RESUME_BUTTON", "shared/resume.png");
 		files.put("RESTART_BUTTON", "shared/restart.png");
+		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
+		System.out.println(files);
 	}
 
 	public String get(String s) {
@@ -187,9 +191,13 @@ public class AssetFile {
 			displayFont = manager.get(files.get("FONT_FILE"), BitmapFont.class);
 			fuelFont = manager.get(files.get("FUEL_FONT"), BitmapFont.class);
 			fuelFont.getData().setScale(0.5f, 0.5f);
+			panelFont = manager.get(files.get("FUEL_FONT"), BitmapFont.class);
+			panelFont.getData().setScale(0.35f, 0.35f);
+			
 		} else {
 			displayFont = null;
 		}
+		editorPanelTexture=createTexture(manager, files.get("EDITOR_PANEL_FILE"), false);
 		woodTexture = createTexture(manager, files.get("WOOD_FILE"), false);
 		avatarTexture = createTexture(manager, files.get("DUDE_FILE"), false);
 		fuelTexture = createTexture(manager, files.get("FUEL_FILE"), false);

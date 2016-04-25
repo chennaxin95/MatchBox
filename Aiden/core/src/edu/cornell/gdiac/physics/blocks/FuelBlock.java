@@ -40,4 +40,8 @@ public class FuelBlock extends FlammableBlock {
 	public int getFuelBonus() {
 		return fuelBonus;
 	}
+
+	public boolean isCheckpoint() {
+		return isCheckpoint;
+	}
 }
