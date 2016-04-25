@@ -48,89 +48,89 @@ import edu.cornell.gdiac.util.*;
  */
 public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	// Textures necessary to support the loading screen
-	private static final String PLAY_BTN_FILE = "shared/play.png";
+	public static final String PLAY_BTN_FILE = "shared/play.png";
 
 	/** Background texture for start-up */
-	private Texture background;
+	public Texture background;
 	/** Play button to display when done */
-	private Texture playButton;
+	public Texture playButton;
 	/** Texture atlas to support a progress bar */
-	private Texture statusBar;
+	public Texture statusBar;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
-	private TextureRegion statusBkgLeft;
+	public TextureRegion statusBkgLeft;
 	/** Middle portion of the status background (grey region) */
-	private TextureRegion statusBkgMiddle;
+	public TextureRegion statusBkgMiddle;
 	/** Right cap to the status background (grey region) */
-	private TextureRegion statusBkgRight;
+	public TextureRegion statusBkgRight;
 	/** Left cap to the status forground (colored region) */
-	private TextureRegion statusFrgLeft;
+	public TextureRegion statusFrgLeft;
 	/** Middle portion of the status forground (colored region) */
-	private TextureRegion statusFrgMiddle;
+	public TextureRegion statusFrgMiddle;
 	/** Right cap to the status forground (colored region) */
-	private TextureRegion statusFrgRight;
+	public TextureRegion statusFrgRight;
 
 	/** Default budget for asset loader (do nothing but load 60 fps) */
-	private static int DEFAULT_BUDGET = 15;
+	public static int DEFAULT_BUDGET = 15;
 	/** Standard window size (for scaling) */
-	private static int STANDARD_WIDTH = 800;
+	public static int STANDARD_WIDTH = 800;
 	/** Standard window height (for scaling) */
-	private static int STANDARD_HEIGHT = 700;
+	public static int STANDARD_HEIGHT = 700;
 	/** Ratio of the bar width to the screen */
-	private static float BAR_WIDTH_RATIO = 0.66f;
+	public static float BAR_WIDTH_RATIO = 0.66f;
 	/** Ration of the bar height to the screen */
-	private static float BAR_HEIGHT_RATIO = 0.25f;
+	public static float BAR_HEIGHT_RATIO = 0.25f;
 	/** Height of the progress bar */
-	private static int PROGRESS_HEIGHT = 30;
+	public static int PROGRESS_HEIGHT = 30;
 	/** Width of the rounded cap on left or right */
-	private static int PROGRESS_CAP = 15;
+	public static int PROGRESS_CAP = 15;
 	/** Width of the middle portion in texture atlas */
-	private static int PROGRESS_MIDDLE = 200;
+	public static int PROGRESS_MIDDLE = 200;
 	/** Amount to scale the play button */
-	private static float BUTTON_SCALE = 0.75f;
+	public static float BUTTON_SCALE = 0.75f;
 
 	/** Start button for XBox controller on Windows */
-	private static int WINDOWS_START = 7;
+	public static int WINDOWS_START = 7;
 	/** Start button for XBox controller on Mac OS X */
-	private static int MAC_OS_X_START = 4;
+	public static int MAC_OS_X_START = 4;
 
 	/** AssetManager to be loading in the background */
-	private AssetManager manager;
+	public AssetManager manager;
 	/** Reference to GameCanvas created by the root */
-	private GameCanvas canvas;
+	public GameCanvas canvas;
 	/** Listener that will update the player mode when we are done */
-	private ScreenListener listener;
+	public ScreenListener listener;
 	/** Where all the assets are stored */
-	private AssetFile af;
+	public AssetFile af;
 
 	/** The width of the progress bar */
-	private int width;
+	public int width;
 	/** The y-coordinate of the center of the progress bar */
-	private int centerY;
+	public int centerY;
 	/** The x-coordinate of the center of the progress bar */
-	private int centerX;
+	public int centerX;
 	/**
 	 * The height of the canvas window (necessary since sprite origin != screen
 	 * origin)
 	 */
-	private int heightY;
+	public int heightY;
 	/** Scaling factor for when the student changes the resolution. */
-	private float scale;
+	public float scale;
 
 	/** Current progress (0 to 1) of the asset manager */
-	private float progress;
+	public float progress;
 	/** The current state of the play button */
-	private int pressState;
+	public int pressState;
 	/**
 	 * The amount of time to devote to loading assets (as opposed to on screen
 	 * hints, etc.)
 	 */
-	private int budget;
+	public int budget;
 	/** Support for the X-Box start button in place of play button */
-	private int startButton;
+	public int startButton;
 	/** Whether or not this player mode is still active */
-	private boolean active;
+	public boolean active;
 
 	/**
 	 * Returns the budget for the asset loader.
@@ -275,7 +275,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 * @param delta
 	 *            Number of seconds since last animation frame
 	 */
-	private void update(float delta) {
+	public void update(float delta) {
 		if (playButton == null) {
 			manager.update(budget);
 			this.progress = manager.getProgress();
@@ -283,7 +283,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				this.progress = 1.0f;
 				playButton = new Texture(PLAY_BTN_FILE);
 				playButton.setFilter(TextureFilter.Linear,
-						TextureFilter.Linear);
+					TextureFilter.Linear);
 			}
 		}
 	}
@@ -295,7 +295,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 * methods, instead of using the single render() method that LibGDX does. We
 	 * will talk about why we prefer this in lecture.
 	 */
-	private void draw() {
+	public void draw() {
 		canvas.begin();
 		canvas.draw(background, 0, 0);
 		if (playButton == null) {
@@ -320,7 +320,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 * @param canvas
 	 *            The drawing context
 	 */
-	private void drawProgress(GameCanvas canvas) {
+	public void drawProgress(GameCanvas canvas) {
 		canvas.draw(statusBkgLeft, Color.WHITE, centerX - width / 2, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		canvas.draw(statusBkgRight, Color.WHITE,
