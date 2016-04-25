@@ -632,7 +632,7 @@ public class AidenController extends WorldController
 		}
 
 	}
-
+	private Vector2 fuelBar = new Vector2(100, 800);
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -695,13 +695,12 @@ public class AidenController extends WorldController
 
 		// drawing the fuel level
 		if (avatar != null) {
-			canvas.begin(avatar.getX(), avatar.getY());
-			// canvas.begin();
-			Vector2 pos = canvas.relativeVector(512, 400);
-			String fuelT = "fuel: " + (int) avatar.getFuel();
-			canvas.drawText(fuelT, af.fuelFont, pos.x, pos.y);
+			canvas.begin();
+			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
+			float sx = avatar.getFuel() * 480f /avatar.getMaxFuel();
+			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
+			canvas.draw(af.barOutter, pos.x, pos.y);
 			canvas.end();
-
 		}
 
 	}

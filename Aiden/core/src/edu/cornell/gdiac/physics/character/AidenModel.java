@@ -141,7 +141,10 @@ public class AidenModel extends CharacterModel {
 	public boolean isClimbing() {
 		return isClimbing;
 	}
-
+	
+	public float getMaxFuel(){
+		return MAX_FUEL;
+	}
 	/**
 	 * Sets whether the dude is actively climbing.
 	 *
