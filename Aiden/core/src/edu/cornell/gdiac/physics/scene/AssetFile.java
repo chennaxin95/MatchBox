@@ -27,6 +27,7 @@ public class AssetFile {
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
+	public BitmapFont panelFont;
 
 	/** Texture asset for character avatar */
 	public TextureRegion avatarTexture;
@@ -41,6 +42,7 @@ public class AssetFile {
 	public TextureRegion ropeTexture;
 	/** Texture for background */
 	public TextureRegion backGround;
+	public TextureRegion editorPanelTexture;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
@@ -80,6 +82,7 @@ public class AssetFile {
 		files.put("PLAY_BTN_FILE", "shared/play.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
 		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
+		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
 		System.out.println(files);
 	}
 
@@ -166,9 +169,13 @@ public class AssetFile {
 			displayFont = manager.get(files.get("FONT_FILE"), BitmapFont.class);
 			fuelFont = manager.get(files.get("FUEL_FONT"), BitmapFont.class);
 			fuelFont.getData().setScale(0.5f, 0.5f);
+			panelFont = manager.get(files.get("FUEL_FONT"), BitmapFont.class);
+			panelFont.getData().setScale(0.35f, 0.35f);
+			
 		} else {
 			displayFont = null;
 		}
+		editorPanelTexture=createTexture(manager, files.get("EDITOR_PANEL_FILE"), false);
 		woodTexture = createTexture(manager, files.get("WOOD_FILE"), false);
 		avatarTexture = createTexture(manager, files.get("DUDE_FILE"), false);
 		fuelTexture = createTexture(manager, files.get("FUEL_FILE"), false);
