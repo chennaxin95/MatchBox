@@ -37,9 +37,12 @@ public class AssetFile {
 	public TextureRegion fuelTexture;
 	/** texture for water */
 	public TextureRegion waterTexture;
-
+	
 	public TextureRegion stoneTexture;
 	public TextureRegion ropeTexture;
+	
+	public TextureRegion ropeLongTexture;
+	public TextureRegion trapdoorTexture;
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion editorPanelTexture;
@@ -83,6 +86,8 @@ public class AssetFile {
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
 		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
+		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
+		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
 		System.out.println(files);
 	}
 
@@ -183,6 +188,8 @@ public class AssetFile {
 		backGround = createTexture(manager, files.get("BACKGROUND"), false);
 		waterTexture = createTexture(manager, files.get("WATER_FILE"), false);
 		stoneTexture = createTexture(manager, files.get("STONE_FILE"), false);
+		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
+		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 				1,
 				4);

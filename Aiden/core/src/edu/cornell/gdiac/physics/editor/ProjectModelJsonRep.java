@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 
@@ -34,6 +35,7 @@ public class ProjectModelJsonRep implements Json.Serializable{
 	}
 
 	public ProjectModelJsonRep(AidenModel inputAiden, ArrayList<BlockAbstract> inputBlocks, 
+			ArrayList<Rope> complexs,
 			ArrayList<CharacterModel> npcs, BlockAbstract inputGoal){
 		if (inputAiden!=null) this.aiden=new AidenModelJsonRep(inputAiden);
 		this.blocks=new ArrayList<BlockJsonRep>();
@@ -44,6 +46,10 @@ public class ProjectModelJsonRep implements Json.Serializable{
 				blocks.add(new BlockJsonRep(block, id));
 				id++;
 			}
+		}
+		for (Rope rope:complexs){
+			blocks.add(new BlockJsonRep(rope, id));
+			id++;
 		}
 		for (CharacterModel npc: npcs){
 			waters.add(new WaterModelJsonRep(npc));

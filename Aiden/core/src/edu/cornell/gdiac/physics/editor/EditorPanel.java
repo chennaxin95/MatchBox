@@ -18,7 +18,7 @@ public class EditorPanel {
 	/*
 	 * All in Pixels 
 	 */
-	private float width;
+	public float width;
 	
 	/*
 	 * In board cell
@@ -104,6 +104,18 @@ public class EditorPanel {
 	
 	public void update(float x, float y){
 		if (mode==EditorMode.GAMEOBJECT) mode=EditorMode.DEFAULT;
+		if (this.poly_mode_layout.contains(x,y)){
+			this.polyMode=!this.polyMode;
+			if (this.polyMode){
+				mode=EditorMode.POLY;
+			}
+			else{
+				mode=EditorMode.DEFAULT;
+			}
+		}
+		if (mode==EditorMode.POLY){
+			return;
+		}
 		for (int i=0; i<texture_layout.length; i++){
 			if (texture_layout[i].contains(x,y)){
 				selectedTexture=i;
@@ -133,16 +145,6 @@ public class EditorPanel {
 			System.out.println("--");
 			this.boardHeight--;
 			mode=EditorMode.DEFAULT;
-			return;
-		}
-		if (this.poly_mode_layout.contains(x,y)){
-			this.polyMode=!this.polyMode;
-			if (this.polyMode){
-				mode=EditorMode.POLY;
-			}
-			else{
-				mode=EditorMode.DEFAULT;
-			}
 			return;
 		}
 //		if (this.save_layout.contains(x,y)){

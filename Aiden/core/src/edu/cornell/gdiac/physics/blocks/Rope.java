@@ -59,6 +59,10 @@ public class Rope extends ComplexObstacle {
 //	private float lwidth = 0.05f;
 	/** number of rope segments */
 	protected int SEGMENTS = 15;
+	
+
+    private float width;
+    private float height;
 
     /**
      * Creates a new rope bridge with the given anchors.
@@ -66,22 +70,41 @@ public class Rope extends ComplexObstacle {
 	 * @param x0  		The x position of the left anchor
 	 * @param y0  		The y position of the left anchor
 	 */
+	
 	public Rope(float x0, float y0, float lwidth, float lheight) {
-		super(x0,y0);
-		setName("rope");
-		Vector2 pos = new Vector2(x0, y0);
-		this.lheight = lheight;
-		linksize = lheight/4;
-		for (int i = 0; i < SEGMENTS; i++){
-			RopePart part = new RopePart(pos.x, pos.y, lwidth, lheight,
-					SPREAD, BURN);
-			part.setName("rope_part");
-	        part.setDensity(BASIC_DENSITY);
-	        bodies.add(part);
-	        part.setClimbable(true);
-	        pos.y = pos.y - lheight;
-		}
-	}
+        super(x0,y0);
+        setName("rope");
+        Vector2 pos = new Vector2(x0, y0);
+        this.lheight = lheight;
+        this.height = lheight * SEGMENTS;
+        this.width = lwidth;
+        linksize = lheight/4;
+        for (int i = 0; i < SEGMENTS; i++){
+            RopePart part = new RopePart(pos.x, pos.y, lwidth, lheight,
+                    SPREAD, BURN);
+            part.setName("rope_part");
+            part.setDensity(BASIC_DENSITY);
+            bodies.add(part);
+            part.setClimbable(true);
+            pos.y = pos.y - lheight;
+        }
+    }
+    
+    public float getWidth(){
+        return width;
+    }
+    
+    public float getUnitHeight(){
+    	return lheight;
+    }
+    
+    public float getHeight(){
+        return height;
+    }
+    
+    public int getSegments(){
+    	return SEGMENTS;
+    }
 
 	/**
 	 * Creates the joints for this object.
@@ -196,4 +219,5 @@ public class Rope extends ComplexObstacle {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

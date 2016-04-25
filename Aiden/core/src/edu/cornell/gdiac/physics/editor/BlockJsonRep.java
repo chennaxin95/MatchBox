@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.Rope;
+import edu.cornell.gdiac.physics.blocks.TrapDoor;
 
 public class BlockJsonRep implements Json.Serializable{
 	
@@ -31,6 +33,9 @@ public class BlockJsonRep implements Json.Serializable{
 	public float burn_left = 1;
 	public float fuels = 30;
 	
+	public boolean isLeft=false;
+	public int segments=0;
+	
 	public BlockJsonRep(BlockAbstract block, int id){
 		if (block==null) return;
 		this.id = id;
@@ -43,12 +48,18 @@ public class BlockJsonRep implements Json.Serializable{
 			break;
 		case PLATFORM:
 			blockType = "platform";
+			fixed=true;
+			break;
+		case BURNABLE_PLATFORM:
+			blockType = "burnable_platform";
+			fixed=true;
+			break;
+		case TRAPDOOR:
+			blockType = "trapdoor";
+			isLeft=((TrapDoor)block).isLeft;
 			break;
 		case STONE:
 			blockType = "stone";
-			break;
-		case ROPECOMPLEX:
-			blockType = "rope";
 			break;
 		default:
 			break;
@@ -56,6 +67,16 @@ public class BlockJsonRep implements Json.Serializable{
 		pos = new PointJsonRep(block.getX(), block.getY());
 		scale_x=block.getWidth();
 		scale_y=block.getHeight();
+	}
+	
+	public BlockJsonRep(Rope rope, int id){
+		if (rope==null) return;
+		this.id = id;
+		blockType = "rope";
+		pos = new PointJsonRep(rope.getX(),  rope.getY());
+		scale_x=rope.getWidth();
+		scale_y=rope.getUnitHeight();
+		segments=rope.getSegments();
 	}
 	
 	@Override
@@ -76,6 +97,8 @@ public class BlockJsonRep implements Json.Serializable{
 		json.writeValue("burn_time",burn_time);
 		json.writeValue("burn_left", burn_left);
 		json.writeValue("fuels",fuels);
+		json.writeValue("isLeft", isLeft);
+		json.writeValue("segments", segments);
 	}
 
 	@Override
