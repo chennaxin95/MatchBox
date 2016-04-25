@@ -165,10 +165,10 @@ public class EditorPanel {
 	}
 
 	public void draw(GameCanvas canvas){
-		if (af==null || af.backGround==null) return;
+		if (af==null || af.editorPanelTexture==null) return;
 		Vector2 pos = canvas.relativeVector(0, 0);
 		// Draw panel
-		canvas.draw(background, Color.WHITE, 
+		canvas.draw(af.editorPanelTexture, Color.WHITE, 
 				pos.x, pos.y, width, width*5);
 		// Draw Texture
 		for (int i=0; i<textures.length; i++){
