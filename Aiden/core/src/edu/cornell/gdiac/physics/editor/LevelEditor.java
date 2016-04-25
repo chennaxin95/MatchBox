@@ -17,14 +17,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 import edu.cornell.gdiac.physics.InputController;
 import edu.cornell.gdiac.physics.WorldController;
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Platform;
+import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
+import edu.cornell.gdiac.physics.blocks.TrapDoor;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -40,11 +44,14 @@ public class LevelEditor extends WorldController {
 	public static final int WOOD_BOX_IND = 1;
 	public static final int STONE_BOX_IND = 2;
 	public static final int FUEL_BOX_IND = 3;
-	public static final int GOAL_DOOR_IND = 4;
-//	public static final int LADDER_COMPLEX_IND = 5;
-	public static final int WATER_IND = 5;
-	public static final int AIDEN_IND = 6;
-
+	public static final int BURNABLE_PLATFORM_IND = 4;
+	public static final int GOAL_DOOR_IND = 5;
+	public static final int WATER_IND = 6;
+	public static final int AIDEN_IND = 7;
+	public static final int ROPE_IND = 8;
+	public static final int TRAP_LEFT_IND = 9;
+	public static final int TRAP_RIGHT_IND = 10;	
+	
 	private BlockAbstract goalDoor;
 
 	private EditorPanel panel;
@@ -57,10 +64,12 @@ public class LevelEditor extends WorldController {
 	ArrayList<CharacterModel> npcs;
 	AidenModel aiden;
 	ArrayList<BlockAbstract> blocks;
+	ArrayList<Rope> complexs;
 
 	private boolean holding = false;
 	private CharacterModel holdingCharacter = null;
 	private BlockAbstract holdingBlock = null;
+	private Rope holdingRope = null;
 	// private float inputCoolDown = 0;
 	// private final static float INPUT_COOL_DOWN = 0.5f;
 
@@ -72,11 +81,13 @@ public class LevelEditor extends WorldController {
 		npcs = new ArrayList<CharacterModel>();
 		aiden = null;
 		blocks = new ArrayList<BlockAbstract>();
+		complexs=new ArrayList<Rope>();
 		platformRect = new Rectangle(-1, -1, 0, 0);
 		// inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;
+		holdingRope=null;
 //		isAddingRect = false;
 		
 		TextureRegion[] textures={};
@@ -92,29 +103,33 @@ public class LevelEditor extends WorldController {
 		npcs.clear();
 		aiden = null;
 		blocks.clear();
+		complexs.clear();
 		platformRect = new Rectangle(-1, -1, 0, 0);
 		// inputCoolDown = 0;
 		holding = false;
 		holdingCharacter = null;
 		holdingBlock = null;
+		holdingRope=null;
 //		isAddingRect = false;
 	}
 
 	@Override
 	public void update(float dt) {
-		System.out.println(this.blocks.size()+" "+this.npcs.size());
+		System.out.println(this.blocks.size()+" "+this.npcs.size()+" "+complexs.size());
 		if (af!=null && panel==null){
 			TextureRegion[] textures={af.earthTile, af.woodTexture,
-				af.stoneTexture, af.fuelTexture, af.goalTile,
-				af.waterTexture, af.avatarTexture};
-			panel=new EditorPanel(320, textures, af);
+				af.stoneTexture, af.fuelTexture, 
+				af.burnablePlatform, af.goalTile,
+				af.waterTexture, af.avatarTexture, 
+				af.ropeLongTexture, 
+				af.trapdoorTexture, 
+				af.trapdoorTexture};
+			
+			panel=new EditorPanel(280, textures, af);
 			panel.setBackground(af.backGround);
 			panel.setButton(af.earthTile);
 		}
-		if (InputController.getInstance().newLeftClick()){
-		panel.update(InputController.getInstance().mousePos.x,
-				canvas.getHeight()-InputController.getInstance().mousePos.y);
-		}
+		boolean oldMode=panel.polyMode;
 		
 		gridWidth=panel.boardWidth;
 		gridHeight=panel.boardHeight;
@@ -141,23 +156,35 @@ public class LevelEditor extends WorldController {
 			loadFromJson();
 			return;
 		}
-//		if (InputController.getInstance().switchPolyMode()) {
-			// this.inputCoolDown=INPUT_COOL_DOWN;
-//			isAddingRect = !isAddingRect;
-		if (panel!=null){
+		
+		if (InputController.getInstance().newLeftClick()){
+			panel.update(InputController.getInstance().mousePos.x,
+				canvas.getHeight()-InputController.getInstance().mousePos.y);
 			if (!panel.polyMode) {
 				this.platformRect = new Rectangle(-1, -1, 0, 0);
-			} else {
+			} else if (!oldMode){
+				if (holdingCharacter != null) {
+					if (holdingCharacter != aiden)
+						npcs.remove(holdingCharacter);
+					else
+						aiden = null;
+					holdingCharacter = null;
+				}
+				if (holdingBlock != null) {
+					blocks.remove(holdingBlock);
+					if (holdingBlock == this.goalDoor)
+						goalDoor = null;
+					holdingBlock = null;
+				}
+				if (holdingRope!=null){
+					complexs.remove(holdingRope);
+					holdingRope = null;
+				}
 				holding = false;
-				this.holdingBlock = null;
-				this.holdingCharacter = null;
+				return;
 			}
 		}
-			// this.inputCoolDown=INPUT_COOL_DOWN;
-//		}
-		if (InputController.getInstance().newLeftClick()) {
-			System.out.println("Clicked");
-		}
+
 		if (panel!=null && panel.polyMode 
 				&& InputController.getInstance().newLeftClick()) {
 			// System.out.println("SET UP RECTANGLE "+ platformRect.toString());
@@ -193,7 +220,6 @@ public class LevelEditor extends WorldController {
 			// System.out.println("Finish RECTANGLE "+ platformRect.toString());
 			return;
 		}
-
 		boolean wasHolding = holding;
 		if (InputController.getInstance().newLeftClick()) {
 			holding = !holding;
@@ -225,9 +251,18 @@ public class LevelEditor extends WorldController {
 					break;
 				}
 			}
+			for (Rope rope : this.complexs) {
+				if (rope.getX() < xPos
+						&& rope.getX() + rope.getWidth() > xPos
+						&& rope.getY() < yPos
+						&& rope.getY() + rope.getHeight() > yPos){
+					holdingRope=rope;
+					break;
+				}
+			}
 		}
 		// newly releasing an object
-		if (!holding && wasHolding) {
+		else if (!holding && wasHolding) {
 			if (panel!=null && panel.mode==EditorMode.GAMEOBJECT){
 				if (holdingCharacter != null) {
 					if (holdingCharacter != aiden)
@@ -241,6 +276,10 @@ public class LevelEditor extends WorldController {
 					if (holdingBlock == this.goalDoor)
 						goalDoor = null;
 					holdingBlock = null;
+				}
+				if (holdingRope!=null){
+					complexs.remove(holdingRope);
+					holdingRope = null;
 				}
 				holding = false;
 			}
@@ -264,6 +303,13 @@ public class LevelEditor extends WorldController {
 								.add(trans));
 				this.holdingCharacter = null;
 			}
+			if (holdingRope!=null){
+				Vector2 trans = fitInGrid(new Vector2(holdingRope.getX(),
+						holdingRope.getY()));
+				this.holdingRope.setPosition(holdingRope.getPosition().cpy()
+						.add(trans));
+				this.holdingRope = null;
+			}
 			}
 		}
 		// Hold object around
@@ -282,6 +328,10 @@ public class LevelEditor extends WorldController {
 						goalDoor = null;
 					holdingBlock = null;
 				}
+				if (holdingRope!=null){
+					complexs.remove(holdingRope);
+					holdingRope = null;
+				}
 				holding = false;
 			} else {
 				if (holdingCharacter != null) {
@@ -290,7 +340,11 @@ public class LevelEditor extends WorldController {
 				} else if (holdingBlock != null) {
 					holdingBlock.setPosition(holdingBlock.getPosition()
 							.add(new Vector2(deltaX, deltaY)));
-				} else {
+				} else if (holdingRope!=null){ 
+					holdingRope.setPosition(holdingRope.getPosition()
+							.add(new Vector2(deltaX, deltaY)));
+				}
+				else {
 					holding = false;
 				}
 			}
@@ -300,6 +354,7 @@ public class LevelEditor extends WorldController {
 			if (panel!=null && panel.mode==EditorMode.GAMEOBJECT) {
 				holding=true;
 				BlockAbstract block = null;
+				TrapDoor trap=null;
 				Vector2 trans = new Vector2();
 				switch (panel.selectedTexture){
 				case PLATFORM_IND:
@@ -388,6 +443,52 @@ public class LevelEditor extends WorldController {
 					aiden.setDrawScale(scale);
 					holdingCharacter=aiden;
 					break;
+				case ROPE_IND:
+					Rope rope= new Rope(xPos, yPos, 0.25f, 0.25f);
+					rope.setTexture(af.ropeTexture);
+					trans = fitInGrid(new Vector2(rope.getX(),
+							rope.getY()));
+					rope.setPosition(rope.getPosition().add(trans));
+					rope.setDrawScale(scale);
+					this.complexs.add(rope);
+					holdingRope=rope;
+					break;
+				case BURNABLE_PLATFORM_IND:
+					block=new BurnablePlatform(new Rectangle(xPos, yPos, 1, 1), 1);
+					trans = fitInGrid(new Vector2(block.getX()
+							- block.getWidth() / 2f,
+							block.getY()
+									- block.getHeight() / 2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(af.burnablePlatform);
+					block.setDrawScale(scale);
+					this.blocks.add(block);
+					holdingBlock=block;
+					break;
+				case TRAP_LEFT_IND:
+					trap = new TrapDoor(xPos, yPos, 4, 0.5f, false);
+					trans = fitInGrid(new Vector2(trap.getX()
+							- trap.getWidth() / 2f,
+							trap.getY()
+									- trap.getHeight() / 2f));
+					trap.setPosition(trap.getPosition().add(trans));
+					trap.setTexture(af.trapdoorTexture);
+					trap.setDrawScale(scale);
+					this.blocks.add(trap);
+					holdingBlock=trap;
+					break;
+				case TRAP_RIGHT_IND:
+					trap = new TrapDoor(xPos, yPos, 4, 0.5f, true);
+					trans = fitInGrid(new Vector2(trap.getX()
+							- trap.getWidth() / 2f,
+							trap.getY()
+									- trap.getHeight() / 2f));
+					trap.setPosition(trap.getPosition().add(trans));
+					trap.setTexture(af.trapdoorTexture);
+					trap.setDrawScale(scale);
+					this.blocks.add(trap);
+					holdingBlock=trap;
+					break;	
 				default: break;
 				}
 			}
@@ -525,6 +626,10 @@ public class LevelEditor extends WorldController {
 		for (CharacterModel obj : npcs) {
 			obj.draw(canvas);
 		}
+		for (Rope obj:complexs){
+			canvas.draw(af.ropeLongTexture, Color.WHITE, 0,  0,
+					obj.getX()*scale.x, obj.getY()*scale.y, 0, 1, 1);
+		}
 		if (aiden != null) {
 			aiden.simpleDraw(canvas);
 		}
@@ -558,6 +663,21 @@ public class LevelEditor extends WorldController {
 				holdingBlock.drawDebug(canvas, Color.GREEN);
 			if (this.holdingCharacter != null)
 				holdingCharacter.drawDebug(canvas, Color.GREEN);
+			if (this.holdingRope!=null){
+				System.out.println(holdingRope.getPosition() + " "
+						+ holdingRope.getWidth()+" "+holdingRope.getHeight());
+				float[] pts = new float[] { 0, 0,
+						holdingRope.getWidth(), 0,
+						holdingRope.getWidth(), holdingRope.getHeight(),
+						0, holdingRope.getHeight()};
+				PolygonShape poly = new PolygonShape();
+				poly.set(pts);
+				canvas.drawPhysics(poly,
+						Color.GREEN,
+						holdingRope.getX(), 
+						holdingRope.getY(), 0, 
+						scale.x, scale.y);
+			}
 		}
 		canvas.endDebug();
 		canvas.begin(xPos, yPos);
@@ -588,7 +708,7 @@ public class LevelEditor extends WorldController {
 		json.setOutputType(OutputType.json);
 
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks,
-				npcs, goalDoor);
+				complexs, npcs, goalDoor);
 		String project_str = json.prettyPrint(project);
 
 		String outputfile = "Level2.json";
@@ -631,12 +751,15 @@ public class LevelEditor extends WorldController {
 			case STONE:
 				texture = (af.stoneTexture);
 				break;
-			case ROPECOMPLEX:
+			case BURNABLE_PLATFORM:
+				texture = (af.burnablePlatform);
+				break;
+			case TRAPDOOR:
+				texture = (af.trapdoorTexture);
 				break;
 			default:
 				break;
 			}
-
 			if (texture != null)
 				block.setTexture(texture);
 		}
@@ -648,7 +771,6 @@ public class LevelEditor extends WorldController {
 		}
 		aiden = scene.getAidenModel();
 		if (aiden != null) {
-
 			aiden.setDrawScale(scale);
 			aiden.setTexture(af.avatarTexture);
 		}

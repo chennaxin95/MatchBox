@@ -179,6 +179,12 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("BURNING_FILE"));
 		manager.load(af.get("AIDEN_JUMP_FILE"), Texture.class);
 		assets.add(af.get("AIDEN_JUMP_FILE"));
+		manager.load(af.get("EDITOR_PANEL_FILE"), Texture.class);
+		assets.add(af.get("EDITOR_PANEL_FILE"));
+		manager.load(af.get("ROPE_LONG_FILE"), Texture.class);
+		assets.add(af.get("ROPE_LONG_FILE"));
+		manager.load(af.get("TRAPDOOR_FILE"), Texture.class);
+		assets.add(af.get("TRAPDOOR_FILE"));
 		manager.load(af.get("NAIL_FILE"), Texture.class);
 		assets.add(af.get("NAIL_FILE"));
 		manager.load(af.get("MENU_BACK"), Texture.class);
@@ -195,7 +201,11 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("RESUME_BUTTON"));
 		manager.load(af.get("RESTART_BUTTON"), Texture.class);
 		assets.add(af.get("RESTART_BUTTON"));
-
+		manager.load(af.get("BAR_OUTTER"), Texture.class);
+		assets.add(af.get("BAR_OUTTER"));
+		manager.load(af.get("BAR_INNER"), Texture.class);
+		assets.add(af.get("BAR_INNER"));
+	
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
 		manager.load(af.get("PEW_FILE"), Sound.class);

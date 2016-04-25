@@ -67,6 +67,7 @@ public class Rope extends ComplexObstacle {
 	 * @param x0  		The x position of the left anchor
 	 * @param y0  		The y position of the left anchor
 	 */
+	
 	public Rope(float x0, float y0, float lwidth, float lheight) {
 		super(x0,y0);
 		setName("rope");
@@ -85,6 +86,16 @@ public class Rope extends ComplexObstacle {
 	        pos.y = pos.y - lheight;
 		}
 	}
+    
+    
+    public float getUnitHeight(){
+    	return lheight;
+    }
+    
+    
+    public int getSegments(){
+    	return SEGMENTS;
+    }
 	
 	public float getWidth(){
 		return width;
@@ -93,7 +104,7 @@ public class Rope extends ComplexObstacle {
 	public float getHeight(){
 		return height;
 	}
-	
+
 	/**
 	 * Creates the joints for this object.
 	 * 
@@ -207,4 +218,5 @@ public class Rope extends ComplexObstacle {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

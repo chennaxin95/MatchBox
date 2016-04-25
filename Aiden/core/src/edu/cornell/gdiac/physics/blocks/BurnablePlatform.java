@@ -20,7 +20,7 @@ public class BurnablePlatform extends FlammableBlock {
 		this.r=r;
 		this.unit=unit;
 		setBodyType(BodyDef.BodyType.StaticBody);
-		this.setBlockType(BlockType.PLATFORM);
+		this.setBlockType(BlockType.BURNABLE_PLATFORM);
 		// TODO Auto-generated constructor stub
 	}
 	

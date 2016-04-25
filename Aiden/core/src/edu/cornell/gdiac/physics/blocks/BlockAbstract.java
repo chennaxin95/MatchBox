@@ -73,5 +73,6 @@ public abstract class BlockAbstract extends BoxObstacle{
 	
 	public enum BlockType{
 		FLAMMABLEBLOCK, FUEL, PLATFORM, STONE, ROPECOMPLEX, 
+		BURNABLE_PLATFORM, TRAPDOOR
 	}
 }

@@ -21,11 +21,12 @@ public class TrapDoor extends StoneBlock{
 	public Joint Down;
 	public Joint End;
 	float posX;
-	boolean isLeft;
+	public boolean isLeft;
 	
 	public TrapDoor(float x, float y, float width, float height, boolean isLeft){
 		super(x, y, width, height);
 		this.isLeft = isLeft;
+		this.setBlockType(BlockType.TRAPDOOR);
 	}
 	
 	public boolean activatePhysics(World world){
@@ -111,12 +112,14 @@ public class TrapDoor extends StoneBlock{
 	@Override
 	public void draw(GameCanvas canvas) {
 		super.draw(canvas);
-		anchorRope.draw(canvas);
+		if (anchorRope!=null)
+			anchorRope.draw(canvas);
 	}
 	
 	@Override
 	public void drawDebug(GameCanvas canvas){
 		super.drawDebug(canvas);
-		anchorRope.drawDebug(canvas);
+		if (anchorRope!=null)
+			anchorRope.drawDebug(canvas);
 	}
 }

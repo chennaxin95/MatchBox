@@ -41,9 +41,13 @@ public class AssetFile {
 	public TextureRegion stoneTexture;
 	public TextureRegion MenuBack;
 	public TextureRegion ropeTexture;
+	public TextureRegion ropeLongTexture;
+	public TextureRegion trapdoorTexture;
 	public TextureRegion black;
 	public TextureRegion longRope;
 	public TextureRegion trapDoor;
+	public TextureRegion barOutter;
+	public TextureRegion barInner;
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion homeButton;
@@ -98,6 +102,10 @@ public class AssetFile {
 		files.put("RESUME_BUTTON", "shared/resume.png");
 		files.put("RESTART_BUTTON", "shared/restart.png");
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
+		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
+		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
+		files.put("BAR_OUTTER", "platform/barOuter.png");
+		files.put("BAR_INNER", "platform/barInner.png");
 		System.out.println(files);
 	}
 
@@ -185,6 +193,8 @@ public class AssetFile {
 		restartButton = createTexture(manager, files.get("RESTART_BUTTON"), false);
 		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
+		barOutter = createTexture(manager, files.get("BAR_OUTTER"),false);
+		barInner = createTexture(manager, files.get("BAR_INNER"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -205,6 +215,8 @@ public class AssetFile {
 		backGround = createTexture(manager, files.get("BACKGROUND"), false);
 		waterTexture = createTexture(manager, files.get("WATER_FILE"), false);
 		stoneTexture = createTexture(manager, files.get("STONE_FILE"), false);
+		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
+		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 				1,
