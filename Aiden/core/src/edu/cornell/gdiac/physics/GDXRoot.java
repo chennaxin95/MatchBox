@@ -179,14 +179,28 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("BURNING_FILE"));
 		manager.load(af.get("AIDEN_JUMP_FILE"), Texture.class);
 		assets.add(af.get("AIDEN_JUMP_FILE"));
-		
 		manager.load(af.get("EDITOR_PANEL_FILE"), Texture.class);
 		assets.add(af.get("EDITOR_PANEL_FILE"));
 		manager.load(af.get("ROPE_LONG_FILE"), Texture.class);
 		assets.add(af.get("ROPE_LONG_FILE"));
 		manager.load(af.get("TRAPDOOR_FILE"), Texture.class);
 		assets.add(af.get("TRAPDOOR_FILE"));
-
+		manager.load(af.get("NAIL_FILE"), Texture.class);
+		assets.add(af.get("NAIL_FILE"));
+		manager.load(af.get("MENU_BACK"), Texture.class);
+		assets.add(af.get("MENU_BACK"));
+		manager.load(af.get("BLACK"), Texture.class);
+		assets.add(af.get("BLACK"));
+		manager.load(af.get("TRAP_DOOR"), Texture.class);
+		assets.add(af.get("TRAP_DOOR"));
+		manager.load(af.get("LONG_ROPE"), Texture.class);
+		assets.add(af.get("LONG_ROPE"));
+		manager.load(af.get("HOME_BUTTON"), Texture.class);
+		assets.add(af.get("HOME_BUTTON"));
+		manager.load(af.get("RESUME_BUTTON"), Texture.class);
+		assets.add(af.get("RESUME_BUTTON"));
+		manager.load(af.get("RESTART_BUTTON"), Texture.class);
+		assets.add(af.get("RESTART_BUTTON"));
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
 		manager.load(af.get("PEW_FILE"), Sound.class);
@@ -276,9 +290,6 @@ public class GDXRoot extends Game implements ScreenListener {
 			return;
 		}
 		af.loadContent(manager);
-		/*for (Scene s : scenes) {
-			s.setAssetFile(af);
-		}*/
 		for (WorldController c : controllers) {
 			c.setAssetFile(af);
 		}

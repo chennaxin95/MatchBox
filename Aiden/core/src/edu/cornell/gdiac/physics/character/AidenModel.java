@@ -41,6 +41,7 @@ public class AidenModel extends CharacterModel {
 	private int jumpFrame = 0;
 	private boolean drawJumping = false;
 	private FilmStrip jump;	
+	public boolean resume = false;;
 
 	/** Amount of time spent in spirit mode */
 	private float spiritCount = 0;

@@ -26,6 +26,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
 
 
@@ -1205,6 +1206,11 @@ public class GameCanvas {
 		float x = (getWidth()  - layout.width) / 2.0f;
 		float y = (getHeight() + layout.height) / 2.0f;
 		font.draw(spriteBatch, layout, x, y+offset);
+    }
+    
+    //drawbutton
+    public void drawButton(ImageButton button){
+    	button.draw(spriteBatch, 1f);
     }
     
 	/**

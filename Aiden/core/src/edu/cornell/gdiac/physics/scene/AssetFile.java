@@ -37,14 +37,20 @@ public class AssetFile {
 	public TextureRegion fuelTexture;
 	/** texture for water */
 	public TextureRegion waterTexture;
-	
+	public TextureRegion nailTexture;
 	public TextureRegion stoneTexture;
+	public TextureRegion MenuBack;
 	public TextureRegion ropeTexture;
-	
 	public TextureRegion ropeLongTexture;
 	public TextureRegion trapdoorTexture;
+	public TextureRegion black;
+	public TextureRegion longRope;
+	public TextureRegion trapDoor;
 	/** Texture for background */
 	public TextureRegion backGround;
+	public TextureRegion homeButton;
+	public TextureRegion resumeButton;
+	public TextureRegion restartButton;
 	public TextureRegion editorPanelTexture;
 	
 	/** Texture for aiden animation */
@@ -58,6 +64,8 @@ public class AssetFile {
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
+		files.put("MENU_BACK", "shared/menuBack.png");
+		files.put("BLACK", "shared/black.png");
 		files.put("EARTH_FILE", "shared/earthtile.png");
 		files.put("BURNP_FILE", "shared/burnableearth.png");
 		files.put("GOAL_FILE", "platform/goaldoor.png");
@@ -85,6 +93,12 @@ public class AssetFile {
 		files.put("PLAY_BTN_FILE", "shared/play.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
 		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
+		files.put("NAIL_FILE", "platform/smoke.png");
+		files.put("LONG_ROPE", "platform/rope-long.png");
+		files.put("TRAP_DOOR", "platform/trapdoor.png");
+		files.put("HOME_BUTTON", "shared/home.png");
+		files.put("RESUME_BUTTON", "shared/resume.png");
+		files.put("RESTART_BUTTON", "shared/restart.png");
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
 		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
@@ -168,6 +182,13 @@ public class AssetFile {
 		earthTile = createTexture(manager, files.get("EARTH_FILE"), true);
 		goalTile = createTexture(manager, files.get("GOAL_FILE"), true);
 		burnablePlatform = createTexture(manager, files.get("BURNP_FILE"), true);
+		MenuBack = createTexture(manager, files.get("MENU_BACK"), false);
+		black = createTexture(manager, files.get("BLACK"), false);
+		homeButton = createTexture(manager, files.get("HOME_BUTTON"), false);
+		resumeButton = createTexture(manager, files.get("RESUME_BUTTON"), false);
+		restartButton = createTexture(manager, files.get("RESTART_BUTTON"), false);
+		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
+		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -190,6 +211,7 @@ public class AssetFile {
 		stoneTexture = createTexture(manager, files.get("STONE_FILE"), false);
 		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
+		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 				1,
 				4);
@@ -219,7 +241,6 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
-
 	}
 
 }

@@ -148,7 +148,7 @@ public class Scene implements SceneInterface {
 			float exit_y = exit_pos.getFloat("y");
 			float e_scale_x = exit.getFloat("scale_x");
 			float e_scale_y = exit.getFloat("scale_y");
-			goalDoor = new StoneBlock(exit_x, exit_y, e_scale_x, e_scale_y);
+			goalDoor = new StoneBlock(exit_x, exit_y, 3, 3);
 			goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 			goalDoor.setDensity(0.0f);
 			goalDoor.setFriction(0.0f);
