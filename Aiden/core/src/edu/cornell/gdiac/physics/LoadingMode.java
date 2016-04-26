@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
+import com.sun.glass.ui.Window.Level;
 
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
@@ -57,6 +58,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public static final String PLAY_BTN_FILE = "shared/start.png";
 	public static final String MAIN_MENU = "shared/Main Menu.png";
 	public static final String LEVELS = "shared/levels.png";
+	public static final String SETTINGS = "shared/settings.png";
+	public static final String CREDITS = "shared/credits.png";
+	
 
 	/** Background texture for start-up */
 	public Texture background;
@@ -66,6 +70,12 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture statusBar;
 	/** Texture for main menu title*/
 	public Texture mainMenu;
+	/** Texture for levels button*/
+	public Texture levels;
+	/** Texture for settings button*/
+	public Texture settings;
+	/** Texture for credits button*/
+	public Texture credits;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -100,9 +110,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** Amount to scale the play button */
 	public static float BUTTON_SCALE = 0.25f;
 	/** Amount to scale the main menu title*/
-	public static float MENU_SCALE = 0.40f;
+	public static float MENU_SCALE = 0.38f;
 	/** Amount to scale start button location vertically*/
-	public static float START_V_SCALE = .75f;
+	public static float START_V_SCALE = .80f;
+	/** Amount to scale levels button location vertically*/
+	public static float LEVEL_V_SCALE = .65f;
+	/** Amount to scale settings button location vertically*/
+	public static float SETTINGS_V_SCALE = .50f;
+	/** Amount to scale credits button location vertically*/
+	public static float CREDITS_V_SCALE = .35f;
+
 
 	/** Start button for XBox controller on Windows */
 	public static int WINDOWS_START = 7;
@@ -301,6 +318,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				mainMenu = new Texture(MAIN_MENU);
 				mainMenu.setFilter(TextureFilter.Linear,
 						TextureFilter.Linear);
+				levels = new Texture(LEVELS);
+				levels.setFilter(TextureFilter.Linear,
+						TextureFilter.Linear);
+				settings = new Texture(SETTINGS);
+				settings.setFilter(TextureFilter.Linear,
+						TextureFilter.Linear);
+				credits = new Texture(CREDITS);
+				credits.setFilter(TextureFilter.Linear,
+						TextureFilter.Linear);
+				
 			}
 		}
 	}
@@ -325,6 +352,18 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					BUTTON_SCALE * scale);
 			canvas.draw(mainMenu, Color.WHITE, mainMenu.getWidth() / 2, mainMenu.getHeight() / 2, 
 					centerX, centerY, 0, MENU_SCALE * scale, MENU_SCALE * scale);
+			canvas.draw(levels, Color.WHITE, levels.getWidth() / 2,
+					levels.getHeight() / 2,
+					centerX, centerY * LEVEL_V_SCALE, 0, BUTTON_SCALE * scale,
+					BUTTON_SCALE * scale);
+			canvas.draw(settings, Color.WHITE, settings.getWidth() / 2,
+					settings.getHeight() / 2,
+					centerX, centerY * SETTINGS_V_SCALE, 0, BUTTON_SCALE * scale,
+					BUTTON_SCALE * scale);
+			canvas.draw(credits, Color.WHITE, credits.getWidth() / 2,
+					credits.getHeight() / 2,
+					centerX, centerY * CREDITS_V_SCALE, 0, BUTTON_SCALE * scale,
+					BUTTON_SCALE * scale);
 		}
 		canvas.end();
 	}

@@ -94,6 +94,9 @@ public class AssetFile {
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/start.png");
 		files.put("MAIN_MENU", "shared/Main Menu.png");
+		files.put("LEVELS", "shared/levels.png");
+		files.put("SETTINGS", "shared/settings.png");
+		files.put("CREDITS", "shared/credits.png");
 		files.put("WATER_DIE_FILE", "platform/water-die-animation.png");
 		files.put("AIDEN_JUMP_FILE", "platform/jump-s.png");
 		files.put("NAIL_FILE", "platform/smoke.png");
