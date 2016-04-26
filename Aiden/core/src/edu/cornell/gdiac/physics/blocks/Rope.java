@@ -156,6 +156,11 @@ public class Rope extends ComplexObstacle {
 		return true;
 	}
 	
+	@Override
+	public Vector2 getPosition() {
+		return bodies.get(0).getPosition();
+	}
+	
 	/**
 	 * Destroys the physics Body(s) of this object if applicable,
 	 * removing them from the world.

@@ -672,7 +672,7 @@ public class AidenController extends WorldController
 		if(pause){
 			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 			Vector2 pos1 = canvas.relativeVector(0, 0);
-			canvas.draw(af.black, pos1.x, pos1.y);
+			canvas.draw(af.black, 0, 0);
 			canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y, 320, 128);
 			posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
 			canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y, 320, 128);

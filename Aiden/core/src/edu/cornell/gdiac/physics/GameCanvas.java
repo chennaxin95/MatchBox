@@ -1186,7 +1186,7 @@ public class GameCanvas {
     
     public Vector2 relativeVector(float x, float y){
         OrthographicCamera c = this.camera;
-        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
+        return new Vector2(x+c.position.x-c.viewportWidth*c.zoom/2,y+c.position.y-c.viewportHeight*c.zoom/2);
     }
 
     /**
