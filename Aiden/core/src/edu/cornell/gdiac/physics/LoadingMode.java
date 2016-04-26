@@ -22,6 +22,10 @@
  */
 package edu.cornell.gdiac.physics;
 
+import javafx.scene.transform.Scale;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.assets.*;
@@ -32,6 +36,8 @@ import com.badlogic.gdx.controllers.*;
 
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
+
+
 
 /**
  * Class that provides a loading screen for the state of the game.
@@ -48,7 +54,9 @@ import edu.cornell.gdiac.util.*;
  */
 public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	// Textures necessary to support the loading screen
-	public static final String PLAY_BTN_FILE = "shared/play.png";
+	public static final String PLAY_BTN_FILE = "shared/start.png";
+	public static final String MAIN_MENU = "shared/Main Menu.png";
+	public static final String LEVELS = "shared/levels.png";
 
 	/** Background texture for start-up */
 	public Texture background;
@@ -56,6 +64,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture playButton;
 	/** Texture atlas to support a progress bar */
 	public Texture statusBar;
+	/** Texture for main menu title*/
+	public Texture mainMenu;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -88,7 +98,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** Width of the middle portion in texture atlas */
 	public static int PROGRESS_MIDDLE = 200;
 	/** Amount to scale the play button */
-	public static float BUTTON_SCALE = 0.75f;
+	public static float BUTTON_SCALE = 0.25f;
+	/** Amount to scale the main menu title*/
+	public static float MENU_SCALE = 0.40f;
+	/** Amount to scale start button location vertically*/
+	public static float START_V_SCALE = .75f;
 
 	/** Start button for XBox controller on Windows */
 	public static int WINDOWS_START = 7;
@@ -284,6 +298,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				playButton = new Texture(PLAY_BTN_FILE);
 				playButton.setFilter(TextureFilter.Linear,
 					TextureFilter.Linear);
+				mainMenu = new Texture(MAIN_MENU);
+				mainMenu.setFilter(TextureFilter.Linear,
+						TextureFilter.Linear);
 			}
 		}
 	}
@@ -301,11 +318,13 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		if (playButton == null) {
 			drawProgress(canvas);
 		} else {
-			Color tint = (pressState == 1 ? Color.GRAY : Color.WHITE);
-			canvas.draw(playButton, tint, playButton.getWidth() / 2,
+			Color tint1 = (pressState == 1 ? Color.GRAY : Color.WHITE);
+			canvas.draw(playButton, tint1, playButton.getWidth() / 2,
 					playButton.getHeight() / 2,
-					centerX, centerY, 0, BUTTON_SCALE * scale,
+					centerX, centerY * START_V_SCALE, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+			canvas.draw(mainMenu, Color.WHITE, mainMenu.getWidth() / 2, mainMenu.getHeight() / 2, 
+					centerX, centerY, 0, MENU_SCALE * scale, MENU_SCALE * scale);
 		}
 		canvas.end();
 	}
@@ -387,8 +406,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		scale = (sx < sy ? sx : sy);
 
 		this.width = (int) (BAR_WIDTH_RATIO * width);
-		centerY = (int) (BAR_HEIGHT_RATIO * height);
-		centerX = width / 2;
+		centerY = (int) (.80 * height);
+		centerX =  2 * width / 3;
 		heightY = height;
 	}
 
@@ -465,11 +484,12 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		screenY = heightY - screenY;
 
 		// TODO: Fix scaling
-		// Play button is a circle.
-		float radius = BUTTON_SCALE * scale * playButton.getWidth() / 2.0f;
-		float dist = (screenX - centerX) * (screenX - centerX)
-				+ (screenY - centerY) * (screenY - centerY);
-		if (dist < radius * radius) {
+		// Play button is a Rectangle.
+		float width = BUTTON_SCALE * scale * playButton.getWidth();
+		float height = BUTTON_SCALE * scale * playButton.getHeight();
+		System.out.println(screenX);
+		System.out.println(screenY);
+		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
 			pressState = 1;
 		}
 		return false;
