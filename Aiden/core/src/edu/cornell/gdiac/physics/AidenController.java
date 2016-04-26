@@ -201,7 +201,7 @@ public class AidenController extends WorldController
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(af.burnablePlatform);
+			p.setTexture(af.earthTile);
 			p.setName(pname + ii);
 			addObject(p);
 		}
