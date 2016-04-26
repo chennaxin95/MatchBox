@@ -141,6 +141,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public int centerY;
 	/** The x-coordinate of the center of the progress bar */
 	public int centerX;
+	public int centerBarX;
 	/**
 	 * The height of the canvas window (necessary since sprite origin != screen
 	 * origin)
@@ -379,28 +380,28 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 *            The drawing context
 	 */
 	public void drawProgress(GameCanvas canvas) {
-		canvas.draw(statusBkgLeft, Color.WHITE, centerX - width / 2, centerY,
+		canvas.draw(statusBkgLeft, Color.WHITE, centerBarX - width / 2, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		canvas.draw(statusBkgRight, Color.WHITE,
-				centerX + width / 2 - scale * PROGRESS_CAP, centerY,
+				centerBarX + width / 2 - scale * PROGRESS_CAP, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		canvas.draw(statusBkgMiddle, Color.WHITE,
-				centerX - width / 2 + scale * PROGRESS_CAP, centerY,
+				centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
 				width - 2 * scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 
-		canvas.draw(statusFrgLeft, Color.WHITE, centerX - width / 2, centerY,
+		canvas.draw(statusFrgLeft, Color.WHITE, centerBarX - width / 2, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		if (progress > 0) {
 			float span = progress * (width - 2 * scale * PROGRESS_CAP) / 2.0f;
 			canvas.draw(statusFrgRight, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP + span, centerY,
+					centerBarX - width / 2 + scale * PROGRESS_CAP + span, centerY,
 					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 			canvas.draw(statusFrgMiddle, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP, centerY, span,
+					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY, span,
 					scale * PROGRESS_HEIGHT);
 		} else {
 			canvas.draw(statusFrgRight, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP, centerY,
+					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
 					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		}
 	}
@@ -448,6 +449,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		centerY = (int) (.80 * height);
 		centerX =  2 * width / 3;
 		heightY = height;
+		centerBarX = (int) (width/2);
 	}
 
 	/**
@@ -526,8 +528,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		// Play button is a Rectangle.
 		float width = BUTTON_SCALE * scale * playButton.getWidth();
 		float height = BUTTON_SCALE * scale * playButton.getHeight();
-		System.out.println(screenX);
-		System.out.println(screenY);
+
 		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
 			pressState = 1;
 		}
