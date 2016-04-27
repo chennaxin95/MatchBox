@@ -188,9 +188,6 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
-		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
-				scene.getHeight(), 1f, 1f,
-				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -276,6 +273,7 @@ public class AidenController extends WorldController
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
 			addObject(bp);
+			bp.setDrawScale(scale);
 			flammables.add(bp);
 		}
 		// Adding ropes
@@ -324,14 +322,6 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 		
-		// Ropes
-		
-		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
-			Rope rope = scene.getRopes().get(ii);
-			addObject(rope);
-			rope.setTexture(af.ropeTexture, af.nailTexture);
-		}
-		
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
 //		td.rw = af.ropeLongTexture.getRegionWidth()/scale.x;
@@ -342,6 +332,14 @@ public class AidenController extends WorldController
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
 //		
 		
+//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
+//			TrapDoor td = scene.getTrapDoors().get(ii);
+//			addObject(td);
+//			td.setTexture(af.trapDoor);
+//			td.rope.setTexture(af.trapDoor);
+//			td.setDrawScale(scale);
+//		}
+
 		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
 			TrapDoor td = scene.getTrapDoors().get(ii);
 			addObject(td);
@@ -349,6 +347,9 @@ public class AidenController extends WorldController
 			td.rope.setTexture(af.trapDoor);
 			td.setDrawScale(scale);
 		}
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 	}
 
 	// Temp

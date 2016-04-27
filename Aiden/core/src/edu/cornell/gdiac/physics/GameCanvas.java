@@ -600,6 +600,7 @@ public class GameCanvas {
 
 		// Position the camera
 		float f = -1f;
+
 		camera.zoom = 1f;
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			camera.translate(new Vector3(-2,0,0));
@@ -612,6 +613,7 @@ public class GameCanvas {
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 			camera.translate(new Vector3(0,-2,0));
+
 		}
 
 		camera.update();
