@@ -419,7 +419,23 @@ public class AidenController extends WorldController
 	public Color sC = Color.WHITE;
 	public Vector2 sScreen = new Vector2(1025, 130);
 	public Vector2 sPos = new Vector2(1025, 130).scl(1/32f);
-
+	
+	public void setPos(){
+		float w = canvas.getWidth();
+		float h = canvas.getHeight()/10;
+		pScreen = new Vector2(w/2-240, 7*h);
+		pPos = new Vector2(w/2-240, 7*h).scl(1/32f);
+		resuScreen = new Vector2(w/2-160, 6*h);
+		resuPos = new Vector2(w/2-160, 5*h).scl(1/32f);
+		restScreen = new Vector2(w/2-160, 5*h);
+		restPos = new Vector2(800, 430).scl(1/32f);
+		homeScreen = new Vector2(w/2-160, 4*h);
+		homePos = new Vector2(w/2-160, 4*h).scl(1/32f);
+		mScreen = new Vector2(w/2-w/8, 3*h);
+		muPos = new Vector2(w/2-w/8, 3*h).scl(1/32f);
+		sScreen = new Vector2(w/2+w/8, 3*h);
+		sPos = new Vector2(w/2+w/8, 3*h).scl(1/32f);
+	}
 	
 	public void buttonPressed(){
 		boolean isPressed = InputController.getInstance().didTertiary();
