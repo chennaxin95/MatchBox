@@ -265,16 +265,16 @@ public class AidenController extends WorldController
 			}
 
 		}
-		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
-			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
-			dheight = af.ropeTexture.getRegionHeight() / scale.y;
-			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
-					dwidth, dheight);
-			r.setDrawScale(scale);
-			r.setTexture(af.ropeTexture);
-			addObject(r);
-			ropes.add(r);
-		}
+//		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
+//			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
+//			dheight = af.ropeTexture.getRegionHeight() / scale.y;
+//			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
+//					dwidth, dheight);
+//			r.setDrawScale(scale);
+//			r.setTexture(af.ropeTexture);
+//			addObject(r);
+//			ropes.add(r);
+//		}
 		// Create Aiden
 		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
 		dheight = af.avatarTexture.getRegionHeight() / scale.y;
@@ -325,6 +325,9 @@ public class AidenController extends WorldController
 		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
 			TrapDoor td = scene.getTrapDoors().get(ii);
 			addObject(td);
+			td.setTexture(af.trapDoor);
+			td.rope.setTexture(af.trapDoor);
+			td.setDrawScale(scale);
 		}
 
 	}
@@ -730,11 +733,12 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes() {
-		Scene[] scenes = new Scene[4];
+		Scene[] scenes = new Scene[5];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
+		scenes[4] = new Scene("Level2.json");
 		this.scenes = scenes;
 	}
 
