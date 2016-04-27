@@ -558,14 +558,14 @@ public class AidenController extends WorldController
 			// Check for water top
 			for (CharacterModel wg : npcs) {
 				WaterGuard w = (WaterGuard) wg;
-				if ((w.getTopName().equals(fd2) && w != bd1
-						&& bd1 instanceof StoneBlock) ||
-						(w.getTopName().equals(fd1) && w != bd2
-								&& bd2 instanceof StoneBlock)) {
-
-					fix1.setRestitution(0);
-					fix2.setRestitution(0);
-
+				if (w.getTopName().equals(fd2) && w != bd1
+						&& bd1 instanceof StoneBlock &&
+						bd1.getVY() <= -2){
+					w.setDead(true);
+				}
+				if (w.getTopName().equals(fd1) && w != bd2
+								&& bd2 instanceof StoneBlock &&
+								bd2.getVY() <= -2) {
 					w.setDead(true);
 				}
 			}
