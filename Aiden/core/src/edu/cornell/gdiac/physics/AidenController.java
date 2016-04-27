@@ -226,7 +226,7 @@ public class AidenController extends WorldController
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			box.setBurningTexture(
-					af.burningTexture[(ii / 2) % af.burningTexture.length], 2);
+					af.burningTexture[ii  % af.burningTexture.length], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -272,6 +272,13 @@ public class AidenController extends WorldController
 			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
+			bp.setBurningTexture(
+					af.burningTexture[(ii + af.burningTexture.length/2) 
+					                  % af.burningTexture.length], 2);
+			bp.setDensity(BASIC_DENSITY);
+			bp.setFriction(0);
+			bp.setRestitution(BASIC_RESTITUTION);
+			bp.setName("burnable_platform"+ii);
 			addObject(bp);
 			bp.setDrawScale(scale);
 			flammables.add(bp);
@@ -765,12 +772,13 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes() {
-		Scene[] scenes = new Scene[5];
+		Scene[] scenes = new Scene[6];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
 		scenes[4] = new Scene("Level3.json");
+		scenes[5] = new Scene("Level4.json");
 		this.scenes = scenes;
 	}
 	
