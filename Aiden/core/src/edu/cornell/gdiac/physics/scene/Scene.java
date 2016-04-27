@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
@@ -47,7 +48,7 @@ public class Scene implements SceneInterface {
 		this.af = a;
 	}
 
-	public Scene(String s) {
+	public Scene(String s, World world) {
 
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
@@ -137,7 +138,7 @@ public class Scene implements SceneInterface {
 											bplatforms.add(new BurnablePlatform(
 													new Rectangle(x - b_scale_x / 2f,
 															y - b_scale_y / 2f, b_scale_x,
-															b_scale_y),1));
+															b_scale_y),1,world));
 										}else{
 											System.err
 											.println("new material : " + material);

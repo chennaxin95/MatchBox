@@ -205,6 +205,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("BAR_OUTTER"));
 		manager.load(af.get("BAR_INNER"), Texture.class);
 		assets.add(af.get("BAR_INNER"));
+		manager.load(af.get("AIDEN_RUN"), Texture.class);
+		assets.add(af.get("AIDEN_RUN"));
+		manager.load(af.get("AIDEN_IDLE"), Texture.class);
+		assets.add(af.get("AIDEN_IDLE"));
 	
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
@@ -324,12 +328,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		current = 0;
 		controllers[2] = new AidenController(2);
-		controllers[4] = new AidenController(3);
-		controllers[5] = new AidenController(4);
+		controllers[3] = new AidenController(3);
+		controllers[4] = new AidenController(4);
 		
 		loading.setScreenListener(this);
 
-		controllers[3] = new LevelEditor();
+		controllers[5] = new LevelEditor();
 	}
 
 	public void unloadContent(AssetManager manager) {
@@ -398,8 +402,8 @@ public class GDXRoot extends Game implements ScreenListener {
 				controllers[ii].setScreenListener(this);
 				controllers[ii].setCanvas(canvas);
 			}
-			controllers[current].reset();
-			setScreen(controllers[current]);
+			controllers[exitCode].reset();
+			setScreen(controllers[exitCode]);
 //			loading.dispose();
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){

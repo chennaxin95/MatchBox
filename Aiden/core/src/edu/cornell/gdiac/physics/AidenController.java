@@ -304,6 +304,7 @@ public class AidenController extends WorldController
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
 		avatar.setJump(af.AidenJumpTexture);
+		avatar.setRun(af.AidenRunTexture);
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
 		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {
@@ -355,6 +356,7 @@ public class AidenController extends WorldController
 			td.rope.setTexture(af.trapDoor);
 			td.setDrawScale(scale);
 		}
+
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f,
 				objects);
@@ -533,12 +535,13 @@ public class AidenController extends WorldController
 		if (beginCamFrame > 180 && beginCamFrame < 280) {
 			canvas.updateCam(1);
 		}
-		if (beginCamFrame < 300) {
-			beginCamFrame++;
-		}
-		if (beginCamFrame > 290) {
+
+		if (beginCamFrame > 280) {
 			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
 					scene.getHeight());
+		}
+		if (beginCamFrame < 300) {
+			beginCamFrame++;
 		}
 
 	}
@@ -780,12 +783,12 @@ public class AidenController extends WorldController
 
 	private void createScenes() {
 		Scene[] scenes = new Scene[6];
-		scenes[0] = new Scene("Tutorial1.json");
-		scenes[1] = new Scene("Tutorial2.json");
-		scenes[2] = new Scene("Tutorial3.json");
-		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level3.json");
-		scenes[5] = new Scene("Level4.json");
+		scenes[0] = new Scene("Tutorial1.json", world);
+		scenes[1] = new Scene("Tutorial2.json", world);
+		scenes[2] = new Scene("Tutorial3.json", world);
+		scenes[3] = new Scene("Level4.json", world);
+		scenes[4] = new Scene("Level3.json", world);
+		scenes[5] = new Scene("Level4.json", world);
 
 		this.scenes = scenes;
 	}

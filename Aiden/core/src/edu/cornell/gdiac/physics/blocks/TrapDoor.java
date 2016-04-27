@@ -30,8 +30,23 @@ public class TrapDoor extends StoneBlock{
 	}
 	
 	public boolean activatePhysics(World world){
+		float end;
+		if(isLeft){
+			end = getX() + getWidth()/2f;
+		}
+		else{
+			end = getX() - getWidth()/2f;
+		}
 		super.activatePhysics(world);
+		rope = new FlammableBlock(end, getY()+rl/2, rw, rl, 3, 3);
+		rope.activatePhysics(world);
+		rope.setDensity(1);
+		this.setDensity(1);
+		return false;
 		//Create the side anchor
+	}
+	
+	public void createJoints(World world){
 		float end;
 		if(isLeft){
 			posX = getX() - getWidth()/2f;
@@ -42,82 +57,83 @@ public class TrapDoor extends StoneBlock{
 			end = getX() - getWidth()/2f;
 		}
 		Vector2 pos = new Vector2(posX, this.getY());
-		anchor = new WheelObstacle(pos.x, pos.y, getY()/2);
+		anchor = new WheelObstacle(pos.x, pos.y, rw/2);
 		anchor.setName("anchor");
 		anchor.setDensity(1);
 		anchor.setBodyType(BodyDef.BodyType.StaticBody);
 		anchor.activatePhysics(world);
 		
-		// Definition for a revolute joint
+		Vector2 anchorP = new Vector2();
+		
 		RevoluteJointDef jointDef = new RevoluteJointDef();
-		// Initial joint
-		jointDef.bodyA = anchor.getBody();
-		jointDef.bodyB = body;
-		Vector2 anchorP = new Vector2(0, 0);
+		jointDef.bodyA = this.getBody();
+		jointDef.bodyB = anchor.getBody();
+		anchorP = new Vector2(0, 0);
+//		anchorP.x = isLeft?-getWidth()/2:getWidth()/2;
 		jointDef.localAnchorA.set(anchorP);
-		anchorP.x = isLeft ? -getWidth()/2 : getWidth()/2; 
+		anchorP = new Vector2(0, 0);
 		jointDef.localAnchorB.set(anchorP);
 		jointDef.collideConnected = false;
-		Joint joint = world.createJoint(jointDef);
-		Top = joint;
-		
-		//create hanging rope
-		rope = new FlammableBlock(end, getY()+rl/2, rw, rl, 3, 3);
-		rope.setDrawScale(this.drawScale);
-		rope.activatePhysics(world);
+		Top = world.createJoint(jointDef);
 		
 		//create rope/door joint
-		jointDef.bodyA = rope.getBody();
-		jointDef.bodyB = body;
-		anchorP = new Vector2(0, 0);
-		anchorP.y = -rl/2;
-		jointDef.localAnchorA.set(anchorP);
-		anchorP.y = 0;
-		anchorP.x = isLeft ? getWidth()/2 : -getWidth()/2; 
-		jointDef.localAnchorB.set(anchorP);
-		jointDef.collideConnected = false;
-		Joint joint1 = world.createJoint(jointDef);
-		Down = joint1;
+//		jointDef.bodyA = rope.getBody();
+//		jointDef.bodyB = this.body;
+//		anchorP = new Vector2(0, 0);
+//		anchorP.y = -rl/2;
+//		jointDef.localAnchorA.set(anchorP);
+//		anchorP.y = 0;
+//		anchorP.x = isLeft ? getWidth()/2 : -getWidth()/2; 
+//		jointDef.localAnchorB.set(anchorP);
+//		jointDef.collideConnected = false;
+//		Down = world.createJoint(jointDef);
 		
-		//anchor rope
+		//anchor rope joint
 		pos.x = end;
 		pos.y = getY()+rl;
-		anchorRope = new WheelObstacle(pos.x, pos.y, getHeight()/2);
+		anchorRope = new WheelObstacle(pos.x, pos.y, rw/2);
 		anchorRope.setName(this.getName()+"anchorRope");
 		anchorRope.setDensity(1);
 		anchorRope.setBodyType(BodyDef.BodyType.StaticBody);
-		anchorRope.setDrawScale(this.drawScale);
 		anchorRope.activatePhysics(world);
-		jointDef.bodyA = rope.getBody();
-		jointDef.bodyB = anchorRope.getBody();
+		RevoluteJointDef jointDef1 = new RevoluteJointDef();
+		jointDef1.bodyA = rope.getBody();
+		jointDef1.bodyB = anchorRope.getBody();
 		anchorP = new Vector2(0, 0);
 		anchorP.y = rl/2;
-		jointDef.localAnchorA.set(anchorP);
+		jointDef1.localAnchorA.set(anchorP);
 		anchorP.y = 0;
 		anchorP.x = 0; 
-		jointDef.localAnchorB.set(anchorP);
-		jointDef.collideConnected = false;
-		Joint joint2 = world.createJoint(jointDef);
-		End = joint2;
-		return false;
+		jointDef1.localAnchorB.set(anchorP);
+		jointDef1.collideConnected = false;
+		End = world.createJoint(jointDef1);
 	}
 	
 	public void setChildrenTexture(TextureRegion rope, TextureRegion nail){
 		this.rope.setTexture(rope);
+		this.rope.setDrawScale(this.drawScale);
 		this.anchorRope.setTexture(nail);
+		anchorRope.setDrawScale(this.drawScale);
+		this.anchor.setTexture(nail);
+		anchor.setDrawScale(this.drawScale);
 	}
 	
 	@Override
 	public void draw(GameCanvas canvas) {
 		super.draw(canvas);
-		if (anchorRope!=null)
+		if (anchorRope!=null){
+			anchor.draw(canvas);
 			anchorRope.draw(canvas);
+		}
 	}
 	
 	@Override
 	public void drawDebug(GameCanvas canvas){
 		super.drawDebug(canvas);
-		if (anchorRope!=null)
+		if (anchorRope!=null){
 			anchorRope.drawDebug(canvas);
+			anchor.drawDebug(canvas);
+		}
+			
 	}
 }
