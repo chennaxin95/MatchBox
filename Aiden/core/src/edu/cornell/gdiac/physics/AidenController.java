@@ -303,6 +303,7 @@ public class AidenController extends WorldController
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
 		avatar.setJump(af.AidenJumpTexture);
+		avatar.setRun(af.AidenRunTexture);
 		avatar.setCharacterSprite(af.AidenAnimeTexture);
 		avatar.setName("aiden");
 		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {

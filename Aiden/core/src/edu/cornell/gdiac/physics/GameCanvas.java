@@ -647,8 +647,7 @@ public class GameCanvas {
 			System.out.println(getWidth()+ " "+getHeight());
 
 			target.set(x, y, 0);
-			//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
-
+			
 			// Position the camera
 			float f = -1f;
 			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
