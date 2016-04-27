@@ -519,7 +519,7 @@ public class AidenController extends WorldController
 		}
 		
 		if(beginCamFrame<180){
-			canvas.updateCam(2);
+			canvas.updateCam((2*((float)scene.getWidth())/(float)64));
 			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
 		}		
 		if(beginCamFrame> 180 && beginCamFrame < 280){
@@ -766,9 +766,9 @@ public class AidenController extends WorldController
 
 	private void createScenes() {
 		Scene[] scenes = new Scene[5];
-		scenes[0] = new Scene("Tutorial1.json");
-		scenes[1] = new Scene("Tutorial2.json");
-		scenes[2] = new Scene("Tutorial3.json");
+		scenes[0] = new Scene("Level1.json");
+		scenes[1] = new Scene("Level2.json");
+		scenes[2] = new Scene("Level3.json");
 		scenes[3] = new Scene("Tutorial4.json");
 		scenes[4] = new Scene("Tutorial5.json");
 		this.scenes = scenes;

@@ -729,6 +729,7 @@ public class LevelEditor extends WorldController {
 	public void loadFromJson() {
 		System.out.println("Loading");
 
+
 		Scene scene = new Scene("Tutorial5.json");
 
 		reset();
