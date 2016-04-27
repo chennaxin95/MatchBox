@@ -1,7 +1,6 @@
 {
 "level": 1,
 "background": "shared/background.png",
-
 "width": 60,
 "height": 34,
 "aiden": {
@@ -2782,8 +2781,8 @@
 			"x": 28.375,
 			"y": 17.925
 		},
-		"scale_x": 0.04943316,
-		"scale_y": 1.7064,
+		"scale_x": 1,
+		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
 	}
@@ -2797,5 +2796,4 @@
 	"scale_y": 3,
 	"texture": "platform/goaldoor.png"
 }
-
 }
