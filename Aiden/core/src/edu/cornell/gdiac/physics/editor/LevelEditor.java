@@ -142,7 +142,6 @@ public class LevelEditor extends WorldController {
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
 		float nxPos=nPos.x/scale.x;
 		float nyPos=nPos.y/scale.y;
-		System.out.println(nxPos+" "+nyPos);
 		float deltaX = nxPos - xPos;
 		float deltaY = nyPos - yPos;
 		xPos = nxPos;
@@ -732,6 +731,14 @@ public class LevelEditor extends WorldController {
 			ch.setDrawScale(scale);
 		}
 		System.out.println("Loading blocks");
+		for (Rope rope:scene.getRopes()){
+			rope.setTexture(af.ropeTexture);
+			Vector2 trans = fitInGrid(new Vector2(rope.getX(),
+					rope.getY()));
+			rope.setPosition(rope.getPosition().add(trans));
+			rope.setDrawScale(scale);
+			this.complexs.add(rope);
+		}
 		for (BlockAbstract block : scene.getBlocks()) {
 			blocks.add(block);
 			block.setDrawScale(scale);
