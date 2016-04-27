@@ -608,6 +608,7 @@ public class GameCanvas {
 			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02;//camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02;//camera.zoom+=0.02f;
 		}else{
+			camera.zoom = 1f;
 			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 				camera.translate(new Vector3(-2,0,0));
 			}
