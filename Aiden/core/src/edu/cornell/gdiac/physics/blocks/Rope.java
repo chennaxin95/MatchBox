@@ -157,11 +157,6 @@ public class Rope extends ComplexObstacle {
 		return true;
 	}
 	
-//	@Override
-//	public Vector2 getPosition() {
-//		return bodies.get(0).getPosition();
-//	}
-	
 	/**
 	 * Destroys the physics Body(s) of this object if applicable,
 	 * removing them from the world.
@@ -200,7 +195,6 @@ public class Rope extends ComplexObstacle {
 		for (int i = 0; i < bodies.size; i++){
 			temp = (FlammableBlock) bodies.get(i);
 			if(temp.isBurnt()){
-				System.out.println("i is" + i);
 				world.destroyBody(bodies.get(i).getBody());
 				bodies.removeIndex(i);
 				return false;
@@ -224,8 +218,6 @@ public class Rope extends ComplexObstacle {
 	@Override
 	public void draw(GameCanvas canvas){
 		super.draw(canvas);
-		System.out.println(this.getPosition());
-		System.out.println(start.getPosition());
 		start.draw(canvas);
 	}
 	

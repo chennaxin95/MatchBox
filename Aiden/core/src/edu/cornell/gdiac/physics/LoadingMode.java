@@ -137,7 +137,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public int centerY;
 	/** The x-coordinate of the center of the progress bar */
 	public int centerX;
+	public int tlX;
+	public int tlY;
+	public int widthX;
 	public int centerBarX;
+	public int levelSelected;
 	/**
 	 * The height of the canvas window (necessary since sprite origin != screen
 	 * origin)
@@ -368,7 +372,17 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
 		}else if (pressState == 4){
-	
+			for (int i = 0; i<5; i++){
+				int x = tlX + i *  widthX / 5;
+				for (int j = 0; j < 4; j++){
+					int y = tlY - j * heightY /  4;
+					pos = canvas.relativeVector(x, y);
+					canvas.draw(credits, Color.WHITE, credits.getWidth() / 2,
+							credits.getHeight() / 2,
+							pos.x, pos.y, 0, BUTTON_SCALE * scale,
+							BUTTON_SCALE * scale);
+				}
+			}
 		}
 		canvas.end();
 	}
@@ -429,6 +443,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			if (isReady() && listener != null) {
 				listener.exitScreen(this, 0);
 			}
+			if (levelSelected != -1 && pressState == 5){
+				int temp = levelSelected;
+				levelSelected = -1;
+				listener.exitScreen(this, temp);
+			}
 		}
 	}
 
@@ -452,8 +471,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		this.width = (int) (BAR_WIDTH_RATIO * width);
 		centerY = (int) (.80 * height);
 		centerX =  2 * width / 3;
+		tlX = width / 10;
+		tlY = height * 7 / 8;
 		heightY = height;
 		centerBarX = (int) (width/2);
+		widthX = width;
 	}
 
 	/**
@@ -539,6 +561,19 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
 			pressState = 3;
 		}
+		
+		if (pressState == 4){
+			for (int i = 0; i<5; i++){
+				int x = tlX + i *  widthX / 5;
+				for (int j = 0; j < 4; j++){
+					int y = tlY - j * heightY /  4;
+					if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+						int level = (i+1) * (j+1) - 1;
+						levelSelected = level;
+					}
+				}
+			}
+		}
 		return false;
 	}
 
@@ -563,6 +598,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		}
 		if (pressState == 3) {
 			pressState = 4;
+			return false;
+		}
+		if (pressState == 4){
+			pressState = 5;
 			return false;
 		}
 		return true;

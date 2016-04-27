@@ -643,8 +643,6 @@ public class GameCanvas {
 		}*/
 		//x = (x+(w/2-x)/2)*getWidth()/w;
 		// y = (y+(h/2-y)/2)*getHeight()/h;
-		System.out.println(x+" "+y);
-		System.out.println(w+" "+h);
 		x = x*getWidth()/w;
 		y = y*getHeight()/h;
 		target.set(x, y, 0);

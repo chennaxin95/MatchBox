@@ -325,15 +325,17 @@ public class AidenController extends WorldController
 			this.ropes.add(rope);
 		}
 		
-//		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
+//		dwidth = af.ropeLongTexture.getRegionWidth()/scale.x;
+//		dheight = af.ropeLongTexture.getRegionHeight()/scale.y;
+//		TrapDoor td = new TrapDoor(7f, 8f, dheight, dwidth, true);
 //		td.setDrawScale(scale);
-//		td.rw = af.ropeLongTexture.getRegionWidth()/scale.x;
-//		td.rl = af.ropeLongTexture.getRegionHeight()/scale.y;
-//		addObject(td);
-//		objects.add(td.rope);
 //		td.setTexture(af.trapDoor);
+//		td.rw = dwidth;
+//		td.rl = dheight;
+//		addObject(td);
+//		td.createJoints(world);
+//		objects.add(td.rope);
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-//		
 		
 //		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
 //			TrapDoor td = scene.getTrapDoors().get(ii);

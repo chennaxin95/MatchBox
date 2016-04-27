@@ -1,17 +1,17 @@
 {
 "level": 1,
 "background": "shared/background.png",
-"width": 60,
-"height": 34,
+"width": 44,
+"height": 24,
 "aiden": {
 	"start_pos": [
 		{
-			"x": 1.375,
-			"y": 5.4249997
+			"x": 3.875,
+			"y": 6.9249997
 		}
 	],
-	"scale_x": 1.75,
-	"scale_y": 2.85,
+	"scale_x": 1,
+	"scale_y": 1.6,
 	"density": 0,
 	"start_fuel": 30,
 	"critical_fuel": 15,
@@ -28,11 +28,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 11.5,
-			"y": 4
+			"x": 16,
+			"y": 3.5
 		},
-		"scale_x": 23,
-		"scale_y": 1,
+		"scale_x": 30,
+		"scale_y": 2,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -50,14 +50,14 @@
 	},
 	{
 		"id": 1,
-		"blockType": "rope",
+		"blockType": "trapdoor",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 8.5
+			"x": 12.5,
+			"y": 6.75
 		},
-		"scale_x": 0.25,
-		"scale_y": 0.25,
+		"scale_x": 4,
+		"scale_y": 0.5,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -71,14 +71,14 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 15
+		"segments": 0
 	}
 ],
 "waters": [],
 "goal": {
 	"pos": {
-		"x": 12.5,
-		"y": 6
+		"x": 24.5,
+		"y": 8
 	},
 	"scale_x": 2,
 	"scale_y": 2,
