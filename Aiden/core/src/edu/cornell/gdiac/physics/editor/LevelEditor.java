@@ -252,8 +252,8 @@ public class LevelEditor extends WorldController {
 			for (Rope rope : this.complexs) {
 				if (rope.getX() < xPos
 						&& rope.getX() + rope.getWidth() > xPos
-						&& rope.getY() < yPos
-						&& rope.getY() + rope.getHeight() > yPos){
+						&& rope.getY() > yPos
+						&& rope.getY() - rope.getHeight() < yPos){
 					holdingRope=rope;
 					break;
 				}
@@ -626,7 +626,8 @@ public class LevelEditor extends WorldController {
 		}
 		for (Rope obj:complexs){
 			canvas.draw(af.ropeLongTexture, Color.WHITE, 0,  0,
-					obj.getX()*scale.x, obj.getY()*scale.y, 0, 1, 1);
+					obj.getX()*scale.x, 
+					(obj.getY()-obj.getHeight())*scale.y, 0, 1, 1);
 		}
 		if (aiden != null) {
 			aiden.simpleDraw(canvas);
@@ -673,7 +674,7 @@ public class LevelEditor extends WorldController {
 				canvas.drawPhysics(poly,
 						Color.GREEN,
 						holdingRope.getX(), 
-						holdingRope.getY(), 0, 
+						(holdingRope.getY()-holdingRope.getHeight()), 0, 
 						scale.x, scale.y);
 			}
 		}
