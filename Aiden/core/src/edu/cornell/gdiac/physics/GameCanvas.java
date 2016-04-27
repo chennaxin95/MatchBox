@@ -639,8 +639,11 @@ public class GameCanvas {
 		if(camFrame > 200){
 			//System.out.println(x+" "+y);
 			//System.out.println(y);
-			x = x*1920/w;
-			y = y*1080/h;
+			x = x*1920/64;
+			y = y*1080/40;
+			//x = x*getWidth()/w;
+			//y = y*getHeight()/h;
+			System.out.println(getWidth()+ " "+getHeight());
 
 			target.set(x, y, 0);
 			//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
@@ -1519,15 +1522,17 @@ public class GameCanvas {
 	}
 
 	public void translate(float x, float y, int w, int h){
-		x = x*1920/w;
-		y = y*1080/h;
+		x = x*1920/64;
+		y = y*1080/40;
+		//x = x*getWidth()/w;
+		//y = y*getHeight()/w;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 
 		// Position the camera
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-		if (d.x*d.x + d.y*d.y>10){
+		if (d.x*d.x + d.y*d.y>100){
 			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
 		}	
 		camera.update();
