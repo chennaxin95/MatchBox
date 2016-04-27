@@ -104,6 +104,9 @@ public class AidenController extends WorldController
 	private AIController aiController;
 	// // Temp
 	// private NavBoard board;
+	
+	private boolean beginCam = true;
+	private int beginCamFrame = 0;
 
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -505,8 +508,19 @@ public class AidenController extends WorldController
 			gs.setUnlocked(level + 1);
 		}
 		
+		if(beginCamFrame<150){
+			canvas.updateCam(2);
+			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());
+			
+		}
 		
-		canvas.updateCam();
+		if(beginCamFrame> 150 && beginCamFrame < 250){
+			canvas.updateCam(1);
+}
+		if(beginCamFrame < 300){
+			beginCamFrame ++;
+		}
+		
 	}
 
 
@@ -665,7 +679,7 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-		canvas.begin(avatar.getX(), avatar.getY());
+		canvas.begin(avatar.getX(), avatar.getY(),scene.getWidth(), scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				canvas.getWidth(), canvas.getHeight() / 18 * 22);
@@ -708,7 +722,7 @@ public class AidenController extends WorldController
 			af.displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight(),beginCamFrame); // DO NOT SCALE
 			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
@@ -716,7 +730,7 @@ public class AidenController extends WorldController
 			af.displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(avatar.getX(), avatar.getY(),scene.getWidth(), scene.getHeight(), beginCamFrame); // DO NOT SCALE
 			canvas.drawText("FAILURE!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
@@ -748,5 +762,6 @@ public class AidenController extends WorldController
 		scenes[4] = new Scene("Level2.json");
 		this.scenes = scenes;
 	}
+	
 
 }
