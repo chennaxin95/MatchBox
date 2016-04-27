@@ -190,7 +190,16 @@ public class AidenModel extends CharacterModel {
 	public void setComplete(boolean value) {
 		complete = value;
 	}
-
+	/**
+	 * Gets whether Aiden has won.
+	 *
+	 * @param value
+	 *            whether Aiden has won.
+	 */
+	public boolean getComplete() {
+		return complete;
+	}
+	
 	/** set the update delta time */
 	public void setDt(float dt) {
 		this.dt = dt;

@@ -490,7 +490,7 @@ public class AidenController extends WorldController
 			gs.exportToJson();
 		}
 
-		if (!notFailure) {
+		if (!notFailure && !avatar.getComplete() ) {
 			setFailure(true);
 		}
 		
@@ -579,6 +579,7 @@ public class AidenController extends WorldController
 			if ((bd1 == avatar && bd2 == goalDoor) ||
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
+				avatar.setComplete(true);
 			}
 
 			// Check for aiden top
