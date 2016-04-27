@@ -733,7 +733,7 @@ public class LevelEditor extends WorldController {
 		}
 		System.out.println("Loading blocks");
 		for (Rope rope:scene.getRopes()){
-			rope.setTexture(af.ropeTexture);
+			rope.setTexture(af.ropeTexture, af.nailTexture);
 			Vector2 trans = fitInGrid(new Vector2(rope.getX(),
 					rope.getY()));
 			rope.setPosition(rope.getPosition().add(trans));

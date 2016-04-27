@@ -275,15 +275,6 @@ public class AidenController extends WorldController
 			addObject(bp);
 			flammables.add(bp);
 		}
-		// Adding ropes
-		for (int ii = 0; ii < scene.getRopes().size(); ii += 2) {
-			Rope r = scene.getRopes().get(ii);
-			r.setDrawScale(scale);
-			r.setTexture(af.ropeTexture, af.nailTexture);
-			addObject(r);
-			ropes.add(r);
-		}
-		
 		// Create Aiden
 		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
 		dheight = af.avatarTexture.getRegionHeight() / scale.y;
@@ -325,8 +316,10 @@ public class AidenController extends WorldController
 		
 		for(int ii = 0; ii<scene.getRopes().size(); ii +=2){
 			Rope rope = scene.getRopes().get(ii);
+			rope.setDrawScale(scale);
 			addObject(rope);
 			rope.setTexture(af.ropeTexture, af.nailTexture);
+			this.ropes.add(rope);
 		}
 		
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
@@ -339,13 +332,13 @@ public class AidenController extends WorldController
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
 //		
 		
-		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
-			TrapDoor td = scene.getTrapDoors().get(ii);
-			addObject(td);
-			td.setTexture(af.trapDoor);
-			td.rope.setTexture(af.trapDoor);
-			td.setDrawScale(scale);
-		}
+//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
+//			TrapDoor td = scene.getTrapDoors().get(ii);
+//			addObject(td);
+//			td.setTexture(af.trapDoor);
+//			td.rope.setTexture(af.trapDoor);
+//			td.setDrawScale(scale);
+//		}
 	}
 
 	// Temp
@@ -754,7 +747,7 @@ public class AidenController extends WorldController
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level3.json");
+		scenes[4] = new Scene("Level2.json");
 		this.scenes = scenes;
 	}
 

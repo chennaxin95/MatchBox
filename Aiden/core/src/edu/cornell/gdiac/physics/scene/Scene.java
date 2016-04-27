@@ -127,7 +127,7 @@ public class Scene implements SceneInterface {
 										1));
 							} else {
 								if(material.equals("rope")){
-									ropes.add(new Rope(x,y,b_scale_x, b_scale_y));
+									ropes.add(new Rope(x,y,0.25f,0.25f));
 								}else{
 									boolean is_left = obj.getBoolean("isLeft");
 									if(material.equals("trapdoor")){

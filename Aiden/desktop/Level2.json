@@ -1,11 +1,13 @@
 {
 "level": 1,
 "background": "shared/background.png",
+"width": 60,
+"height": 34,
 "aiden": {
 	"start_pos": [
 		{
-			"x": 15.875,
-			"y": 10.925
+			"x": 1.375,
+			"y": 5.4249997
 		}
 	],
 	"scale_x": 1.75,
@@ -26,11 +28,36 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 13,
+			"x": 11.5,
+			"y": 4
+		},
+		"scale_x": 23,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0
+	},
+	{
+		"id": 1,
+		"blockType": "rope",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 6,
 			"y": 8.5
 		},
-		"scale_x": 10,
-		"scale_y": 3,
+		"scale_x": 0.25,
+		"scale_y": 0.25,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -39,23 +66,22 @@
 			"y": 0
 		},
 		"burning": false,
-		"burn_spread": 5,
+		"burn_spread": 1,
 		"burn_time": 3,
 		"burn_left": 1,
-		"fuels": 30
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 15
 	}
 ],
-"waters": [
-	{
-		"density": 0,
-		"pos": {
-			"x": 10.875,
-			"y": 10.925
-		},
-		"scale_x": 1.75,
-		"scale_y": 2.85,
-		"name": "WaterGuard",
-		"fright": true
-	}
-]
+"waters": [],
+"goal": {
+	"pos": {
+		"x": 12.5,
+		"y": 6
+	},
+	"scale_x": 2,
+	"scale_y": 2,
+	"texture": "platform/goaldoor.png"
+}
 }
