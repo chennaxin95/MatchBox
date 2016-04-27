@@ -154,10 +154,14 @@ public class LevelEditor extends WorldController {
 			loadFromJson();
 			return;
 		}
-		
+		boolean reactToPanel=false;
 		if (InputController.getInstance().newLeftClick()){
 			panel.update(InputController.getInstance().mousePos.x,
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
+			
+			if (InputController.getInstance().mousePos.x<=panel.width){
+				reactToPanel=true;
+			}
 			if (!panel.polyMode) {
 				this.platformRect = new Rectangle(-1, -1, 0, 0);
 			} else if (!oldMode){
@@ -223,7 +227,7 @@ public class LevelEditor extends WorldController {
 			holding = !holding;
 		}
 		// newly holding an object
-		if (holding && !wasHolding) {
+		if (holding && !wasHolding && !reactToPanel) {
 			if (aiden != null && aiden.getX() - aiden.getWidth() / 2 < xPos
 					&& aiden.getX() + aiden.getWidth() / 2 > xPos
 					&& aiden.getY() - aiden.getHeight() / 2 < yPos
