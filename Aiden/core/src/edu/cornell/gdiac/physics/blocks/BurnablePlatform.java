@@ -54,7 +54,8 @@ public class BurnablePlatform extends FlammableBlock {
 	@Override
 	public void draw(GameCanvas canvas){
 		if (region != null) {
-			canvas.draw(region,Color.WHITE,0,0,
+			
+			canvas.draw(region,Color.WHITE,origin.x,origin.y,
 					(getX()-getWidth()/2)*drawScale.x,
 					(getY()-getHeight()/2)*drawScale.y,
 					getAngle(),1, 1);
