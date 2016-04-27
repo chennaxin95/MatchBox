@@ -411,7 +411,6 @@ public class GDXRoot extends Game implements ScreenListener {
 			setScreen(loading);
 		}
 		else if (exitCode == WorldController.EXIT_NEXT) {
-			System.out.println("next level"+current);
 			boolean isle = controllers[current] instanceof LevelEditor;
 			// currentS = (isle) ? 0 : (currentS + 1) % scenes.length;
 			// if (currentS == scenes.length - 1 || isle) {

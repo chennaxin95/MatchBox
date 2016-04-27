@@ -30,8 +30,14 @@ public class CameraController {
 		}
 	}
 	
+
+	
 	public void update(OrthographicCamera camera){
 		zoom(camera, targetZoom);
+	}
+	
+	public void update(OrthographicCamera camera, float f){
+		zoom(camera, f);
 	}
 	
 }
