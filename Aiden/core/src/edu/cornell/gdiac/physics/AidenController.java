@@ -273,7 +273,16 @@ public class AidenController extends WorldController
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
 			addObject(bp);
+			bp.setDrawScale(scale);
 			flammables.add(bp);
+		}
+		// Adding ropes
+		for (int ii = 0; ii < scene.getRopes().size(); ii ++) {
+			Rope r = scene.getRopes().get(ii);
+			r.setDrawScale(scale);
+			r.setTexture(af.ropeTexture, af.nailTexture);
+			addObject(r);
+			ropes.add(r);
 		}
 		
 		// Create Aiden
@@ -314,12 +323,11 @@ public class AidenController extends WorldController
 		}
 		
 		// Ropes
+		
 		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
 			Rope rope = scene.getRopes().get(ii);
-			rope.setDrawScale(scale);
 			addObject(rope);
 			rope.setTexture(af.ropeTexture, af.nailTexture);
-			this.ropes.add(rope);
 		}
 		
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
@@ -339,6 +347,14 @@ public class AidenController extends WorldController
 //			td.rope.setTexture(af.trapDoor);
 //			td.setDrawScale(scale);
 //		}
+
+		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
+			TrapDoor td = scene.getTrapDoors().get(ii);
+			addObject(td);
+			td.setTexture(af.trapDoor);
+			td.rope.setTexture(af.trapDoor);
+			td.setDrawScale(scale);
+		}
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f,
 				objects);
@@ -510,15 +526,18 @@ public class AidenController extends WorldController
 			gs.setUnlocked(level + 1);
 		}
 		
-		if(beginCamFrame<150){
+		if(beginCamFrame<180){
 			canvas.updateCam(2);
-			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());		
+			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
 		}		
-		if(beginCamFrame> 150 && beginCamFrame < 250){
+		if(beginCamFrame> 180 && beginCamFrame < 280){
 			canvas.updateCam(1);
 		}
 		if(beginCamFrame < 300){
 			beginCamFrame ++;
+		}
+		if(beginCamFrame > 290){
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
 		}
 		
 	}
