@@ -89,8 +89,12 @@ public class FlammableBlock extends BlockAbstract{
 		float ox = 0.5f * burningSprite.getRegionWidth();
 		float oy = 0.5f * burningSprite.getRegionHeight();
 		
-		canvas.draw(burningSprite, Color.WHITE, ox, oy, getX() * drawScale.x, 
-				getY() * drawScale.y, getAngle(), 1f, 1f);
+		canvas.draw(burningSprite, Color.WHITE, ox, oy, 
+				getX() * drawScale.x, 
+				getY() * drawScale.y, getAngle(), 
+				this.getWidth()/burningSprite.getRegionWidth()*drawScale.x,
+				this.getHeight()/burningSprite.getRegionHeight()*drawScale.y
+				);
 	}
 
 	public boolean canSpreadFire() {

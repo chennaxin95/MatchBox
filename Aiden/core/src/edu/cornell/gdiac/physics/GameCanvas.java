@@ -593,33 +593,26 @@ public class GameCanvas {
 	 */
 	public void begin(float x, float y) {
 
-		x = x*getWidth()/32;
-		y = y*getHeight()/16;
+		x = x*1920/32;
+		y = y*1080/16;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 
 		// Position the camera
 		float f = -1f;
-		if(!isEditor){
-			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-			if (d.x*d.x + d.y*d.y>10){
-				camera.translate(new Vector3((float)Math.max(d.x/100, 1), (float)Math.max(d.y/100, 1), 0f));
-			}	
-			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02;//camera.zoom-=0.02f;
-			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02;//camera.zoom+=0.02f;
-		}else{
-			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-				camera.translate(new Vector3(-2,0,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-				camera.translate(new Vector3(2,0,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-				camera.translate(new Vector3(0,2,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-				camera.translate(new Vector3(0,-2,0));
-			}
+
+		camera.zoom = 1f;
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			camera.translate(new Vector3(-2,0,0));
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			camera.translate(new Vector3(2,0,0));
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+			camera.translate(new Vector3(0,2,0));
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+			camera.translate(new Vector3(0,-2,0));
 
 		}
 
@@ -643,40 +636,30 @@ public class GameCanvas {
 		}*/
 		//x = (x+(w/2-x)/2)*getWidth()/w;
 		// y = (y+(h/2-y)/2)*getHeight()/h;
-		x = x*getWidth()/w;
-		y = y*getHeight()/h;
-		target.set(x, y, 0);
-		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 
-		// Position the camera
-		float f = -1f;
-		if(!isEditor){
-			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-			if (d.x*d.x + d.y*d.y>10){
+		if(camFrame > 200){
+			//System.out.println(x+" "+y);
+			//System.out.println(y);
+			x = x*1920/64;
+			y = y*1080/40;
+			//x = x*getWidth()/w;
+			//y = y*getHeight()/h;
+			System.out.println(getWidth()+ " "+getHeight());
+
+			target.set(x, y, 0);
+			//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
+
+			// Position the camera
+			float f = -1f;
+			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
+			if (d.x*d.x + d.y*d.y>100){
 				camera.translate(new Vector3(d.x/100, d.y/100, 0f));
 			}	
-			if(camFrame > 200){
-				if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
-				if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
 
-			}
-
-		}else{
-			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-				camera.translate(new Vector3(-2,0,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-				camera.translate(new Vector3(2,0,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-				camera.translate(new Vector3(0,2,0));
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-				camera.translate(new Vector3(0,-2,0));
-			}
+			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
 
 		}
-
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
@@ -1229,24 +1212,24 @@ public class GameCanvas {
 	 * @param font The font to use
 	 * @param offset The y-value offset from the center of the screen.
 	 */
-    
-    public Vector2 relativeVector(float x, float y){
-        OrthographicCamera c = this.camera;
-        Vector3 pos = new Vector3(x, this.getHeight() - y, 0);
-        Vector3 n = c.unproject(pos);
-        Vector2 nPos = new Vector2(n.x, n.y);
-        return nPos;
-//        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
-    }
 
-    /**
-     * Draws text centered on the screen.
-     *
-     * @param text The string to draw
-     * @param font The font to use
-     * @param offset The y-value offset from the center of the screen.
-     */
-    public void drawTextCentered(String text, BitmapFont font, float offset) {
+	public Vector2 relativeVector(float x, float y){
+		OrthographicCamera c = this.camera;
+		Vector3 pos = new Vector3(x, this.getHeight() - y, 0);
+		Vector3 n = c.unproject(pos);
+		Vector2 nPos = new Vector2(n.x, n.y);
+		return nPos;
+		//        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
+	}
+
+	/**
+	 * Draws text centered on the screen.
+	 *
+	 * @param text The string to draw
+	 * @param font The font to use
+	 * @param offset The y-value offset from the center of the screen.
+	 */
+	public void drawTextCentered(String text, BitmapFont font, float offset) {
 		if (active != DrawPass.STANDARD) {
 			Gdx.app.error("GameCanvas", "Cannot draw without active begin()", new IllegalStateException());
 			return;
@@ -1539,22 +1522,19 @@ public class GameCanvas {
 		active = DrawPass.STANDARD;
 	}
 
-	public float getZoom() {
-		return camera.zoom;
-
-	}
-
 	public void translate(float x, float y, int w, int h){
-		x = x*getWidth()/w;
-		y = y*getHeight()/h;
+		x = x*1920/64;
+		y = y*1080/40;
+		//x = x*getWidth()/w;
+		//y = y*getHeight()/w;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 
 		// Position the camera
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-		if (d.x*d.x + d.y*d.y>10){
-			camera.translate(new Vector3(d.x/100, d.y/100, 0f));
+		if (d.x*d.x + d.y*d.y>100){
+			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
 		}	
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);

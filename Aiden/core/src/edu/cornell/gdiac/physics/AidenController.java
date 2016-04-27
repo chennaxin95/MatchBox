@@ -188,9 +188,6 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
-		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
-				scene.getHeight(), 1f, 1f,
-				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -229,7 +226,7 @@ public class AidenController extends WorldController
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			box.setBurningTexture(
-					af.burningTexture[(ii / 2) % af.burningTexture.length], 2);
+					af.burningTexture[ii  % af.burningTexture.length], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -275,8 +272,24 @@ public class AidenController extends WorldController
 			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
+			bp.setBurningTexture(
+					af.burningTexture[(ii + af.burningTexture.length/2) 
+					                  % af.burningTexture.length], 2);
+			bp.setDensity(BASIC_DENSITY);
+			bp.setFriction(0);
+			bp.setRestitution(BASIC_RESTITUTION);
+			bp.setName("burnable_platform"+ii);
 			addObject(bp);
+			bp.setDrawScale(scale);
 			flammables.add(bp);
+		}
+		// Adding ropes
+		for (int ii = 0; ii < scene.getRopes().size(); ii ++) {
+			Rope r = scene.getRopes().get(ii);
+			r.setDrawScale(scale);
+			r.setTexture(af.ropeTexture, af.nailTexture);
+			addObject(r);
+			ropes.add(r);
 		}
 		
 		// Create Aiden
@@ -316,18 +329,8 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 		
-		// Ropes
-		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
-			Rope rope = scene.getRopes().get(ii);
-			rope.setDrawScale(scale);
-			addObject(rope);
-			rope.setTexture(af.ropeTexture, af.nailTexture);
-			this.ropes.add(rope);
-		}
-		
-//		dwidth = af.ropeLongTexture.getRegionWidth()/scale.x;
-//		dheight = af.ropeLongTexture.getRegionHeight()/scale.y;
-//		TrapDoor td = new TrapDoor(7f, 8f, dheight, dwidth, true);
+
+//		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
 //		td.setTexture(af.trapDoor);
 //		td.rw = dwidth;
@@ -345,6 +348,16 @@ public class AidenController extends WorldController
 //			td.setDrawScale(scale);
 //		}
 
+//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
+//			TrapDoor td = scene.getTrapDoors().get(ii);
+//			addObject(td);
+//			td.setTexture(af.trapDoor);
+//			td.rope.setTexture(af.trapDoor);
+//			td.setDrawScale(scale);
+//		}
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 	}
 
 	// Temp
@@ -513,15 +526,18 @@ public class AidenController extends WorldController
 			gs.setUnlocked(level + 1);
 		}
 		
-		if(beginCamFrame<150){
-			canvas.updateCam(2);
-			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());		
+		if(beginCamFrame<180){
+			canvas.updateCam((2*((float)scene.getWidth())/(float)64));
+			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
 		}		
-		if(beginCamFrame> 150 && beginCamFrame < 250){
+		if(beginCamFrame> 180 && beginCamFrame < 280){
 			canvas.updateCam(1);
 		}
 		if(beginCamFrame < 300){
 			beginCamFrame ++;
+		}
+		if(beginCamFrame > 290){
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
 		}
 		
 	}
@@ -757,12 +773,13 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes() {
-		Scene[] scenes = new Scene[5];
+		Scene[] scenes = new Scene[6];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
-		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level2.json");
+		scenes[3] = new Scene("Level4.json");
+		scenes[4] = new Scene("Level3.json");
+		scenes[5] = new Scene("Level4.json");
 		this.scenes = scenes;
 	}
 	

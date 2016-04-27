@@ -239,8 +239,8 @@ public class AssetFile {
 				12, 1,
 				12);
 
-		burningTexture = new FilmStrip[10];
-		for (int i = 0; i < 10; i++) {
+		burningTexture = new FilmStrip[200];
+		for (int i = 0; i < 200; i++) {
 			burningTexture[i] = createFilmStrip(manager,
 					files.get("BURNING_FILE"),
 					7, 1, 7);

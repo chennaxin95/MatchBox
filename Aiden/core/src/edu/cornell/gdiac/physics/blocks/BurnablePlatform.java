@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.physics.material.Flammable;
 
 public class BurnablePlatform extends FlammableBlock {
 	
@@ -54,10 +55,35 @@ public class BurnablePlatform extends FlammableBlock {
 	@Override
 	public void draw(GameCanvas canvas){
 		if (region != null) {
-			canvas.draw(region,Color.WHITE,0,0,
-					(getX()-getWidth()/2)*drawScale.x,
-					(getY()-getHeight()/2)*drawScale.y,
-					getAngle(),1, 1);
+			if (((Flammable)material).isBurnt()){
+				canvas.draw(texture,Color.BLACK,origin.x,origin.y,
+						(getX()-getWidth()/2)*drawScale.x,
+						(getY()-getHeight()/2)*drawScale.y,
+						getAngle(),
+						ratio.x, ratio.y);
+			}
+			else if (((Flammable)material).isBurning()){
+				Color c=new Color();
+				if (((Flammable)material).getBurnRatio()>0.3){
+					c=new Color(1, ((Flammable)material).getBurnRatio(), 0, 1);
+				}
+				else{
+					c=new Color(((Flammable)material).getBurnRatio()/0.3f,((Flammable)material).getBurnRatio(), ratio.x, ratio.y);
+				}
+				canvas.draw(texture,c,origin.x,origin.y,
+						(getX()-getWidth()/2)*drawScale.x,
+						(getY()-getHeight()/2)*drawScale.y,
+						getAngle(), ratio.x, ratio.y);
+			}
+			else{
+				canvas.draw(texture,Color.WHITE,origin.x,origin.y,
+						(getX()-getWidth()/2)*drawScale.x,
+						(getY()-getHeight()/2)*drawScale.y,
+						getAngle(),ratio.x, ratio.y);
+			}
+		}		
+		if (((Flammable)material).isBurning()){
+			burningAnimate(canvas);
 		}
 	}
 

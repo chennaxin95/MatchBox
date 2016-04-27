@@ -9,7 +9,7 @@ public class WaterModelJsonRep {
 	public PointJsonRep pos = new PointJsonRep(1,1);
 	
 	public float scale_x = 1;
-	public float scale_y = 1;
+	public float scale_y = 1.6f;
 	
 	public String name = "a";
 	
@@ -21,7 +21,7 @@ public class WaterModelJsonRep {
 		this.name = ch.getName();
 		this.fright=ch.isFacingRight();
 		pos = new PointJsonRep(ch.getX(), ch.getY());
-		scale_x=ch.getWidth();
-		scale_y=ch.getHeight();
+//		scale_x=ch.getWidth();
+//		scale_y=ch.getHeight();
 	}
 }
