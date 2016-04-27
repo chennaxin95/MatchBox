@@ -324,12 +324,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		current = 0;
 		controllers[2] = new AidenController(2);
-		controllers[4] = new AidenController(3);
-		controllers[5] = new AidenController(4);
+		controllers[3] = new AidenController(3);
+		controllers[4] = new AidenController(4);
 		
 		loading.setScreenListener(this);
 
-		controllers[3] = new LevelEditor();
+		controllers[5] = new LevelEditor();
 	}
 
 	public void unloadContent(AssetManager manager) {

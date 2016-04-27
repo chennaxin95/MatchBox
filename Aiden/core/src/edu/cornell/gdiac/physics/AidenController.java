@@ -776,7 +776,7 @@ public class AidenController extends WorldController
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
-		scenes[3] = new Scene("Tutorial4.json");
+		scenes[3] = new Scene("Level4.json");
 		scenes[4] = new Scene("Level3.json");
 		scenes[5] = new Scene("Level4.json");
 		this.scenes = scenes;
