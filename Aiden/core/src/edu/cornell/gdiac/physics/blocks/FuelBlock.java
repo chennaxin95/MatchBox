@@ -13,7 +13,7 @@ public class FuelBlock extends FlammableBlock {
 
 	public FuelBlock(float x, float y, float width, float height,
 			float spreadRate, float burnRate, int fuels, boolean icp) {
-		super(x, y + 0.5f, width, height, spreadRate, burnRate);
+		super(x, y, width, height, spreadRate, burnRate);
 		this.setBlockType(BlockType.FUEL);
 		this.setBodyType(BodyType.StaticBody);
 		this.fuelBonus = fuels;

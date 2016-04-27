@@ -26,6 +26,9 @@ public class Scene implements SceneInterface {
 
 	private AssetFile af;
 
+	private float width = 32;
+	private float height = 18;
+	
 	private AidenModel aidenModel;
 	private ArrayList<BlockAbstract> blocks;
 	private ArrayList<FlammableBlock> woodBlocks = new ArrayList<FlammableBlock>();
@@ -53,7 +56,12 @@ public class Scene implements SceneInterface {
 		JsonValue objects = jv.get("blocks");
 		JsonValue jguards = jv.get("waters");
 		JsonValue exit = jv.get("goal");
+		if (jv.has("width")){
+			width = jv.getFloat("width");
+			height = jv.getFloat("height");
+		}
 
+		
 		// Aiden
 
 		if (aiden != null) {
@@ -297,6 +305,14 @@ public class Scene implements SceneInterface {
 	
 	public ArrayList<BurnablePlatform> getBurnablePlatforms(){
 		return bplatforms;
+	}
+	
+	public float getWidth(){
+		return width;
+	}
+	
+	public float getHeight(){
+		return height;
 	}
 
 

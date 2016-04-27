@@ -24,6 +24,10 @@ public interface SceneInterface {
 	
 	public int getGridUnit();
 	
+	public float getWidth();
+	
+	public float getHeight();
+	
 	public AidenModel getAidenModel();
 	
 	public ArrayList<BlockAbstract> getBlocks();
@@ -47,4 +51,6 @@ public interface SceneInterface {
 	public ArrayList<FlammableBlock> getFlammables(boolean rope, boolean fuel, boolean bplatform);
 	
 	public ArrayList<Obstacle> getObstacles(boolean aiden, boolean npc);
+	
+
 }

@@ -154,10 +154,14 @@ public class LevelEditor extends WorldController {
 			loadFromJson();
 			return;
 		}
-		
+		boolean reactToPanel=false;
 		if (InputController.getInstance().newLeftClick()){
 			panel.update(InputController.getInstance().mousePos.x,
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
+			
+			if (InputController.getInstance().mousePos.x<=panel.width){
+				reactToPanel=true;
+			}
 			if (!panel.polyMode) {
 				this.platformRect = new Rectangle(-1, -1, 0, 0);
 			} else if (!oldMode){
@@ -223,7 +227,7 @@ public class LevelEditor extends WorldController {
 			holding = !holding;
 		}
 		// newly holding an object
-		if (holding && !wasHolding) {
+		if (holding && !wasHolding && !reactToPanel) {
 			if (aiden != null && aiden.getX() - aiden.getWidth() / 2 < xPos
 					&& aiden.getX() + aiden.getWidth() / 2 > xPos
 					&& aiden.getY() - aiden.getHeight() / 2 < yPos
@@ -252,8 +256,8 @@ public class LevelEditor extends WorldController {
 			for (Rope rope : this.complexs) {
 				if (rope.getX() < xPos
 						&& rope.getX() + rope.getWidth() > xPos
-						&& rope.getY() < yPos
-						&& rope.getY() + rope.getHeight() > yPos){
+						&& rope.getY() > yPos
+						&& rope.getY() - rope.getHeight() < yPos){
 					holdingRope=rope;
 					break;
 				}
@@ -443,12 +447,12 @@ public class LevelEditor extends WorldController {
 					break;
 				case ROPE_IND:
 					Rope rope= new Rope(xPos, yPos, 0.25f, 0.25f);
-					rope.setTexture(af.ropeTexture);
 					trans = fitInGrid(new Vector2(rope.getX(),
 							rope.getY()));
 					rope.setPosition(rope.getPosition().add(trans));
 					rope.setDrawScale(scale);
 					this.complexs.add(rope);
+					rope.setTexture(af.ropeTexture, af.nailTexture);
 					holdingRope=rope;
 					break;
 				case BURNABLE_PLATFORM_IND:
@@ -575,8 +579,8 @@ public class LevelEditor extends WorldController {
 		}
 	}
 
-	private int gridWidth = 32;
-	private int gridHeight = 18;
+	private int gridWidth = 60;
+	private int gridHeight = 34;
 	private float gridUnit = 0.5f;
 
 	private float xPos;
@@ -626,7 +630,8 @@ public class LevelEditor extends WorldController {
 		}
 		for (Rope obj:complexs){
 			canvas.draw(af.ropeLongTexture, Color.WHITE, 0,  0,
-					obj.getX()*scale.x, obj.getY()*scale.y, 0, 1, 1);
+					obj.getX()*scale.x, 
+					(obj.getY()-obj.getHeight())*scale.y, 0, 1, 1);
 		}
 		if (aiden != null) {
 			aiden.simpleDraw(canvas);
@@ -673,7 +678,7 @@ public class LevelEditor extends WorldController {
 				canvas.drawPhysics(poly,
 						Color.GREEN,
 						holdingRope.getX(), 
-						holdingRope.getY(), 0, 
+						(holdingRope.getY()-holdingRope.getHeight()), 0, 
 						scale.x, scale.y);
 			}
 		}
@@ -732,7 +737,7 @@ public class LevelEditor extends WorldController {
 		}
 		System.out.println("Loading blocks");
 		for (Rope rope:scene.getRopes()){
-			rope.setTexture(af.ropeTexture);
+			rope.setTexture(af.ropeTexture, af.nailTexture);
 			Vector2 trans = fitInGrid(new Vector2(rope.getX(),
 					rope.getY()));
 			rope.setPosition(rope.getPosition().add(trans));

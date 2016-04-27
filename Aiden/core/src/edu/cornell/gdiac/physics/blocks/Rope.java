@@ -128,6 +128,7 @@ public class Rope extends ComplexObstacle {
 		start.setName("rope_pin"+0);
 		start.setDensity(BASIC_DENSITY);
 		start.setBodyType(BodyDef.BodyType.StaticBody);
+		start.setDrawScale(this.drawScale);
 		start.activatePhysics(world);
 		
 		// Definition for a revolute joint
@@ -156,10 +157,10 @@ public class Rope extends ComplexObstacle {
 		return true;
 	}
 	
-	@Override
-	public Vector2 getPosition() {
-		return bodies.get(0).getPosition();
-	}
+//	@Override
+//	public Vector2 getPosition() {
+//		return bodies.get(0).getPosition();
+//	}
 	
 	/**
 	 * Destroys the physics Body(s) of this object if applicable,
@@ -179,10 +180,13 @@ public class Rope extends ComplexObstacle {
 	 *
 	 * @param texture the texture for the individual planks
 	 */
-	public void setTexture(TextureRegion texture) {
+	public void setTexture(TextureRegion texture, TextureRegion nail) {
 		for(Obstacle body : bodies) {
 			((SimpleObstacle)body).setTexture(texture);
 		}
+		if(start != null){
+			start.setTexture(nail);
+		}	
 	}
 	
 	/**update parts burn state*/
@@ -217,7 +221,13 @@ public class Rope extends ComplexObstacle {
 		}
 		return ((SimpleObstacle)bodies.get(0)).getTexture();
 	}
-
+	
+	@Override
+	public void draw(GameCanvas canvas){
+		super.draw(canvas);
+		start.draw(canvas);
+	}
+	
 	@Override
 	public void drawDebug(GameCanvas canvas, Color c) {
 		// TODO Auto-generated method stub

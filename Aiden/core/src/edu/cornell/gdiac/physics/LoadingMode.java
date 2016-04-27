@@ -90,9 +90,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** Default budget for asset loader (do nothing but load 60 fps) */
 	public static int DEFAULT_BUDGET = 15;
 	/** Standard window size (for scaling) */
-	public static int STANDARD_WIDTH = 800;
+	public static int STANDARD_WIDTH = 1920;
 	/** Standard window height (for scaling) */
-	public static int STANDARD_HEIGHT = 700;
+	public static int STANDARD_HEIGHT = 1080;
 	/** Ratio of the bar width to the screen */
 	public static float BAR_WIDTH_RATIO = 0.66f;
 	/** Ration of the bar height to the screen */
@@ -338,29 +338,37 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 */
 	public void draw() {
 		canvas.begin();
-		canvas.draw(background, 0, 0);
+		Vector2 pos = canvas.relativeVector(0, 0);
+		canvas.draw(background, pos.x, pos.y);
 		if (playButton == null) {
 			drawProgress(canvas);
-		} else {
+		} else if (pressState == 0 || pressState == 1 || pressState == 3){
 			Color tint1 = (pressState == 1 ? Color.GRAY : Color.WHITE);
+			pos = canvas.relativeVector(centerX, centerY * START_V_SCALE);
 			canvas.draw(playButton, tint1, playButton.getWidth() / 2,
 					playButton.getHeight() / 2,
-					centerX, centerY * START_V_SCALE, 0, BUTTON_SCALE * scale,
+					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+			pos = canvas.relativeVector(centerX, centerY);
 			canvas.draw(mainMenu, Color.WHITE, mainMenu.getWidth() / 2, mainMenu.getHeight() / 2, 
-					centerX, centerY, 0, MENU_SCALE * scale, MENU_SCALE * scale);
+					pos.x, pos.y, 0, MENU_SCALE * scale, MENU_SCALE * scale);
+			pos = canvas.relativeVector(centerX, centerY * LEVEL_V_SCALE);
 			canvas.draw(levels, Color.WHITE, levels.getWidth() / 2,
 					levels.getHeight() / 2,
-					centerX, centerY * LEVEL_V_SCALE, 0, BUTTON_SCALE * scale,
+					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+			pos = canvas.relativeVector(centerX, centerY * SETTINGS_V_SCALE);
 			canvas.draw(settings, Color.WHITE, settings.getWidth() / 2,
 					settings.getHeight() / 2,
-					centerX, centerY * SETTINGS_V_SCALE, 0, BUTTON_SCALE * scale,
+					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+			pos = canvas.relativeVector(centerX, centerY * CREDITS_V_SCALE);
 			canvas.draw(credits, Color.WHITE, credits.getWidth() / 2,
 					credits.getHeight() / 2,
-					centerX, centerY * CREDITS_V_SCALE, 0, BUTTON_SCALE * scale,
+					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+		}else if (pressState == 4){
+	
 		}
 		canvas.end();
 	}
@@ -525,8 +533,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		float width = BUTTON_SCALE * scale * playButton.getWidth();
 		float height = BUTTON_SCALE * scale * playButton.getHeight();
 
-		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
 			pressState = 1;
+		}
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
+			pressState = 3;
 		}
 		return false;
 	}
@@ -548,6 +559,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (pressState == 1) {
 			pressState = 2;
+			return false;
+		}
+		if (pressState == 3) {
+			pressState = 4;
 			return false;
 		}
 		return true;

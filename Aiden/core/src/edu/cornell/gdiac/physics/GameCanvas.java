@@ -626,7 +626,6 @@ public class GameCanvas {
 				// if (InputController.getInstance().zoomOut() && camera.zoom<2) cc.zoom(camera, 0.5f);//camera.zoom+=0.02f;
 
 			//}
-				
 
 		}else{
 			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -1198,7 +1197,11 @@ public class GameCanvas {
     
     public Vector2 relativeVector(float x, float y){
         OrthographicCamera c = this.camera;
-        return new Vector2(x+c.position.x-c.viewportWidth*c.zoom/2,y+c.position.y-c.viewportHeight*c.zoom/2);
+        Vector3 pos = new Vector3(x, this.getHeight() - y, 0);
+        Vector3 n = c.unproject(pos);
+        Vector2 nPos = new Vector2(n.x, n.y);
+        return nPos;
+//        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
     }
 
     /**
@@ -1489,5 +1492,8 @@ public class GameCanvas {
 	
 	public void updateCam(){
 		cc.update(camera);
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+    	active = DrawPass.STANDARD;
 	}
 }
