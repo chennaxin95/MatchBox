@@ -964,6 +964,7 @@ public abstract class ComplexObstacle extends Obstacle {
 	 * @return true if object allocation succeeded
 	 */
 	public boolean activatePhysics(World world) {
+		System.out.println("called once");
 		bodyinfo.active = true;
 		boolean success = true;
 	

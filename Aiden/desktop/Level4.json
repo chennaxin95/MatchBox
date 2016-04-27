@@ -1,7 +1,6 @@
 {
 "level": 1,
 "background": "shared/background.png",
-
 "width": 60,
 "height": 34,
 "aiden": {
@@ -2947,5 +2946,4 @@
 	"scale_y": 3,
 	"texture": "platform/goaldoor.png"
 }
-
 }
