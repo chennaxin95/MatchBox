@@ -126,7 +126,10 @@ public class Scene implements SceneInterface {
 										trapdoors.add(new TrapDoor(x,y,b_scale_x, b_scale_y, is_left));
 									}else{
 										if(material.equals("burnable_platform")){
-											bplatforms.add(new BurnablePlatform(new Rectangle(x,y,b_scale_x, b_scale_y),1));
+											bplatforms.add(new BurnablePlatform(
+													new Rectangle(x - b_scale_x / 2f,
+															y - b_scale_y / 2f, b_scale_x,
+															b_scale_y),1));
 										}else{
 											System.err
 											.println("new material : " + material);
