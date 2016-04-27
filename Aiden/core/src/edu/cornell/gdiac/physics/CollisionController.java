@@ -44,6 +44,13 @@ public class CollisionController {
 						&& bd2 instanceof FlammableBlock) {
 					FlammableBlock fb1 = (FlammableBlock) bd1;
 					FlammableBlock fb2 = (FlammableBlock) bd2;
+					if (fb1 instanceof BurnablePlatform || fb2 instanceof BurnablePlatform){
+						System.out.println("spread1="+fb1.getSpreadRatio());
+						System.out.println("spread2="+fb2.getSpreadRatio());
+						if (fb1.canSpreadFire()||fb2.canSpreadFire()){
+							System.out.println("hi");
+						}
+					}
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
