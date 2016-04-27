@@ -110,6 +110,10 @@ public class LevelEditor extends WorldController {
 		holdingCharacter = null;
 		holdingBlock = null;
 		holdingRope=null;
+		if (panel!=null){
+			panel.boardWidth = 44;
+			panel.boardHeight = 24;
+		}
 //		isAddingRect = false;
 	}
 
@@ -579,8 +583,8 @@ public class LevelEditor extends WorldController {
 		}
 	}
 
-	private int gridWidth = 60;
-	private int gridHeight = 34;
+	private int gridWidth = 44;
+	private int gridHeight = 24;
 	private float gridUnit = 0.5f;
 
 	private float xPos;
@@ -737,7 +741,7 @@ public class LevelEditor extends WorldController {
 		}
 		System.out.println("Loading blocks");
 		for (Rope rope:scene.getRopes()){
-			rope.setTexture(af.ropeTexture, af.ropeLongTexture);
+			rope.setTexture(af.ropeTexture, af.nailTexture);
 			Vector2 trans = fitInGrid(new Vector2(rope.getX(),
 					rope.getY()));
 			rope.setPosition(rope.getPosition().add(trans));
@@ -786,6 +790,8 @@ public class LevelEditor extends WorldController {
 			aiden.setDrawScale(scale);
 			aiden.setTexture(af.avatarTexture);
 		}
+		panel.boardWidth=(int) scene.getWidth();
+		panel.boardHeight=(int) scene.getHeight();
 
 		System.out.println(this.blocks.size() + " " + this.npcs.size());
 

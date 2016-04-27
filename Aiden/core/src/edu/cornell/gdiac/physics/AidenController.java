@@ -251,7 +251,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < scene.getFuelBlocks().size(); ii += 2) {
+		for (int ii = 0; ii < scene.getFuelBlocks().size(); ii ++) {
 			TextureRegion texture = af.fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -271,7 +271,7 @@ public class AidenController extends WorldController
 
 		}
 		// Adding burnable platforms
-		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii+=2){
+		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii++){
 			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
@@ -279,7 +279,7 @@ public class AidenController extends WorldController
 			flammables.add(bp);
 		}
 		// Adding ropes
-		for (int ii = 0; ii < scene.getRopes().size(); ii += 2) {
+		for (int ii = 0; ii < scene.getRopes().size(); ii ++) {
 			Rope r = scene.getRopes().get(ii);
 			r.setDrawScale(scale);
 			r.setTexture(af.ropeTexture, af.nailTexture);
@@ -310,7 +310,7 @@ public class AidenController extends WorldController
 		dwidth = af.waterTexture.getRegionWidth() / scale.x;
 		dheight = (af.waterTexture.getRegionHeight() / scale.y);
 
-		for (int ii = 0; ii < scene.getGuards().size(); ii += 2) {
+		for (int ii = 0; ii < scene.getGuards().size(); ii ++) {
 
 			WaterGuard ch1 = scene.getGuards().get(ii);
 			ch1.setDrawScale(scale);
@@ -326,7 +326,7 @@ public class AidenController extends WorldController
 		
 		// Ropes
 		
-		for(int ii = 0; ii<scene.getRopes().size(); ii +=2){
+		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
 			Rope rope = scene.getRopes().get(ii);
 			addObject(rope);
 			rope.setTexture(af.ropeTexture, af.nailTexture);
@@ -342,7 +342,7 @@ public class AidenController extends WorldController
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
 //		
 		
-		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
+		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
 			TrapDoor td = scene.getTrapDoors().get(ii);
 			addObject(td);
 			td.setTexture(af.trapDoor);
