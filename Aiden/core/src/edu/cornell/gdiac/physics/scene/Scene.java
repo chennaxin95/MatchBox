@@ -291,6 +291,10 @@ public class Scene implements SceneInterface {
 		}
 		return container;
 	}
+	
+	public ArrayList<BurnablePlatform> getBurnablePlatforms(){
+		return bplatforms;
+	}
 
 
 

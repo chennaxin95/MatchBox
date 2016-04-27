@@ -3,6 +3,7 @@ package edu.cornell.gdiac.physics.scene;
 import java.util.ArrayList;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Platform;
@@ -34,6 +35,8 @@ public interface SceneInterface {
 	public ArrayList<FuelBlock> getFuelBlocks();
 	
 	public ArrayList<Platform> getPlatform();
+	
+	public ArrayList<BurnablePlatform> getBurnablePlatforms();
 	
 	public ArrayList<WaterGuard> getGuards();
 	

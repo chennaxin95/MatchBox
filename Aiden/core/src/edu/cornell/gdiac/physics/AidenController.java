@@ -265,11 +265,17 @@ public class AidenController extends WorldController
 			}
 
 		}
-		for (int ii = 0; ii < ROPE[level].length; ii += 2) {
-			dwidth = af.ropeTexture.getRegionWidth() / scale.x;
-			dheight = af.ropeTexture.getRegionHeight() / scale.y;
-			Rope r = new Rope(ROPE[level][ii], ROPE[level][ii + 1],
-					dwidth, dheight);
+		// Adding burnable platforms
+		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii+=2){
+			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
+			TextureRegion texture = af.burnablePlatform;
+			bp.setTexture(texture);
+			addObject(bp);
+			flammables.add(bp);
+		}
+		// Adding ropes
+		for (int ii = 0; ii < scene.getRopes().size(); ii += 2) {
+			Rope r = scene.getRopes().get(ii);
 			r.setDrawScale(scale);
 			r.setTexture(af.ropeTexture);
 			addObject(r);
