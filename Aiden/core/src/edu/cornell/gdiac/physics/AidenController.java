@@ -351,7 +351,8 @@ public class AidenController extends WorldController
 			TrapDoor td = scene.getTrapDoors().get(ii);
 			addObject(td);
 			td.setTexture(af.trapDoor);
-			td.rope.setTexture(af.trapDoor);
+			if (td.rope!=null)
+				td.rope.setTexture(af.trapDoor);
 			td.setDrawScale(scale);
 		}
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
@@ -772,13 +773,14 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes() {
-		Scene[] scenes = new Scene[6];
+		Scene[] scenes = new Scene[7];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level3.json");
-		scenes[5] = new Scene("Level4.json");
+		scenes[4] = new Scene("Level2.json");
+		scenes[5] = new Scene("Level3.json");
+		scenes[6] = new Scene("Level4.json");
 		this.scenes = scenes;
 	}
 	
