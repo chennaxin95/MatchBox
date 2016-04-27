@@ -329,7 +329,6 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-		System.out.println("!!!!!!!!npc: "+ npcs.size());
 
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
