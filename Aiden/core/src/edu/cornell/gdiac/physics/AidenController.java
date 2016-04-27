@@ -322,14 +322,6 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 		
-		// Ropes
-		
-		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
-			Rope rope = scene.getRopes().get(ii);
-			addObject(rope);
-			rope.setTexture(af.ropeTexture, af.nailTexture);
-		}
-		
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
 //		td.rw = af.ropeLongTexture.getRegionWidth()/scale.x;
