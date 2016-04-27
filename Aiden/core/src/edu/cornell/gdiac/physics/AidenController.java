@@ -121,8 +121,7 @@ public class AidenController extends WorldController
 		this.level = level;
 		spirit = true;
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
-				objects);
+
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks = new ArrayList<BlockAbstract>();
 		
@@ -186,6 +185,9 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -668,7 +670,7 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY());
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-				canvas.getWidth(), canvas.getHeight() / 18 * 22);
+				scene.getWidth()*scale.x, scene.getHeight()*scale.y);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -745,7 +747,7 @@ public class AidenController extends WorldController
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level2.json");
+		scenes[4] = new Scene("Level3.json");
 		this.scenes = scenes;
 	}
 
