@@ -341,7 +341,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		canvas.draw(background, 0, 0);
 		if (playButton == null) {
 			drawProgress(canvas);
-		} else {
+		} else if (pressState == 0 || pressState == 1 || pressState == 3){
 			Color tint1 = (pressState == 1 ? Color.GRAY : Color.WHITE);
 			canvas.draw(playButton, tint1, playButton.getWidth() / 2,
 					playButton.getHeight() / 2,
@@ -349,7 +349,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					BUTTON_SCALE * scale);
 			canvas.draw(mainMenu, Color.WHITE, mainMenu.getWidth() / 2, mainMenu.getHeight() / 2, 
 					centerX, centerY, 0, MENU_SCALE * scale, MENU_SCALE * scale);
-			canvas.draw(levels, Color.WHITE, levels.getWidth() / 2,
+			Color tint2 = (pressState == 3 ? Color.GRAY : Color.WHITE);
+			canvas.draw(levels, tint2, levels.getWidth() / 2,
 					levels.getHeight() / 2,
 					centerX, centerY * LEVEL_V_SCALE, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
@@ -361,6 +362,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					credits.getHeight() / 2,
 					centerX, centerY * CREDITS_V_SCALE, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+		}else if (pressState == 4){
+	
 		}
 		canvas.end();
 	}
@@ -525,8 +528,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		float width = BUTTON_SCALE * scale * playButton.getWidth();
 		float height = BUTTON_SCALE * scale * playButton.getHeight();
 
-		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
 			pressState = 1;
+		}
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
+			pressState = 3;
 		}
 		return false;
 	}
@@ -548,6 +554,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (pressState == 1) {
 			pressState = 2;
+			return false;
+		}
+		if (pressState == 3) {
+			pressState = 4;
 			return false;
 		}
 		return true;
