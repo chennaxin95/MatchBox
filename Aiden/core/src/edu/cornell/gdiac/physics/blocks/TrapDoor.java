@@ -31,7 +31,6 @@ public class TrapDoor extends StoneBlock{
 	
 	public boolean activatePhysics(World world){
 		super.activatePhysics(world);
-		
 		//Create the side anchor
 		float end;
 		if(isLeft){
@@ -100,7 +99,6 @@ public class TrapDoor extends StoneBlock{
 		jointDef.collideConnected = false;
 		Joint joint2 = world.createJoint(jointDef);
 		End = joint2;
-		
 		return false;
 	}
 	

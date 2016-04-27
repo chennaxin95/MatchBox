@@ -124,8 +124,7 @@ public class AidenController extends WorldController
 		this.level = level;
 		spirit = true;
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
-				objects);
+
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks = new ArrayList<BlockAbstract>();
 		
@@ -189,6 +188,9 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -280,7 +282,7 @@ public class AidenController extends WorldController
 		for (int ii = 0; ii < scene.getRopes().size(); ii += 2) {
 			Rope r = scene.getRopes().get(ii);
 			r.setDrawScale(scale);
-			r.setTexture(af.ropeTexture);
+			r.setTexture(af.ropeTexture, af.nailTexture);
 			addObject(r);
 			ropes.add(r);
 		}
@@ -326,11 +328,19 @@ public class AidenController extends WorldController
 		
 		for(int ii = 0; ii<scene.getRopes().size(); ii +=2){
 			Rope rope = scene.getRopes().get(ii);
-			rope.setTexture(af.ropeTexture);
 			addObject(rope);
+			rope.setTexture(af.ropeTexture, af.nailTexture);
 		}
 		
-		// Trapdoor
+//		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
+//		td.setDrawScale(scale);
+//		td.rw = af.ropeLongTexture.getRegionWidth()/scale.x;
+//		td.rl = af.ropeLongTexture.getRegionHeight()/scale.y;
+//		addObject(td);
+//		objects.add(td.rope);
+//		td.setTexture(af.trapDoor);
+//		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
+//		
 		
 		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
 			TrapDoor td = scene.getTrapDoors().get(ii);
@@ -339,7 +349,6 @@ public class AidenController extends WorldController
 			td.rope.setTexture(af.trapDoor);
 			td.setDrawScale(scale);
 		}
-
 	}
 
 	// Temp
@@ -510,13 +519,11 @@ public class AidenController extends WorldController
 		
 		if(beginCamFrame<150){
 			canvas.updateCam(2);
-			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());
-			
-		}
-		
+			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());		
+		}		
 		if(beginCamFrame> 150 && beginCamFrame < 250){
 			canvas.updateCam(1);
-}
+		}
 		if(beginCamFrame < 300){
 			beginCamFrame ++;
 		}
@@ -586,14 +593,14 @@ public class AidenController extends WorldController
 			// Check for water top
 			for (CharacterModel wg : npcs) {
 				WaterGuard w = (WaterGuard) wg;
-				if ((w.getTopName().equals(fd2) && w != bd1
-						&& bd1 instanceof StoneBlock) ||
-						(w.getTopName().equals(fd1) && w != bd2
-								&& bd2 instanceof StoneBlock)) {
-
-					fix1.setRestitution(0);
-					fix2.setRestitution(0);
-
+				if (w.getTopName().equals(fd2) && w != bd1
+						&& bd1 instanceof StoneBlock &&
+						bd1.getVY() <= -2){
+					w.setDead(true);
+				}
+				if (w.getTopName().equals(fd1) && w != bd2
+								&& bd2 instanceof StoneBlock &&
+								bd2.getVY() <= -2) {
 					w.setDead(true);
 				}
 			}
@@ -682,7 +689,7 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY(),scene.getWidth(), scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-				canvas.getWidth(), canvas.getHeight() / 18 * 22);
+				scene.getWidth()*scale.x, scene.getHeight()*scale.y);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -759,7 +766,7 @@ public class AidenController extends WorldController
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level2.json");
+		scenes[4] = new Scene("Level3.json");
 		this.scenes = scenes;
 	}
 	

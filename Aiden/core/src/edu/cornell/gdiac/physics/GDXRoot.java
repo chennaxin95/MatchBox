@@ -400,11 +400,17 @@ public class GDXRoot extends Game implements ScreenListener {
 			}
 			controllers[current].reset();
 			setScreen(controllers[current]);
-
-			loading.dispose();
-			loading = null;
-		} else if (exitCode == WorldController.EXIT_NEXT) {
-			System.out.println("next level"+current);
+//			loading.dispose();
+		} 
+		else if (exitCode == WorldController.EXIT_HOME){
+			controllers[current].reset();
+//			loading = new LoadingMode(canvas, manager, 1);
+//			loading.setScreenListener(this);
+//			preLoadContent(manager);
+			loading.pressState = 0;
+			setScreen(loading);
+		}
+		else if (exitCode == WorldController.EXIT_NEXT) {
 			boolean isle = controllers[current] instanceof LevelEditor;
 			// currentS = (isle) ? 0 : (currentS + 1) % scenes.length;
 			// if (currentS == scenes.length - 1 || isle) {
@@ -417,17 +423,8 @@ public class GDXRoot extends Game implements ScreenListener {
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_PREV) {
 			boolean isle = controllers[current] instanceof LevelEditor;
-			// currentS = (isle) ? scenes.length - 1
-			// : (currentS + scenes.length - 1) % scenes.length;
-			//
-			// if (currentS == 0 || isle) {
+			
 			current = (current + controllers.length - 1) % controllers.length;
-			// }
-			// if (controllers[current] instanceof AidenController){
-			//// controllers[current].setScene(scenes[currentS]);
-			// }
-
-			// currentS = (currentS + scenes.length - 1) % scenes.length;
 
 			controllers[current].reset();
 			setScreen(controllers[current]);
