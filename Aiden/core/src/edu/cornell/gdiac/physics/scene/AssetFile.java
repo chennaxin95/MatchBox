@@ -59,7 +59,10 @@ public class AssetFile {
 	public FilmStrip AidenAnimeTexture;
 	public FilmStrip AidenDieTexture;
 	public FilmStrip AidenJumpTexture;
+	public FilmStrip AidenRunTexture;
+	public FilmStrip AidenIdleTexture;
 	public FilmStrip WaterWalkTexture;
+	public FilmStrip WaterChaseTexture;
 	public FilmStrip WaterDieTexture;
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
@@ -110,6 +113,9 @@ public class AssetFile {
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
 		files.put("BAR_OUTTER", "platform/barOuter.png");
 		files.put("BAR_INNER", "platform/barInner.png");
+		files.put("AIDEN_RUN", "platform/fast.png");
+		files.put("AIDEN_IDLE", "platform/idle.png");
+		files.put("WATER_CHASE", "platform/water-chase.png");
 		System.out.println(files);
 	}
 
@@ -226,8 +232,8 @@ public class AssetFile {
 				1,
 				4);
 		AidenDieTexture = createFilmStrip(manager, files.get("AIDEN_DIE_FILE"),
-				13,
-				1, 13);
+				12,
+				1, 12);
 		AidenAnimeTexture = createFilmStrip(manager,
 				files.get("AIDEN_ANIME_FILE"),
 				12, 1,
@@ -238,6 +244,9 @@ public class AssetFile {
 				files.get("WATER_DIE_FILE"),
 				12, 1,
 				12);
+		AidenRunTexture = createFilmStrip(manager, files.get("AIDEN_RUN"), 12, 1, 12);
+		AidenIdleTexture = createFilmStrip(manager, files.get("AIDEN_IDLE"), 12, 1, 12);
+		WaterChaseTexture = createFilmStrip(manager, files.get("WATER_CHASE"), 4, 1, 4);
 
 		burningTexture = new FilmStrip[200];
 		for (int i = 0; i < 200; i++) {
