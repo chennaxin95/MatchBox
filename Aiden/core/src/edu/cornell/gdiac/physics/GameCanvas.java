@@ -60,6 +60,9 @@ public class GameCanvas {
 	
 	private boolean isEditor = false;
 	
+	private CameraController cc = new CameraController();
+	private int updateFrame = 0;
+	
 	public void setEditor(boolean b){
 		isEditor = b;
 	}
@@ -595,26 +598,35 @@ public class GameCanvas {
 //		spriteBatch.setProjectionMatrix(global);
     	
 		// Set eye and target positions.
-    	//x = 512 ;//+ x*588/32;
-    	//y = 288 ;//+ y*256/26
     	
     	//x = worldCoord.x;
     	//y = worldCoord.y;
+    	
     	x = x*512/32*2;
     	y = y*288/16*2;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
-				
+
 		// Position the camera
 		float f = -1f;
 		if(!isEditor){
-			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-			if (d.x*d.x + d.y*d.y>10){
-				//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
-				camera.translate(new Vector3(d.x/100, d.y/100, 0));
-			}	
-			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
-			if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
+			// if(x>camera.viewportWidth/3 && x<camera.viewportWidth*2/3 
+				//	&& y > camera.viewportHeight/3 && y < camera.viewportHeight*2/3){
+				Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
+				if (d.x*d.x + d.y*d.y>10){
+					//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
+					camera.translate(new Vector3(d.x/100, d.y/100, 0));
+				}	
+				//if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+				//if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
+				if (InputController.getInstance().zoomIn() && camera.zoom>0.8) zoomCamera( 2f);//camera.zoom-=0.02f;
+				if (InputController.getInstance().zoomOut() && camera.zoom<2) zoomCamera(0.5f);//camera.zoom+=0.02f;
+
+				//if (InputController.getInstance().zoomIn() && camera.zoom>0.8) cc.zoom(camera, 2f);//camera.zoom-=0.02f;
+				// if (InputController.getInstance().zoomOut() && camera.zoom<2) cc.zoom(camera, 0.5f);//camera.zoom+=0.02f;
+
+			//}
+				
 
 		}else{
 			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -1452,5 +1464,30 @@ public class GameCanvas {
 	public void drawParticle(ParticleEffect pe){
 		computeTransform(0, 0, pe.getEmitters().get(0).getX(), pe.getEmitters().get(0).getX(), 0, 1f,1f);
 		pe.draw(this.spriteBatch);
+	}
+	
+	public void zoomCamera(float zoom){
+		float czoom = camera.zoom;
+		if(czoom < zoom){
+			while(camera.zoom < zoom){
+				if(updateFrame %100 == 0){
+					camera.zoom += 0.02;
+				}
+				updateFrame ++;
+				//camera.update();
+			}
+		}else{
+			while(camera.zoom > zoom){
+				if(updateFrame %100 == 0){
+					camera.zoom -= 0.02;
+				}
+				updateFrame ++;
+				//camera.update();
+			}
+		}
+	}
+	
+	public void updateCam(){
+		cc.update(camera);
 	}
 }

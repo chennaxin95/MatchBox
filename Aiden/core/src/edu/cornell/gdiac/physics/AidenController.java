@@ -69,6 +69,8 @@ public class AidenController extends WorldController
 	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
+	
+	private CameraController cc = new CameraController();
 
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
@@ -492,7 +494,9 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
 			gs.setUnlocked(level + 1);
 		}
-
+		
+		
+		canvas.updateCam();
 	}
 
 
