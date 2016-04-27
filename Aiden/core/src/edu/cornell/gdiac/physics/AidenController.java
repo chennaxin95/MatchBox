@@ -328,6 +328,7 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
+		System.out.println("!!!!!!!!npc: "+ npcs.size());
 		
 
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
@@ -533,13 +534,12 @@ public class AidenController extends WorldController
 		if(beginCamFrame> 180 && beginCamFrame < 280){
 			canvas.updateCam(1);
 		}
+		if(beginCamFrame > 280){
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
+		}
 		if(beginCamFrame < 300){
 			beginCamFrame ++;
 		}
-		if(beginCamFrame > 290){
-			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
-		}
-		
 	}
 
 
