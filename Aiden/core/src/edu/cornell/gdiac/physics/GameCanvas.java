@@ -1489,5 +1489,8 @@ public class GameCanvas {
 	
 	public void updateCam(){
 		cc.update(camera);
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+    	active = DrawPass.STANDARD;
 	}
 }
