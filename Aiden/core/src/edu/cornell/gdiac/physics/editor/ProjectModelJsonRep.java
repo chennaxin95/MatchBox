@@ -18,25 +18,28 @@ public class ProjectModelJsonRep implements Json.Serializable{
 	private ArrayList<BlockJsonRep> blocks;
 	private ArrayList<WaterModelJsonRep> waters;
 	private GoalModelJsonRep goal;
+	private float width=32, height=16;
 	
-	public ProjectModelJsonRep (int level, String bg, AidenModelJsonRep aiden, GoalModelJsonRep goal){
-		this.level = level;
-		this.background = bg;
-		this.aiden = aiden;
-		this.goal = goal;
-	}
-	
-	public ProjectModelJsonRep(AidenModelJsonRep aiden, ArrayList<BlockJsonRep> blocks, 
-			ArrayList<WaterModelJsonRep> waters, GoalModelJsonRep goal){
-		this.aiden = aiden;
-		this.blocks = blocks;
-		this.waters = waters;
-		this.goal = goal;
-	}
+//	public ProjectModelJsonRep (int level, String bg, AidenModelJsonRep aiden, 
+//			GoalModelJsonRep goal){
+//		this.level = level;
+//		this.background = bg;
+//		this.aiden = aiden;
+//		this.goal = goal;
+//	}
+//	
+//	public ProjectModelJsonRep(AidenModelJsonRep aiden, ArrayList<BlockJsonRep> blocks, 
+//			ArrayList<WaterModelJsonRep> waters, GoalModelJsonRep goal){
+//		this.aiden = aiden;
+//		this.blocks = blocks;
+//		this.waters = waters;
+//		this.goal = goal;
+//	}
 
 	public ProjectModelJsonRep(AidenModel inputAiden, ArrayList<BlockAbstract> inputBlocks, 
 			ArrayList<Rope> complexs,
-			ArrayList<CharacterModel> npcs, BlockAbstract inputGoal){
+			ArrayList<CharacterModel> npcs, BlockAbstract inputGoal,
+			float width, float height){
 		if (inputAiden!=null) this.aiden=new AidenModelJsonRep(inputAiden);
 		this.blocks=new ArrayList<BlockJsonRep>();
 		this.waters=new ArrayList<WaterModelJsonRep>();
@@ -55,6 +58,8 @@ public class ProjectModelJsonRep implements Json.Serializable{
 			waters.add(new WaterModelJsonRep(npc));
 		}
 		if (inputGoal!=null) this.goal =new GoalModelJsonRep(inputGoal);
+		this.width=width;
+		this.height=height;
 	}
 
 	@Override
@@ -62,10 +67,13 @@ public class ProjectModelJsonRep implements Json.Serializable{
 		// TODO Auto-generated method stub
 		json.writeValue("level",level);
 		json.writeValue("background", background);
+		json.writeValue("width",width);
+		json.writeValue("height",height);
 		if (aiden!=null) json.writeValue("aiden",aiden);
 		json.writeValue("blocks",blocks);
 		json.writeValue("waters",waters);
 		if (goal!=null) json.writeValue("goal",goal);
+		
 	}
 
 	@Override

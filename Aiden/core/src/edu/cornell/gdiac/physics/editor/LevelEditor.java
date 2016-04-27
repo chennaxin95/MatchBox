@@ -136,20 +136,13 @@ public class LevelEditor extends WorldController {
 		
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
-//		float nxPos = InputController.getInstance().mousePos.x
-//				+ canvas.getCamera().position.x
-//				- (float) af.backGround.getRegionWidth() / 2f;
-//		float nyPos = -InputController.getInstance().mousePos.y
-//				+ canvas.getCamera().position.y
-//				+ (float) af.backGround.getRegionHeight() / 2f;
-//		nxPos /= scale.x;
-//		nyPos /= scale.y;
+
 		Vector2 nPos=canvas.relativeVector(
 				InputController.getInstance().mousePos.x,
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
 		float nxPos=nPos.x/scale.x;
 		float nyPos=nPos.y/scale.y;
-		System.out.println(nPos);
+		System.out.println(nxPos+" "+nyPos);
 		float deltaX = nxPos - xPos;
 		float deltaY = nyPos - yPos;
 		xPos = nxPos;
@@ -714,7 +707,8 @@ public class LevelEditor extends WorldController {
 		json.setOutputType(OutputType.json);
 
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks,
-				complexs, npcs, goalDoor);
+				complexs, npcs, goalDoor,
+				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
 		String outputfile = "Level2.json";
