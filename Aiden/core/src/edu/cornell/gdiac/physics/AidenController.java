@@ -329,8 +329,8 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-		mt = 0;
-		st = 0;
+		System.out.println("!!!!!!!!npc: "+ npcs.size());
+
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
 //		td.setTexture(af.trapDoor);
@@ -515,7 +515,7 @@ public class AidenController extends WorldController
 			gs.exportToJson();
 		}
 
-		if (!notFailure) {
+		if (!notFailure && !avatar.getComplete() ) {
 			setFailure(true);
 		}
 		
@@ -560,13 +560,12 @@ public class AidenController extends WorldController
 		if(beginCamFrame> 180 && beginCamFrame < 280){
 			canvas.updateCam(1);
 		}
+		if(beginCamFrame > 280){
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
+		}
 		if(beginCamFrame < 300){
 			beginCamFrame ++;
 		}
-		if(beginCamFrame > 290){
-			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
-		}
-		
 	}
 
 
@@ -605,6 +604,7 @@ public class AidenController extends WorldController
 			if ((bd1 == avatar && bd2 == goalDoor) ||
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
+				avatar.setComplete(true);
 			}
 
 			// Check for aiden top

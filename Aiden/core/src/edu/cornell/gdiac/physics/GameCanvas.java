@@ -624,36 +624,9 @@ public class GameCanvas {
 	}
 
 	public void begin(float x, float y, int w, int h, float camFrame) {
-		/*if ( x < w/2){
-			x = Math.min((x+(w/2-x)/2)*getWidth()/w, getWidth()/10);
-		}else{
-			x = Math.max((x+(w/2-x)/2)*getWidth()/w, getWidth());
-		}
-		if(y<h/2){
-			y = Math.min((y+(h/2-y)/2)*getHeight()/h, getHeight()/10);
-		}else{
-			y = Math.max((y+(h/2-y)/2)*getHeight()/h, getHeight());
-		}*/
-		//x = (x+(w/2-x)/2)*getWidth()/w;
-		// y = (y+(h/2-y)/2)*getHeight()/h;
 
 		if(camFrame > 200){
-			//System.out.println(x+" "+y);
-			//System.out.println(y);
-			x = x*1920/64;
-			y = y*1080/40;
-			//x = x*getWidth()/w;
-			//y = y*getHeight()/h;
-			System.out.println(getWidth()+ " "+getHeight());
-
-			target.set(x, y, 0);
-			
-			// Position the camera
-			float f = -1f;
-			Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,0));
-			if (d.x*d.x + d.y*d.y>100){
-				camera.translate(new Vector3(d.x/100, d.y/100, 0f));
-			}	
+			translate(x,y,w,h);
 
 			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
@@ -1526,6 +1499,16 @@ public class GameCanvas {
 	}
 
 	public void translate(float x, float y, int w, int h){
+		if(x<15) {
+			x = Math.min(15, w/2);
+		}else if(x>w-15){
+			x = Math.max(w-15, w/2);
+		}
+		if(y<6){
+			y = Math.min(6, h/2);
+		}else if (y > h-6){
+			y = Math.max(h-6, h/2);
+		}
 		x = x*1920/64;
 		y = y*1080/40;
 		//x = x*getWidth()/w;
