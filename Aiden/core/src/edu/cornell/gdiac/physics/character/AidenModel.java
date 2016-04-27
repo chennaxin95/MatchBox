@@ -39,6 +39,7 @@ public class AidenModel extends CharacterModel {
 	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
+	private int runFrame = 0;
 	private boolean drawJumping = false;
 	private FilmStrip jump;	
 	public boolean resume = false;;
@@ -67,6 +68,7 @@ public class AidenModel extends CharacterModel {
 	private float cRatio;
 	/** Texture for fire trail */
 	private FilmStrip death;
+	private FilmStrip run;
 	private Color preColor = Color.WHITE;
 	private boolean drawFail = false;
 	private boolean failed = false;
@@ -99,6 +101,10 @@ public class AidenModel extends CharacterModel {
 	public void setDeath(FilmStrip die) {
 		this.death = die;
 		death.setFrame(0);
+	}
+	public void setRun(FilmStrip run){
+		this.run = run;
+		this.run.setFrame(0);
 	}
 
 	/**
@@ -184,7 +190,16 @@ public class AidenModel extends CharacterModel {
 	public void setComplete(boolean value) {
 		complete = value;
 	}
-
+	/**
+	 * Gets whether Aiden has won.
+	 *
+	 * @param value
+	 *            whether Aiden has won.
+	 */
+	public boolean getComplete() {
+		return complete;
+	}
+	
 	/** set the update delta time */
 	public void setDt(float dt) {
 		this.dt = dt;
@@ -494,6 +509,9 @@ public class AidenModel extends CharacterModel {
 			if (drawJumping){
 				drawJump(canvas, ratio);
 			}
+			else if (Math.abs(this.getVX()) >= 5){
+				drawRun(canvas, ratio);
+			}
 			else{
 				animate(canvas, c, ratio);
 			}
@@ -503,7 +521,7 @@ public class AidenModel extends CharacterModel {
 	public void drawDead(GameCanvas canvas) {
 		if (this.animeCoolDown <= 0) {
 			animeCoolDown = MAX_ANIME_TIME;
-			death.setFrame(Math.min(death.getFrame() + 1, 12));
+			death.setFrame(Math.min(death.getFrame() + 1, 11));
 		}
 
 		// For placement purposes, put origin in center.
@@ -540,6 +558,21 @@ public class AidenModel extends CharacterModel {
 			jumpFrame = 0;
 			drawJumping = false;
 		}
+	}
+	
+	public void drawRun(GameCanvas canvas, float ratio) {
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			run.setFrame((run.getFrame()+1)%12);
+		}
+
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		canvas.draw(run, preColor, ox, oy, getX() * drawScale.x,
+				getY() * drawScale.y, getAngle(), -effect*ratio, ratio);
 	}
 	
 }
