@@ -194,7 +194,7 @@ public class Scene implements SceneInterface {
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
 		container.addAll(this.getTrapDoors());
-		container.addAll(this.getTrapDoors());
+		container.addAll(this.bplatforms);
 		return container;
 	}
 
