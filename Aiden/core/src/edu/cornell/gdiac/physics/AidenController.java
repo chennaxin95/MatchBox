@@ -304,7 +304,7 @@ public class AidenController extends WorldController
 		avatar.setRestitution(0f);
 		avatar.setJump(af.AidenJumpTexture);
 		avatar.setRun(af.AidenRunTexture);
-		avatar.setCharacterSprite(af.AidenAnimeTexture);
+		avatar.setCharacterSprite(af.AidenIdleTexture);
 		avatar.setName("aiden");
 		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {
 			avatar.setPosition(
@@ -329,8 +329,8 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-		
-
+		mt = 0;
+		st = 0;
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
 //		td.setTexture(af.trapDoor);
@@ -396,17 +396,31 @@ public class AidenController extends WorldController
 	//---------------------------------------------------------------------//
 	public Vector2 posTemp;
 	public Vector2 largeSize = new Vector2(10f, 4f);
-	public Color homeC = Color.WHITE;
-	public Vector2 homeScreen = new Vector2(800, 476);
-	public Vector2 homePos = new Vector2(800, 476).scl(1/32f);
+	public Vector2 smallSize = new Vector2(100/32, 96/32);
+	
+	public Vector2 pScreen = new Vector2(730, 770);
+	public Vector2 pPos = new Vector2(730, 732).scl(1/32f);
 	
 	public Color resuC = Color.WHITE;
-	public Vector2 resuScreen = new Vector2(800, 732);
-	public Vector2 resuPos = new Vector2(800, 732).scl(1/32f);
+	public Vector2 resuScreen = new Vector2(800, 582);
+	public Vector2 resuPos = new Vector2(800, 582).scl(1/32f);
 	
 	public Color restC = Color.WHITE;
-	public Vector2 restScreen = new Vector2(800, 220);
-	public Vector2 restPos = new Vector2(800, 220).scl(1/32f);
+	public Vector2 restScreen = new Vector2(800, 430);
+	public Vector2 restPos = new Vector2(800, 430).scl(1/32f);
+	
+	public Color homeC = Color.WHITE;
+	public Vector2 homeScreen = new Vector2(800, 280);
+	public Vector2 homePos = new Vector2(800, 280).scl(1/32f);
+	
+	public Color mC = Color.WHITE;
+	public Vector2 mScreen = new Vector2(800, 130);
+	public Vector2 muPos = new Vector2(800, 130).scl(1/32f);
+	
+	public Color sC = Color.WHITE;
+	public Vector2 sScreen = new Vector2(1025, 130);
+	public Vector2 sPos = new Vector2(1025, 130).scl(1/32f);
+
 	
 	public void buttonPressed(){
 		boolean isPressed = InputController.getInstance().didTertiary();
@@ -430,8 +444,20 @@ public class AidenController extends WorldController
 				instr = 3;
 				return;
 			}
+			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallSize.x &&
+					mPos.y >= sPos.y && mPos.y<=sPos.y+smallSize.y){
+//				instr = 4;
+				return;
+			}
+			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallSize.x &&
+					mPos.y >= muPos.y && mPos.y<=muPos.y+smallSize.y){
+//				instr = 5;
+				return;
+			}
 		}
 		if(count == 0.2f){
+			mC = Color.WHITE;
+			sC = Color.WHITE;
 			resuC = Color.WHITE;
 			homeC = Color.WHITE;
 			restC = Color.WHITE;
@@ -695,7 +721,7 @@ public class AidenController extends WorldController
 		}
 
 	}
-	private Vector2 fuelBar = new Vector2(100, 800);
+	private Vector2 fuelBar = new Vector2(100, 850);
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -717,15 +743,29 @@ public class AidenController extends WorldController
 				obj.draw(canvas);
 			}
 		}
+		float zoom = canvas.getZoom();
+		if (avatar != null) {
+			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
+			float sx = avatar.getFuel() * 480f /avatar.getMaxFuel();
+			float shrink = 0.8f;
+			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, shrink*sx*zoom, shrink*60f * zoom);
+			canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, shrink*480*zoom, shrink*60f * zoom );
+		}
 		if(pause){
 			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 			Vector2 pos1 = canvas.relativeVector(0, 0);
-			canvas.draw(af.black, 0, 0);
-			canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y, 320, 128);
+			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y, 1920*zoom, 1080*zoom);
+			canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y, 320*zoom, 128*zoom);
 			posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-			canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y, 320, 128);
+			canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y, 320*zoom, 128*zoom);
 			posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-			canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y, 320, 128);
+			canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y, 320*zoom, 128*zoom);
+			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
+			canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y, 480*zoom, 110*zoom);
+			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
+			canvas.draw(mt==0?af.music:af.music_no, mC, posTemp.x, posTemp.y, 100*zoom, 96*zoom);
+			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
+			canvas.draw(st==0?af.sound:af.sound_no, sC, posTemp.x, posTemp.y, 100*zoom, 96*zoom);
 		}
 		canvas.end();
 		if (debug) {
@@ -757,14 +797,7 @@ public class AidenController extends WorldController
 		}
 
 		// drawing the fuel level
-		if (avatar != null) {
-			canvas.begin();
-			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
-			float sx = avatar.getFuel() * 480f /avatar.getMaxFuel();
-			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
-			canvas.draw(af.barOutter, pos.x, pos.y);
-			canvas.end();
-		}
+	
 
 	}
 

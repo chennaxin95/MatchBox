@@ -684,6 +684,10 @@ public class GameCanvas {
 		spriteBatch.end();
 		active = DrawPass.INACTIVE;
 	}
+	
+	public float getZoom(){
+		return camera.zoom;
+	}
 
 	/**
 	 * Draws the tinted texture at the given position.

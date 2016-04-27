@@ -54,6 +54,11 @@ public class AssetFile {
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
 	public TextureRegion editorPanelTexture;
+	public TextureRegion paused;
+	public TextureRegion music;
+	public TextureRegion sound;
+	public TextureRegion music_no;
+	public TextureRegion sound_no;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
@@ -64,6 +69,7 @@ public class AssetFile {
 	public FilmStrip WaterWalkTexture;
 	public FilmStrip WaterChaseTexture;
 	public FilmStrip WaterDieTexture;
+	
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
 
@@ -116,6 +122,11 @@ public class AssetFile {
 		files.put("AIDEN_RUN", "platform/fast.png");
 		files.put("AIDEN_IDLE", "platform/idle.png");
 		files.put("WATER_CHASE", "platform/water-chase.png");
+		files.put("PAUSED", "shared/paused.png");
+		files.put("MUSIC", "shared/music.png");
+		files.put("SOUND", "shared/sound.png");
+		files.put("MUSIC_NO", "shared/music-no.png");
+		files.put("SOUND_NO", "shared/sound-no.png");
 		System.out.println(files);
 	}
 
@@ -205,6 +216,12 @@ public class AssetFile {
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
 		barOutter = createTexture(manager, files.get("BAR_OUTTER"),false);
 		barInner = createTexture(manager, files.get("BAR_INNER"), false);
+		paused = createTexture(manager, files.get("PAUSED"), false);
+		music = createTexture(manager, files.get("MUSIC"), false);
+		music_no = createTexture(manager, files.get("MUSIC_NO"), false);
+		sound = createTexture(manager, files.get("SOUND"), false);
+		sound_no = createTexture(manager, files.get("SOUND_NO"), false);
+		
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {

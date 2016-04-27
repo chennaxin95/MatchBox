@@ -22,6 +22,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -138,6 +139,8 @@ public abstract class WorldController implements Screen {
 	private int countdown;
 	private boolean drawFail;
 	protected Stage stage;
+	public int st;
+	public int mt;
 
 	/**
 	 * Returns true if debug mode is active.
@@ -387,6 +390,7 @@ public abstract class WorldController implements Screen {
 	 * 
 	 * @return whether to process the update loop
 	 */
+	
 	public boolean preUpdate(float dt) {
 		if(pause && instr != 0){
 			if (count <= 0){
@@ -408,6 +412,12 @@ public abstract class WorldController implements Screen {
 					count = 0.2f;
 					this.pause();
 					reset();
+				}
+				if(instr == 4){
+					st = (st+1)%2;
+				}
+				if(instr == 5){
+					mt = (mt+1)%2;
 				}
 			}
 			else{
