@@ -24,9 +24,9 @@ public interface SceneInterface {
 	
 	public int getGridUnit();
 	
-	public float getWidth();
+	public int getWidth();
 	
-	public float getHeight();
+	public int getHeight();
 	
 	public AidenModel getAidenModel();
 	
