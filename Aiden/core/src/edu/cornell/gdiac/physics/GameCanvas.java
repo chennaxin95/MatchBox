@@ -613,6 +613,7 @@ public class GameCanvas {
 				//camera.translate(d.scl(0.01f).x,d.scl(0.01f).y,0);
 				camera.translate(new Vector3(d.x/100, d.y/100, 0));
 			}	
+			Vector3 back = new Vector3(0,0,1);
 			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<2) camera.zoom+=0.02f;
 
@@ -1186,7 +1187,11 @@ public class GameCanvas {
     
     public Vector2 relativeVector(float x, float y){
         OrthographicCamera c = this.camera;
-        return new Vector2(x+c.position.x-c.viewportWidth*c.zoom/2,y+c.position.y-c.viewportHeight*c.zoom/2);
+        Vector3 pos = new Vector3(x, this.getHeight() - y, 0);
+        Vector3 n = c.unproject(pos);
+        Vector2 nPos = new Vector2(n.x, n.y);
+        return nPos;
+//        return new Vector2(x+c.position.x-c.viewportWidth/2,y+c.position.y-c.viewportHeight/2);
     }
 
     /**

@@ -451,12 +451,12 @@ public class LevelEditor extends WorldController {
 					break;
 				case ROPE_IND:
 					Rope rope= new Rope(xPos, yPos, 0.25f, 0.25f);
-					rope.setTexture(af.ropeTexture);
 					trans = fitInGrid(new Vector2(rope.getX(),
 							rope.getY()));
 					rope.setPosition(rope.getPosition().add(trans));
 					rope.setDrawScale(scale);
 					this.complexs.add(rope);
+					rope.setTexture(af.ropeTexture, af.nailTexture);
 					holdingRope=rope;
 					break;
 				case BURNABLE_PLATFORM_IND:

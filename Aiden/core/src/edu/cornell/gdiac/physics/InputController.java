@@ -500,6 +500,13 @@ public class InputController {
 		return false;
 	}
 	
+	public boolean back(){
+		if(Gdx.input.isKeyPressed(Input.Keys.B)){
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean zoomOut(){
 		if(Gdx.input.isKeyPressed(Input.Keys.O)){
 			return true;
