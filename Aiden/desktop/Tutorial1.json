@@ -450,14 +450,39 @@
 	},
 	{
 		"id": 17,
+		"blockType": "platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 44.5,
+			"y": 6.5
+		},
+		"scale_x": 3,
+		"scale_y": 13,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0
+	},
+	{
+		"id": 18,
 		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 26,
 			"y": 8
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -474,7 +499,7 @@
 		"segments": 0
 	},
 	{
-		"id": 18,
+		"id": 19,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -499,7 +524,7 @@
 		"segments": 0
 	},
 	{
-		"id": 19,
+		"id": 20,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -524,7 +549,7 @@
 		"segments": 0
 	},
 	{
-		"id": 20,
+		"id": 21,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -549,7 +574,7 @@
 		"segments": 0
 	},
 	{
-		"id": 21,
+		"id": 22,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -574,7 +599,7 @@
 		"segments": 0
 	},
 	{
-		"id": 22,
+		"id": 23,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -599,7 +624,7 @@
 		"segments": 0
 	},
 	{
-		"id": 23,
+		"id": 24,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -624,7 +649,7 @@
 		"segments": 0
 	},
 	{
-		"id": 24,
+		"id": 25,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -649,7 +674,7 @@
 		"segments": 0
 	},
 	{
-		"id": 25,
+		"id": 26,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -674,7 +699,7 @@
 		"segments": 0
 	},
 	{
-		"id": 26,
+		"id": 27,
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -683,31 +708,6 @@
 		},
 		"scale_x": 1,
 		"scale_y": 1,
-		"density": 1,
-		"fixed": true,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 1,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30,
-		"isLeft": false,
-		"segments": 0
-	},
-	{
-		"id": 27,
-		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
-		"pos": {
-			"x": 44.5,
-			"y": 6.5
-		},
-		"scale_x": 3,
-		"scale_y": 13,
 		"density": 1,
 		"fixed": true,
 		"linked": false,

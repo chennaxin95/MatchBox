@@ -2731,8 +2731,8 @@
 			"x": 28.5,
 			"y": 25
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -2756,8 +2756,8 @@
 			"x": 47.5,
 			"y": 13
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
