@@ -575,8 +575,8 @@ public class LevelEditor extends WorldController {
 		}
 	}
 
-	private int gridWidth = 32;
-	private int gridHeight = 18;
+	private int gridWidth = 60;
+	private int gridHeight = 34;
 	private float gridUnit = 0.5f;
 
 	private float xPos;

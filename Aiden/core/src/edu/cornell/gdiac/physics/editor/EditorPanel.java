@@ -23,7 +23,7 @@ public class EditorPanel {
 	/*
 	 * In board cell
 	 */
-	public int boardWidth=32, boardHeight=18;
+	public int boardWidth=60, boardHeight=34;
 	
 	private TextureRegion[] textures;
 	private Rectangle[] texture_layout;
