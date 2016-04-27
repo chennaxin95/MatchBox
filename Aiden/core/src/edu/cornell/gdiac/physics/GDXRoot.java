@@ -324,6 +324,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		current = 0;
 		controllers[2] = new AidenController(2);
+
 		controllers[4] = new AidenController(3);
 		controllers[5] = new AidenController(4);
 		controllers[6] = new AidenController(5);
@@ -400,8 +401,8 @@ public class GDXRoot extends Game implements ScreenListener {
 				controllers[ii].setScreenListener(this);
 				controllers[ii].setCanvas(canvas);
 			}
-			controllers[current].reset();
-			setScreen(controllers[current]);
+			controllers[exitCode].reset();
+			setScreen(controllers[exitCode]);
 //			loading.dispose();
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){

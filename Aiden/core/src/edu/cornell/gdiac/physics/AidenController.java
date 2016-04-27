@@ -123,10 +123,6 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		// FileHandle file = Gdx.files.local("aiden-example.json");
-
-		// board=new NavBoard(0,0, 35, 25, 1, 1);
-		blocks = new ArrayList<BlockAbstract>();
 		
 	}
 
@@ -169,9 +165,6 @@ public class AidenController extends WorldController
 		world.setContactListener(this);
 		setComplete(false);
 		setFailure(false);
-
-		// board.clear();
-		blocks.clear();
 		
 		createScenes();
 		setScene(this.scenes);
@@ -329,15 +322,16 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 		
+
 //		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
-//		td.rw = af.ropeLongTexture.getRegionWidth()/scale.x;
-//		td.rl = af.ropeLongTexture.getRegionHeight()/scale.y;
-//		addObject(td);
-//		objects.add(td.rope);
 //		td.setTexture(af.trapDoor);
+//		td.rw = dwidth;
+//		td.rl = dheight;
+//		addObject(td);
+//		td.createJoints(world);
+//		objects.add(td.rope);
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-//		
 		
 //		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
 //			TrapDoor td = scene.getTrapDoors().get(ii);
@@ -346,23 +340,21 @@ public class AidenController extends WorldController
 //			td.rope.setTexture(af.trapDoor);
 //			td.setDrawScale(scale);
 //		}
-
 		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
 			TrapDoor td = scene.getTrapDoors().get(ii);
-			addObject(td);
-			td.setTexture(af.trapDoor);
-			if (td.rope!=null)
-				td.rope.setTexture(af.trapDoor);
+			td.rw = 0.25f;
+			td.rl = 0.25f*16f;
 			td.setDrawScale(scale);
+			addObject(td);
+			td.createJoints(world);
+			objects.add(td.rope);
+			td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
+			td.setTexture(af.trapDoor);
 		}
-		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
-				scene.getHeight(), 1f, 1f,
-				objects);
-	}
 
-	// Temp
-	Scene scene;
-	ArrayList<BlockAbstract> blocks;
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f, objects);
+	}
 
 	/**
 	 * Returns whether to process the update loop
