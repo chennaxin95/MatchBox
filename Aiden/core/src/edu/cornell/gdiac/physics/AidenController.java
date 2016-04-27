@@ -188,9 +188,6 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
-		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
-				scene.getHeight(), 1f, 1f,
-				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -342,7 +339,9 @@ public class AidenController extends WorldController
 //			td.rope.setTexture(af.trapDoor);
 //			td.setDrawScale(scale);
 //		}
-
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 	}
 
 	// Temp
@@ -760,7 +759,7 @@ public class AidenController extends WorldController
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level2.json");
+		scenes[4] = new Scene("Level3.json");
 		this.scenes = scenes;
 	}
 	
