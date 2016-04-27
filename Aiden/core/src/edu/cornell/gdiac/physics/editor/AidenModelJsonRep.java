@@ -13,7 +13,7 @@ public class AidenModelJsonRep implements Json.Serializable {
 	public ArrayList<PointJsonRep> start_pos = new ArrayList<PointJsonRep>();
 	
 	public float scale_x = 1f;
-	public float scale_y = 1f;
+	public float scale_y = 1.6f;
 	
 	public float start_fuel = 30;
 	public float critical_fuel = 15;
@@ -32,8 +32,8 @@ public class AidenModelJsonRep implements Json.Serializable {
 		if (ch==null) return;
 		fright=ch.isFacingRight();
 		start_pos.add(new PointJsonRep(ch.getX(), ch.getY()));
-		scale_x=ch.getWidth();
-		scale_y=ch.getHeight();
+//		scale_x=ch.getWidth();
+//		scale_y=ch.getHeight();
 	}
 	
 	@Override
