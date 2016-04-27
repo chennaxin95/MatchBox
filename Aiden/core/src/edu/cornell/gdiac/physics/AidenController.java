@@ -69,6 +69,8 @@ public class AidenController extends WorldController
 	private static final float BASIC_RESTITUTION = 0.0f;
 	/** The volume for sound effects */
 	private static final float EFFECT_VOLUME = 0.8f;
+	
+	private CameraController cc = new CameraController();
 
 	// Since these appear only once, we do not care about the magic numbers.
 	// In an actual game, this information would go in a data file.
@@ -119,8 +121,7 @@ public class AidenController extends WorldController
 		this.level = level;
 		spirit = true;
 		// FileHandle file = Gdx.files.local("aiden-example.json");
-		this.aiController = new AIController(scene, 0, 0, 35, 25, 1f, 1f,
-				objects);
+
 		// board=new NavBoard(0,0, 35, 25, 1, 1);
 		blocks = new ArrayList<BlockAbstract>();
 		
@@ -184,6 +185,9 @@ public class AidenController extends WorldController
 	 * Lays out the game geography.
 	 */
 	private void populateLevel() {
+		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
+				scene.getHeight(), 1f, 1f,
+				objects);
 		// Add level goal
 		// if (goalDoor!=null) return;
 		float dwidth = af.goalTile.getRegionWidth() / scale.x;
@@ -263,6 +267,22 @@ public class AidenController extends WorldController
 			}
 
 		}
+		// Adding burnable platforms
+		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii+=2){
+			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
+			TextureRegion texture = af.burnablePlatform;
+			bp.setTexture(texture);
+			addObject(bp);
+			flammables.add(bp);
+		}
+		// Adding ropes
+		for (int ii = 0; ii < scene.getRopes().size(); ii += 2) {
+			Rope r = scene.getRopes().get(ii);
+			r.setDrawScale(scale);
+			r.setTexture(af.ropeTexture, af.nailTexture);
+			addObject(r);
+			ropes.add(r);
+		}
 		
 		// Create Aiden
 		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
@@ -319,12 +339,13 @@ public class AidenController extends WorldController
 //		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
 //		
 		
-		
-//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
-//			TrapDoor td = scene.getTrapDoors().get(ii);
-//			addObject(td);
-//		}
-
+		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
+			TrapDoor td = scene.getTrapDoors().get(ii);
+			addObject(td);
+			td.setTexture(af.trapDoor);
+			td.rope.setTexture(af.trapDoor);
+			td.setDrawScale(scale);
+		}
 	}
 
 	// Temp
@@ -492,7 +513,9 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
 			gs.setUnlocked(level + 1);
 		}
-
+		
+		
+		canvas.updateCam();
 	}
 
 
@@ -654,7 +677,7 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY());
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-				canvas.getWidth(), canvas.getHeight() / 18 * 22);
+				scene.getWidth()*scale.x, scene.getHeight()*scale.y);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -726,11 +749,12 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes() {
-		Scene[] scenes = new Scene[4];
+		Scene[] scenes = new Scene[5];
 		scenes[0] = new Scene("Tutorial1.json");
 		scenes[1] = new Scene("Tutorial2.json");
 		scenes[2] = new Scene("Tutorial3.json");
 		scenes[3] = new Scene("Tutorial4.json");
+		scenes[4] = new Scene("Level3.json");
 		this.scenes = scenes;
 	}
 

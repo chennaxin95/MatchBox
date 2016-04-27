@@ -3,6 +3,7 @@ package edu.cornell.gdiac.physics.scene;
 import java.util.ArrayList;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Platform;
@@ -23,6 +24,10 @@ public interface SceneInterface {
 	
 	public int getGridUnit();
 	
+	public float getWidth();
+	
+	public float getHeight();
+	
 	public AidenModel getAidenModel();
 	
 	public ArrayList<BlockAbstract> getBlocks();
@@ -35,6 +40,8 @@ public interface SceneInterface {
 	
 	public ArrayList<Platform> getPlatform();
 	
+	public ArrayList<BurnablePlatform> getBurnablePlatforms();
+	
 	public ArrayList<WaterGuard> getGuards();
 	
 	public ArrayList<Rope> getRopes();
@@ -44,4 +51,6 @@ public interface SceneInterface {
 	public ArrayList<FlammableBlock> getFlammables(boolean rope, boolean fuel, boolean bplatform);
 	
 	public ArrayList<Obstacle> getObstacles(boolean aiden, boolean npc);
+	
+
 }

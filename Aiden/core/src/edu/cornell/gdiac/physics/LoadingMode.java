@@ -22,8 +22,6 @@
  */
 package edu.cornell.gdiac.physics;
 
-import javafx.scene.transform.Scale;
-
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import com.badlogic.gdx.*;
@@ -33,8 +31,6 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
-import com.sun.glass.ui.Window.Level;
-
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
 
@@ -141,6 +137,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public int centerY;
 	/** The x-coordinate of the center of the progress bar */
 	public int centerX;
+	public int centerBarX;
 	/**
 	 * The height of the canvas window (necessary since sprite origin != screen
 	 * origin)
@@ -345,7 +342,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		canvas.draw(background, pos.x, pos.y);
 		if (playButton == null) {
 			drawProgress(canvas);
-		} else {
+		} else if (pressState == 0 || pressState == 1 || pressState == 3){
 			Color tint1 = (pressState == 1 ? Color.GRAY : Color.WHITE);
 			pos = canvas.relativeVector(centerX, centerY * START_V_SCALE);
 			canvas.draw(playButton, tint1, playButton.getWidth() / 2,
@@ -370,6 +367,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					credits.getHeight() / 2,
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
+		}else if (pressState == 4){
+	
 		}
 		canvas.end();
 	}
@@ -385,28 +384,28 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 *            The drawing context
 	 */
 	public void drawProgress(GameCanvas canvas) {
-		canvas.draw(statusBkgLeft, Color.WHITE, centerX - width / 2, centerY,
+		canvas.draw(statusBkgLeft, Color.WHITE, centerBarX - width / 2, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		canvas.draw(statusBkgRight, Color.WHITE,
-				centerX + width / 2 - scale * PROGRESS_CAP, centerY,
+				centerBarX + width / 2 - scale * PROGRESS_CAP, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		canvas.draw(statusBkgMiddle, Color.WHITE,
-				centerX - width / 2 + scale * PROGRESS_CAP, centerY,
+				centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
 				width - 2 * scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 
-		canvas.draw(statusFrgLeft, Color.WHITE, centerX - width / 2, centerY,
+		canvas.draw(statusFrgLeft, Color.WHITE, centerBarX - width / 2, centerY,
 				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		if (progress > 0) {
 			float span = progress * (width - 2 * scale * PROGRESS_CAP) / 2.0f;
 			canvas.draw(statusFrgRight, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP + span, centerY,
+					centerBarX - width / 2 + scale * PROGRESS_CAP + span, centerY,
 					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 			canvas.draw(statusFrgMiddle, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP, centerY, span,
+					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY, span,
 					scale * PROGRESS_HEIGHT);
 		} else {
 			canvas.draw(statusFrgRight, Color.WHITE,
-					centerX - width / 2 + scale * PROGRESS_CAP, centerY,
+					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
 					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
 		}
 	}
@@ -454,6 +453,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		centerY = (int) (.80 * height);
 		centerX =  2 * width / 3;
 		heightY = height;
+		centerBarX = (int) (width/2);
 	}
 
 	/**
@@ -532,8 +532,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		// Play button is a Rectangle.
 		float width = BUTTON_SCALE * scale * playButton.getWidth();
 		float height = BUTTON_SCALE * scale * playButton.getHeight();
+<<<<<<< HEAD
 		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
+=======
+
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
+>>>>>>> origin/master
 			pressState = 1;
+		}
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
+			pressState = 3;
 		}
 		return false;
 	}
@@ -555,6 +563,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (pressState == 1) {
 			pressState = 2;
+			return false;
+		}
+		if (pressState == 3) {
+			pressState = 4;
 			return false;
 		}
 		return true;

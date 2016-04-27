@@ -136,20 +136,12 @@ public class LevelEditor extends WorldController {
 		
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
-//		float nxPos = InputController.getInstance().mousePos.x
-//				+ canvas.getCamera().position.x
-//				- (float) af.backGround.getRegionWidth() / 2f;
-//		float nyPos = -InputController.getInstance().mousePos.y
-//				+ canvas.getCamera().position.y
-//				+ (float) af.backGround.getRegionHeight() / 2f;
-//		nxPos /= scale.x;
-//		nyPos /= scale.y;
+
 		Vector2 nPos=canvas.relativeVector(
 				InputController.getInstance().mousePos.x,
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
 		float nxPos=nPos.x/scale.x;
 		float nyPos=nPos.y/scale.y;
-		System.out.println(nPos);
 		float deltaX = nxPos - xPos;
 		float deltaY = nyPos - yPos;
 		xPos = nxPos;
@@ -260,8 +252,8 @@ public class LevelEditor extends WorldController {
 			for (Rope rope : this.complexs) {
 				if (rope.getX() < xPos
 						&& rope.getX() + rope.getWidth() > xPos
-						&& rope.getY() < yPos
-						&& rope.getY() + rope.getHeight() > yPos){
+						&& rope.getY() > yPos
+						&& rope.getY() - rope.getHeight() < yPos){
 					holdingRope=rope;
 					break;
 				}
@@ -583,8 +575,8 @@ public class LevelEditor extends WorldController {
 		}
 	}
 
-	private int gridWidth = 32;
-	private int gridHeight = 18;
+	private int gridWidth = 60;
+	private int gridHeight = 34;
 	private float gridUnit = 0.5f;
 
 	private float xPos;
@@ -634,7 +626,8 @@ public class LevelEditor extends WorldController {
 		}
 		for (Rope obj:complexs){
 			canvas.draw(af.ropeLongTexture, Color.WHITE, 0,  0,
-					obj.getX()*scale.x, obj.getY()*scale.y, 0, 1, 1);
+					obj.getX()*scale.x, 
+					(obj.getY()-obj.getHeight())*scale.y, 0, 1, 1);
 		}
 		if (aiden != null) {
 			aiden.simpleDraw(canvas);
@@ -681,7 +674,7 @@ public class LevelEditor extends WorldController {
 				canvas.drawPhysics(poly,
 						Color.GREEN,
 						holdingRope.getX(), 
-						holdingRope.getY(), 0, 
+						(holdingRope.getY()-holdingRope.getHeight()), 0, 
 						scale.x, scale.y);
 			}
 		}
@@ -714,7 +707,8 @@ public class LevelEditor extends WorldController {
 		json.setOutputType(OutputType.json);
 
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks,
-				complexs, npcs, goalDoor);
+				complexs, npcs, goalDoor,
+				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
 		String outputfile = "Level2.json";
@@ -738,6 +732,14 @@ public class LevelEditor extends WorldController {
 			ch.setDrawScale(scale);
 		}
 		System.out.println("Loading blocks");
+		for (Rope rope:scene.getRopes()){
+			rope.setTexture(af.ropeTexture);
+			Vector2 trans = fitInGrid(new Vector2(rope.getX(),
+					rope.getY()));
+			rope.setPosition(rope.getPosition().add(trans));
+			rope.setDrawScale(scale);
+			this.complexs.add(rope);
+		}
 		for (BlockAbstract block : scene.getBlocks()) {
 			blocks.add(block);
 			block.setDrawScale(scale);

@@ -28,7 +28,7 @@ public class BlockJsonRep implements Json.Serializable{
 	public int link_obj = 0;
 	
 	public boolean burning = false;
-	public float burn_spread = 5;
+	public float burn_spread = 1;
 	public float burn_time = 3;
 	public float burn_left = 1;
 	public float fuels = 30;
