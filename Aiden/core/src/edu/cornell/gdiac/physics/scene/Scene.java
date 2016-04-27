@@ -26,8 +26,8 @@ public class Scene implements SceneInterface {
 
 	private AssetFile af;
 
-	private float width = 32;
-	private float height = 18;
+	private int width = 32;
+	private int height = 18;
 	
 	private AidenModel aidenModel;
 	private ArrayList<BlockAbstract> blocks;
@@ -57,8 +57,8 @@ public class Scene implements SceneInterface {
 		JsonValue jguards = jv.get("waters");
 		JsonValue exit = jv.get("goal");
 		if (jv.has("width")){
-			width = jv.getFloat("width");
-			height = jv.getFloat("height");
+			width = jv.getInt("width");
+			height = jv.getInt("height");
 		}
 
 		
@@ -307,11 +307,11 @@ public class Scene implements SceneInterface {
 		return bplatforms;
 	}
 	
-	public float getWidth(){
+	public int getWidth(){
 		return width;
 	}
 	
-	public float getHeight(){
+	public int getHeight(){
 		return height;
 	}
 

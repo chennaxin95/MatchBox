@@ -110,6 +110,10 @@ public class LevelEditor extends WorldController {
 		holdingCharacter = null;
 		holdingBlock = null;
 		holdingRope=null;
+		if (panel!=null){
+			panel.boardWidth = 44;
+			panel.boardHeight = 24;
+		}
 //		isAddingRect = false;
 	}
 
@@ -154,10 +158,14 @@ public class LevelEditor extends WorldController {
 			loadFromJson();
 			return;
 		}
-		
+		boolean reactToPanel=false;
 		if (InputController.getInstance().newLeftClick()){
 			panel.update(InputController.getInstance().mousePos.x,
 				canvas.getHeight()-InputController.getInstance().mousePos.y);
+			
+			if (InputController.getInstance().mousePos.x<=panel.width){
+				reactToPanel=true;
+			}
 			if (!panel.polyMode) {
 				this.platformRect = new Rectangle(-1, -1, 0, 0);
 			} else if (!oldMode){
@@ -223,7 +231,7 @@ public class LevelEditor extends WorldController {
 			holding = !holding;
 		}
 		// newly holding an object
-		if (holding && !wasHolding) {
+		if (holding && !wasHolding && !reactToPanel) {
 			if (aiden != null && aiden.getX() - aiden.getWidth() / 2 < xPos
 					&& aiden.getX() + aiden.getWidth() / 2 > xPos
 					&& aiden.getY() - aiden.getHeight() / 2 < yPos
@@ -575,8 +583,8 @@ public class LevelEditor extends WorldController {
 		}
 	}
 
-	private int gridWidth = 60;
-	private int gridHeight = 34;
+	private int gridWidth = 44;
+	private int gridHeight = 24;
 	private float gridUnit = 0.5f;
 
 	private float xPos;
@@ -782,6 +790,8 @@ public class LevelEditor extends WorldController {
 			aiden.setDrawScale(scale);
 			aiden.setTexture(af.avatarTexture);
 		}
+		panel.boardWidth=(int) scene.getWidth();
+		panel.boardHeight=(int) scene.getHeight();
 
 		System.out.println(this.blocks.size() + " " + this.npcs.size());
 

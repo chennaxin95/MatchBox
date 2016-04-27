@@ -104,6 +104,9 @@ public class AidenController extends WorldController
 	private AIController aiController;
 	// // Temp
 	// private NavBoard board;
+	
+	private boolean beginCam = true;
+	private int beginCamFrame = 0;
 
 	/**
 	 * Creates and initialize a new instance of the platformer game
@@ -248,7 +251,7 @@ public class AidenController extends WorldController
 		}
 
 		// Adding boxes
-		for (int ii = 0; ii < scene.getFuelBlocks().size(); ii += 2) {
+		for (int ii = 0; ii < scene.getFuelBlocks().size(); ii ++) {
 			TextureRegion texture = af.fuelTexture;
 			dwidth = texture.getRegionWidth() / scale.x;
 			dheight = texture.getRegionHeight() / scale.y;
@@ -268,13 +271,14 @@ public class AidenController extends WorldController
 
 		}
 		// Adding burnable platforms
-		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii+=2){
+		for(int ii = 0; ii < scene.getBurnablePlatforms().size();ii++){
 			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
 			addObject(bp);
 			flammables.add(bp);
 		}
+		
 		// Create Aiden
 		dwidth = af.avatarTexture.getRegionWidth() / scale.x;
 		dheight = af.avatarTexture.getRegionHeight() / scale.y;
@@ -298,7 +302,7 @@ public class AidenController extends WorldController
 		dwidth = af.waterTexture.getRegionWidth() / scale.x;
 		dheight = (af.waterTexture.getRegionHeight() / scale.y);
 
-		for (int ii = 0; ii < scene.getGuards().size(); ii += 2) {
+		for (int ii = 0; ii < scene.getGuards().size(); ii ++) {
 
 			WaterGuard ch1 = scene.getGuards().get(ii);
 			ch1.setDrawScale(scale);
@@ -313,8 +317,7 @@ public class AidenController extends WorldController
 		}
 		
 		// Ropes
-		
-		for(int ii = 0; ii<scene.getRopes().size(); ii +=2){
+		for(int ii = 0; ii<scene.getRopes().size(); ii ++){
 			Rope rope = scene.getRopes().get(ii);
 			rope.setDrawScale(scale);
 			addObject(rope);
@@ -339,6 +342,7 @@ public class AidenController extends WorldController
 //			td.rope.setTexture(af.trapDoor);
 //			td.setDrawScale(scale);
 //		}
+
 	}
 
 	// Temp
@@ -507,8 +511,17 @@ public class AidenController extends WorldController
 			gs.setUnlocked(level + 1);
 		}
 		
+		if(beginCamFrame<150){
+			canvas.updateCam(2);
+			canvas.translate(scene.getWidth(), scene.getHeight(), scene.getWidth(), scene.getHeight());		
+		}		
+		if(beginCamFrame> 150 && beginCamFrame < 250){
+			canvas.updateCam(1);
+		}
+		if(beginCamFrame < 300){
+			beginCamFrame ++;
+		}
 		
-		canvas.updateCam();
 	}
 
 
@@ -667,7 +680,7 @@ public class AidenController extends WorldController
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
-		canvas.begin(avatar.getX(), avatar.getY());
+		canvas.begin(avatar.getX(), avatar.getY(),scene.getWidth(), scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth()*scale.x, scene.getHeight()*scale.y);
@@ -710,7 +723,7 @@ public class AidenController extends WorldController
 			af.displayFont.setColor(Color.YELLOW);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight(),beginCamFrame); // DO NOT SCALE
 			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
@@ -718,7 +731,7 @@ public class AidenController extends WorldController
 			af.displayFont.setColor(Color.RED);
 			// canvas.begin();
 			Vector2 pos = canvas.relativeVector(340, 320);
-			canvas.begin(avatar.getX(), avatar.getY()); // DO NOT SCALE
+			canvas.begin(avatar.getX(), avatar.getY(),scene.getWidth(), scene.getHeight(), beginCamFrame); // DO NOT SCALE
 			canvas.drawText("FAILURE!", af.displayFont, pos.x, pos.y);
 			canvas.end();
 			avatar.setComplete(true);
@@ -750,5 +763,6 @@ public class AidenController extends WorldController
 		scenes[4] = new Scene("Level2.json");
 		this.scenes = scenes;
 	}
+	
 
 }
