@@ -1497,10 +1497,10 @@ public class GameCanvas {
 	}
 
 	public void translate(float x, float y, int w, int h){
-		if(x<20) {
-			x = Math.min(20, w/2);
-		}else if(x>w-20){
-			x = Math.max(w-20, w/2);
+		if(x<15) {
+			x = Math.min(15, w/2);
+		}else if(x>w-12){
+			x = Math.max(w-12, w/2);
 		}
 		if(y<6){
 			y = Math.min(6, h/2);
@@ -1509,8 +1509,8 @@ public class GameCanvas {
 		}
 		x = x*1920/64;
 		y = y*1080/40;
-		//x = x*getWidth()/w;
-		//y = y*getHeight()/w;
+		// x = x*getWidth()/w;
+		// y = y*getHeight()/w;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 
