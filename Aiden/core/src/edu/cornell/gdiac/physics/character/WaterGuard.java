@@ -1,6 +1,8 @@
 package edu.cornell.gdiac.physics.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.util.FilmStrip;
@@ -9,10 +11,14 @@ public class WaterGuard extends CharacterModel{
 	
 	private boolean finishDraw = false;
 	private FilmStrip death;
+	private ParticleEffect putOutLeft;
 
 	public WaterGuard(CharacterType t, String name, float x, float y, float width, float height, boolean fright) {
 		super(t, name, x, y, width, height, fright);
 		this.setDensity(1f);
+		putOutLeft = new ParticleEffect();
+		putOutLeft.load(Gdx.files.internal("platform/left.p"),
+				Gdx.files.internal("platform"));
 		// TODO Auto-generated constructor stub
 	}
 	
