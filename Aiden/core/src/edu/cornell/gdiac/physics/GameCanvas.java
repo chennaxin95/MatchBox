@@ -601,7 +601,7 @@ public class GameCanvas {
 		// Position the camera
 		float f = -1f;
 
-		camera.zoom = 1f;
+		camera.zoom = 0.79f;
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			camera.translate(new Vector3(-2,0,0));
 		}
@@ -626,8 +626,7 @@ public class GameCanvas {
 	public void begin(float x, float y, int w, int h, float camFrame) {
 		if(camFrame > 200){
 			translate(x,y,w,h);
-
-			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+			if (InputController.getInstance().zoomIn() && camera.zoom>0.77) camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
 
 		}
@@ -1498,10 +1497,10 @@ public class GameCanvas {
 	}
 
 	public void translate(float x, float y, int w, int h){
-		if(x<15) {
-			x = Math.min(15, w/2);
-		}else if(x>w-15){
-			x = Math.max(w-15, w/2);
+		if(x<20) {
+			x = Math.min(20, w/2);
+		}else if(x>w-20){
+			x = Math.max(w-20, w/2);
 		}
 		if(y<6){
 			y = Math.min(6, h/2);
