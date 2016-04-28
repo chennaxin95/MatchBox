@@ -478,31 +478,6 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 15.5,
-			"y": 8.5
-		},
-		"scale_x": 1,
-		"scale_y": 3,
-		"density": 1,
-		"fixed": true,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 1,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30,
-		"isLeft": false,
-		"segments": 0
-	},
-	{
-		"id": 19,
-		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
-		"pos": {
 			"x": 0.5,
 			"y": 19.5
 		},
@@ -524,7 +499,7 @@
 		"segments": 0
 	},
 	{
-		"id": 20,
+		"id": 19,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -549,7 +524,7 @@
 		"segments": 0
 	},
 	{
-		"id": 21,
+		"id": 20,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -558,6 +533,31 @@
 		},
 		"scale_x": 4,
 		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0
+	},
+	{
+		"id": 21,
+		"blockType": "platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 27.5,
+			"y": 2.5
+		},
+		"scale_x": 17,
+		"scale_y": 5,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -600,31 +600,6 @@
 	},
 	{
 		"id": 23,
-		"blockType": "platform",
-		"texture": "shared/woodenBlock.png",
-		"pos": {
-			"x": 26,
-			"y": 2.5
-		},
-		"scale_x": 18,
-		"scale_y": 5,
-		"density": 1,
-		"fixed": true,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 1,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30,
-		"isLeft": false,
-		"segments": 0
-	},
-	{
-		"id": 24,
 		"blockType": "rope",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -649,7 +624,7 @@
 		"segments": 15
 	},
 	{
-		"id": 25,
+		"id": 24,
 		"blockType": "rope",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
