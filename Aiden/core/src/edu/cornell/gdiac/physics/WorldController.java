@@ -649,7 +649,7 @@ public abstract class WorldController implements Screen {
 		this.listener = listener;
 	}
 	
-	public void setScene(Scene[] scenes){
+	public void setScene(Scene scene){
 		
 	}
 }

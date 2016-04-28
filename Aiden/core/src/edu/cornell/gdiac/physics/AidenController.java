@@ -39,7 +39,7 @@ import edu.cornell.gdiac.physics.CollisionController;
 public class AidenController extends WorldController
 		implements ContactListener {
 
-	private Scene[] scenes;
+	//private Scene[] scenes;
 
 	/** The game save shared across all levels */
 	private static GameSave gs = new GameSave("savedGame.json");
@@ -217,8 +217,8 @@ public class AidenController extends WorldController
 		setComplete(false);
 		setFailure(false);
 		
-		createScenes();
-		setScene(this.scenes);
+		createScenes(level);
+		setScene(this.scene);
 		
 		populateLevel();
 		SoundController.getInstance().play(af.get("BGM_FILE"),
@@ -818,20 +818,38 @@ public class AidenController extends WorldController
 	}
 
 	@Override
-	public void setScene(Scene[] scenes) {
-		this.scene = scenes[level];
+	public void setScene(Scene scene) {
+		this.scene = scene;
 	}
 
-	private void createScenes() {
-		Scene[] scenes = new Scene[7];
-		scenes[0] = new Scene("Tutorial1.json");
-		scenes[1] = new Scene("Tutorial2.json");
-		scenes[2] = new Scene("Tutorial3.json");
-		scenes[3] = new Scene("Tutorial4.json");
-		scenes[4] = new Scene("Level2.json");
-		scenes[5] = new Scene("Level3.json");
-		scenes[6] = new Scene("Level4.json");
-		this.scenes = scenes;
+	private void createScenes(int level) {
+		switch(level){
+		case 0: 
+			this.scene = new Scene("Tutorial1.json");
+			break;
+		case 1:
+			this.scene = new Scene("Tutorial2.json");
+			break;
+		
+		case 2:
+			this.scene = new Scene("Tutorial4.json");
+			break;
+		case 3:
+			this.scene = new Scene("Tutorial3.json");
+			break;
+		case 4:
+			this.scene = new Scene("Level2.json");
+			break;
+		case 5:
+			this.scene = new Scene("Level3.json");
+			break;
+		case 6:
+			this.scene = new Scene("Level4.json");
+			break;
+		default:
+			this.scene = new Scene("Tutorial5.json");
+			break;
+		}
 	}
 	
 
