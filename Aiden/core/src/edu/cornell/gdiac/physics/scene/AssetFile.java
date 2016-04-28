@@ -265,8 +265,8 @@ public class AssetFile {
 		AidenIdleTexture = createFilmStrip(manager, files.get("AIDEN_IDLE"), 12, 1, 12);
 		WaterChaseTexture = createFilmStrip(manager, files.get("WATER_CHASE"), 4, 1, 4);
 
-		burningTexture = new FilmStrip[200];
-		for (int i = 0; i < 200; i++) {
+		burningTexture = new FilmStrip[20];
+		for (int i = 0; i < 20; i++) {
 			burningTexture[i] = createFilmStrip(manager,
 					files.get("BURNING_FILE"),
 					7, 1, 7);

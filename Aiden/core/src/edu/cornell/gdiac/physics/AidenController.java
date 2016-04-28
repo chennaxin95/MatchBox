@@ -199,7 +199,7 @@ public class AidenController extends WorldController
 		fuelBarSize.scl(sScaleX, sScaleY);
 		setPos();
 		Vector2 gravity = new Vector2(world.getGravity());
-
+		beginCamFrame = 0;
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
@@ -270,7 +270,7 @@ public class AidenController extends WorldController
 			box.setDrawScale(scale);
 			box.setTexture(texture);
 			box.setBurningTexture(
-					af.burningTexture[ii  % af.burningTexture.length], 2);
+					af.burningTexture[ii % af.burningTexture.length], 2);
 			addObject(box);
 			flammables.add(box);
 		}
@@ -626,13 +626,13 @@ public class AidenController extends WorldController
 
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof Stone)) {
+					&& bd1 instanceof StoneBlock)) {
 				if (Math.abs(bd1.getVY()) >= 1) {
 					setFailure(true);
 				}
 			}
 			if ((avatar.getTopName().equals(fd1) && avatar != bd2
-					&& bd2 instanceof Stone)) {
+					&& bd2 instanceof StoneBlock)) {
 				if (Math.abs(bd2.getVY()) >= 1) {
 					setFailure(true);
 				}

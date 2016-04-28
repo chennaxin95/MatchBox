@@ -65,6 +65,7 @@ public class LevelEditor extends WorldController {
 	AidenModel aiden;
 	ArrayList<BlockAbstract> blocks;
 	ArrayList<Rope> complexs;
+	ArrayList<TrapDoor> traps;
 
 	private boolean holding = false;
 	private CharacterModel holdingCharacter = null;
@@ -82,6 +83,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks = new ArrayList<BlockAbstract>();
 		complexs=new ArrayList<Rope>();
+		traps = new ArrayList<TrapDoor>();
 		platformRect = new Rectangle(-1, -1, 0, 0);
 		// inputCoolDown = 0;
 		holding = false;
@@ -126,7 +128,7 @@ public class LevelEditor extends WorldController {
 				af.burnablePlatform, af.goalTile,
 				af.waterTexture, af.avatarTexture, 
 				af.ropeLongTexture, 
-				af.trapdoorTexture, 
+				af.trapdoorTexture, af.nailTexture,
 				af.trapdoorTexture};
 			
 			panel=new EditorPanel(280, textures, af);
@@ -449,16 +451,6 @@ public class LevelEditor extends WorldController {
 					aiden.setDrawScale(scale);
 					holdingCharacter=aiden;
 					break;
-				case ROPE_IND:
-					Rope rope= new Rope(xPos, yPos, 0.25f, 0.25f);
-					trans = fitInGrid(new Vector2(rope.getX(),
-							rope.getY()));
-					rope.setPosition(rope.getPosition().add(trans));
-					rope.setDrawScale(scale);
-					this.complexs.add(rope);
-					rope.setTexture(af.ropeTexture, af.nailTexture);
-					holdingRope=rope;
-					break;
 				case BURNABLE_PLATFORM_IND:
 					block=new BurnablePlatform(new Rectangle(xPos, yPos, 1, 1), 1);
 					trans = fitInGrid(new Vector2(block.getX()
@@ -471,30 +463,38 @@ public class LevelEditor extends WorldController {
 					this.blocks.add(block);
 					holdingBlock=block;
 					break;
-//				case TRAP_LEFT_IND:
-//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
-//					trans = fitInGrid(new Vector2(trap.getX()
-//							- trap.getWidth() / 2f,
-//							trap.getY()
-//									- trap.getHeight() / 2f));
-//					trap.setPosition(trap.getPosition().add(trans));
-//					trap.setTexture(af.trapdoorTexture);
-//					trap.setDrawScale(scale);
-//					this.blocks.add(trap);
-//					holdingBlock=trap;
-//					break;
-//				case TRAP_RIGHT_IND:
-//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
-//					trans = fitInGrid(new Vector2(trap.getX()
-//							- trap.getWidth() / 2f,
-//							trap.getY()
-//									- trap.getHeight() / 2f));
-//					trap.setPosition(trap.getPosition().add(trans));
-//					trap.setTexture(af.trapdoorTexture);
-//					trap.setDrawScale(scale);
-//					this.blocks.add(trap);
-//					holdingBlock=trap;
-//					break;	
+				case ROPE_IND:
+					Rope rope= new Rope(xPos, yPos, 0.25f, 0.25f);
+					trans = fitInGrid(new Vector2(rope.getX(),
+							rope.getY()));
+					rope.setPosition(rope.getPosition().add(trans));
+					rope.setDrawScale(scale);
+					this.complexs.add(rope);
+					rope.setTexture(af.ropeTexture, af.nailTexture);
+					holdingRope=rope;
+					break;
+				case TRAP_LEFT_IND:
+					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
+					trans = fitInGrid(new Vector2(trap.getX()
+							- trap.getWidth() / 2f,
+							trap.getY()
+									- trap.getHeight() / 2f));
+					trap.setPosition(trap.getPosition().add(trans));
+					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
+					trap.setDrawScale(scale);
+					this.traps.add(trap);
+					break;
+				case TRAP_RIGHT_IND:
+					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
+					trans = fitInGrid(new Vector2(trap.getX()
+							- trap.getWidth() / 2f,
+							trap.getY()
+									- trap.getHeight() / 2f));
+					trap.setPosition(trap.getPosition().add(trans));
+					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
+					trap.setDrawScale(scale);
+					this.traps.add(trap);
+					break;	
 				default: break;
 				}
 			}
@@ -636,6 +636,9 @@ public class LevelEditor extends WorldController {
 			canvas.draw(af.ropeLongTexture, Color.WHITE, 0,  0,
 					obj.getX()*scale.x, 
 					(obj.getY()-obj.getHeight())*scale.y, 0, 1, 1);
+		}
+		for (TrapDoor td : traps){
+			td.draw(canvas);
 		}
 		if (aiden != null) {
 			aiden.simpleDraw(canvas);
