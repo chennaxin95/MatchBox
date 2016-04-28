@@ -204,7 +204,7 @@ public class Scene implements SceneInterface {
 		container.addAll(this.getStoneBlocks(true));
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
-		container.addAll(this.getTrapDoors());
+//		container.addAll(this.getTrapDoors());
 		container.addAll(this.bplatforms);
 		return container;
 	}
@@ -245,7 +245,7 @@ public class Scene implements SceneInterface {
 		if(trapdoor){
 			ArrayList<StoneBlock> container = new ArrayList<StoneBlock>();
 			container.addAll(stoneBlocks);
-			container.addAll(trapdoors);
+//			container.addAll(trapdoors);
 		}
 		return stoneBlocks;
 	}

@@ -54,10 +54,10 @@ public class BlockJsonRep implements Json.Serializable{
 			blockType = "burnable_platform";
 			fixed=true;
 			break;
-		case TRAPDOOR:
-			blockType = "trapdoor";
-			isLeft=((TrapDoor)block).isLeft;
-			break;
+//		case TRAPDOOR:
+//			blockType = "trapdoor";
+//			isLeft=((TrapDoor)block).isLeft;
+//			break;
 		case STONE:
 			blockType = "stone";
 			break;

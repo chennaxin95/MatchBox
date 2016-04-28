@@ -76,10 +76,6 @@ public class AidenController extends WorldController
 	// In an actual game, this information would go in a data file.
 	// Wall vertices
 
-	private static final float[][] ROPE = { {}, {},
-			{ 4f, 10.5f, 3f, 5.5f },
-			{ 22f, 19f, 22.1f, 5f } };
-
 	// Physics objects for the game
 	// Characters
 	/** Reference to the character avatar */
@@ -91,7 +87,7 @@ public class AidenController extends WorldController
 	/** Flammable Objects */
 	protected PooledList<FlammableBlock> flammables = new PooledList<FlammableBlock>();
 	// Ropes
-	protected PooledList<Rope> ropes = new PooledList<Rope>();
+	protected PooledList<ComplexObstacle> ropes = new PooledList<ComplexObstacle>();
 	// Exit
 	/** Reference to the goalDoor (for collision detection) */
 	private BoxObstacle goalDoor;
@@ -335,8 +331,8 @@ public class AidenController extends WorldController
 		for (int ii = 0; ii < scene.getRopes().size(); ii ++) {
 			Rope r = scene.getRopes().get(ii);
 			r.setDrawScale(scale);
-			r.setTexture(af.ropeTexture, af.nailTexture);
 			addObject(r);
+			r.setTexture(af.ropeTexture, af.nailTexture);
 			ropes.add(r);
 		}
 		
@@ -378,34 +374,13 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 
-//		TrapDoor td = new TrapDoor(6f, 3f, 4f, 0.25f, true);
+//		TrapDoor td = new TrapDoor(12f, 6f, 4f, 0.25f, true);
 //		td.setDrawScale(scale);
-//		td.setTexture(af.trapDoor);
-//		td.rw = dwidth;
-//		td.rl = dheight;
 //		addObject(td);
+//		System.out.println("here");
 //		td.createJoints(world);
-//		objects.add(td.rope);
-//		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-		
-//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
-//			TrapDoor td = scene.getTrapDoors().get(ii);
-//			addObject(td);
-//			td.setTexture(af.trapDoor);
-//			td.rope.setTexture(af.trapDoor);
-//			td.setDrawScale(scale);
-//		}
-		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
-			TrapDoor td = scene.getTrapDoors().get(ii);
-			td.rw = 0.25f;
-			td.rl = 0.25f*16f;
-			td.setDrawScale(scale);
-			addObject(td);
-			td.createJoints(world);
-			objects.add(td.rope);
-			td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-			td.setTexture(af.trapDoor);
-		}
+//		ropes.add(td);
+//		td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
 
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f, objects);
