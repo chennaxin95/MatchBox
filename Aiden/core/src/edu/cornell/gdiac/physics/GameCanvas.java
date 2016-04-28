@@ -562,7 +562,7 @@ public class GameCanvas {
 	 */
 	public void clear() {
 		// Clear the screen
-		Gdx.gl.glClearColor(0.39f, 0.58f, 0.93f, 1.0f);  // Homage to the XNA years
+		Gdx.gl.glClearColor(0.25f, 0.165f, 0.102f, 1.0f);  // Homage to the XNA years
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 	}
 
@@ -624,7 +624,6 @@ public class GameCanvas {
 	}
 
 	public void begin(float x, float y, int w, int h, float camFrame) {
-
 		if(camFrame > 200){
 			translate(x,y,w,h);
 
@@ -656,6 +655,10 @@ public class GameCanvas {
 	public void end() {
 		spriteBatch.end();
 		active = DrawPass.INACTIVE;
+	}
+	
+	public float getZoom(){
+		return camera.zoom;
 	}
 
 	/**

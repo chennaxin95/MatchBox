@@ -65,7 +65,6 @@ public class AIController {
 		}
 	}
 	
-	private int pointer=0; //temp
 	public GameEvent sensing(CharacterModel npc){
 		// Must set all the fields of game event
 		
@@ -125,7 +124,7 @@ public class AIController {
 	
 	private void computeMove(CharacterModel npc){
 		Random r=new Random();
-//		System.out.println(npc.getStateMachine().getCurrentState());
+		System.out.println(npc.getStateMachine().getCurrentState());
 		float lx=npc.getPosition().x-npc.getWidth()/2;
 		float ly=npc.getPosition().y-npc.getHeight()/2;			
 		float ux=npc.getPosition().x+npc.getWidth()/2;
@@ -139,29 +138,42 @@ public class AIController {
 			npc.setMovement(0f);
 			break;
 		case WANDER:
-			if (npc.getMovement()!=0 && r.nextFloat()<0.0f){
-				npc.setMovement(0);
-				break;
-			}
+//			if (npc.getMovement()!=0 && r.nextFloat()<0.0f){
+//				npc.setMovement(0);
+//				break;
+//			}
+			int range=3;
+			boolean allTrueLeft=true, allTrueRight=true, allTrueForward=true;
 			if (npc.getMovement()!=0){
-				Vector2 temp=new Vector2(start.x+(npc.getMovement()>0? 2: -2), start.y);
-				NavTile forward=board.getTile(board.convertToBoardCoord(temp));
-				if (forward==null || !forward.isSafeToWalkOn()) {
+				for (int ran=1; ran<=range; ran++){
+					Vector2 temp=new Vector2(start.x+(npc.getMovement()>0? ran: -ran), start.y);
+					NavTile forward=board.getTile(board.convertToBoardCoord(temp));
+					allTrueForward=allTrueForward && forward!=null && forward.isSafeToWalkOn();
+				}
+				if (!allTrueForward) {
 					npc.setMovement(0);
 				}
 				break;
 			}
-			NavTile left=board.getTile(board.convertToBoardCoord(new Vector2(start.x-2, start.y)));
-			NavTile right=board.getTile(board.convertToBoardCoord(new Vector2(start.x+2, start.y)));
-			if ((left!=null && left.isSafeToWalkOn()) && (right!=null && right.isSafeToWalkOn())){
-				if (r.nextFloat()>0.5) npc.setMovement(25f);
-				else npc.setMovement(-50f);
+			for (int ran=1; ran<=range; ran++){
+				NavTile left=board.getTile(board.convertToBoardCoord(new Vector2(start.x-ran, start.y)));
+				NavTile right=board.getTile(board.convertToBoardCoord(new Vector2(start.x+ran, start.y)));
+				allTrueLeft=allTrueLeft && left!=null && left.isSafeToWalkOn();
+				allTrueRight=allTrueRight && right!=null && right.isSafeToWalkOn();
 			}
-			else if (left!=null && left.isSafeToWalkOn()){
-				npc.setMovement(-50f);
+			if (allTrueLeft && allTrueRight){
+				if (r.nextFloat()>0.5) {
+					npc.setMovement(5f*npc.getForce());
+				}
+				else {
+					npc.setMovement(-5f*npc.getForce());
+				}
 			}
-			else if (right!=null && right.isSafeToWalkOn()){
-				npc.setMovement(50f);
+			else if (allTrueLeft){
+				npc.setMovement(-5f*npc.getForce());
+			}
+			else if (allTrueRight){
+				npc.setMovement(5f*npc.getForce());
 			}
 			else {
 				if (r.nextFloat()<0.3f) npc.turnAround();
@@ -211,8 +223,8 @@ public class AIController {
 					
 			Vector2 move=pathFinder.findPath(board, board.converToWorldCoord(start));		
 //			float far=Math.min(npc.getTarget().dst(npc.getPosition()), 1f)/1f;
-			if (move.x==1) npc.setMovement(100f/*npc.getForce()*/);
-			else if (move.x==-1) npc.setMovement(-100f/*npc.getForce()*/);
+			if (move.x==1) npc.setMovement(5f*npc.getForce());
+			else if (move.x==-1) npc.setMovement(-5f*npc.getForce());
 			else npc.setMovement(0);
 			break;
 		default: assert(false);

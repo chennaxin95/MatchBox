@@ -476,7 +476,7 @@ public class LevelEditor extends WorldController {
 					holdingBlock = block;
 					break;
 				case TRAP_LEFT_IND:
-					trap = new TrapDoor(xPos, yPos, 4, 0.5f, false);
+					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
 					trans = fitInGrid(new Vector2(trap.getX()
 							- trap.getWidth() / 2f,
 							trap.getY()
@@ -488,7 +488,7 @@ public class LevelEditor extends WorldController {
 					holdingBlock = trap;
 					break;
 				case TRAP_RIGHT_IND:
-					trap = new TrapDoor(xPos, yPos, 4, 0.5f, true);
+					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
 					trans = fitInGrid(new Vector2(trap.getX()
 							- trap.getWidth() / 2f,
 							trap.getY()

@@ -28,19 +28,19 @@ public class BurnablePlatform extends FlammableBlock {
 				r.getWidth(), r.getHeight(), 1, 3);
 		this.r = r;
 		this.unit = unit;
-		setBodyType(BodyDef.BodyType.DynamicBody);
-		this.setFixedRotation(true);
-		this.setBlockType(BlockType.BURNABLE_PLATFORM);
-		this.pin = new WheelObstacle(this.getX(), this.getY(), 0.1f);
-		pin.setBodyType(BodyDef.BodyType.StaticBody);
-		RevoluteJointDef def = new RevoluteJointDef();
-
-		def.bodyA = this.getBody();
-		def.bodyB = pin.getBody();
-		def.localAnchorA.set(new Vector2());
-		def.localAnchorB.set(new Vector2());
-		def.collideConnected = false;
-		joint = (RevoluteJoint) world.createJoint(def);
+//		setBodyType(BodyDef.BodyType.DynamicBody);
+//		this.setFixedRotation(true);
+//		this.setBlockType(BlockType.BURNABLE_PLATFORM);
+//		this.pin = new WheelObstacle(this.getX(), this.getY(), 0.1f);
+		setBodyType(BodyDef.BodyType.StaticBody);
+//		RevoluteJointDef def = new RevoluteJointDef();
+//
+//		def.bodyA = this.getBody();
+//		def.bodyB = pin.getBody();
+//		def.localAnchorA.set(new Vector2());
+//		def.localAnchorB.set(new Vector2());
+//		def.collideConnected = false;
+//		joint = (RevoluteJoint) world.createJoint(def);
 
 		// TODO Auto-generated constructor stub
 	}

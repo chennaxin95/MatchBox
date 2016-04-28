@@ -50,11 +50,15 @@ public class FlammableBlock extends BlockAbstract{
 			else if (((Flammable)material).isBurning()){
 				Color c=new Color();
 				if (((Flammable)material).getBurnRatio()>0.3){
-					c=new Color(1, ((Flammable)material).getBurnRatio(), 0, 1);
+					c=new Color(1, ((Flammable)material).getBurnRatio(), ((Flammable)material).getBurnRatio(), 1);
+				}
+				else if(this instanceof FuelBlock){
+					c = Color.RED;
 				}
 				else{
 					c=new Color(((Flammable)material).getBurnRatio()/0.3f,((Flammable)material).getBurnRatio(), ratio.x, ratio.y);
 				}
+				
 				canvas.draw(texture,c,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(), ratio.x, ratio.y);
 			}
 			else{

@@ -209,7 +209,17 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("AIDEN_RUN"));
 		manager.load(af.get("AIDEN_IDLE"), Texture.class);
 		assets.add(af.get("AIDEN_IDLE"));
-	
+		manager.load(af.get("PAUSED"), Texture.class);
+		assets.add(af.get("PAUSED"));
+		manager.load(af.get("MUSIC"), Texture.class);
+		assets.add(af.get("MUSIC"));
+		manager.load(af.get("SOUND"), Texture.class);
+		assets.add(af.get("SOUND"));
+		manager.load(af.get("SOUND_NO"), Texture.class);
+		assets.add(af.get("SOUND_NO"));
+		manager.load(af.get("MUSIC_NO"), Texture.class);
+		assets.add(af.get("MUSIC_NO"));
+		
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
 		manager.load(af.get("PEW_FILE"), Sound.class);
@@ -322,18 +332,21 @@ public class GDXRoot extends Game implements ScreenListener {
 		setScreen(loading);
 
 		// Initialize the three game worlds
-		controllers = new WorldController[6];
+		controllers = new WorldController[8];
 		controllers[0] = new AidenController(0);
 		controllers[1] = new AidenController(1);
 
 		current = 0;
 		controllers[2] = new AidenController(2);
-		controllers[3] = new AidenController(3);
-		controllers[4] = new AidenController(4);
+
+		controllers[4] = new AidenController(3);
+		controllers[5] = new AidenController(4);
+		controllers[6] = new AidenController(5);
+		controllers[7] = new AidenController(6);
 		
 		loading.setScreenListener(this);
 
-		controllers[5] = new LevelEditor();
+		controllers[3] = new LevelEditor();
 	}
 
 	public void unloadContent(AssetManager manager) {

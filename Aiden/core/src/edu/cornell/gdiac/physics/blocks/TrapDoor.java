@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 import edu.cornell.gdiac.physics.GameCanvas;
@@ -29,6 +30,8 @@ public class TrapDoor extends StoneBlock{
 		this.setBlockType(BlockType.TRAPDOOR);
 	}
 	
+	
+	@Override
 	public boolean activatePhysics(World world){
 		float end;
 		if(isLeft){
@@ -38,11 +41,12 @@ public class TrapDoor extends StoneBlock{
 			end = getX() - getWidth()/2f;
 		}
 		super.activatePhysics(world);
-		rope = new FlammableBlock(end, getY()+rl/2, rw, rl, 3, 3);
+		System.out.println("Trap door creation pass 1"+ rw+" "+rl);
+		rope = new FlammableBlock(end, getY()+rl/2f, rw, rl, 3, 3);
 		rope.activatePhysics(world);
 		rope.setDensity(1);
 		this.setDensity(1);
-		return false;
+		return true;
 		//Create the side anchor
 	}
 	
@@ -56,66 +60,82 @@ public class TrapDoor extends StoneBlock{
 			posX = getX() + getWidth()/2f;
 			end = getX() - getWidth()/2f;
 		}
+		System.out.println("Trap door creation pass in");
 		Vector2 pos = new Vector2(posX, this.getY());
-		anchor = new WheelObstacle(pos.x, pos.y, rw/2);
+		anchor = new WheelObstacle(pos.x, pos.y, rw/2f);
 		anchor.setName("anchor");
 		anchor.setDensity(1);
 		anchor.setBodyType(BodyDef.BodyType.StaticBody);
 		anchor.activatePhysics(world);
-		
+		System.out.println("Trap door creation pass 1");
+
 		Vector2 anchorP = new Vector2();
 		
 		RevoluteJointDef jointDef = new RevoluteJointDef();
 		jointDef.bodyA = this.getBody();
 		jointDef.bodyB = anchor.getBody();
 		anchorP = new Vector2(0, 0);
-//		anchorP.x = isLeft?-getWidth()/2:getWidth()/2;
-		jointDef.localAnchorA.set(anchorP);
+		anchorP.x = isLeft?-getWidth()/2f:getWidth()/2f;
+		jointDef.localAnchorA.set(anchorP);		
 		anchorP = new Vector2(0, 0);
 		jointDef.localAnchorB.set(anchorP);
-		jointDef.collideConnected = false;
+		jointDef.collideConnected = true;
 		Top = world.createJoint(jointDef);
+		System.out.println("Trap door creation pass 2");
 		
 		//create rope/door joint
-//		jointDef.bodyA = rope.getBody();
-//		jointDef.bodyB = this.body;
-//		anchorP = new Vector2(0, 0);
-//		anchorP.y = -rl/2;
-//		jointDef.localAnchorA.set(anchorP);
-//		anchorP.y = 0;
-//		anchorP.x = isLeft ? getWidth()/2 : -getWidth()/2; 
-//		jointDef.localAnchorB.set(anchorP);
-//		jointDef.collideConnected = false;
-//		Down = world.createJoint(jointDef);
+		RevoluteJointDef jointDef1 = new RevoluteJointDef();
+		jointDef1.bodyA = rope.getBody();
+		jointDef1.bodyB = this.body;
+		anchorP = new Vector2(0, 0);
+		anchorP.y = -rl/2f;
+		jointDef1.localAnchorA.set(anchorP);
+		anchorP.y = 0;
+		anchorP.x = isLeft ? getWidth()/2f : -getWidth()/2f; 
+		jointDef1.localAnchorB.set(anchorP);
+		jointDef1.collideConnected = true;
+		Down = world.createJoint(jointDef1);
+		System.out.println("Trap door creation pass 3");
+
 		
 		//anchor rope joint
 		pos.x = end;
 		pos.y = getY()+rl;
-		anchorRope = new WheelObstacle(pos.x, pos.y, rw/2);
+		anchorRope = new WheelObstacle(pos.x, pos.y, rw/2f);
 		anchorRope.setName(this.getName()+"anchorRope");
 		anchorRope.setDensity(1);
 		anchorRope.setBodyType(BodyDef.BodyType.StaticBody);
 		anchorRope.activatePhysics(world);
-		RevoluteJointDef jointDef1 = new RevoluteJointDef();
-		jointDef1.bodyA = rope.getBody();
-		jointDef1.bodyB = anchorRope.getBody();
+		System.out.println("Trap door creation pass 4");
+		
+		RevoluteJointDef jointDef2 = new RevoluteJointDef();
+		jointDef2.bodyA = rope.getBody();
+		jointDef2.bodyB = anchorRope.getBody();
 		anchorP = new Vector2(0, 0);
+
 		anchorP.y = rl/2;
-		jointDef1.localAnchorA.set(anchorP);
+		jointDef2.localAnchorA.set(anchorP);
 		anchorP.y = 0;
 		anchorP.x = 0; 
-		jointDef1.localAnchorB.set(anchorP);
-		jointDef1.collideConnected = false;
-		End = world.createJoint(jointDef1);
+		jointDef2.localAnchorB.set(anchorP);
+		jointDef2.collideConnected = true;
+		End = world.createJoint(jointDef2);
+		System.out.println("Trap door creation pass 5");
 	}
 	
 	public void setChildrenTexture(TextureRegion rope, TextureRegion nail){
-		this.rope.setTexture(rope);
-		this.rope.setDrawScale(this.drawScale);
-		this.anchorRope.setTexture(nail);
-		anchorRope.setDrawScale(this.drawScale);
-		this.anchor.setTexture(nail);
-		anchor.setDrawScale(this.drawScale);
+		if (this.rope!=null){
+			this.rope.setTexture(rope);
+			this.rope.setDrawScale(this.drawScale);
+		}
+		if (this.anchorRope!=null){
+			this.anchorRope.setTexture(nail);
+			anchorRope.setDrawScale(this.drawScale);
+		}
+		if (this.anchor!=null){
+			this.anchor.setTexture(nail);
+			anchor.setDrawScale(this.drawScale);
+		}
 	}
 	
 	@Override
