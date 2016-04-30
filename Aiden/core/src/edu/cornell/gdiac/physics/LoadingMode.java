@@ -31,6 +31,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
+import com.sun.glass.ui.Window.Level;
+
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
 
@@ -72,6 +74,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture settings;
 	/** Texture for credits button*/
 	public Texture credits;
+	/** Texture for each level button*/
+	public Texture level;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -105,6 +109,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public static int PROGRESS_MIDDLE = 200;
 	/** Amount to scale the play button */
 	public static float BUTTON_SCALE = 0.25f;
+	/** Amount to scale each level button */
+	public static float LEVEL_BUTTON_SCALE = 1.0f;
 	/** Amount to scale the main menu title*/
 	public static float MENU_SCALE = 0.38f;
 	/** Amount to scale start button location vertically*/
@@ -372,15 +378,21 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
 		}else if (pressState == 4){
+			int n = 1;
 			for (int i = 0; i<5; i++){
-				int x = tlX + i *  widthX / 5;
+				int y = tlY - i *  heightY / 5;
 				for (int j = 0; j < 4; j++){
-					int y = tlY - j * heightY /  4;
+					String level_texture = "shared/" + n + ".png";
+					level = new Texture(level_texture);
+					level.setFilter(TextureFilter.Linear,
+							TextureFilter.Linear);
+					int x = tlX + j * widthX /  4;
 					pos = canvas.relativeVector(x, y);
-					canvas.draw(credits, Color.WHITE, credits.getWidth() / 2,
-							credits.getHeight() / 2,
-							pos.x, pos.y, 0, BUTTON_SCALE * scale,
-							BUTTON_SCALE * scale);
+					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
+							level.getHeight() / 2,
+							pos.x, pos.y, 0, LEVEL_BUTTON_SCALE * scale,
+							LEVEL_BUTTON_SCALE * scale);
+					n++;
 				}
 			}
 		}

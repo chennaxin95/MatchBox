@@ -134,6 +134,26 @@ public class AssetFile {
 		files.put("SOUND_NO", "shared/sound-no.png");
 		files.put("BAR_BACK", "platform/barBack.png");
 		files.put("FIRE_BALL", "platform/fuel ball-s64.png");
+		files.put("1", "shared/1.png");
+		files.put("2", "shared/1.png");
+		files.put("3", "shared/1.png");
+		files.put("4", "shared/1.png");
+		files.put("5", "shared/1.png");
+		files.put("6", "shared/1.png");
+		files.put("7", "shared/1.png");
+		files.put("8", "shared/1.png");
+		files.put("9", "shared/1.png");
+		files.put("10", "shared/1.png");
+		files.put("11", "shared/1.png");
+		files.put("12", "shared/1.png");
+		files.put("13", "shared/1.png");
+		files.put("14", "shared/1.png");
+		files.put("15", "shared/1.png");
+		files.put("16", "shared/1.png");
+		files.put("17", "shared/1.png");
+		files.put("18", "shared/1.png");
+		files.put("19", "shared/1.png");
+		files.put("20", "shared/1.png");
 		System.out.println(files);
 	}
 
