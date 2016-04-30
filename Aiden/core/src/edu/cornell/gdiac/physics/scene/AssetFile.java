@@ -48,6 +48,9 @@ public class AssetFile {
 	public TextureRegion trapDoor;
 	public TextureRegion barOutter;
 	public TextureRegion barInner;
+	public TextureRegion barLow;
+	public TextureRegion barBack;
+	
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion homeButton;
@@ -69,6 +72,7 @@ public class AssetFile {
 	public FilmStrip WaterWalkTexture;
 	public FilmStrip WaterChaseTexture;
 	public FilmStrip WaterDieTexture;
+	public FilmStrip FireBall;
 	
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
@@ -119,6 +123,7 @@ public class AssetFile {
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
 		files.put("BAR_OUTTER", "platform/barOuter.png");
 		files.put("BAR_INNER", "platform/barInner.png");
+		files.put("BAR_LOW", "platform/barLow.png");
 		files.put("AIDEN_RUN", "platform/fast.png");
 		files.put("AIDEN_IDLE", "platform/idle.png");
 		files.put("WATER_CHASE", "platform/water-chase.png");
@@ -127,6 +132,8 @@ public class AssetFile {
 		files.put("SOUND", "shared/sound.png");
 		files.put("MUSIC_NO", "shared/music-no.png");
 		files.put("SOUND_NO", "shared/sound-no.png");
+		files.put("BAR_BACK", "platform/barBack.png");
+		files.put("FIRE_BALL", "platform/fuel ball-s64.png");
 		System.out.println(files);
 	}
 
@@ -221,7 +228,8 @@ public class AssetFile {
 		music_no = createTexture(manager, files.get("MUSIC_NO"), false);
 		sound = createTexture(manager, files.get("SOUND"), false);
 		sound_no = createTexture(manager, files.get("SOUND_NO"), false);
-		
+		barLow = createTexture(manager, files.get("BAR_LOW"), false);
+		barBack = createTexture(manager, files.get("BAR_BACK"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -261,6 +269,7 @@ public class AssetFile {
 				files.get("WATER_DIE_FILE"),
 				12, 1,
 				12);
+		FireBall = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		AidenRunTexture = createFilmStrip(manager, files.get("AIDEN_RUN"), 12, 1, 12);
 		AidenIdleTexture = createFilmStrip(manager, files.get("AIDEN_IDLE"), 12, 1, 12);
 		WaterChaseTexture = createFilmStrip(manager, files.get("WATER_CHASE"), 4, 1, 4);

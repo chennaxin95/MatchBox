@@ -190,7 +190,7 @@ public class AidenController extends WorldController
 		pauseT = new Vector2(480, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
-		fuelBarSize = new Vector2(400, 50);
+		fuelBarSize = new Vector2(417, 91);
 		sScaleX = (float)canvas.getWidth() / 1920f;
 		sScaleY = (float)canvas.getHeight() / 1080f;
 		pauseT = pauseT.scl(sScaleX, sScaleY);
@@ -299,6 +299,7 @@ public class AidenController extends WorldController
 			FuelBlock box = scene.getFuelBlocks().get(ii);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
+			box.setTexture(af.FireBall);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
@@ -364,7 +365,7 @@ public class AidenController extends WorldController
 
 			WaterGuard ch1 = scene.getGuards().get(ii);
 			ch1.setDrawScale(scale);
-
+			ch1.setChase(af.WaterChaseTexture);
 			ch1.setTexture(af.waterTexture);
 			ch1.setName("wg" + ii);
 			npcs.add(ch1);
@@ -764,8 +765,20 @@ public class AidenController extends WorldController
 		if (avatar != null) {
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			float sx = avatar.getFuel() /avatar.getMaxFuel();
-			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
-			canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			canvas.draw(af.barBack, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			if (sx < 0.3f){
+				canvas.draw(af.barLow, Color.WHITE, pos.x+10, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
+			}
+			else{
+				canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
+			}
+			if (sx < 0.1f){
+				canvas.draw(af.barOutter, Color.RED, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			else{
+				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			
 		}
 		if(pause){
 			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
