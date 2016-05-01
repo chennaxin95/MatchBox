@@ -56,14 +56,14 @@ public class FuelBlock extends FlammableBlock {
 			return;
 		}
 		else{
-			animate(canvas);
+			this.animate(canvas);
 		}
 	}
 	
 	public void animate(GameCanvas canvas){
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
-			fm.setFrame((fm.getFrame()+1)%fm.getSize());
+			fm.setFrame((fm.getFrame()+1)% fm.getSize());
 		}
 		canvas.draw(fm, this.getX()*drawScale.x-25, this.getY()*drawScale.y-25);
 	}

@@ -116,8 +116,8 @@ public class AidenController extends WorldController
 	public Vector2 largeBut;
 	public Vector2 smallBut;
 	private Vector2 fuelBarSize;
-	public Vector2 largeSize = new Vector2(320, 128).scl(1/32f);
-	public Vector2 smallSize = new Vector2(100, 96).scl(1/32f);
+	public Vector2 largeSize = new Vector2(320, 128);
+	public Vector2 smallSize = new Vector2(100, 96);
 	private Vector2 fuelBarPos ;
 	
 	public Vector2 pScreen;
@@ -163,7 +163,6 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-		
 	}
 
 	/**
@@ -194,8 +193,8 @@ public class AidenController extends WorldController
 		sScaleX = (float)canvas.getWidth() / 1920f;
 		sScaleY = (float)canvas.getHeight() / 1080f;
 		pauseT = pauseT.scl(sScaleX, sScaleY);
-		largeBut.scl(sScaleX, sScaleY);
-		smallBut.scl(sScaleX, sScaleY);
+//		largeBut.scl(sScaleX, sScaleY);
+//		smallBut.scl(sScaleX, sScaleY);
 		fuelBarSize.scl(sScaleX, sScaleY);
 		setPos();
 		Vector2 gravity = new Vector2(world.getGravity());
@@ -299,12 +298,11 @@ public class AidenController extends WorldController
 			FuelBlock box = scene.getFuelBlocks().get(ii);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
-			box.setTexture(af.FireBall);
+			box.setTexture(af.fireBall[(ii % (af.fireBall.length))]);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
 			box.ratio = new Vector2(1f, 1f);
-			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
 			if (box.isCheckpoint()) {
@@ -426,24 +424,28 @@ public class AidenController extends WorldController
 		float yOff = largeBut.y * 1.5f;
 		float tOff = pauseT.x / 2;
 		pScreen = new Vector2(w/2-tOff, h);
-		pPos = new Vector2(w/2-tOff, 9*h).scl(1/32f);
+		pPos = new Vector2(w/2-tOff, 9*h);
 		resuScreen = new Vector2(w/2-mOff, h-yOff);
-		resuPos = new Vector2(w/2-mOff, h-yOff).scl(1/32f);
+		System.out.println("resuscreen is: ");
+		System.out.println(resuScreen);
+		resuPos = new Vector2(w/2-mOff, h-yOff);
 		restScreen = new Vector2(w/2-mOff, h-2*yOff);
-		restPos = new Vector2(w/2-mOff, h-2*yOff).scl(1/32f);
+		restPos = new Vector2(w/2-mOff, h-2*yOff);
 		homeScreen = new Vector2(w/2-mOff, h-3*yOff);
-		homePos = new Vector2(w/2-mOff, h-3*yOff).scl(1/32f);
+		homePos = new Vector2(w/2-mOff, h-3*yOff);
 		mScreen = new Vector2(w/2-xsOff, h-4*yOff);
-		muPos = new Vector2(w/2-xsOff, h-4*yOff).scl(1/32f);
+		muPos = new Vector2(w/2-xsOff, h-4*yOff);
 		sScreen = new Vector2(w/2+(xsOff/2.98f), h-4*yOff);
-		sPos = new Vector2(w/2+(xsOff/2.98f), h-4*yOff).scl(1/32f);
+		sPos = new Vector2(w/2+(xsOff/2.98f), h-4*yOff);
 		fuelBarPos = new Vector2(w/8, h);
 	}
 	
 	public void buttonPressed(){
 		boolean isPressed = InputController.getInstance().didTertiary();
 		if (isPressed){
-			Vector2 mPos = InputController.getInstance().getCrossHair();
+			Vector2 pos = InputController.getInstance().getCrossHair();
+			Vector2 mPos = new Vector2(pos.x, canvas.getHeight()-pos.y);
+			System.out.println(mPos);
 			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
 					mPos.y >= homePos.y && mPos.y<=homePos.y+largeSize.y){
 				homeC = Color.GRAY;

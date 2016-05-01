@@ -76,6 +76,7 @@ public class AssetFile {
 	
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
+	public FilmStrip[] fireBall;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -289,7 +290,6 @@ public class AssetFile {
 				files.get("WATER_DIE_FILE"),
 				12, 1,
 				12);
-		FireBall = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		AidenRunTexture = createFilmStrip(manager, files.get("AIDEN_RUN"), 12, 1, 12);
 		AidenIdleTexture = createFilmStrip(manager, files.get("AIDEN_IDLE"), 12, 1, 12);
 		WaterChaseTexture = createFilmStrip(manager, files.get("WATER_CHASE"), 4, 1, 4);
@@ -300,7 +300,10 @@ public class AssetFile {
 					files.get("BURNING_FILE"),
 					7, 1, 7);
 		}
-
+		fireBall = new FilmStrip[20];
+		for (int i = 0; i < 20; i++){
+			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
+		}
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
