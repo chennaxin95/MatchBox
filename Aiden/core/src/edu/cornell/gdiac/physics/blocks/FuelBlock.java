@@ -56,7 +56,12 @@ public class FuelBlock extends FlammableBlock {
 			return;
 		}
 		else{
-			this.animate(canvas);
+			if (fm!=null)
+				this.animate(canvas);
+			else if (texture!=null)
+				super.draw(canvas);
+			else
+				return;
 		}
 	}
 	

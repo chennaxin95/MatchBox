@@ -31,7 +31,6 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
-import com.sun.glass.ui.Window.Level;
 
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
