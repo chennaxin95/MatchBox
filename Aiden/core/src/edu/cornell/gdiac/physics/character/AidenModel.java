@@ -241,9 +241,12 @@ public class AidenModel extends CharacterModel {
 		trailStill = new ParticleEffect();
 		trailStill.load(Gdx.files.internal("platform/still.p"),
 				Gdx.files.internal("platform"));
-		trailStill.start();
-		trailRight.start();
-		trailLeft.start();
+		trailLeft.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailRight.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailStill.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
 	}
 
 
@@ -281,7 +284,7 @@ public class AidenModel extends CharacterModel {
 			}
 		}
 		if (!isClimbing && !isSpiriting && isGrounded && isJumping) {
-			movementY = 11;
+			movementY = 14;
 		}
 		if (!isGrounded) {
 			movement = movement * 0.9f;
@@ -319,7 +322,7 @@ public class AidenModel extends CharacterModel {
 				}
 			}
 		}
-		movementY = Math.max(Math.min(movementY, 9), -10);
+		movementY = Math.max(Math.min(movementY, 10.5f), -10);
 		movement = Math.max(Math.min(movement, 9), -10);
 		body.setLinearVelocity(movement, movementY);
 	}
@@ -383,6 +386,12 @@ public class AidenModel extends CharacterModel {
 		trailLeft.update(dt);
 		trailRight.update(dt);
 		trailStill.update(dt);
+		trailLeft.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailRight.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		trailStill.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
 	}
 	
 	@Override
@@ -470,13 +479,6 @@ public class AidenModel extends CharacterModel {
 		float effect = faceRight ? 1.0f : -1.0f;
 		Color c = Color.WHITE.cpy();
 
-		trailLeft.setPosition(getX() * drawScale.x,
-				(getY() - 0.5f) * drawScale.y);
-		trailRight.setPosition(getX() * drawScale.x,
-				(getY() - 0.5f) * drawScale.y);
-		trailStill.setPosition(getX() * drawScale.x,
-				(getY() - 0.5f) * drawScale.y);
-
 		if (Math.abs(getVX()) > 2) {
 			if (faceRight) {
 				canvas.drawParticle(trailRight);
@@ -534,7 +536,7 @@ public class AidenModel extends CharacterModel {
 			c = preColor;
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y, getAngle(), effect, ratio);
+				getY() * drawScale.y + 20, getAngle(), effect, ratio);
 		if(death.getFrame() == death.getSize()-1){
 			drawFail = true;
 		}
@@ -553,7 +555,7 @@ public class AidenModel extends CharacterModel {
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		canvas.draw(jump, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y, getAngle(), -effect*ratio, ratio);
+				getY() * drawScale.y + 20, getAngle(), -effect*ratio, ratio);
 		if (jumpFrame == jump.getSize()-1){
 			jumpFrame = 0;
 			drawJumping = false;
@@ -572,7 +574,7 @@ public class AidenModel extends CharacterModel {
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		canvas.draw(run, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y, getAngle(), -effect*ratio, ratio);
+				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
 	
 }

@@ -374,6 +374,7 @@ public class GameCanvas {
 	 */
 	public void resize() {
 		// Resizing screws up the spriteBatch projection matrix
+		camera.zoom = 1;
 		spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, getWidth(), getHeight());
 		camera.setToOrtho(false,getWidth(),getHeight());
 	}
@@ -601,7 +602,7 @@ public class GameCanvas {
 		// Position the camera
 		float f = -1f;
 
-		camera.zoom = 1f;
+		camera.zoom = 0.79f;
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			camera.translate(new Vector3(-2,0,0));
 		}
@@ -626,8 +627,7 @@ public class GameCanvas {
 	public void begin(float x, float y, int w, int h, float camFrame) {
 		if(camFrame > 200){
 			translate(x,y,w,h);
-
-			if (InputController.getInstance().zoomIn() && camera.zoom>0.8) camera.zoom-=0.02f;
+			if (InputController.getInstance().zoomIn() && camera.zoom>0.77) camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
 
 		}
@@ -1500,8 +1500,8 @@ public class GameCanvas {
 	public void translate(float x, float y, int w, int h){
 		if(x<15) {
 			x = Math.min(15, w/2);
-		}else if(x>w-15){
-			x = Math.max(w-15, w/2);
+		}else if(x>w-12){
+			x = Math.max(w-12, w/2);
 		}
 		if(y<6){
 			y = Math.min(6, h/2);
@@ -1510,8 +1510,8 @@ public class GameCanvas {
 		}
 		x = x*1920/64;
 		y = y*1080/40;
-		//x = x*getWidth()/w;
-		//y = y*getHeight()/w;
+		// x = x*getWidth()/w;
+		// y = y*getHeight()/w;
 		target.set(x, y, 0);
 		//eye.set(target).add(0, NEAR_DIST, -EYE_DIST);
 

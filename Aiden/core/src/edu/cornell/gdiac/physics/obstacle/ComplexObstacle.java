@@ -964,7 +964,6 @@ public abstract class ComplexObstacle extends Obstacle {
 	 * @return true if object allocation succeeded
 	 */
 	public boolean activatePhysics(World world) {
-		System.out.println("called once");
 		bodyinfo.active = true;
 		boolean success = true;
 	
@@ -1012,6 +1011,7 @@ public abstract class ComplexObstacle extends Obstacle {
 	 * @return true if object allocation succeeded
 	 */
 	protected abstract boolean createJoints(World world);
+	public abstract boolean updateParts(World world);
 
 	/**
 	 * Updates the object's physics state (NOT GAME LOGIC).

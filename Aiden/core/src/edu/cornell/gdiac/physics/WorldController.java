@@ -95,7 +95,7 @@ public abstract class WorldController implements Screen {
 	public static final int EXIT_PREV = 2;
 	public static final int EXIT_HOME = 3;
 	/** How many frames after winning/losing do we continue? */
-	public static final int EXIT_COUNT = 120;
+	public static final int EXIT_COUNT = 60;
 
 	/** The amount of time for a physics engine step. */
 	public static final float WORLD_STEP = 1 / 60.0f;
@@ -519,8 +519,8 @@ public abstract class WorldController implements Screen {
 				entry.remove();
 			} else {
 				// Note that update is called last!
-				if (obj instanceof Rope) {
-					boolean remove = ((Rope) obj).updateParts(world);
+				if (obj instanceof ComplexObstacle) {
+					boolean remove = ((ComplexObstacle)obj).updateParts(world);
 					if (remove) {
 						obj.deactivatePhysics(world);
 						entry.remove();
@@ -649,7 +649,7 @@ public abstract class WorldController implements Screen {
 		this.listener = listener;
 	}
 	
-	public void setScene(Scene[] scenes){
+	public void setScene(Scene scene){
 		
 	}
 }

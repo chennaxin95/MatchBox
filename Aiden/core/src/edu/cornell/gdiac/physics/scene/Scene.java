@@ -131,7 +131,7 @@ public class Scene implements SceneInterface {
 								}else{
 									boolean is_left = obj.getBoolean("isLeft");
 									if(material.equals("trapdoor")){
-										trapdoors.add(new TrapDoor(x,y,b_scale_x, b_scale_y, is_left));
+										trapdoors.add(new TrapDoor(x,y,4f, 0.25f, is_left));
 									}else{
 										if(material.equals("burnable_platform")){
 											bplatforms.add(new BurnablePlatform(
@@ -204,7 +204,6 @@ public class Scene implements SceneInterface {
 		container.addAll(this.getStoneBlocks(true));
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
-		container.addAll(this.getTrapDoors());
 		container.addAll(this.bplatforms);
 		return container;
 	}
@@ -245,7 +244,6 @@ public class Scene implements SceneInterface {
 		if(trapdoor){
 			ArrayList<StoneBlock> container = new ArrayList<StoneBlock>();
 			container.addAll(stoneBlocks);
-			container.addAll(trapdoors);
 		}
 		return stoneBlocks;
 	}
