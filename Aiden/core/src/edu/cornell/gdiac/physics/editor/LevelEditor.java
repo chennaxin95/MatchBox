@@ -475,32 +475,59 @@ public class LevelEditor extends WorldController {
 					this.blocks.add(block);
 					holdingBlock = block;
 					break;
-				case TRAP_LEFT_IND:
-					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
-					trans = fitInGrid(new Vector2(trap.getX()
-							- trap.getWidth() / 2f,
-							trap.getY()
-									- trap.getHeight() / 2f));
-					trap.setPosition(trap.getPosition().add(trans));
-					trap.setTexture(af.trapdoorTexture);
-					trap.setDrawScale(scale);
-					this.blocks.add(trap);
-					holdingBlock = trap;
-					break;
-				case TRAP_RIGHT_IND:
-					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
-					trans = fitInGrid(new Vector2(trap.getX()
-							- trap.getWidth() / 2f,
-							trap.getY()
-									- trap.getHeight() / 2f));
-					trap.setPosition(trap.getPosition().add(trans));
-					trap.setTexture(af.trapdoorTexture);
-					trap.setDrawScale(scale);
-					this.blocks.add(trap);
-					holdingBlock = trap;
-					break;
-				default:
-					break;
+
+//				case TRAP_LEFT_IND:
+//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
+//					trans = fitInGrid(new Vector2(trap.getX()
+//							- trap.getWidth() / 2f,
+//							trap.getY()
+//									- trap.getHeight() / 2f));
+//					trap.setPosition(trap.getPosition().add(trans));
+//					trap.setTexture(af.trapdoorTexture);
+//					trap.setDrawScale(scale);
+//					this.blocks.add(trap);
+//					holdingBlock = trap;
+//					break;
+//				case TRAP_RIGHT_IND:
+//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
+//					trans = fitInGrid(new Vector2(trap.getX()
+//							- trap.getWidth() / 2f,
+//							trap.getY()
+//									- trap.getHeight() / 2f));
+//					trap.setPosition(trap.getPosition().add(trans));
+//					trap.setTexture(af.trapdoorTexture);
+//					trap.setDrawScale(scale);
+//					this.blocks.add(trap);
+//					holdingBlock = trap;
+//					break;
+//				default:
+//					break;
+
+//				case TRAP_LEFT_IND:
+//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, false);
+//					trans = fitInGrid(new Vector2(trap.getX()
+//							- trap.getWidth() / 2f,
+//							trap.getY()
+//									- trap.getHeight() / 2f));
+//					trap.setPosition(trap.getPosition().add(trans));
+//					trap.setTexture(af.trapdoorTexture);
+//					trap.setDrawScale(scale);
+//					this.blocks.add(trap);
+//					holdingBlock=trap;
+//					break;
+//				case TRAP_RIGHT_IND:
+//					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
+//					trans = fitInGrid(new Vector2(trap.getX()
+//							- trap.getWidth() / 2f,
+//							trap.getY()
+//									- trap.getHeight() / 2f));
+//					trap.setPosition(trap.getPosition().add(trans));
+//					trap.setTexture(af.trapdoorTexture);
+//					trap.setDrawScale(scale);
+//					this.blocks.add(trap);
+//					holdingBlock=trap;
+//					break;	
+				
 				}
 			}
 			// if (InputController.getInstance().newAiden()) {

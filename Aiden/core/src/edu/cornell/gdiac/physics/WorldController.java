@@ -519,8 +519,8 @@ public abstract class WorldController implements Screen {
 				entry.remove();
 			} else {
 				// Note that update is called last!
-				if (obj instanceof Rope) {
-					boolean remove = ((Rope) obj).updateParts(world);
+				if (obj instanceof ComplexObstacle) {
+					boolean remove = ((ComplexObstacle)obj).updateParts(world);
 					if (remove) {
 						obj.deactivatePhysics(world);
 						entry.remove();

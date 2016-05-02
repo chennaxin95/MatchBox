@@ -181,7 +181,6 @@ public class Rope extends ComplexObstacle {
 		}
 		if(start != null){
 			start.setTexture(nail);
-			start.setDrawScale(drawScale);
 		}	
 	}
 	
