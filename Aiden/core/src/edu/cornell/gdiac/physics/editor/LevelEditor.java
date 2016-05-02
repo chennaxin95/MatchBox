@@ -400,7 +400,7 @@ public class LevelEditor extends WorldController {
 					holdingBlock=block;
 					break;
 				case FUEL_BOX_IND:
-					block = new FuelBlock(xPos, yPos, 2, 2, 1, 2, 25, false);
+					block = new FuelBlock(xPos, yPos, 1, 1, 1, 2, 25, false);
 					trans = fitInGrid(new Vector2(block.getX()
 							- block.getWidth() / 2f,
 							block.getY()
@@ -719,7 +719,7 @@ public class LevelEditor extends WorldController {
 				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
-		String outputfile = "Level2.json";
+		String outputfile = "Tutorial1.json";
 		FileHandle file = Gdx.files
 				.absolute(Gdx.files.getLocalStoragePath() + outputfile);
 
@@ -729,7 +729,7 @@ public class LevelEditor extends WorldController {
 	public void loadFromJson() {
 		System.out.println("Loading");
 
-		Scene scene = new Scene("Level2.json");
+		Scene scene = new Scene("Tutorial1.json");
 
 		reset();
 		System.out.println("Loading Characters");
