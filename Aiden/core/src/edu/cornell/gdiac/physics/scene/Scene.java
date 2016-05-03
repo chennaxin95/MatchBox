@@ -48,7 +48,7 @@ public class Scene implements SceneInterface {
 		this.af = a;
 	}
 
-	public Scene(String s, World world) {
+	public Scene(String s) {
 
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
@@ -116,7 +116,7 @@ public class Scene implements SceneInterface {
 					} else {
 						if (material.equals("fuel")) {
 							fuelBlocks.add(
-									new FuelBlock(x, y, b_scale_x, b_scale_y,
+									new FuelBlock(x, y, 1/*b_scale_x*/,1/*b_scale_y*/,
 											burn_spread, burn_time, fuels,
 											false));
 						} else {
@@ -132,13 +132,13 @@ public class Scene implements SceneInterface {
 								}else{
 									boolean is_left = obj.getBoolean("isLeft");
 									if(material.equals("trapdoor")){
-										trapdoors.add(new TrapDoor(x,y,b_scale_x, b_scale_y, is_left));
+										trapdoors.add(new TrapDoor(x,y,4f, 0.25f, is_left));
 									}else{
 										if(material.equals("burnable_platform")){
 											bplatforms.add(new BurnablePlatform(
 													new Rectangle(x - b_scale_x / 2f,
 															y - b_scale_y / 2f, b_scale_x,
-															b_scale_y),1,world));
+															b_scale_y),1, null));
 										}else{
 											System.err
 											.println("new material : " + material);
@@ -198,14 +198,13 @@ public class Scene implements SceneInterface {
 	}
 
 	/** All the blocks but goal door and ropes */
-	public ArrayList<BlockAbstract> getBlocks() {
-		ArrayList<BlockAbstract> container = new ArrayList<BlockAbstract>();
+	public ArrayList<Obstacle> getBlocks() {
+		ArrayList<Obstacle> container = new ArrayList<Obstacle>();
 
 		container.addAll(this.getWoodBlocks());
 		container.addAll(this.getStoneBlocks(true));
 		container.addAll(this.getPlatform());
 		container.addAll(this.getFuelBlocks());
-//		container.addAll(this.getTrapDoors());
 		container.addAll(this.bplatforms);
 		return container;
 	}
@@ -246,7 +245,6 @@ public class Scene implements SceneInterface {
 		if(trapdoor){
 			ArrayList<StoneBlock> container = new ArrayList<StoneBlock>();
 			container.addAll(stoneBlocks);
-//			container.addAll(trapdoors);
 		}
 		return stoneBlocks;
 	}
@@ -284,7 +282,9 @@ public class Scene implements SceneInterface {
 			container.addAll(fuelBlocks);
 		}
 		if(bplatform){
-			container.addAll(bplatforms);
+			for (BurnablePlatform bp : bplatforms){
+				container.add(bp.getPlatform());
+			}
 		}
 		return container;
 	}

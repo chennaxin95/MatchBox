@@ -40,7 +40,7 @@ public class Rope extends ComplexObstacle {
 	/** The left side of the bridge */
 	private WheelObstacle start = null;
 	
-	protected float SPREAD = 0.5f;
+	protected float SPREAD = 1f;
 	protected float BURN = 4f;
 	
 

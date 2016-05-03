@@ -30,7 +30,7 @@ public interface SceneInterface {
 	
 	public AidenModel getAidenModel();
 	
-	public ArrayList<BlockAbstract> getBlocks();
+	public ArrayList<Obstacle> getBlocks();
 	
 	public ArrayList<StoneBlock> getStoneBlocks(boolean trapdoor);
 	

@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
+
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.util.*;
 
@@ -62,6 +63,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture background;
 	/** Play button to display when done */
 	public Texture playButton;
+	public Texture blackBack;
+	public Texture grayLine;
+	public Texture whiteLine;
 	/** Texture atlas to support a progress bar */
 	public Texture statusBar;
 	/** Texture for main menu title*/
@@ -72,6 +76,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture settings;
 	/** Texture for credits button*/
 	public Texture credits;
+	/** Texture for each level button*/
+	public Texture level;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -105,6 +111,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public static int PROGRESS_MIDDLE = 200;
 	/** Amount to scale the play button */
 	public static float BUTTON_SCALE = 0.25f;
+	/** Amount to scale each level button */
+	public static float LEVEL_BUTTON_SCALE = 1.0f;
 	/** Amount to scale the main menu title*/
 	public static float MENU_SCALE = 0.38f;
 	/** Amount to scale start button location vertically*/
@@ -115,7 +123,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public static float SETTINGS_V_SCALE = .50f;
 	/** Amount to scale credits button location vertically*/
 	public static float CREDITS_V_SCALE = .35f;
-
+	
+	public Vector2 glPos;
+	public float barSize;
 
 	/** Start button for XBox controller on Windows */
 	public static int WINDOWS_START = 7;
@@ -241,6 +251,13 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		playButton = null;
 		background = new Texture(af.get("BACKGROUND_FILE"));
 		statusBar = new Texture(af.get("PROGRESS_FILE"));
+		blackBack = new Texture("shared/blackBack.png");
+		grayLine = new Texture("shared/grey line.png");
+		whiteLine = new Texture("shared/white line.png");
+		
+		float ratio = (float)canvas.getWidth()/1920f;
+		barSize = 1000 * ratio;
+		glPos = new Vector2(canvas.getWidth()/2 - barSize/2, (float)canvas.getHeight()/8);
 
 		// No progress so far.
 		progress = 0;
@@ -340,10 +357,15 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 * methods, instead of using the single render() method that LibGDX does. We
 	 * will talk about why we prefer this in lecture.
 	 */
-	public void draw() {
+	public void draw() {  
+		canvas.resize();
+		float wRatio = (float)canvas.getWidth() / 1920f;
+		float hRatio = (float)canvas.getHeight() / 1080f;
 		canvas.begin();
 		Vector2 pos = canvas.relativeVector(0, 0);
-		canvas.draw(background, pos.x, pos.y);
+		Vector2 pos1 = canvas.relativeVector(canvas.getWidth()/8, canvas.getHeight()/3.5f);
+		canvas.draw(blackBack, pos.x, pos.y);
+		canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 		if (playButton == null) {
 			drawProgress(canvas);
 		} else if (pressState == 0 || pressState == 1 || pressState == 3){
@@ -372,15 +394,21 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
 		}else if (pressState == 4){
+			int n = 1;
 			for (int i = 0; i<5; i++){
-				int x = tlX + i *  widthX / 5;
+				int y = tlY - i *  heightY / 5;
 				for (int j = 0; j < 4; j++){
-					int y = tlY - j * heightY /  4;
+					String level_texture = "shared/" + n + ".png";
+					level = new Texture(level_texture);
+					level.setFilter(TextureFilter.Linear,
+							TextureFilter.Linear);
+					int x = tlX + j * widthX /  4;
 					pos = canvas.relativeVector(x, y);
-					canvas.draw(credits, Color.WHITE, credits.getWidth() / 2,
-							credits.getHeight() / 2,
-							pos.x, pos.y, 0, BUTTON_SCALE * scale,
-							BUTTON_SCALE * scale);
+					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
+							level.getHeight() / 2,
+							pos.x, pos.y, 0, LEVEL_BUTTON_SCALE * scale,
+							LEVEL_BUTTON_SCALE * scale);
+					n++;
 				}
 			}
 		}
@@ -398,30 +426,33 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 *            The drawing context
 	 */
 	public void drawProgress(GameCanvas canvas) {
-		canvas.draw(statusBkgLeft, Color.WHITE, centerBarX - width / 2, centerY,
-				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-		canvas.draw(statusBkgRight, Color.WHITE,
-				centerBarX + width / 2 - scale * PROGRESS_CAP, centerY,
-				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-		canvas.draw(statusBkgMiddle, Color.WHITE,
-				centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
-				width - 2 * scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-
-		canvas.draw(statusFrgLeft, Color.WHITE, centerBarX - width / 2, centerY,
-				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-		if (progress > 0) {
-			float span = progress * (width - 2 * scale * PROGRESS_CAP) / 2.0f;
-			canvas.draw(statusFrgRight, Color.WHITE,
-					centerBarX - width / 2 + scale * PROGRESS_CAP + span, centerY,
-					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-			canvas.draw(statusFrgMiddle, Color.WHITE,
-					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY, span,
-					scale * PROGRESS_HEIGHT);
-		} else {
-			canvas.draw(statusFrgRight, Color.WHITE,
-					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
-					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-		}
+//		canvas.draw(statusBkgLeft, Color.WHITE, centerBarX - width / 2, centerY,
+//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//		canvas.draw(statusBkgRight, Color.WHITE,
+//				centerBarX + width / 2 - scale * PROGRESS_CAP, centerY,
+//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//		canvas.draw(statusBkgMiddle, Color.WHITE,
+//				centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
+//				width - 2 * scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//
+//		canvas.draw(statusFrgLeft, Color.WHITE, centerBarX - width / 2, centerY,
+//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//		if (progress > 0) {
+//			float span = progress * (width - 2 * scale * PROGRESS_CAP) / 2.0f;
+//			canvas.draw(statusFrgRight, Color.WHITE,
+//					centerBarX - width / 2 + scale * PROGRESS_CAP + span, centerY,
+//					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//			canvas.draw(statusFrgMiddle, Color.WHITE,
+//					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY, span,
+//					scale * PROGRESS_HEIGHT);
+//		} else {
+//			canvas.draw(statusFrgRight, Color.WHITE,
+//					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
+//					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
+//		}
+		Vector2 pos = canvas.relativeVector(glPos.x, glPos.y);
+		canvas.draw(grayLine, Color.WHITE, pos.x, pos.y, barSize, 13);
+		canvas.draw(whiteLine, Color.WHITE, pos.x, pos.y, progress*barSize, 13);
 	}
 
 	// ADDITIONAL SCREEN METHODS

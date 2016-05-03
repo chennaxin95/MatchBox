@@ -2753,8 +2753,8 @@
 		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 47.5,
-			"y": 13
+			"x": 48,
+			"y": 26
 		},
 		"scale_x": 1,
 		"scale_y": 1,

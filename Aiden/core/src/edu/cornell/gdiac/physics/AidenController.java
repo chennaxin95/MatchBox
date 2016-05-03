@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import edu.cornell.gdiac.util.*;
 import edu.cornell.gdiac.physics.ai.AIController;
 import edu.cornell.gdiac.physics.blocks.*;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform.FlamePlatform;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.GameSave;
@@ -39,7 +40,7 @@ import edu.cornell.gdiac.physics.CollisionController;
 public class AidenController extends WorldController
 		implements ContactListener {
 
-	private Scene[] scenes;
+	//private Scene[] scenes;
 
 	/** The game save shared across all levels */
 	private static GameSave gs = new GameSave("savedGame.json");
@@ -116,8 +117,8 @@ public class AidenController extends WorldController
 	public Vector2 largeBut;
 	public Vector2 smallBut;
 	private Vector2 fuelBarSize;
-	public Vector2 largeSize = new Vector2(320, 128).scl(1/32f);
-	public Vector2 smallSize = new Vector2(100, 96).scl(1/32f);
+	public Vector2 largeSize = new Vector2(320, 128);
+	public Vector2 smallSize = new Vector2(100, 96);
 	private Vector2 fuelBarPos ;
 	
 	public Vector2 pScreen;
@@ -163,7 +164,6 @@ public class AidenController extends WorldController
 		contactFixtures = new ObjectSet<Fixture>();
 		this.level = level;
 		spirit = true;
-
 	}
 
 	/**
@@ -190,16 +190,16 @@ public class AidenController extends WorldController
 		pauseT = new Vector2(480, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
-		fuelBarSize = new Vector2(400, 50);
+		fuelBarSize = new Vector2(417, 91);
 		sScaleX = (float)canvas.getWidth() / 1920f;
 		sScaleY = (float)canvas.getHeight() / 1080f;
 		pauseT = pauseT.scl(sScaleX, sScaleY);
-		largeBut.scl(sScaleX, sScaleY);
-		smallBut.scl(sScaleX, sScaleY);
+//		largeBut.scl(sScaleX, sScaleY);
+//		smallBut.scl(sScaleX, sScaleY);
 		fuelBarSize.scl(sScaleX, sScaleY);
 		setPos();
 		Vector2 gravity = new Vector2(world.getGravity());
-
+		beginCamFrame = 0;
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
@@ -216,10 +216,10 @@ public class AidenController extends WorldController
 		world.setContactListener(this);
 		setComplete(false);
 		setFailure(false);
-
-
-		createScenes();
-		setScene(this.scenes);
+		
+		createScenes(level);
+		setScene(this.scene);
+		
 
 		populateLevel();
 		SoundController.getInstance().play(af.get("BGM_FILE"),
@@ -300,11 +300,11 @@ public class AidenController extends WorldController
 			FuelBlock box = scene.getFuelBlocks().get(ii);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
+			box.setTexture(af.fireBall[(ii % (af.fireBall.length))]);
 			box.setRestitution(BASIC_RESTITUTION);
 			box.setName("fuelbox" + ii);
 			box.setDrawScale(scale);
 			box.ratio = new Vector2(1f, 1f);
-			box.setTexture(texture);
 			addObject(box);
 			flammables.add(box);
 			if (box.isCheckpoint()) {
@@ -317,7 +317,7 @@ public class AidenController extends WorldController
 			BurnablePlatform bp = scene.getBurnablePlatforms().get(ii);
 			TextureRegion texture = af.burnablePlatform;
 			bp.setTexture(texture);
-			bp.setBurningTexture(
+			bp.getPlatform().setBurningTexture(
 					af.burningTexture[(ii + af.burningTexture.length / 2)
 							% af.burningTexture.length],
 					2);
@@ -327,7 +327,7 @@ public class AidenController extends WorldController
 			bp.setName("burnable_platform" + ii);
 			bp.setDrawScale(scale);
 			addObject(bp);
-			flammables.add(bp);
+			flammables.add(bp.getPlatform());
 		}
 		// Adding ropes
 		for (int ii = 0; ii < scene.getRopes().size(); ii++) {
@@ -366,7 +366,7 @@ public class AidenController extends WorldController
 
 			WaterGuard ch1 = scene.getGuards().get(ii);
 			ch1.setDrawScale(scale);
-
+			ch1.setChase(af.WaterChaseTexture);
 			ch1.setTexture(af.waterTexture);
 			ch1.setName("wg" + ii);
 			npcs.add(ch1);
@@ -453,25 +453,31 @@ public class AidenController extends WorldController
 		float yOff = largeBut.y * 1.5f;
 		float tOff = pauseT.x / 2;
 		pScreen = new Vector2(w/2-tOff, h);
-		pPos = new Vector2(w/2-tOff, 9*h).scl(1/32f);
+		pPos = new Vector2(w/2-tOff, 9*h);
 		resuScreen = new Vector2(w/2-mOff, h-yOff);
-		resuPos = new Vector2(w/2-mOff, h-yOff).scl(1/32f);
+		System.out.println("resuscreen is: ");
+		System.out.println(resuScreen);
+		resuPos = new Vector2(w/2-mOff, h-yOff);
 		restScreen = new Vector2(w/2-mOff, h-2*yOff);
-		restPos = new Vector2(w/2-mOff, h-2*yOff).scl(1/32f);
+		restPos = new Vector2(w/2-mOff, h-2*yOff);
 		homeScreen = new Vector2(w/2-mOff, h-3*yOff);
-		homePos = new Vector2(w/2-mOff, h-3*yOff).scl(1/32f);
+		homePos = new Vector2(w/2-mOff, h-3*yOff);
 		mScreen = new Vector2(w/2-xsOff, h-4*yOff);
-		muPos = new Vector2(w/2-xsOff, h-4*yOff).scl(1/32f);
+		muPos = new Vector2(w/2-xsOff, h-4*yOff);
 		sScreen = new Vector2(w/2+(xsOff/2.98f), h-4*yOff);
-		sPos = new Vector2(w/2+(xsOff/2.98f), h-4*yOff).scl(1/32f);
+		sPos = new Vector2(w/2+(xsOff/2.98f), h-4*yOff);
 		fuelBarPos = new Vector2(w/8, h);
 	}
 	
 	public void buttonPressed(){
 
 		boolean isPressed = InputController.getInstance().didTertiary();
-		if (isPressed) {
-			Vector2 mPos = InputController.getInstance().getCrossHair();
+
+		if (isPressed){
+			Vector2 pos = InputController.getInstance().getCrossHair();
+			Vector2 mPos = new Vector2(pos.x, canvas.getHeight()-pos.y);
+			System.out.println(mPos);
+
 			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
 					mPos.y >= homePos.y && mPos.y <= homePos.y + largeSize.y) {
 				homeC = Color.GRAY;
@@ -522,7 +528,7 @@ public class AidenController extends WorldController
 	 *
 	 * @param delta
 	 *            Number of seconds since last animation frame
-	 */
+	 */	
 	public void update(float dt) {
 		if (pause) {
 			avatar.resume = true;
@@ -659,13 +665,13 @@ public class AidenController extends WorldController
 
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof Stone)) {
+					&& bd1 instanceof StoneBlock)) {
 				if (Math.abs(bd1.getVY()) >= 1) {
 					setFailure(true);
 				}
 			}
 			if ((avatar.getTopName().equals(fd1) && avatar != bd2
-					&& bd2 instanceof Stone)) {
+					&& bd2 instanceof StoneBlock)) {
 				if (Math.abs(bd2.getVY()) >= 1) {
 					setFailure(true);
 				}
@@ -754,9 +760,9 @@ public class AidenController extends WorldController
 
 		if (spirit) {
 			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
-					!(bd2 instanceof BurnablePlatform)
+					!(bd2 instanceof FlamePlatform)
 					|| bd2 == avatar && bd1 instanceof FlammableBlock
-							&& !(bd1 instanceof BurnablePlatform)) {
+							&& !(bd1 instanceof FlamePlatform)) {
 				contact.setEnabled(false);
 			}
 		}
@@ -805,8 +811,20 @@ public class AidenController extends WorldController
 		if (avatar != null) {
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			float sx = avatar.getFuel() /avatar.getMaxFuel();
-			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
-			canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			canvas.draw(af.barBack, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			if (sx < 0.3f){
+				canvas.draw(af.barLow, Color.WHITE, pos.x+10, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
+			}
+			else{
+				canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
+			}
+			if (sx < 0.1f){
+				canvas.draw(af.barOutter, Color.RED, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			else{
+				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			
 		}
 		if(pause){
 
@@ -863,34 +881,55 @@ public class AidenController extends WorldController
 
 		// drawing the fuel level
 		
-		if (avatar != null) {
-			canvas.begin();
-			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
-			float sx = avatar.getFuel() * 480f / avatar.getMaxFuel();
-			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
-			canvas.draw(af.barOutter, pos.x, pos.y);
-			canvas.end();
-		}
+//		if (avatar != null) {
+//			canvas.begin();
+//			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
+//			float sx = avatar.getFuel() * 480f / avatar.getMaxFuel();
+//			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
+//			canvas.draw(af.barOutter, pos.x, pos.y);
+//			canvas.end();
+//		}
 
 	}
 
 	@Override
-	public void setScene(Scene[] scenes) {
-		this.scene = scenes[level];
+	public void setScene(Scene scene) {
+		this.scene = scene;
 	}
 
-	private void createScenes() {
 
-		Scene[] scenes = new Scene[7];
-		scenes[0] = new Scene("Tutorial1.json",world);
-		scenes[1] = new Scene("Tutorial2.json",world);
-		scenes[2] = new Scene("Tutorial3.json",world);
-		scenes[3] = new Scene("Tutorial4.json",world);
-		scenes[4] = new Scene("Level2.json",world);
-		scenes[5] = new Scene("Level3.json",world);
-		scenes[6] = new Scene("Level4.json",world);
+	private void createScenes(int level) {
+		switch(level){
+		case 0: 
+			this.scene = new Scene("Tutorial1.json");
+			break;
+		case 1:
+			this.scene = new Scene("Tutorial2.json");
+			break;
+		
+		case 2:
+			this.scene = new Scene("Tutorial4.json");
+			break;
+		case 3:
+			this.scene = new Scene("Tutorial3.json");
+			break;
+		case 4:
+			this.scene = new Scene("Level2.json");
+			break;
+		case 5:
+			this.scene = new Scene("Level3.json");
+			break;
+		case 6:
+			this.scene = new Scene("Level4.json");
+			break;
+		case 7:
+			this.scene = new Scene("Hard1.json");
+			break;
+		default:
+			this.scene = new Scene("Hard1.json");
+			break;
+		}
 
-		this.scenes = scenes;
 	}
 
 }

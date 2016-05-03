@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 
 import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
+import edu.cornell.gdiac.physics.blocks.BurnablePlatform.FlamePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Rope;
@@ -44,13 +45,8 @@ public class CollisionController {
 						&& bd2 instanceof FlammableBlock) {
 					FlammableBlock fb1 = (FlammableBlock) bd1;
 					FlammableBlock fb2 = (FlammableBlock) bd2;
-					if (fb1 instanceof BurnablePlatform || fb2 instanceof BurnablePlatform){
-						System.out.println("spread1="+fb1.getSpreadRatio());
-						System.out.println("spread2="+fb2.getSpreadRatio());
-						if (fb1.canSpreadFire()||fb2.canSpreadFire()){
-							System.out.println("hi");
-						}
-					}
+					
+					
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
@@ -69,7 +65,7 @@ public class CollisionController {
 
 					if (bd2 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd2;
-						if (!(bd2 instanceof BurnablePlatform)
+						if (!(bd2 instanceof FlamePlatform)
 								&& !(bd2 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
@@ -101,7 +97,7 @@ public class CollisionController {
 				if (bd2 == avatar) {
 					if (bd1 instanceof FlammableBlock) {
 						FlammableBlock fb = (FlammableBlock) bd1;
-						if (!(bd1 instanceof BurnablePlatform)
+						if (!(bd1 instanceof FlamePlatform)
 								&& !(bd1 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);

@@ -136,7 +136,9 @@ public class TrapDoor extends ComplexObstacle{
 	@Override
 	public void draw(GameCanvas canvas) {
 		super.draw(canvas);
-		anchor.draw(canvas);
+		if (anchor != null){
+			anchor.draw(canvas);
+		}
 		if (anchorRope!=null){
 			anchorRope.draw(canvas);
 		}
@@ -150,5 +152,21 @@ public class TrapDoor extends ComplexObstacle{
 			anchorRope.drawDebug(canvas);
 		}
 			
+	}
+
+	public Vector2 getPos(){
+		return doorPos;
+	}
+
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return 4;
+	}
+
+
+
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return 0.25f;
 	}
 }
