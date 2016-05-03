@@ -904,25 +904,39 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Tutorial1.json");
 			break;
 		case 1:
-			this.scene = new Scene("Tutorial2.json");
-			break;
-		
-		case 2:
 			this.scene = new Scene("Tutorial4.json");
+			break;
+		case 2:
+			this.scene = new Scene("Tutorial2.json");
 			break;
 		case 3:
 			this.scene = new Scene("Tutorial3.json");
 			break;
 		case 4:
-			this.scene = new Scene("Level2.json");
+			this.scene = new Scene("Easy1.json");
 			break;
 		case 5:
-			this.scene = new Scene("Level3.json");
+			this.scene = new Scene("Easy2.json");
 			break;
 		case 6:
-			this.scene = new Scene("Level4.json");
+			this.scene = new Scene("Easy3.json");
 			break;
 		case 7:
+			this.scene = new Scene("Med1.json");
+			break;
+		case 8:
+			this.scene = new Scene("Med2.json");
+			break;
+		case 9:
+			this.scene = new Scene("Level2.json");
+			break;
+		case 10:
+			this.scene = new Scene("Level3.json");
+			break;
+		case 11:
+			this.scene = new Scene("Level4.json");
+			break;
+		case 12:
 			this.scene = new Scene("Hard1.json");
 			break;
 		default:
