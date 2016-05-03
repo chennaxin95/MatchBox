@@ -1519,7 +1519,7 @@ public class GameCanvas {
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
 		if (d.x*d.x + d.y*d.y>100){
-			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
+			camera.translate(new Vector3(d.x/50, d.y/50, 0f));
 		}	
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);

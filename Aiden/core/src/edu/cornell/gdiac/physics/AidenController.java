@@ -606,18 +606,16 @@ public class AidenController extends WorldController
 		}
 
 		
-		if(beginCamFrame<180){
+		if(beginCamFrame<150){
 			canvas.updateCam((2*((float)scene.getWidth())/(float)64));
 			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
 		}		
-		if(beginCamFrame> 180 && beginCamFrame < 280){
+		if(beginCamFrame> 150 && beginCamFrame < 250){
 			canvas.updateCam(0.8f);
 
 		}
-
-		if (beginCamFrame > 280) {
-			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
-					scene.getHeight());
+		if(beginCamFrame > 250){
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(), scene.getHeight());
 		}
 		if (beginCamFrame < 300) {
 			beginCamFrame++;
