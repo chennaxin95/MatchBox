@@ -140,7 +140,7 @@ public class LevelEditor extends WorldController {
 				af.trapdoorTexture,
 				af.trapdoorTexture};
 			
-			panel=new EditorPanel(280, textures, af);
+			panel=new EditorPanel(320, textures, af);
 			panel.setBackground(af.backGround);
 			panel.setButton(af.earthTile);
 		}

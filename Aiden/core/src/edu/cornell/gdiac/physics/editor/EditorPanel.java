@@ -54,7 +54,6 @@ public class EditorPanel {
 		this.textures=textures;
 		this.width=width;
 		mode=EditorMode.DEFAULT;
-		
 		texture_layout=new Rectangle[textures.length];
 		float accWidth=0;
 		float accHeight=0;
@@ -68,8 +67,8 @@ public class EditorPanel {
 			texture_layout[i]=new Rectangle(accWidth, accHeight,
 								textures[i].getRegionWidth(), 
 								textures[i].getRegionHeight());
-			accWidth+=textures[i].getRegionWidth();
-			maxHeight=Math.max(maxHeight,textures[i].getRegionHeight());
+			accWidth+=textures[i].getRegionWidth()*1.2f;
+			maxHeight=Math.max(maxHeight,textures[i].getRegionHeight()*1.2f);
 		}
 		this.af=af;
 		if (af!=null){
@@ -98,8 +97,7 @@ public class EditorPanel {
 					width/5f, button.getRegionHeight());
 			load_layout=new Rectangle(width*2f/5f, 420, 
 					width/5f, button.getRegionHeight());
-		}
-		
+		}	
 	}
 	
 	public void update(float x, float y){
@@ -172,80 +170,99 @@ public class EditorPanel {
 				pos.x, pos.y, width, width*5);
 		// Draw Texture
 		for (int i=0; i<textures.length; i++){
+			Vector2 pos_texture = canvas.relativeVector(texture_layout[i].x,
+					texture_layout[i].y);
 			canvas.draw(textures[i],Color.WHITE, 
-					0, 0, pos.x+texture_layout[i].x, 
-					pos.y+texture_layout[i].y,
+					0, 0, pos_texture.x, pos_texture.y,
 					0, 1, 1);
+//			canvas.draw(textures[i],Color.WHITE, 
+//					0, 0, pos.x+texture_layout[i].x, pos.y+texture_layout[i].y,
+//					0, 1, 1);
 		}
 		// Draw Poly mode button	
+		Vector2 pos_poly = canvas.relativeVector(poly_mode_layout.x, 
+				poly_mode_layout.y);
 		canvas.draw(button, Color.WHITE, 
-				pos.x+poly_mode_layout.x, 
-				pos.y+poly_mode_layout.y, 
+				pos_poly.x, 
+				pos_poly.y,
 				poly_mode_layout.width,
 				poly_mode_layout.height);
+		Vector2 pos_poly_disp = canvas.relativeVector(poly_display_layout.x, 
+				poly_display_layout.y);
 		canvas.drawText("Poly Mode: "+ (polyMode? "ON": "OFF"), 
 						af.panelFont, 
-						pos.x+poly_display_layout.x, 
-						pos.y+poly_display_layout.y);
+						pos_poly_disp.x, pos_poly_disp.y);
 		// Draw adjust height mode button
+		Vector2 adjust = canvas.relativeVector(height_i_adjust_layout.x, 
+				height_i_adjust_layout.y);
 		canvas.draw(button, Color.WHITE,  
-				pos.x+this.height_i_adjust_layout.x, 
-				pos.y+this.height_i_adjust_layout.y, 
+				adjust.x, 
+				adjust.y, 
 				this.height_i_adjust_layout.width,
 				this.height_i_adjust_layout.height);
 		canvas.drawText("+", af.panelFont, 
-				pos.x+height_i_adjust_layout.x
+				adjust.x
 					+height_i_adjust_layout.width/2f, 
-				pos.y+height_i_adjust_layout.y
+				adjust.y
 					+height_i_adjust_layout.height);
+		adjust = canvas.relativeVector(height_d_adjust_layout.x, 
+				height_d_adjust_layout.y);
 		canvas.draw(button, Color.WHITE, 
-				pos.x+this.height_d_adjust_layout.x, 
-				pos.y+this.height_d_adjust_layout.y, 
+				adjust.x, 
+				adjust.y, 
 				this.height_d_adjust_layout.width,
 				this.height_d_adjust_layout.height);
 		canvas.drawText("-", af.panelFont, 
-				pos.x+height_d_adjust_layout.x
+				adjust.x
 					+height_d_adjust_layout.width/2f, 
-				pos.y+height_d_adjust_layout.y
+				adjust.y
 					+height_d_adjust_layout.height);
+		adjust = canvas.relativeVector(height_display_layout.x, 
+				height_display_layout.y);
 		canvas.drawText("Height: "+boardHeight, af.panelFont, 
-				pos.x+height_display_layout.x, 
-				pos.y+height_display_layout.y);
+				adjust.x, 
+				adjust.y);
 		// Draw adjust width mode button
+		adjust = canvas.relativeVector(width_i_adjust_layout.x, 
+				width_i_adjust_layout.y);
 		canvas.draw(button, Color.WHITE, 
-				pos.x+this.width_i_adjust_layout.x, 
-				pos.y+this.width_i_adjust_layout.y, 
+				adjust.x, 
+				adjust.y, 
 				this.width_i_adjust_layout.width,
 				this.width_i_adjust_layout.height);
 		canvas.drawText("+", af.panelFont, 
-				pos.x+width_i_adjust_layout.x
+				adjust.x
 					+width_i_adjust_layout.width/2f, 
-				pos.y+width_i_adjust_layout.y
+				adjust.y
 					+width_i_adjust_layout.height);
+		adjust = canvas.relativeVector(width_d_adjust_layout.x, 
+				width_d_adjust_layout.y);
 		canvas.draw(button, Color.WHITE, 
-				pos.x+this.width_d_adjust_layout.x, 
-				pos.y+this.width_d_adjust_layout.y, 
+				adjust.x, 
+				adjust.y, 
 				this.width_d_adjust_layout.width,
 				this.width_d_adjust_layout.height);
 		canvas.drawText("-", af.panelFont, 
-				pos.x+width_d_adjust_layout.x
+				adjust.x
 					+width_d_adjust_layout.width/2f, 
-				pos.y+width_d_adjust_layout.y
+				adjust.y
 					+width_d_adjust_layout.height);
+		adjust = canvas.relativeVector(width_display_layout.x, 
+				width_display_layout.y);
 		canvas.drawText("Width: "+boardWidth, af.panelFont, 
-				pos.x+width_display_layout.x, 
-				pos.y+width_display_layout.y);
-		// Save
-		canvas.draw(button, Color.WHITE, 
-				pos.x+this.save_layout.x, 
-				pos.y+this.save_layout.y, 
-				this.save_layout.width,
-				this.save_layout.height);
-		canvas.draw(button, Color.WHITE, 
-				pos.x+this.load_layout.x, 
-				pos.y+this.load_layout.y, 
-				this.load_layout.width,
-				this.load_layout.height);
+				adjust.x, 
+				adjust.y);
+//		// Save
+//		canvas.draw(button, Color.WHITE, 
+//				pos.x+this.save_layout.x, 
+//				pos.y+this.save_layout.y, 
+//				this.save_layout.width,
+//				this.save_layout.height);
+//		canvas.draw(button, Color.WHITE, 
+//				pos.x+this.load_layout.x, 
+//				pos.y+this.load_layout.y, 
+//				this.load_layout.width,
+//				this.load_layout.height);
 	}
 	
 	public enum EditorMode{
@@ -254,7 +271,6 @@ public class EditorPanel {
 
 	public void drawDebug(GameCanvas canvas) {
 		if (af==null || af.backGround==null) return;
-		Vector2 pos = canvas.relativeVector(0, 0);
 		// TODO Auto-generated method stub
 		if (mode==EditorMode.GAMEOBJECT && this.selectedTexture>=0
 				&& this.selectedTexture<textures.length){
@@ -264,9 +280,11 @@ public class EditorPanel {
 					0, sHeight};
 			PolygonShape poly = new PolygonShape();
 			poly.set(pts);
+			Vector2 pos = canvas.relativeVector(texture_layout[selectedTexture].x,
+					texture_layout[selectedTexture].y);
 			canvas.drawPhysics(poly, Color.GREEN, 
-					pos.x+texture_layout[selectedTexture].x,
-					pos.y+texture_layout[selectedTexture].y,
+					pos.x,
+					pos.y,
 					0, 1, 1);
 		}
 	}
