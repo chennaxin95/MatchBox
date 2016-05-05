@@ -115,10 +115,11 @@ public class Scene implements SceneInterface {
 								new StoneBlock(x, y, b_scale_x, b_scale_y));
 					} else {
 						if (material.equals("fuel")) {
+							boolean icp = obj.getBoolean("isCheckpoint");
 							fuelBlocks.add(
 									new FuelBlock(x, y, 1/*b_scale_x*/,1/*b_scale_y*/,
 											burn_spread, burn_time, fuels,
-											false));
+											icp));
 						} else {
 							if (material.equals("platform")) {
 								platforms.add(new Platform(
