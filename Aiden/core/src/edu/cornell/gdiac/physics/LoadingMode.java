@@ -361,7 +361,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public void draw() {  
 		canvas.resize();
 		float wRatio = (float)canvas.getWidth() / 1920f;
-		float hRatio = (float)canvas.getHeight() / 1080f;
+//		float hRatio = (float)canvas.getHeight() / 1080f;
+		float hRatio = wRatio;
 		canvas.begin();
 		Vector2 pos = canvas.relativeVector(0, 0);
 		Vector2 pos1 = canvas.relativeVector(canvas.getWidth()/8, canvas.getHeight()/3.5f);
@@ -427,30 +428,6 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 *            The drawing context
 	 */
 	public void drawProgress(GameCanvas canvas) {
-//		canvas.draw(statusBkgLeft, Color.WHITE, centerBarX - width / 2, centerY,
-//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//		canvas.draw(statusBkgRight, Color.WHITE,
-//				centerBarX + width / 2 - scale * PROGRESS_CAP, centerY,
-//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//		canvas.draw(statusBkgMiddle, Color.WHITE,
-//				centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
-//				width - 2 * scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//
-//		canvas.draw(statusFrgLeft, Color.WHITE, centerBarX - width / 2, centerY,
-//				scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//		if (progress > 0) {
-//			float span = progress * (width - 2 * scale * PROGRESS_CAP) / 2.0f;
-//			canvas.draw(statusFrgRight, Color.WHITE,
-//					centerBarX - width / 2 + scale * PROGRESS_CAP + span, centerY,
-//					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//			canvas.draw(statusFrgMiddle, Color.WHITE,
-//					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY, span,
-//					scale * PROGRESS_HEIGHT);
-//		} else {
-//			canvas.draw(statusFrgRight, Color.WHITE,
-//					centerBarX - width / 2 + scale * PROGRESS_CAP, centerY,
-//					scale * PROGRESS_CAP, scale * PROGRESS_HEIGHT);
-//		}
 		Vector2 pos = canvas.relativeVector(glPos.x, glPos.y);
 		canvas.draw(grayLine, Color.WHITE, pos.x, pos.y, barSize, 13);
 		canvas.draw(whiteLine, Color.WHITE, pos.x, pos.y, progress*barSize, 13);

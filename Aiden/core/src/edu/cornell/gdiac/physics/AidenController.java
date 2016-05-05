@@ -192,11 +192,11 @@ public class AidenController extends WorldController
 		fuelBarSize = new Vector2(417, 91);
 		sScaleX = (float)canvas.getWidth() / 1920f;
 		sScaleY = (float)canvas.getHeight() / 1080f;
-		pauseT = pauseT.scl(sScaleX, sScaleY);
-//		largeBut.scl(sScaleX, sScaleY);
-//		smallBut.scl(sScaleX, sScaleY);
-		fuelBarSize.scl(sScaleX, sScaleY);
-		setPos();
+		pauseT = pauseT.scl(sScaleX, sScaleX);
+		largeBut = largeBut.scl(sScaleX, sScaleX);
+		smallBut = smallBut.scl(sScaleX, sScaleX);
+		fuelBarSize.scl(sScaleX, sScaleX);
+		setPos(canvas.getZoom());
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
 		for (Obstacle obj : objects) {
@@ -342,6 +342,7 @@ public class AidenController extends WorldController
 		avatar.setDrawScale(scale);
 		avatar.setTexture(af.avatarTexture);
 		avatar.setDeath(af.AidenDieTexture);
+		avatar.setSpirit(af.AidenSpiritTexture);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
@@ -416,7 +417,7 @@ public class AidenController extends WorldController
 	//---------------------------------------------------------------------//
 	//---------------------------------------------------------------------//
 	
-	public void setPos(){
+	public void setPos(float zoom){
 		float w = canvas.getWidth();
 		float h = canvas.getHeight()*4/5;
 		float xsOff = smallBut.x * 1.5f;
@@ -426,8 +427,6 @@ public class AidenController extends WorldController
 		pScreen = new Vector2(w/2-tOff, h);
 		pPos = new Vector2(w/2-tOff, 9*h);
 		resuScreen = new Vector2(w/2-mOff, h-yOff);
-		System.out.println("resuscreen is: ");
-		System.out.println(resuScreen);
 		resuPos = new Vector2(w/2-mOff, h-yOff);
 		restScreen = new Vector2(w/2-mOff, h-2*yOff);
 		restPos = new Vector2(w/2-mOff, h-2*yOff);
@@ -783,6 +782,7 @@ public class AidenController extends WorldController
 			
 		}
 		if(pause){
+			setPos(canvas.getZoom());
 			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 			Vector2 pos1 = canvas.relativeVector(0, 0);
 			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y, 1920*sScaleX*zoom, 1080*sScaleY*zoom);

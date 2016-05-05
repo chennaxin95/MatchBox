@@ -480,7 +480,7 @@ public class LevelEditor extends WorldController {
 							trap.getY()
 									- trap.getHeight() / 2f));
 					trap.setPosition(trap.getPosition().add(trans));
-					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
+					trap.setChildrenTexture(af.trapdoorTexture, null, null);
 					trap.setDrawScale(scale);
 					this.traps.add(trap);
 					break;
@@ -491,7 +491,7 @@ public class LevelEditor extends WorldController {
 							trap.getY()
 									- trap.getHeight() / 2f));
 					trap.setPosition(trap.getPosition().add(trans));
-					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
+					trap.setChildrenTexture(af.trapdoorTexture, null, null);
 					trap.setDrawScale(scale);
 					this.traps.add(trap);
 					break;	
