@@ -161,13 +161,6 @@ public class TrapDoor extends ComplexObstacle{
 	public Vector2 getPos(){
 		return doorPos;
 	}
-	
-	public void translate(Vector2 trans){
-		this.setPosition(this.getPosition().add(trans));
-		for (Obstacle body:bodies){
-			body.setPosition(body.getPosition().add(trans));
-		}
-	}
 
 	public float getWidth() {
 		// TODO Auto-generated method stub

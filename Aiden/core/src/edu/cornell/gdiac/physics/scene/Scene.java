@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
@@ -137,7 +138,7 @@ public class Scene implements SceneInterface {
 											bplatforms.add(new BurnablePlatform(
 													new Rectangle(x - b_scale_x / 2f,
 															y - b_scale_y / 2f, b_scale_x,
-															b_scale_y),1));
+															b_scale_y),1, null));
 										}else{
 											System.err
 											.println("new material : " + material);
@@ -197,8 +198,8 @@ public class Scene implements SceneInterface {
 	}
 
 	/** All the blocks but goal door and ropes */
-	public ArrayList<BlockAbstract> getBlocks() {
-		ArrayList<BlockAbstract> container = new ArrayList<BlockAbstract>();
+	public ArrayList<Obstacle> getBlocks() {
+		ArrayList<Obstacle> container = new ArrayList<Obstacle>();
 
 		container.addAll(this.getWoodBlocks());
 		container.addAll(this.getStoneBlocks(true));
@@ -281,7 +282,9 @@ public class Scene implements SceneInterface {
 			container.addAll(fuelBlocks);
 		}
 		if(bplatform){
-			container.addAll(bplatforms);
+			for (BurnablePlatform bp : bplatforms){
+				container.add(bp.getPlatform());
+			}
 		}
 		return container;
 	}

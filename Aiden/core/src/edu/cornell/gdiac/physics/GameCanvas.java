@@ -609,10 +609,12 @@ public class GameCanvas {
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			camera.translate(new Vector3(2,0,0));
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+		if(Gdx.input.isKeyPressed(Input.Keys.UP) ||
+				Gdx.input.isKeyPressed(Input.Keys.W)){
 			camera.translate(new Vector3(0,2,0));
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)||
+				Gdx.input.isKeyPressed(Input.Keys.S)){
 			camera.translate(new Vector3(0,-2,0));
 
 		}

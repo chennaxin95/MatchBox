@@ -10,6 +10,7 @@ import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.TrapDoor;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
+import edu.cornell.gdiac.physics.obstacle.Obstacle;
 
 public class ProjectModelJsonRep implements Json.Serializable{
 	private int level = 1;
@@ -37,7 +38,7 @@ public class ProjectModelJsonRep implements Json.Serializable{
 //		this.goal = goal;
 //	}
 
-	public ProjectModelJsonRep(AidenModel inputAiden, ArrayList<BlockAbstract> inputBlocks, 
+	public ProjectModelJsonRep(AidenModel inputAiden, ArrayList<Obstacle> inputBlocks, 
 			ArrayList<Rope> complexs, ArrayList<TrapDoor> traps,
 			ArrayList<CharacterModel> npcs, BlockAbstract inputGoal,
 			float width, float height){
@@ -45,7 +46,7 @@ public class ProjectModelJsonRep implements Json.Serializable{
 		this.blocks=new ArrayList<BlockJsonRep>();
 		this.waters=new ArrayList<WaterModelJsonRep>();
 		int id=0;
-		for (BlockAbstract block: inputBlocks){
+		for (Obstacle block: inputBlocks){
 			if (block!=inputGoal){
 				blocks.add(new BlockJsonRep(block, id));
 				id++;
