@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
@@ -98,6 +100,8 @@ public class AidenController extends WorldController
 	protected ObjectSet<Fixture> contactFixtures;
 	public float sScaleX;
 	public float sScaleY;
+	public Sound bgm;
+	public Sound jump;
 
 	// Controllers for the game
 	private AIController aiController;
@@ -219,14 +223,12 @@ public class AidenController extends WorldController
 		
 		createScenes(level);
 		setScene(this.scene);
-		
-
+		if(jump != null){
+			jump.dispose();
+			bgm.dispose();
+		}
 		populateLevel();
-		SoundController.getInstance().play(af.get("BGM_FILE"),
-				af.get("BGM_FILE"), true,
-				EFFECT_VOLUME);
-		SoundController.getInstance().setTimeLimit(Long.MAX_VALUE);
-
+		bgm.play();
 	}
 
 	/**
@@ -376,7 +378,9 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-
+		
+		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
+		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
 
 //		td.setDrawScale(scale);
 //		addObject(td);
@@ -471,11 +475,10 @@ public class AidenController extends WorldController
 	public void buttonPressed(){
 
 		boolean isPressed = InputController.getInstance().didTertiary();
-
-		if (isPressed){
+		
+		if (isPressed && instr==0){
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight()-pos.y);
-			System.out.println(mPos);
 
 			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
 					mPos.y >= homePos.y && mPos.y <= homePos.y + largeSize.y) {
@@ -497,19 +500,18 @@ public class AidenController extends WorldController
 			}
 			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallSize.x &&
 					mPos.y >= sPos.y && mPos.y<=sPos.y+smallSize.y){
-//				instr = 4;
+				instr = 4;
 				return;
 			}
 			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallSize.x &&
 					mPos.y >= muPos.y && mPos.y<=muPos.y+smallSize.y){
-//				instr = 5;
+				instr = 5;
 				return;
 			}
 		}
-			if(count == 0.2f){
+		if(count == 0.4f){
 			mC = Color.WHITE;
 			sC = Color.WHITE;
-
 			resuC = Color.WHITE;
 			homeC = Color.WHITE;
 			restC = Color.WHITE;
@@ -530,6 +532,12 @@ public class AidenController extends WorldController
 	 */	
 	public void update(float dt) {
 		if (pause) {
+			if(musicMuted){
+				bgm.pause();
+			}
+			else{
+				bgm.resume();
+			}
 			avatar.resume = true;
 			prevMovement = avatar.getLinearVelocity();
 			buttonPressed();
@@ -584,10 +592,8 @@ public class AidenController extends WorldController
 		avatar.setDt(dt);
 		avatar.applyForce();
 
-		if (avatar.isJumping()) {
-			SoundController.getInstance().play(af.get("JUMP_FILE"),
-					af.get("JUMP_FILE"), false,
-					EFFECT_VOLUME);
+		if (avatar.isJumping() && !soundMuted) {
+			jump.play();
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -826,6 +832,7 @@ public class AidenController extends WorldController
 			
 		}
 		if(pause){
+
 			setPos(canvas.getZoom());
 			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 			Vector2 pos1 = canvas.relativeVector(0, 0);
@@ -840,10 +847,9 @@ public class AidenController extends WorldController
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y, pauseT.x*zoom, pauseT.y*zoom);
 			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
-			canvas.draw(mt==0?af.music:af.music_no, mC, posTemp.x, posTemp.y, smallBut.x*zoom, smallBut.y*zoom);
+			canvas.draw(musicMuted?af.music_no:af.music, mC, posTemp.x, posTemp.y, smallBut.x*zoom, smallBut.y*zoom);
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
-
-			canvas.draw(st==0?af.sound:af.sound_no, sC, posTemp.x, posTemp.y, smallBut.x*zoom, smallBut.y*zoom);
+			canvas.draw(soundMuted?af.sound_no:af.sound, sC, posTemp.x, posTemp.y, smallBut.x*zoom, smallBut.y*zoom);
 
 		}
 		canvas.end();
