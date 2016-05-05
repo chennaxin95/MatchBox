@@ -71,6 +71,7 @@ public class LevelEditor extends WorldController {
 	private CharacterModel holdingCharacter = null;
 	private BlockAbstract holdingBlock = null;
 	private Rope holdingRope = null;
+	private TrapDoor holdingTrap=null;
 	// private float inputCoolDown = 0;
 	// private final static float INPUT_COOL_DOWN = 0.5f;
 
@@ -90,6 +91,7 @@ public class LevelEditor extends WorldController {
 		holdingCharacter = null;
 		holdingBlock = null;
 		holdingRope=null;
+		holdingTrap=null;
 //		isAddingRect = false;
 		
 		TextureRegion[] textures={};
@@ -106,6 +108,7 @@ public class LevelEditor extends WorldController {
 		aiden = null;
 		blocks.clear();
 		complexs.clear();
+		traps.clear();
 		platformRect = new Rectangle(-1, -1, 0, 0);
 		// inputCoolDown = 0;
 		holding = false;
@@ -121,14 +124,15 @@ public class LevelEditor extends WorldController {
 
 	@Override
 	public void update(float dt) {
-		System.out.println(this.blocks.size()+" "+this.npcs.size()+" "+complexs.size());
+		System.out.println(this.blocks.size()+" "+this.npcs.size()+" "
+				+complexs.size()+" "+this.traps.size());
 		if (af!=null && panel==null){
 			TextureRegion[] textures={af.earthTile, af.woodTexture,
 				af.stoneTexture, af.fuelTexture, 
 				af.burnablePlatform, af.goalTile,
 				af.waterTexture, af.avatarTexture, 
 				af.ropeLongTexture, 
-				af.trapdoorTexture, af.nailTexture,
+				af.trapdoorTexture,
 				af.trapdoorTexture};
 			
 			panel=new EditorPanel(280, textures, af);
@@ -187,6 +191,10 @@ public class LevelEditor extends WorldController {
 				if (holdingRope!=null){
 					complexs.remove(holdingRope);
 					holdingRope = null;
+				}
+				if (holdingTrap!=null){
+					traps.remove(holdingTrap);
+					holdingTrap = null;
 				}
 				holding = false;
 				return;
@@ -268,6 +276,16 @@ public class LevelEditor extends WorldController {
 					break;
 				}
 			}
+			for (TrapDoor trap : this.traps) {
+				if (trap.getX() - trap.getWidth()/2f < xPos
+						&& trap.getX() + trap.getWidth()/2f > xPos
+						&& trap.getY() + trap.getHeight()/2f> yPos
+						&& trap.getY() - trap.getHeight()/2f < yPos){
+					holdingTrap=trap;
+					break;
+				}
+			}
+			
 		}
 		// newly releasing an object
 		else if (!holding && wasHolding) {
@@ -288,6 +306,10 @@ public class LevelEditor extends WorldController {
 				if (holdingRope!=null){
 					complexs.remove(holdingRope);
 					holdingRope = null;
+				}
+				if (holdingTrap!=null){
+					traps.remove(holdingTrap);
+					holdingTrap = null;
 				}
 				holding = false;
 			}
@@ -318,6 +340,14 @@ public class LevelEditor extends WorldController {
 						.add(trans));
 				this.holdingRope = null;
 			}
+			if (holdingTrap!=null){
+				Vector2 trans = fitInGrid(new Vector2(holdingTrap.getX(),
+						holdingTrap.getY()));
+//				this.holdingTrap.setPosition(holdingTrap.getPosition().cpy()
+//						.add(trans));
+				holdingTrap.translate(trans);
+				this.holdingTrap = null;
+			}
 			}
 		}
 		// Hold object around
@@ -340,6 +370,10 @@ public class LevelEditor extends WorldController {
 					complexs.remove(holdingRope);
 					holdingRope = null;
 				}
+				if (holdingTrap!=null){
+					traps.remove(holdingTrap);
+					holdingTrap = null;
+				}
 				holding = false;
 			} else {
 				if (holdingCharacter != null) {
@@ -351,6 +385,10 @@ public class LevelEditor extends WorldController {
 				} else if (holdingRope!=null){ 
 					holdingRope.setPosition(holdingRope.getPosition()
 							.add(new Vector2(deltaX, deltaY)));
+				} else if (holdingTrap!=null){ 
+//					holdingTrap.setPosition(holdingTrap.getPosition()
+//							.add(new Vector2(deltaX, deltaY)));
+					holdingTrap.translate(new Vector2(deltaX, deltaY));
 				}
 				else {
 					holding = false;
@@ -479,10 +517,11 @@ public class LevelEditor extends WorldController {
 							- trap.getWidth() / 2f,
 							trap.getY()
 									- trap.getHeight() / 2f));
-					trap.setPosition(trap.getPosition().add(trans));
+					trap.translate(trans);
 					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
 					trap.setDrawScale(scale);
 					this.traps.add(trap);
+					holdingTrap=trap;
 					break;
 				case TRAP_RIGHT_IND:
 					trap = new TrapDoor(xPos, yPos, 4, 0.25f, true);
@@ -490,10 +529,11 @@ public class LevelEditor extends WorldController {
 							- trap.getWidth() / 2f,
 							trap.getY()
 									- trap.getHeight() / 2f));
-					trap.setPosition(trap.getPosition().add(trans));
+					trap.translate(trans);
 					trap.setChildrenTexture(af.trapdoorTexture, af.longRope, af.nailTexture);
 					trap.setDrawScale(scale);
 					this.traps.add(trap);
+					holdingTrap=trap;
 					break;	
 				default: break;
 				}
@@ -674,8 +714,6 @@ public class LevelEditor extends WorldController {
 			if (this.holdingCharacter != null)
 				holdingCharacter.drawDebug(canvas, Color.GREEN);
 			if (this.holdingRope!=null){
-				System.out.println(holdingRope.getPosition() + " "
-						+ holdingRope.getWidth()+" "+holdingRope.getHeight());
 				float[] pts = new float[] { 0, 0,
 						holdingRope.getWidth(), 0,
 						holdingRope.getWidth(), holdingRope.getHeight(),
@@ -686,6 +724,19 @@ public class LevelEditor extends WorldController {
 						Color.GREEN,
 						holdingRope.getX(), 
 						(holdingRope.getY()-holdingRope.getHeight()), 0, 
+						scale.x, scale.y);
+			}
+			if (this.holdingTrap!=null){
+				float[] pts = new float[] { 0, 0,
+						holdingTrap.getWidth(), 0,
+						holdingTrap.getWidth(), holdingTrap.getHeight(),
+						0, holdingTrap.getHeight()};
+				PolygonShape poly = new PolygonShape();
+				poly.set(pts);
+				canvas.drawPhysics(poly,
+						Color.GREEN,
+						holdingTrap.getX() - holdingTrap.getWidth()/2f, 
+						(holdingTrap.getY() - holdingTrap.getHeight()/2f), 0, 
 						scale.x, scale.y);
 			}
 		}
@@ -718,7 +769,7 @@ public class LevelEditor extends WorldController {
 		json.setOutputType(OutputType.json);
 
 		ProjectModelJsonRep project = new ProjectModelJsonRep(aiden, blocks,
-				complexs, npcs, goalDoor,
+				complexs, traps, npcs, goalDoor,
 				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
@@ -751,6 +802,17 @@ public class LevelEditor extends WorldController {
 			rope.setDrawScale(scale);
 			this.complexs.add(rope);
 		}
+		System.out.println("Loading blocks");
+		for (TrapDoor trap:scene.getTrapDoors()){
+			trap.setChildrenTexture(af.trapdoorTexture, af.ropeTexture, af.nailTexture);
+			Vector2 trans = fitInGrid(new Vector2(trap.getX(),
+					trap.getY()));
+//			trap.setPosition(trap.getPosition().add(trans));
+			trap.translate(trans);
+			trap.setDrawScale(scale);
+			this.traps.add(trap);
+		}
+		
 		for (BlockAbstract block : scene.getBlocks()) {
 			blocks.add(block);
 			block.setDrawScale(scale);

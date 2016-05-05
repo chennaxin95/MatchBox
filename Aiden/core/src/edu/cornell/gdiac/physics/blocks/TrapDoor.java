@@ -119,15 +119,16 @@ public class TrapDoor extends ComplexObstacle{
 	
 	public void setChildrenTexture(TextureRegion door, TextureRegion rope, TextureRegion nail){
 		((StoneBlock) bodies.get(0)).setTexture(door);;
-		if (this.rope!=null){
+		System.out.println("set texture");
+		if (this.rope!=null && rope!=null){
 			this.rope.setTexture(rope);
 			this.rope.setDrawScale(this.drawScale);
 		}
-		if (this.anchorRope!=null){
+		if (this.anchorRope!=null && nail!=null){
 			this.anchorRope.setTexture(nail);
 			anchorRope.setDrawScale(this.drawScale);
 		}
-		if (this.anchor!=null){
+		if (this.anchor!=null && nail!=null){
 			this.anchor.setTexture(nail);
 			anchor.setDrawScale(this.drawScale);
 		}
@@ -135,7 +136,10 @@ public class TrapDoor extends ComplexObstacle{
 	
 	@Override
 	public void draw(GameCanvas canvas) {
-		super.draw(canvas);
+//		super.draw(canvas);
+		((StoneBlock) bodies.get(0)).draw(canvas);
+		System.out.println("draw");
+		System.out.println(((StoneBlock) bodies.get(0)).getPosition()+" "+this.getPos());
 		if (anchor != null){
 			anchor.draw(canvas);
 		}
@@ -156,6 +160,13 @@ public class TrapDoor extends ComplexObstacle{
 
 	public Vector2 getPos(){
 		return doorPos;
+	}
+	
+	public void translate(Vector2 trans){
+		this.setPosition(this.getPosition().add(trans));
+		for (Obstacle body:bodies){
+			body.setPosition(body.getPosition().add(trans));
+		}
 	}
 
 	public float getWidth() {

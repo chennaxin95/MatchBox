@@ -78,6 +78,14 @@ public class BlockJsonRep implements Json.Serializable{
 		scale_y=rope.getUnitHeight();
 		segments=rope.getSegments();
 	}
+	public BlockJsonRep(TrapDoor trap, int id){
+		if (trap==null) return;
+		this.id = id;
+		blockType = "trapdoor";
+		pos = new PointJsonRep(trap.getX(),  trap.getY());
+		scale_x=trap.getWidth();
+		scale_y=trap.getHeight();
+	}
 	
 	@Override
 	public void write(Json json) {
