@@ -112,12 +112,12 @@ public class Scene implements SceneInterface {
 				} else {
 					if (material.equals("stone")) {
 						stoneBlocks.add(
-								new StoneBlock(x, y, b_scale_x, b_scale_y));
+								new StoneBlock(x, y, 1.99f, 1.99f));
 					} else {
 						if (material.equals("fuel")) {
 							fuelBlocks.add(
 									new FuelBlock(x, y, 1/*b_scale_x*/,1/*b_scale_y*/,
-											burn_spread, burn_time, fuels,
+											burn_spread, 1, fuels,
 											false));
 						} else {
 							if (material.equals("platform")) {
