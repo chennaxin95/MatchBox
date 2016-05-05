@@ -378,9 +378,17 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-		
+
 		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
 		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
+
+		for (TrapDoor td: scene.getTrapDoors()){
+			td.setDrawScale(scale);
+			addObject(td);
+			td.createJoints(world);
+			ropes.add(td);
+			td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
+		}
 
 //		td.setDrawScale(scale);
 //		addObject(td);
@@ -412,7 +420,6 @@ public class AidenController extends WorldController
 
 //		ropes.add(td);
 //		td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
-
 
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f, objects);
@@ -918,30 +925,27 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Tutorial3.json");
 			break;
 		case 4:
-			this.scene = new Scene("Easy1.json");
-			break;
-		case 5:
 			this.scene = new Scene("Easy2.json");
 			break;
-		case 6:
+		case 5:
 			this.scene = new Scene("Easy3.json");
 			break;
-		case 7:
+		case 6:
 			this.scene = new Scene("Med1.json");
 			break;
-		case 8:
+		case 7:
 			this.scene = new Scene("Med2.json");
 			break;
-		case 9:
+		case 8:
 			this.scene = new Scene("Level2.json");
 			break;
-		case 10:
+		case 9:
 			this.scene = new Scene("Level3.json");
 			break;
-		case 11:
+		case 10:
 			this.scene = new Scene("Level4.json");
 			break;
-		case 12:
+		case 11:
 			this.scene = new Scene("Hard1.json");
 			break;
 		default:

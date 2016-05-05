@@ -28,6 +28,9 @@ public class BurnablePlatform extends ComplexObstacle {
 	private FlamePlatform platform;
 	private WheelObstacle pin;
 
+	float width;
+	float height;
+	
 	public BurnablePlatform(Rectangle r, float unit, World world) {
 		super(r.x + 0.5f * r.getWidth(), r.y + 0.5f * r.getHeight());
 		platform = new FlamePlatform(this, r, unit);
@@ -41,7 +44,9 @@ public class BurnablePlatform extends ComplexObstacle {
 		this.pin = new WheelObstacle(this.getX(), this.getY(), 0.1f);
 		pin.setBodyType(BodyDef.BodyType.StaticBody);
 		bodies.add(pin);
-
+		
+		width=r.width;
+		height=r.height;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -184,6 +189,15 @@ public class BurnablePlatform extends ComplexObstacle {
 			}
 			region = new PolygonRegion(texture, vertices, tridx);
 		}
+	}
+
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return width;
+	}
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return height;
 	}
 
 }
