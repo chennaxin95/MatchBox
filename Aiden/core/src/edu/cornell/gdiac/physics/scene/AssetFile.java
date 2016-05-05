@@ -65,6 +65,7 @@ public class AssetFile {
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenAnimeTexture;
+	public FilmStrip AidenSpiritTexture;
 	public FilmStrip AidenDieTexture;
 	public FilmStrip AidenJumpTexture;
 	public FilmStrip AidenRunTexture;
@@ -155,6 +156,7 @@ public class AssetFile {
 		files.put("18", "shared/1.png");
 		files.put("19", "shared/1.png");
 		files.put("20", "shared/1.png");
+		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
 		System.out.println(files);
 	}
 
@@ -274,6 +276,7 @@ public class AssetFile {
 		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
+		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
 		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 				1,
 				4);

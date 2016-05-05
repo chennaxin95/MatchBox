@@ -185,7 +185,7 @@ public abstract class WorldController implements Screen {
 	 *            whether the level is completed.
 	 */
 	public void setComplete(boolean value) {
-		if (value) {
+		if (value && countdown<0) {
 			countdown = EXIT_COUNT;
 		}
 		complete = value;
@@ -214,7 +214,7 @@ public abstract class WorldController implements Screen {
 	 *            whether the level is failed.
 	 */
 	public void setFailure(boolean value) {
-		if (value) {
+		if (value && countdown<0) {
 			countdown = EXIT_COUNT;
 		}
 		failed = value;

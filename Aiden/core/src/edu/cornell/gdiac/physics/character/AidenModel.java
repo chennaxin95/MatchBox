@@ -69,6 +69,7 @@ public class AidenModel extends CharacterModel {
 	/** Texture for fire trail */
 	private FilmStrip death;
 	private FilmStrip run;
+	private FilmStrip spirit;
 	private Color preColor = Color.WHITE;
 	private boolean drawFail = false;
 	private boolean failed = false;
@@ -105,6 +106,10 @@ public class AidenModel extends CharacterModel {
 	public void setRun(FilmStrip run){
 		this.run = run;
 		this.run.setFrame(0);
+	}
+	public void setSpirit(FilmStrip spirit){
+		this.spirit = spirit;
+		this.spirit.setFrame(0);
 	}
 
 	/**
@@ -291,8 +296,8 @@ public class AidenModel extends CharacterModel {
 		}
 
 		if (isClimbing) {
-			movement = Math.min(movement, 5);
-			movementY = Math.min(movementY, 5);
+			movement = Math.min(movement, 10);
+			movementY = Math.min(movementY, 10);
 		}
 		if (isSpiriting) {
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());
@@ -489,9 +494,11 @@ public class AidenModel extends CharacterModel {
 		canvas.drawParticle(trailStill);
 
 		if (this.isSpiriting) {
-			c.a = 0.75f;
+			c.a = 0.8f;
+			drawSpirit(canvas, ratio, c);
+			return;
 		}
-		if (characterSprite == null) {
+		else if (characterSprite == null) {
 			if (texture == null)
 				return;
 			canvas.draw(texture, c, origin.x, origin.y,
@@ -574,6 +581,20 @@ public class AidenModel extends CharacterModel {
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		canvas.draw(run, preColor, ox, oy, getX() * drawScale.x,
+				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
+	}
+	public void drawSpirit(GameCanvas canvas, float ratio, Color c){
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			spirit.setFrame((spirit.getFrame()+1)%5);
+		}
+
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? 1.0f : -1.0f;
+		canvas.draw(spirit, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
 	
