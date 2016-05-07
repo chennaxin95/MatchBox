@@ -154,8 +154,10 @@ public class LevelEditor extends WorldController {
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 
-		Vector2 nPos = InputController.getInstance().getCrossHair();
-		nPos.y = canvas.getHeight()-nPos.y;
+//		Vector2 nPos = InputController.getInstance().getCrossHair();
+		Vector2 nPos = canvas.relativeVector(InputController.getInstance().getCrossHair().x,
+				canvas.getHeight()-InputController.getInstance().getCrossHair().y);
+//		nPos.y = canvas.getHeight()-nPos.y;
 		System.out.println(nPos);
 		float nxPos = nPos.x / scale.x;
 		float nyPos = nPos.y / scale.y;
