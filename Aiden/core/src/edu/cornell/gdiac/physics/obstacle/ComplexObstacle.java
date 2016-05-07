@@ -118,7 +118,14 @@ public abstract class ComplexObstacle extends Obstacle {
 			super.setPosition(value);
 		}
 	}
-
+	
+	public void translate(Vector2 trans){
+		this.setPosition(this.getPosition().add(trans));
+		for (Obstacle body:bodies){
+			body.setPosition(body.getPosition().add(trans));
+		}
+	}
+	
 	/**
 	 * Sets the current position for this physics body
 	 *

@@ -124,7 +124,6 @@ public class AIController {
 	
 	private void computeMove(CharacterModel npc){
 		Random r=new Random();
-		System.out.println(npc.getStateMachine().getCurrentState());
 		float lx=npc.getPosition().x-npc.getWidth()/2;
 		float ly=npc.getPosition().y-npc.getHeight()/2;			
 		float ux=npc.getPosition().x+npc.getWidth()/2;

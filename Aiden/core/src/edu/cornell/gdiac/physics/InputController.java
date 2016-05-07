@@ -400,10 +400,10 @@ public class InputController {
 				|| (Gdx.input.isKeyPressed(Input.Keys.P));
 		nextPressed = (secondary && nextPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.N));
-		exitPressed = (secondary && exitPressed)
+		didPause = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 		
-		didPause = (secondary && exitPressed)
+		exitPressed = (secondary && exitPressed)
 				||Gdx.input.isKeyPressed(Input.Keys.BACKSPACE);
 		
 		// Unable to detect redundance here

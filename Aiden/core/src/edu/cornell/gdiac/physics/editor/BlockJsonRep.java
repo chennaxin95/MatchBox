@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
+import edu.cornell.gdiac.physics.blocks.FuelBlock;
 import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.TrapDoor;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
@@ -37,6 +38,7 @@ public class BlockJsonRep implements Json.Serializable {
 
 	public boolean isLeft = false;
 	public int segments = 0;
+	public boolean isCheckpoint=false;
 
 	public BlockJsonRep(Obstacle block, int id) {
 		if (block == null)
@@ -51,6 +53,7 @@ public class BlockJsonRep implements Json.Serializable {
 			break;
 		case FUEL:
 			blockType = "fuel";
+			this.isCheckpoint= ((FuelBlock)b).isCheckpoint();
 			break;
 		case PLATFORM:
 			blockType = "platform";
@@ -86,6 +89,15 @@ public class BlockJsonRep implements Json.Serializable {
 		segments = rope.getSegments();
 	}
 
+	public BlockJsonRep(TrapDoor trap, int id){
+		if (trap==null) return;
+		this.id = id;
+		blockType = "trapdoor";
+		pos = new PointJsonRep(trap.getX(),  trap.getY());
+		scale_x=trap.getWidth();
+		scale_y=trap.getHeight();
+	}
+	
 	@Override
 	public void write(Json json) {
 		// TODO Auto-generated method stub
@@ -106,6 +118,7 @@ public class BlockJsonRep implements Json.Serializable {
 		json.writeValue("fuels", fuels);
 		json.writeValue("isLeft", isLeft);
 		json.writeValue("segments", segments);
+		json.writeValue("isCheckpoint", isCheckpoint);
 	}
 
 	@Override

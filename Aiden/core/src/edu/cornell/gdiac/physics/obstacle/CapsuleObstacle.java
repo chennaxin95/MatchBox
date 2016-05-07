@@ -25,7 +25,7 @@ import edu.cornell.gdiac.physics.*;  // For GameCanvas
  */
 public class CapsuleObstacle extends SimpleObstacle {
 	/** Epsilon factor to prevent issues with the fixture seams */
-	private static final float DEFAULT_EPSILON = 0.01f;
+	private static final float DEFAULT_EPSILON = 0.1f;
 	
     /** Enum to specify the capsule orientiation */
     public enum Orientation {
