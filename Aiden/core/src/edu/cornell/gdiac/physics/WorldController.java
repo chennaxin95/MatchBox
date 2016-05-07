@@ -141,6 +141,8 @@ public abstract class WorldController implements Screen {
 	protected Stage stage;
 	public int st;
 	public int mt;
+	public boolean soundMuted = false;
+	public boolean musicMuted = false;
 
 	/**
 	 * Returns true if debug mode is active.
@@ -378,7 +380,7 @@ public abstract class WorldController implements Screen {
 	 */
 	public abstract void reset();
 	
-	protected float count = 0.2f;
+	protected float count = 0.4f;
 	/**
 	 * Returns whether to process the update loop
 	 *
@@ -414,10 +416,16 @@ public abstract class WorldController implements Screen {
 					reset();
 				}
 				if(instr == 4){
-					st = (st+1)%2;
+					System.out.println(soundMuted);
+					soundMuted = !soundMuted;
+					instr = 0;
+					return false;
 				}
 				if(instr == 5){
-					mt = (mt+1)%2;
+					System.out.println(musicMuted);
+					musicMuted = !musicMuted;
+					instr = 0;
+					return false;
 				}
 			}
 			else{

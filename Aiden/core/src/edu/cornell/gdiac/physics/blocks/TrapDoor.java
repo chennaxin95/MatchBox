@@ -138,8 +138,7 @@ public class TrapDoor extends ComplexObstacle{
 	public void draw(GameCanvas canvas) {
 //		super.draw(canvas);
 		((StoneBlock) bodies.get(0)).draw(canvas);
-		System.out.println("draw");
-		System.out.println(((StoneBlock) bodies.get(0)).getPosition()+" "+this.getPos());
+		rope.draw(canvas);
 		if (anchor != null){
 			anchor.draw(canvas);
 		}

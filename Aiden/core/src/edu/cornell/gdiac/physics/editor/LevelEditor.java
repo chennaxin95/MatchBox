@@ -154,9 +154,9 @@ public class LevelEditor extends WorldController {
 		// TODO Auto-generated method stub
 		canvas.setEditor(true);
 
-		Vector2 nPos = canvas.relativeVector(
-				InputController.getInstance().mousePos.x,
-				canvas.getHeight() - InputController.getInstance().mousePos.y);
+		Vector2 nPos = InputController.getInstance().getCrossHair();
+		nPos.y = canvas.getHeight()-nPos.y;
+		System.out.println(nPos);
 		float nxPos = nPos.x / scale.x;
 		float nyPos = nPos.y / scale.y;
 		float deltaX = nxPos - xPos;
@@ -173,6 +173,7 @@ public class LevelEditor extends WorldController {
 		}
 		boolean reactToPanel = false;
 		if (InputController.getInstance().newLeftClick()) {
+//			panel.update(nPos.x, nPos.y);
 			panel.update(InputController.getInstance().getCrossHair().x,
 					canvas.getHeight()-InputController.getInstance().getCrossHair().y);
 			System.out.println(InputController.getInstance().getCrossHair());
@@ -180,7 +181,7 @@ public class LevelEditor extends WorldController {
 //					canvas.getHeight()
 //							- InputController.getInstance().mousePos.y);
 
-			if (InputController.getInstance().mousePos.x <= panel.width) {
+			if (InputController.getInstance().getCrossHair().x <= panel.width) {
 				reactToPanel = true;
 			}
 			if (!panel.polyMode) {
