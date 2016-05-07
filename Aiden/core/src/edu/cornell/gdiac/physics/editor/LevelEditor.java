@@ -54,6 +54,7 @@ public class LevelEditor extends WorldController {
 	public static final int ROPE_IND = 8;
 	public static final int TRAP_LEFT_IND = 9;
 	public static final int TRAP_RIGHT_IND = 10;
+	public static final int CHECK_POINT_IND=11;
 
 	private BlockAbstract goalDoor;
 
@@ -133,12 +134,13 @@ public class LevelEditor extends WorldController {
 //				+complexs.size()+" "+this.traps.size());
 		if (af!=null && panel==null){
 			TextureRegion[] textures={af.earthTile, af.woodTexture,
-				af.stoneTexture, af.fuelTexture, 
+				af.stoneTexture, af.fireBall[0], 
 				af.burnablePlatform, af.goalTile,
 				af.waterTexture, af.avatarTexture, 
 				af.ropeLongTexture, 
 				af.trapdoorTexture,
-				af.trapdoorTexture};
+				af.trapdoorTexture,
+				af.fuelTexture};
 			
 			panel=new EditorPanel(320, textures, af);
 			panel.setBackground(af.backGround);
@@ -474,7 +476,7 @@ public class LevelEditor extends WorldController {
 							block.getY()
 									- block.getHeight() / 2f));
 					block.setPosition(block.getPosition().add(trans));
-					block.setTexture(af.fuelTexture);
+					block.setTexture(af.fireBall[0]);
 					block.setDrawScale(scale);
 					this.blocks.add(block);
 					holdingBlock = block;
@@ -569,6 +571,18 @@ public class LevelEditor extends WorldController {
 					this.traps.add(trap);
 					holdingTrap=trap;
 					break;	
+				case CHECK_POINT_IND:
+					block = new FuelBlock(xPos, yPos, 1, 1, 1, 2, 25, true);
+					trans = fitInGrid(new Vector2(block.getX()
+							- block.getWidth() / 2f,
+							block.getY()
+									- block.getHeight() / 2f));
+					block.setPosition(block.getPosition().add(trans));
+					block.setTexture(af.fuelTexture);
+					block.setDrawScale(scale);
+					this.blocks.add(block);
+					holdingBlock = block;
+					break;
 				default: break;
 				}
 			}
@@ -865,7 +879,10 @@ public class LevelEditor extends WorldController {
 				texture = (af.woodTexture);
 				break;
 			case FUEL:
-				texture = (af.fuelTexture);
+				texture = (af.fireBall[0]);
+				if (((FuelBlock)blawk).isCheckpoint()){
+					texture = (af.fuelTexture);
+				}
 				break;
 			case PLATFORM:
 				texture = (af.earthTile);
