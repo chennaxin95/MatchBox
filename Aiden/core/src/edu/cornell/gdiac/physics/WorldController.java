@@ -441,7 +441,7 @@ public abstract class WorldController implements Screen {
 		if (input.didReset()) {
 			reset();
 		}
-		
+		//System.out.println("worldcontroller "+countdown);
 		// Now it is time to maybe switch screens.
 		if (input.didPause()){
 			this.pause();
@@ -459,6 +459,7 @@ public abstract class WorldController implements Screen {
 		} else if (countdown > 0) {
 			countdown--;
 		} else if (countdown == 0) {
+			countdown = -1;
 			if (failed) {
 				reset();
 			} else if (complete) {
