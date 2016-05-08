@@ -76,4 +76,9 @@ public class FuelBlock extends FlammableBlock {
 	public boolean isCheckpoint() {
 		return isCheckpoint;
 	}
+
+	public void setCheckpoint(boolean f) {
+		isCheckpoint=f;
+		// TODO Auto-generated method stub	
+	}
 }

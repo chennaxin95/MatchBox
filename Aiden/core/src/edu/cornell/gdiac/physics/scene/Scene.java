@@ -117,7 +117,7 @@ public class Scene implements SceneInterface {
 						if (material.equals("fuel")) {
 							boolean icp = false;
 							if(obj.has("isCheckpoint")){
-								obj.getBoolean("isCheckpoint");
+								icp=obj.getBoolean("isCheckpoint");
 							}
 							fuelBlocks.add(
 									new FuelBlock(x, y, 1/*b_scale_x*/,1/*b_scale_y*/,
@@ -136,7 +136,7 @@ public class Scene implements SceneInterface {
 								}else{
 									boolean is_left = obj.getBoolean("isLeft");
 									if(material.equals("trapdoor")){
-										trapdoors.add(new TrapDoor(x,y,4f, 0.25f, is_left));
+										trapdoors.add(new TrapDoor(x,y,4f, 0.5f, is_left));
 									}else{
 										if(material.equals("burnable_platform")){
 											bplatforms.add(new BurnablePlatform(

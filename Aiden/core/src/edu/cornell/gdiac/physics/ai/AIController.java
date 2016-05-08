@@ -52,14 +52,14 @@ public class AIController {
 	public void nextMove(ArrayList<CharacterModel> npcs){
 		for (CharacterModel npc:npcs){
 			if (npc.canChangeMove()){
-				board.setupBoard(new ArrayList<Obstacle>(objs));
+				board.setupBoard(new ArrayList<Obstacle>(objs), npc);
 				GameEvent e=sensing(npc);
 				npc.getStateMachine().transit(e);
 			}
 		}
 		for (CharacterModel npc:npcs){
 			if (npc.canChangeMove()){
-				board.setupBoard(new ArrayList<Obstacle>(objs));
+				board.setupBoard(new ArrayList<Obstacle>(objs), npc);
 				computeMove(npc);
 			}
 		}

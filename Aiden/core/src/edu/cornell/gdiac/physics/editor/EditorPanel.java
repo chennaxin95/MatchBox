@@ -89,14 +89,14 @@ public class EditorPanel {
 				   button.getRegionHeight());
 			height_display_layout=new Rectangle(0, 480, 
 	  									width, width/6f);
-			poly_mode_layout=new Rectangle(width*2f/5f, 300, 
+			poly_mode_layout=new Rectangle(width*2f/5f, 420, 
 					width/5f, button.getRegionHeight());
-			poly_display_layout=new Rectangle(0, 300,
+			poly_display_layout=new Rectangle(0, 420,
 									width, width/6f);
-			save_layout=new Rectangle(width*2f/5f, 360, 
-					width/5f, button.getRegionHeight());
-			load_layout=new Rectangle(width*2f/5f, 420, 
-					width/5f, button.getRegionHeight());
+//			save_layout=new Rectangle(width*2f/5f, 360, 
+//					width/5f, button.getRegionHeight());
+//			load_layout=new Rectangle(width*2f/5f, 420, 
+//					width/5f, button.getRegionHeight());
 		}	
 	}
 	

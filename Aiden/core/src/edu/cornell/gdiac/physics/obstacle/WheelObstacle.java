@@ -12,6 +12,7 @@
 package edu.cornell.gdiac.physics.obstacle;
 
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
 import edu.cornell.gdiac.physics.*;  // For GameCanvas
@@ -118,6 +119,14 @@ public class WheelObstacle extends SimpleObstacle {
 	}
 	 public void drawDebug(GameCanvas canvas, Color c) {
 		canvas.drawPhysics(shape,c,getX(),getY(),drawScale.x,drawScale.y);
+	}
+
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-this.getRadius(), 
+				this.getY()-this.getRadius(),
+				this.getRadius()*2, this.getRadius()*2);
 	}
 
 }

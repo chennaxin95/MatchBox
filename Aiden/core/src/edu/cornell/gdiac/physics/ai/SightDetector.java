@@ -56,22 +56,23 @@ public class SightDetector {
 			// Skip if being itself
 			if (obstacle.equals(npc)) continue;
 			// Ray-box intersection test
-			float lx=obstacle.getPosition().x;
-			float ux=obstacle.getPosition().x;
-			float ly=obstacle.getPosition().y;
-			float uy=obstacle.getPosition().y;
-			if (obstacle instanceof BlockAbstract){
-				lx-=((BlockAbstract)obstacle).getWidth()/2f;
-				ux+=((BlockAbstract)obstacle).getWidth()/2f;
-				ly-=((BlockAbstract)obstacle).getHeight()/2f;
-				uy+=((BlockAbstract)obstacle).getHeight()/2f;
-			}
-			else if (obstacle instanceof CharacterModel){
-				lx-=((CharacterModel)obstacle).getWidth()/2f;
-				ux+=((CharacterModel)obstacle).getWidth()/2f;
-				ly-=((CharacterModel)obstacle).getHeight()/2f;
-				uy+=((CharacterModel)obstacle).getHeight()/2f;
-			}
+			Rectangle rec=obstacle.getBoundingBox();
+			float lx=rec.x;
+			float ux=rec.x+rec.width;
+			float ly=rec.y;
+			float uy=rec.y+rec.height;
+//			if (obstacle instanceof BlockAbstract){
+//				lx-=((BlockAbstract)obstacle).getWidth()/2f;
+//				ux+=((BlockAbstract)obstacle).getWidth()/2f;
+//				ly-=((BlockAbstract)obstacle).getHeight()/2f;
+//				uy+=((BlockAbstract)obstacle).getHeight()/2f;
+//			}
+//			else if (obstacle instanceof CharacterModel){
+//				lx-=((CharacterModel)obstacle).getWidth()/2f;
+//				ux+=((CharacterModel)obstacle).getWidth()/2f;
+//				ly-=((CharacterModel)obstacle).getHeight()/2f;
+//				uy+=((CharacterModel)obstacle).getHeight()/2f;
+//			}
 			// Keep track of closest intersected object so far.
 			for (int k=0; k<rays.length; k++){
 				float distance=intersectBox(rays[k].cpy(), lx, ux, ly, uy);

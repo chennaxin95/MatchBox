@@ -388,13 +388,19 @@ public class AidenController extends WorldController
 
 			addObject(ch1);
 		}
-
+		int ii = 0;
 		for (TrapDoor td: scene.getTrapDoors()){
 			td.setDrawScale(scale);
 			addObject(td);
 			td.createJoints(world);
 			ropes.add(td);
 			td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
+			td.setDensity(HEAVY_DENSITY);
+			td.setFriction(0);
+			td.setRestitution(BASIC_RESTITUTION);
+			td.setMass(1000f);
+			td.setName("trapdoor" + ii);
+			ii++;
 		}
 
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
@@ -783,12 +789,6 @@ public class AidenController extends WorldController
 		}
 
 	}
-
-
-
-	private Vector2 fuelBar = new Vector2(100, 800);
-
-
 
 	@Override
 	public void draw(float delta) {
