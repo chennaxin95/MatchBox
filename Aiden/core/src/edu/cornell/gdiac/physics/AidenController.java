@@ -563,6 +563,9 @@ public class AidenController extends WorldController
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
+		for (ComplexObstacle co:ropes){
+			co.updateParts(world);
+		}
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();

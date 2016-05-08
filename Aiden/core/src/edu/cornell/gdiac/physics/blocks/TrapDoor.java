@@ -110,6 +110,7 @@ public class TrapDoor extends ComplexObstacle{
 			return false;
 		}
 		if(((FlammableBlock) bodies.get(1)).isBurnt()){
+			System.out.println("burnt");
 			world.destroyBody(bodies.get(1).getBody());
 			bodies.removeIndex(1);
 			return false;
@@ -139,7 +140,9 @@ public class TrapDoor extends ComplexObstacle{
 	public void draw(GameCanvas canvas) {
 //		super.draw(canvas);
 		((StoneBlock) bodies.get(0)).draw(canvas);
-		rope.draw(canvas);
+		if(!rope.isBurnt()){
+			rope.draw(canvas);
+		}	
 		if (anchor != null){
 			anchor.draw(canvas);
 		}
