@@ -41,4 +41,8 @@ public interface ScreenListener {
 	 * @param exitCode The state of the screen upon exit
 	 */
 	public void exitScreen(Screen screen, int exitCode);
+	public void setMuted();
+	public void setSound();
+	public boolean getMuted();
+	public boolean getSound();
 }

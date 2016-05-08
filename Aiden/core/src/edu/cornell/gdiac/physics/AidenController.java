@@ -191,6 +191,7 @@ public class AidenController extends WorldController
 	 * This method disposes of the world and creates a new one.
 	 */
 	public void reset() {
+		af.bgm.stop();
 		pauseT = new Vector2(480, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
@@ -215,20 +216,29 @@ public class AidenController extends WorldController
 		addQueue.clear();
 		npcs.clear();
 		world.dispose();
-		af.fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
 		world.setContactListener(this);
 		setComplete(false);
 		setFailure(false);
-		
 		createScenes(level);
 		setScene(this.scene);
 		if(jump != null){
 			jump.dispose();
 			bgm.dispose();
 		}
+		System.out.println("scen");
 		populateLevel();
-		bgm.play();
+		System.out.println("scenEND");
+		if(listener.getMuted()){
+			this.musicMuted = true;
+		}
+		if(listener.getSound()){
+			this.soundMuted = true;
+		}
+		if(!musicMuted){
+			af.bgm.play();
+			wasPlaying = true;
+		}
 	}
 
 	/**
@@ -379,9 +389,6 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 
-		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
-		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
-
 		for (TrapDoor td: scene.getTrapDoors()){
 			td.setDrawScale(scale);
 			addObject(td);
@@ -389,37 +396,6 @@ public class AidenController extends WorldController
 			ropes.add(td);
 			td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
 		}
-
-//		td.setDrawScale(scale);
-//		addObject(td);
-//		System.out.println("here");
-//		td.createJoints(world);
-
-//		objects.add(td.rope);
-//		td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-		
-//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
-//			TrapDoor td = scene.getTrapDoors().get(ii);
-//			addObject(td);
-//			td.setTexture(af.trapDoor);
-//			td.rope.setTexture(af.trapDoor);
-//			td.setDrawScale(scale);
-//		}
-//		for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
-//			TrapDoor td = scene.getTrapDoors().get(ii);
-//			td.rw = 0.25f;
-//			td.rl = 0.25f*16f;
-//			td.setDrawScale(scale);
-//			addObject(td);
-//			td.createJoints(world);
-//			objects.add(td.rope);
-//			td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-//			td.setTexture(af.trapDoor);
-//
-//		}
-
-//		ropes.add(td);
-//		td.setChildrenTexture(af.trapDoor,af.ropeLongTexture, af.nailTexture);
 
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f, objects);
@@ -479,11 +455,15 @@ public class AidenController extends WorldController
 		fuelBarPos = new Vector2(w/8, h);
 	}
 	
-	public void buttonPressed(){
+	public float cooldown = 0.5f;
+	
+	public void buttonPressed(float dt){
 
 		boolean isPressed = InputController.getInstance().didTertiary();
+		cooldown -= dt;
 		
-		if (isPressed && instr==0){
+		if (isPressed && instr==0 && cooldown <= 0){
+			cooldown = 0.5f;
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight()-pos.y);
 
@@ -524,7 +504,10 @@ public class AidenController extends WorldController
 			restC = Color.WHITE;
 		}
 	}
-
+	
+	public float jumpCD = 0.5f;
+	public boolean wasPaused = false;
+	
 	/**
 	 * The core gameplay loop of this world.
 	 *
@@ -540,14 +523,17 @@ public class AidenController extends WorldController
 	public void update(float dt) {
 		if (pause) {
 			if(musicMuted){
-				bgm.pause();
+				af.bgm.pause();
 			}
 			else{
-				bgm.resume();
+				if(!wasPlaying){
+					af.bgm.play();
+					wasPlaying = true;
+				}
 			}
 			avatar.resume = true;
 			prevMovement = avatar.getLinearVelocity();
-			buttonPressed();
+			buttonPressed(dt);
 			return;
 		}
 
@@ -598,9 +584,17 @@ public class AidenController extends WorldController
 		avatar.setJumping(InputController.getInstance().didPrimary());
 		avatar.setDt(dt);
 		avatar.applyForce();
+		
+		if (jumpCD < 0.5f){
+			jumpCD -= dt;
+			if(jumpCD <= 0){
+				jumpCD = 0.5f;
+			}
+		}
 
-		if (avatar.isJumping() && !soundMuted) {
-			jump.play();
+		if (avatar.isJumping() && !soundMuted && jumpCD==0.5f) {
+			af.jump.play();
+			jumpCD -= dt;
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -891,22 +885,15 @@ public class AidenController extends WorldController
 			avatar.setComplete(true);
 		}
 
-		// drawing the fuel level
-		
-//		if (avatar != null) {
-//			canvas.begin();
-//			Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
-//			float sx = avatar.getFuel() * 480f / avatar.getMaxFuel();
-//			canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
-//			canvas.draw(af.barOutter, pos.x, pos.y);
-//			canvas.end();
-//		}
-
 	}
 
 	@Override
 	public void setScene(Scene scene) {
 		this.scene = scene;
+	}
+	
+	public void stopSound(){
+		af.bgm.stop();
 	}
 
 

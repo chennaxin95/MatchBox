@@ -95,7 +95,7 @@ public abstract class WorldController implements Screen {
 	public static final int EXIT_PREV = 2;
 	public static final int EXIT_HOME = 3;
 	/** How many frames after winning/losing do we continue? */
-	public static final int EXIT_COUNT = 60;
+	public static final int EXIT_COUNT = 90;
 
 	/** The amount of time for a physics engine step. */
 	public static final float WORLD_STEP = 1 / 60.0f;
@@ -118,7 +118,7 @@ public abstract class WorldController implements Screen {
 	/** Queue for adding objects */
 	protected PooledList<Obstacle> addQueue = new PooledList<Obstacle>();
 	/** Listener that will update the player mode when we are done */
-	private ScreenListener listener;
+	public ScreenListener listener;
 
 	/** The Box2D world */
 	protected World world;
@@ -392,6 +392,7 @@ public abstract class WorldController implements Screen {
 	 * 
 	 * @return whether to process the update loop
 	 */
+	public boolean wasPlaying = false;
 	
 	public boolean preUpdate(float dt) {
 		if(pause && instr != 0){
@@ -419,12 +420,15 @@ public abstract class WorldController implements Screen {
 					System.out.println(soundMuted);
 					soundMuted = !soundMuted;
 					instr = 0;
+					listener.setSound();
 					return false;
 				}
 				if(instr == 5){
 					System.out.println(musicMuted);
 					musicMuted = !musicMuted;
+					wasPlaying = false;
 					instr = 0;
+					listener.setMuted();
 					return false;
 				}
 			}
@@ -449,7 +453,6 @@ public abstract class WorldController implements Screen {
 		if (input.didReset()) {
 			reset();
 		}
-		//System.out.println("worldcontroller "+countdown);
 		// Now it is time to maybe switch screens.
 		if (input.didPause()){
 			this.pause();

@@ -57,7 +57,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public static final String LEVELS = "shared/levels.png";
 	public static final String SETTINGS = "shared/settings.png";
 	public static final String CREDITS = "shared/credits.png";
-	
+	public static final String SELECT = "shared/select level.png";
 
 	/** Background texture for start-up */
 	public Texture background;
@@ -78,6 +78,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture credits;
 	/** Texture for each level button*/
 	public Texture level;
+	public Texture select;
+	public Texture back;
+	public Texture editor;
+	public Texture levelTemp;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -110,9 +114,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** Width of the middle portion in texture atlas */
 	public static int PROGRESS_MIDDLE = 200;
 	/** Amount to scale the play button */
-	public static float BUTTON_SCALE = 0.25f;
+	public static float BUTTON_SCALE = 0.3f;
 	/** Amount to scale each level button */
-	public static float LEVEL_BUTTON_SCALE = 1.0f;
+	public static float LEVEL_BUTTON_SCALE = 0.8f;
 	/** Amount to scale the main menu title*/
 	public static float MENU_SCALE = 0.38f;
 	/** Amount to scale start button location vertically*/
@@ -147,8 +151,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public int centerY;
 	/** The x-coordinate of the center of the progress bar */
 	public int centerX;
-	public int tlX;
-	public int tlY;
+	public float tlX;
+	public float tlY;
 	public int widthX;
 	public int centerBarX;
 	public int levelSelected;
@@ -254,6 +258,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		blackBack = new Texture("shared/blackBack.png");
 		grayLine = new Texture("shared/grey line.png");
 		whiteLine = new Texture("shared/white line.png");
+		select = new Texture("shared/select level.png");
+		back = new Texture("shared/back_button.png");
+		editor = new Texture("shared/level editor.png");
+		levelTemp = new Texture("shared/3.png");
+		
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -360,16 +369,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public void draw() {  
 		canvas.resize();
 		float wRatio = (float)canvas.getWidth() / 1920f;
-//		float hRatio = (float)canvas.getHeight() / 1080f;
 		float hRatio = wRatio;
 		canvas.begin();
 		Vector2 pos = canvas.relativeVector(0, 0);
 		Vector2 pos1 = canvas.relativeVector(canvas.getWidth()/8, canvas.getHeight()/3.5f);
 		canvas.draw(blackBack, pos.x, pos.y);
-		canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 		if (playButton == null) {
+			canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 			drawProgress(canvas);
 		} else if (pressState == 0 || pressState == 1 || pressState == 3){
+			canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 			Color tint1 = (pressState == 1 ? Color.GRAY : Color.WHITE);
 			pos = canvas.relativeVector(centerX, centerY * START_V_SCALE);
 			canvas.draw(playButton, tint1, playButton.getWidth() / 2,
@@ -394,16 +403,22 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					credits.getHeight() / 2,
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
-		}else if (pressState == 4){
+		}else if (pressState >=4){
+			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.25f/5);
+			canvas.draw(select, Color.WHITE, select.getWidth()/2, select.getHeight()/2,
+					pos.x, pos.y, 0, scale, scale);
+			pos = canvas.relativeVector(canvas.getWidth()/4f, canvas.getHeight()/7f);
+			canvas.draw(back, Color.WHITE, back.getWidth()/2, back.getHeight()/2,
+					pos.x, pos.y, 0, BUTTON_SCALE*scale, BUTTON_SCALE*scale);
 			int n = 1;
-			for (int i = 0; i<5; i++){
-				int y = tlY - i *  heightY / 5;
-				for (int j = 0; j < 4; j++){
+			for (int i = 0; i<4; i++){
+				float y = tlY - i *  heightY * 3 / 20;
+				for (int j = 0; j < 5; j++){
 					String level_texture = "shared/" + n + ".png";
 					level = new Texture(level_texture);
 					level.setFilter(TextureFilter.Linear,
 							TextureFilter.Linear);
-					int x = tlX + j * widthX /  4;
+					float x = tlX + j * widthX * 3 /  25;
 					pos = canvas.relativeVector(x, y);
 					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
 							level.getHeight() / 2,
@@ -448,10 +463,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			draw();
 
 			// We are are ready, notify our listener
-			if (isReady() && listener != null) {
+			if (isReady() && listener != null && pressState != 6) {
 				listener.exitScreen(this, 0);
 			}
-			if (levelSelected != -1 && pressState == 5){
+			if (levelSelected != -1 && pressState == 6){
 				int temp = levelSelected;
 				levelSelected = -1;
 				listener.exitScreen(this, temp);
@@ -479,8 +494,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		this.width = (int) (BAR_WIDTH_RATIO * width);
 		centerY = (int) (.80 * height);
 		centerX =  2 * width / 3;
-		tlX = width / 10;
-		tlY = height * 7 / 8;
+		tlX = width * 1.25f / 5;
+		tlY = height * 3.65f / 5;
 		heightY = height;
 		centerBarX = (int) (width/2);
 		widthX = width;
@@ -569,18 +584,28 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
 			pressState = 3;
 		}
-		
+		width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
+		height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
 		if (pressState == 4){
-			for (int i = 0; i<5; i++){
-				int x = tlX + i *  widthX / 5;
-				for (int j = 0; j < 4; j++){
-					int y = tlY - j * heightY /  4;
+			for (int i = 0; i < 4; i++){
+				float y = tlY - i *  heightY * 3 / 20;
+				for (int j = 0; j < 5; j++){
+					float x = tlX + j * widthX * 3 /  25;
 					if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+						pressState = 5;
 						int level = (i+1) * (j+1) - 1;
 						levelSelected = level;
 					}
 				}
 			}
+			float x = widthX/4f;
+			float y = heightY/7f;
+			width = BUTTON_SCALE * scale * back.getWidth();
+			height = BUTTON_SCALE * scale * back.getHeight();
+			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+				pressState = 0;
+			}
+			
 		}
 		return false;
 	}
@@ -608,8 +633,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			pressState = 4;
 			return false;
 		}
-		if (pressState == 4){
-			pressState = 5;
+		if (pressState == 5){
+			pressState = 6;
 			return false;
 		}
 		return true;

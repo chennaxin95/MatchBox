@@ -93,7 +93,21 @@ public class GDXRoot extends Game implements ScreenListener {
 	private FilmStrip WaterWalkTexture;
 	/** Texture for burning animation */
 	private FilmStrip[] burningTexture;
-
+	
+	public boolean muted = false;
+	public boolean soundMute = false;
+	public void setMuted(){
+		muted = !muted;
+	}
+	public void setSound(){
+		soundMute = !soundMute;
+	}
+	public boolean getMuted(){
+		return muted;
+	}
+	public boolean getSound(){
+		return soundMute;
+	}
 	/**
 	 * Creates a new game from the configuration settings.
 	 *
@@ -422,41 +436,31 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void exitScreen(Screen screen, int exitCode) {
 		canvas.setEditor(false);
 		if (screen == loading) {
+			exitCode = exitCode % controllers.length;
 			loadContent(manager);
 			for (int ii = 0; ii < controllers.length; ii++) {
-				// controllers[ii].loadContent(manager);
 				controllers[ii].setScreenListener(this);
 				controllers[ii].setCanvas(canvas);
 			}
 			controllers[exitCode].reset();
 			setScreen(controllers[exitCode]);
-//			loading.dispose();
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){
 			controllers[current].reset();
-//			loading = new LoadingMode(canvas, manager, 1);
-//			loading.setScreenListener(this);
-//			preLoadContent(manager);
 			loading.pressState = 0;
 			setScreen(loading);
 		}
 		else if (exitCode == WorldController.EXIT_NEXT) {
-			System.out.println("gdxroot next level");
-			boolean isle = controllers[current] instanceof LevelEditor;
-			// currentS = (isle) ? 0 : (currentS + 1) % scenes.length;
-			// if (currentS == scenes.length - 1 || isle) {
+			if(controllers[current] instanceof AidenController){
+				((AidenController) controllers[current]).stopSound();
+			}
 			current = (current + 1) % controllers.length;
-			// }
-			// if (controllers[current] instanceof AidenController){
-			//// controllers[current].setScene(scenes[currentS]);
-			// }
+			System.out.println("start");
 			controllers[current].reset();
+			System.out.println("end");
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_PREV) {
-			boolean isle = controllers[current] instanceof LevelEditor;
-			
 			current = (current + controllers.length - 1) % controllers.length;
-
 			controllers[current].reset();
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_QUIT) {
