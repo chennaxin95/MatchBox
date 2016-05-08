@@ -547,4 +547,12 @@ public class CapsuleObstacle extends SimpleObstacle {
 		}
 	}
 
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-this.getWidth()/2f, 
+				this.getY()-this.getHeight()/2f,
+				this.getWidth(), this.getHeight());
+	}
+
 }

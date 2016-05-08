@@ -1000,5 +1000,9 @@ public abstract class Obstacle {
 	 */
 	public abstract void drawDebug(GameCanvas canvas);
 	public abstract void drawDebug(GameCanvas canvas, Color c);
-
+	/**
+	 * Return the bounding box that describes the obstacle
+	 * @return
+	 */
+	public abstract Rectangle getBoundingBox();
 }

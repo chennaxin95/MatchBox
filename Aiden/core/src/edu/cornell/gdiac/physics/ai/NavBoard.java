@@ -3,12 +3,16 @@ package edu.cornell.gdiac.physics.ai;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import edu.cornell.gdiac.physics.AidenController;
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.physics.blocks.Rope;
+import edu.cornell.gdiac.physics.character.AidenModel;
+import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.obstacle.BoxObstacle;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
 import edu.cornell.gdiac.physics.obstacle.PolygonObstacle;
@@ -64,17 +68,21 @@ public class NavBoard {
 	 *  Iterate over all objects, mark on board as occupied/platform 
 	 *  if any object overlaps the center point of a tile
 	 */
-	public void setupBoard(ArrayList<Obstacle> objs){
+	public void setupBoard(ArrayList<Obstacle> objs, CharacterModel self){
 		clear();
 		for (Obstacle obj: objs){
-			Vector2 pos=obj.getPosition();
-			if (obj instanceof BoxObstacle){
-				float w=((BoxObstacle)obj).getWidth();
-				float h=((BoxObstacle)obj).getHeight();
-				int lIndX=Math.round((pos.x-w/2f-lx)/unitX);
-				int lIndY=Math.round((pos.y-h/2f-ly)/unitY);	
-				int uIndX=Math.round((pos.x+w/2f-lx)/unitX)-1;
-				int uIndY=Math.round((pos.y+h/2f-ly)/unitY)-1;	
+//			Vector2 pos=obj.getPosition();
+			if (!(obj instanceof PolygonObstacle) &&
+					!(obj instanceof Rope) && !(obj instanceof AidenModel)
+					&& !obj.equals(self)){
+//				float w=((BoxObstacle)obj).getWidth();
+//				float h=((BoxObstacle)obj).getHeight();
+				Rectangle rec=obj.getBoundingBox();
+				System.out.println(rec);
+				int lIndX=Math.round((rec.x-lx)/unitX);
+				int lIndY=Math.round((rec.y-ly)/unitY);	
+				int uIndX=Math.round((rec.x+rec.width-lx)/unitX)-1;
+				int uIndY=Math.round((rec.y+rec.height-ly)/unitY)-1;	
 				// Need to add "Danger" cases
 				for (int i=Math.max(lIndX, 0); i<=Math.min(uIndX, width-1); i++){
 					for (int j=Math.max(lIndY,0); j<=Math.min(uIndY, height-1); j++){

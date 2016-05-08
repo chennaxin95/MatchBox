@@ -225,5 +225,15 @@ public class Rope extends ComplexObstacle {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-this.getWidth()/2f, 
+				this.getY()-this.getHeight()/2f,
+				this.getWidth(),
+				this.getHeight());
+	}
 	
 }

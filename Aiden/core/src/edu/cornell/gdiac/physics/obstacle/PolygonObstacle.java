@@ -398,5 +398,17 @@ public class PolygonObstacle extends SimpleObstacle {
 	public Vector2 getPointMustInside(){
 		return new Vector2(this.vertices[0],this.vertices[1]) ;
 	}
+
+	@Override
+	public Rectangle getBoundingBox() {
+		float minX=Float.MAX_VALUE, maxX=0, minY=Float.MAX_VALUE, maxY=0;
+		for (int i=0; i<vertices.length; i+=2){
+			if (vertices[i]<minX) minX=vertices[i];
+			if (vertices[i]>maxX) maxX=vertices[i];			
+			if (vertices[i+1]<minY) minY=vertices[i+1];
+			if (vertices[i+1]>maxY) maxY=vertices[i+1];
+		}
+		return new Rectangle(minX, minY, maxX-minX, maxY-minY);
+	}
 	
 }

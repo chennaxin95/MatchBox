@@ -200,4 +200,13 @@ public class BurnablePlatform extends ComplexObstacle {
 		return height;
 	}
 
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-getWidth()/2f, 
+				this.getY()-getHeight()/2f, 
+				getWidth(), getHeight());
+	}
+	
+
 }
