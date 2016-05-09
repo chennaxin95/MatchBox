@@ -177,7 +177,6 @@ public class LevelEditor extends WorldController {
 //			panel.update(nPos.x, nPos.y);
 			panel.update(InputController.getInstance().getCrossHair().x,
 					canvas.getHeight()-InputController.getInstance().getCrossHair().y);
-			System.out.println(InputController.getInstance().getCrossHair());
 //			panel.update(InputController.getInstance().mousePos.x,
 //					canvas.getHeight()
 //							- InputController.getInstance().mousePos.y);
