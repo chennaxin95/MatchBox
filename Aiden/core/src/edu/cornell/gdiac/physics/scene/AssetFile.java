@@ -70,6 +70,7 @@ public class AssetFile {
 	public TextureRegion sound_no;
 	
 	/** Texture for aiden animation */
+	public FilmStrip AidenGlow;
 	public FilmStrip AidenAnimeTexture;
 	public FilmStrip AidenSpiritTexture;
 	public FilmStrip AidenDieTexture;
@@ -145,6 +146,7 @@ public class AssetFile {
 		files.put("BAR_ICON", "platform/color_icon.png");
 		files.put("BAR_YELLOW", "platform/yellow_icon.png");
 		files.put("BAR_GRAY", "platform/grey_icon.png");
+		files.put("AIDEN_GLOW", "platform/aidenGlow.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -302,6 +304,8 @@ public class AssetFile {
 				12);
 		AidenJumpTexture = createFilmStrip(manager,
 				files.get("AIDEN_JUMP_FILE"), 12, 1, 12);
+		AidenGlow = createFilmStrip(manager,
+				files.get("AIDEN_GLOW"), 6, 1, 6);
 		WaterDieTexture = createFilmStrip(manager,
 				files.get("WATER_DIE_FILE"),
 				12, 1,

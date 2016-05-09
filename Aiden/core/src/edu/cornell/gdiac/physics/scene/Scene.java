@@ -121,7 +121,7 @@ public class Scene implements SceneInterface {
 							}
 							fuelBlocks.add(
 									new FuelBlock(x, y, 1/*b_scale_x*/,1/*b_scale_y*/,
-											burn_spread, burn_time, fuels,
+											burn_spread, 0.5f, fuels,
 											icp));
 						} else {
 							if (material.equals("platform")) {
