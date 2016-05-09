@@ -798,6 +798,7 @@ public class AidenController extends WorldController
 				|| bd2 instanceof CharacterModel && bd1 instanceof GoalDoor) {
 			contact.setEnabled(false);
 		}
+		// Disable collision between fire balls and NPCs
 		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
 			contact.setEnabled(false);
 		}
