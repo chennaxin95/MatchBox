@@ -150,7 +150,7 @@ public class Rope extends ComplexObstacle {
 			jointDef.bodyB = bodies.get(ii+1).getBody();
 			jointDef.localAnchorA.set(anchor1);
  			jointDef.localAnchorB.set(anchor2);
-			jointDef.collideConnected = false;
+//			jointDef.collideConnected = false;
 			joint = world.createJoint(jointDef);
 			joints.add(joint);
 		}

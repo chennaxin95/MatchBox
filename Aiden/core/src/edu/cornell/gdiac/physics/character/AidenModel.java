@@ -586,14 +586,14 @@ public class AidenModel extends CharacterModel {
 	public void drawSpirit(GameCanvas canvas, float ratio, Color c){
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
-			spirit.setFrame((spirit.getFrame()+1)%5);
+			spirit.setFrame((spirit.getFrame()+1)%3);
 		}
 
 		// For placement purposes, put origin in center.
 		float ox = 0.5f * characterSprite.getRegionWidth();
 		float oy = 0.5f * characterSprite.getRegionHeight();
 
-		float effect = faceRight ? 1.0f : -1.0f;
+		float effect = faceRight ? -1.0f : 1.0f;
 		canvas.draw(spirit, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
