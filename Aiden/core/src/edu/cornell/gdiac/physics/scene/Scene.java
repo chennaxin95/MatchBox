@@ -12,6 +12,7 @@ import edu.cornell.gdiac.physics.blocks.BlockAbstract;
 import edu.cornell.gdiac.physics.blocks.BurnablePlatform;
 import edu.cornell.gdiac.physics.blocks.FlammableBlock;
 import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.GoalDoor;
 import edu.cornell.gdiac.physics.blocks.Platform;
 import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
@@ -185,7 +186,7 @@ public class Scene implements SceneInterface {
 			float exit_y = exit_pos.getFloat("y");
 			float e_scale_x = exit.getFloat("scale_x");
 			float e_scale_y = exit.getFloat("scale_y");
-			goalDoor = new StoneBlock(exit_x, exit_y, 3, 3);
+			goalDoor = new GoalDoor(exit_x, exit_y, 3, 3);
 			goalDoor.setBodyType(BodyDef.BodyType.StaticBody);
 			goalDoor.setDensity(0.0f);
 			goalDoor.setFriction(0.0f);

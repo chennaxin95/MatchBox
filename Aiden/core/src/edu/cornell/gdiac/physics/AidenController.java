@@ -793,7 +793,16 @@ public class AidenController extends WorldController
 				|| bd2 == avatar && bd1 instanceof WheelObstacle) {
 			contact.setEnabled(false);
 		}
-
+		// Disable collision between goal door and NPCs
+		if (bd1 instanceof CharacterModel && bd2 instanceof GoalDoor
+				|| bd2 instanceof CharacterModel && bd1 instanceof GoalDoor) {
+			contact.setEnabled(false);
+		}
+		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
+			contact.setEnabled(false);
+		}
+		
+		
 		if (spirit) {
 			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform)
