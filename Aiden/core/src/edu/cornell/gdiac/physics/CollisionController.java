@@ -81,8 +81,6 @@ public class CollisionController {
 									FuelBlock fbb = (FuelBlock) fb;
 									avatar.addFuel(
 											fbb.getFuelBonus());
-									avatar.gotFuel = true;
-									avatar.setSpiriting(false);
 									if (fbb.isCheckpoint()) {
 										int dex = checkpoints.indexOf(fbb,
 												true);
@@ -114,8 +112,6 @@ public class CollisionController {
 								FuelBlock fbb = (FuelBlock) fb;
 								avatar.addFuel(
 										fbb.getFuelBonus());
-								avatar.gotFuel = true;
-								avatar.setSpiriting(false);
 								if (fbb.isCheckpoint()) {
 									int dex = checkpoints.indexOf(fbb, true);
 									if (gs.getCheckpoint() != dex) {

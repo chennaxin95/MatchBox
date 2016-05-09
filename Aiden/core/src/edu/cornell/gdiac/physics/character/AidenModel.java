@@ -70,11 +70,9 @@ public class AidenModel extends CharacterModel {
 	private FilmStrip death;
 	private FilmStrip run;
 	private FilmStrip spirit;
-	private FilmStrip expand;
 	private Color preColor = Color.WHITE;
 	private boolean drawFail = false;
 	private boolean failed = false;
-	public boolean gotFuel = false;
 	
 	public boolean canDrawFail(){
 		return drawFail;
@@ -187,10 +185,7 @@ public class AidenModel extends CharacterModel {
 	public void setSpiriting(boolean value) {
 		isSpiriting = value;
 	}
-	
-	public void setExpand(FilmStrip e){
-		this.expand = e;
-	}
+
 	/**
 	 * Sets whether Aiden has won.
 	 *
@@ -504,7 +499,7 @@ public class AidenModel extends CharacterModel {
 		}
 		canvas.drawParticle(trailStill);
 
-		if (this.isSpiriting && !gotFuel) {
+		if (this.isSpiriting) {
 			c.a = 0.8f;
 			drawSpirit(canvas, ratio, c);
 			return;
@@ -526,13 +521,7 @@ public class AidenModel extends CharacterModel {
 			c.g = cRatio;
 			c.b = c.g;
 			preColor = c;
-			if(gotFuel){
-				drawFuel(canvas, ratio);
-				if(drawJumping){
-					drawJumping = false;
-				}
-			}
-			else if (drawJumping){
+			if (drawJumping){
 				drawJump(canvas, ratio);
 			}
 			else if (Math.abs(this.getVX()) >= 5){
@@ -560,7 +549,7 @@ public class AidenModel extends CharacterModel {
 			c = preColor;
 		}
 		canvas.draw(death, c, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y + 30*ratio, getAngle(), effect*ratio, ratio);
+				getY() * drawScale.y + 20, getAngle(), effect, ratio);
 		if(death.getFrame() == death.getSize()-1){
 			drawFail = true;
 		}
@@ -579,7 +568,7 @@ public class AidenModel extends CharacterModel {
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		canvas.draw(jump, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
+				getY() * drawScale.y + 20, getAngle(), -effect*ratio, ratio);
 		if (jumpFrame == jump.getSize()-1){
 			jumpFrame = 0;
 			drawJumping = false;
@@ -598,44 +587,21 @@ public class AidenModel extends CharacterModel {
 
 		float effect = faceRight ? 1.0f : -1.0f;
 		canvas.draw(run, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y+30*ratio, getAngle(), -effect*ratio, ratio);
+				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
 	public void drawSpirit(GameCanvas canvas, float ratio, Color c){
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
 			spirit.setFrame((spirit.getFrame()+1)%3);
 		}
-		
+
 		// For placement purposes, put origin in center.
 		float ox = 0.5f * characterSprite.getRegionWidth();
 		float oy = 0.5f * characterSprite.getRegionHeight();
 
 		float effect = faceRight ? -1.0f : 1.0f;
 		canvas.draw(spirit, c, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y+30*ratio, getAngle(), -effect*ratio, ratio);
-	}
-	
-	public int cycles = 0;
-	public void drawFuel(GameCanvas canvas, float ratio){
-		if (this.animeCoolDown<=0) {
-			animeCoolDown=MAX_ANIME_TIME;
-			expand.setFrame((expand.getFrame()+1)%6);
-		}
-		// For placement purposes, put origin in center.
-		float ox = 0.5f * characterSprite.getRegionWidth();
-		float oy = 0.5f * characterSprite.getRegionHeight();
-
-		float effect = faceRight ? -1.0f : 1.0f;
-		canvas.draw(expand, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
-		if (expand.getFrame() == expand.getSize()-1){
-			cycles++;
-			if(cycles == 6){
-				cycles = 0;
-				gotFuel = false;
-				expand.setFrame(0);
-			}
-		}
+				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
 	
 }
