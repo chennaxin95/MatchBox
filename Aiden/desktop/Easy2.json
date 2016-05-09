@@ -6,8 +6,8 @@
 "aiden": {
 	"start_pos": [
 		{
-			"x": 5.375,
-			"y": 3.425
+			"x": 4.3675003,
+			"y": 2.26
 		}
 	],
 	"scale_x": 1,
@@ -46,7 +46,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 1,
@@ -71,7 +72,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 2,
@@ -96,7 +98,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 3,
@@ -121,7 +124,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 4,
@@ -146,7 +150,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 5,
@@ -171,7 +176,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 6,
@@ -196,7 +202,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 7,
@@ -221,10 +228,37 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 8,
+		"blockType": "platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 46.5,
+			"y": 2.5
+		},
+		"scale_x": 5,
+		"scale_y": 5,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 9,
 		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -246,14 +280,15 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	}
 ],
 "waters": [],
 "goal": {
 	"pos": {
-		"x": 45.5,
-		"y": 7.5
+		"x": 46.5,
+		"y": 6
 	},
 	"scale_x": 3,
 	"scale_y": 3,
