@@ -122,8 +122,6 @@ public class AidenController extends WorldController
 	public Vector2 largeBut;
 	public Vector2 smallBut;
 	private Vector2 fuelBarSize;
-	private Vector2 fuelBarInner;
-	private Vector2 fuelInnerPos;
 	public Vector2 largeSize = new Vector2(320, 128);
 	public Vector2 smallSize = new Vector2(100, 96);
 	private Vector2 fuelBarPos;
@@ -199,18 +197,15 @@ public class AidenController extends WorldController
 		smallBut = new Vector2(100, 96);
 
 		fuelBarSize = new Vector2(449, 91);
-		fuelBarInner = new Vector2(377, 91);
+//		fuelBarInner = new Vector2(377, 91);
 		sScaleX = (float) canvas.getWidth() / 1920f;
 		sScaleY = (float) canvas.getHeight() / 1080f;
+
 		pauseT = pauseT.scl(sScaleX, sScaleX);
 		largeBut = largeBut.scl(sScaleX, sScaleX);
 		smallBut = smallBut.scl(sScaleX, sScaleX);
 		fuelBarSize.scl(sScaleX, sScaleX);
-		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
-		resuC = Color.WHITE;
-		restC = Color.WHITE;
-		homeC = Color.WHITE;
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
 		for (Obstacle obj : objects) {
@@ -475,7 +470,8 @@ public class AidenController extends WorldController
 		sScreen = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		sPos = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		fuelBarPos = new Vector2(w / 8, h);
-		fuelInnerPos = new Vector2(fuelBarPos.x + 68 * sScaleX, h);
+//		fuelInnerPos = new Vector2(fuelBarPos.x + 68 * sScaleX, h);
+
 	}
 
 	public float cooldown = 0.5f;
@@ -530,8 +526,6 @@ public class AidenController extends WorldController
 
 	public float jumpCD = 0.5f;
 	public boolean wasPaused = false;
-	public boolean drawCrit = false;
-	public float blinkCD = 0.07f;
 
 	/**
 	 * The core gameplay loop of this world.
@@ -561,22 +555,12 @@ public class AidenController extends WorldController
 			return;
 		}
 
-		else {
-			this.homeC = Color.WHITE;
-			this.restC = Color.WHITE;
-			this.resuC = Color.WHITE;
+		else{
+			this.homeC=Color.WHITE;
+			this.restC=Color.WHITE;
+			this.resuC=Color.WHITE;
 		}
-
-		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
-			blinkCD -= dt;
-			if (blinkCD <= 0) {
-				drawCrit = !drawCrit;
-				blinkCD = 0.3f;
-			}
-		} else {
-			drawCrit = false;
-		}
-
+	
 		if (this.isActive() && level != gs.getLevel()) {
 			gs.setLevel(level);
 			gs.setCheckpoint(-1);
@@ -869,36 +853,26 @@ public class AidenController extends WorldController
 			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
 		}
 
-		if (bd1 instanceof CharacterModel && bd2 instanceof StoneBlock
-				&& !(bd2 instanceof Platform)) {
-			float x_diff = ((CharacterModel) bd1).getX()
-					- ((StoneBlock) bd2).getX();
-			float y_diff = ((CharacterModel) bd1).getY()
-					- ((StoneBlock) bd2).getY();
-			float x_v = ((CharacterModel) bd1).getVX();
-			// System.out.println(x_diff+" "+y_diff+" "+x_v);
-			if (Math.abs(x_diff) > 1.3 && Math.abs(y_diff) < 1.2
-					&& x_v * x_diff < 0) {
-				((CharacterModel) bd1).setLinearVelocity(new Vector2(0,
-						((CharacterModel) bd1).getLinearVelocity().y));
-			}
-		}
-
-		if (bd2 instanceof CharacterModel && bd1 instanceof StoneBlock
-				&& !(bd1 instanceof Platform)) {
-			float x_diff = ((CharacterModel) bd2).getX()
-					- ((StoneBlock) bd1).getX();
-			float y_diff = ((CharacterModel) bd2).getY()
-					- ((StoneBlock) bd1).getY();
-			float x_v = ((CharacterModel) bd2).getVX();
-			// System.out.println(x_diff+" "+y_diff+" "+x_v);
-
-			if (Math.abs(x_diff) > 1.3 && Math.abs(y_diff) < 1.2
-					&& x_v * x_diff < 0) {
-				((CharacterModel) bd2).setLinearVelocity(new Vector2(0,
-						((CharacterModel) bd2).getLinearVelocity().y));
-			}
-		}
+//		if(bd1 instanceof CharacterModel && bd2 instanceof StoneBlock && !(bd2 instanceof Platform)){
+//			float x_diff = ((CharacterModel) bd1).getX() - ((StoneBlock) bd2).getX();
+//			float y_diff = ((CharacterModel) bd1).getY() - ((StoneBlock) bd2).getY();
+//			float x_v = ((CharacterModel) bd1).getVX();
+//			//System.out.println(x_diff+" "+y_diff+" "+x_v);
+//			if (Math.abs(x_diff)>1.3 && Math.abs(y_diff)<1.2 && x_v*x_diff<0){
+//			((CharacterModel) bd1).setLinearVelocity(new Vector2(0,((CharacterModel) bd1).getLinearVelocity().y));
+//			}
+//			}
+//		
+//		if(bd2 instanceof CharacterModel && bd1 instanceof StoneBlock  && !(bd1 instanceof Platform)){
+//			float x_diff = ((CharacterModel) bd2).getX() - ((StoneBlock) bd1).getX();
+//			float y_diff = ((CharacterModel) bd2).getY() - ((StoneBlock) bd1).getY();
+//			float x_v = ((CharacterModel) bd2).getVX();
+//			//System.out.println(x_diff+" "+y_diff+" "+x_v);
+//			
+//			if (Math.abs(x_diff)>1.3 && Math.abs(y_diff)<1.2 && x_v*x_diff<0){
+//			((CharacterModel) bd2).setLinearVelocity(new Vector2(0,((CharacterModel) bd2).getLinearVelocity().y));
+//			}
+//		}
 	}
 
 	@Override
@@ -928,34 +902,21 @@ public class AidenController extends WorldController
 		if (avatar != null) {
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 
-			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
-					fuelInnerPos.y);
-			float sx = avatar.getFuel() / avatar.getMaxFuel();
-			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
-					fuelBarInner.x * zoom, fuelBarInner.y * zoom);
-			if (sx < 0.3f) {
-				if (!drawCrit) {
-					canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
-							fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
-				}
-			} else {
-				canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
-						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+			float sx = avatar.getFuel() /avatar.getMaxFuel();
+			canvas.draw(af.barBack, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			if (sx < 0.3f){
+				canvas.draw(af.barLow, Color.WHITE, pos.x+10, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
 			}
-
-			if (sx == 0) {
-				canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-			} else if (drawCrit) {
-				canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-			} else {
-				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			else{
+				canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, fuelBarSize.x*sx*zoom, fuelBarSize.y*zoom);
 			}
-			canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
-					fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-
+			if (sx < 0.1f){
+				canvas.draw(af.barOutter, Color.RED, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			else{
+				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom );
+			}
+			
 		}
 		if (pause) {
 
@@ -1052,13 +1013,15 @@ public class AidenController extends WorldController
 			break;
 
 		case 4:
-			this.scene = new Scene("Med2.json"); // stonesss
+			this.scene = new Scene("Med2.json"); // stonesss // pretty easy 
 			backgroundTexture = af.backGround;
 			break;
+			
 		case 5:
 			this.scene = new Scene("Easy2.json"); // spirit boost
 			backgroundTexture = af.backGround;
 			break;
+			
 		case 6:
 			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
 													// water
@@ -1068,27 +1031,34 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Tutorial2.json"); // save the block
 			backgroundTexture = af.backGround;
 			break;
+		
 		case 8:
-			this.scene = new Scene("Med1.json");
+			this.scene = new Scene("Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
-		case 9:
-			this.scene = new Scene("Level2.json");
+						
+		case 9: 
+			this.scene = new Scene("Med4.json"); // wooden boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
 		case 10:
-			this.scene = new Scene("Level3.json");
+			this.scene = new Scene("Med3.json"); // vertical // add more fuel and move the rope
 			backgroundTexture = af.backGround;
 			break;
+	
 		case 11:
-			this.scene = new Scene("Level4.json");
+			this.scene = new Scene("Level2.json");  // L 
 			backgroundTexture = af.backGround;
 			break;
 		case 12:
-			this.scene = new Scene("Hard1.json");
+			this.scene = new Scene("Level3.json"); //trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
 		case 13:
+			this.scene = new Scene("Hard1.json");  // square
+			backgroundTexture = af.backGround;
+			break;
+		case 14:
 			this.scene = new Scene("Hard2.json");
 			backgroundTexture = af.backGround;
 			break;

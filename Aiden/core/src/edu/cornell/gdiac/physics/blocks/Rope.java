@@ -193,7 +193,7 @@ public class Rope extends ComplexObstacle {
 		}
 		for (int i = 0; i < bodies.size; i++){
 			temp = (FlammableBlock) bodies.get(i);
-			if(temp.isBurnt()){
+			if(temp.isBurnt() && temp!=null){
 				world.destroyBody(bodies.get(i).getBody());
 				bodies.removeIndex(i);
 				return false;

@@ -445,7 +445,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 33,
-			"y": 9.5
+			"y": 9
 		},
 		"scale_x": 4,
 		"scale_y": 1,
@@ -575,7 +575,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 33,
-			"y": 5
+			"y": 4.5
 		},
 		"scale_x": 4,
 		"scale_y": 8,

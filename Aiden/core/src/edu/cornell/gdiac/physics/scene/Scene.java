@@ -80,7 +80,7 @@ public class Scene implements SceneInterface {
 				int jump_height = aiden.getInt("jump_height");
 				int start_fuel = aiden.getInt("start_fuel");
 				aidenModel = new AidenModel(start_pos_x, start_pos_y,
-						scale_x*1.05f, scale_y, fright);
+						scale_x, scale_y, fright);
 			}
 
 		}
@@ -113,7 +113,7 @@ public class Scene implements SceneInterface {
 				} else {
 					if (material.equals("stone")) {
 						stoneBlocks.add(
-								new StoneBlock(x, y, 1.8f, 2f));
+								new StoneBlock(x, y, 1.99f, 1.99f));
 					} else {
 						if (material.equals("fuel")) {
 							boolean icp = false;

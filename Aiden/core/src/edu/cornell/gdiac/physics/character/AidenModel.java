@@ -232,8 +232,6 @@ public class AidenModel extends CharacterModel {
 	 * @param height
 	 *            The object width in physics units
 	 */
-	public float oldFuel;
-	
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
@@ -260,7 +258,6 @@ public class AidenModel extends CharacterModel {
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
-		oldFuel = START_FUEL;
 	}
 
 
@@ -395,9 +392,6 @@ public class AidenModel extends CharacterModel {
 			resizeSensor();
 			smallSized = false;
 		}
-		if(fuel-oldFuel > 5 && ratio >= 0.9){
-			resizeSensor();
-		}
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
 		trailLeft.update(dt);
@@ -527,13 +521,14 @@ public class AidenModel extends CharacterModel {
 			c.g = cRatio;
 			c.b = c.g;
 			preColor = c;
-			if(gotFuel){
-				drawFuel(canvas, ratio);
-				if(drawJumping){
-					drawJumping = false;
-				}
-			}
-			else if (drawJumping){
+//			if(gotFuel){
+//				drawFuel(canvas, ratio);
+//				if(drawJumping){
+//					drawJumping = false;
+//				}
+//			}
+//			else 
+			if (drawJumping){
 				drawJump(canvas, ratio);
 			}
 			else if (Math.abs(this.getVX()) >= 5){
@@ -616,27 +611,27 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y+30*ratio, getAngle(), -effect*ratio, ratio);
 	}
 	
-	public int cycles = 0;
-	public void drawFuel(GameCanvas canvas, float ratio){
-		if (this.animeCoolDown<=0) {
-			animeCoolDown=MAX_ANIME_TIME;
-			expand.setFrame((expand.getFrame()+1)%6);
-		}
-		// For placement purposes, put origin in center.
-		float ox = 0.5f * characterSprite.getRegionWidth();
-		float oy = 0.5f * characterSprite.getRegionHeight();
-
-		float effect = faceRight ? -1.0f : 1.0f;
-		canvas.draw(expand, preColor, ox, oy, getX() * drawScale.x,
-				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
-		if (expand.getFrame() == expand.getSize()-1){
-			cycles++;
-			if(cycles == 6){
-				cycles = 0;
-				gotFuel = false;
-				expand.setFrame(0);
-			}
-		}
-	}
+//	public int cycles = 0;
+//	public void drawFuel(GameCanvas canvas, float ratio){
+//		if (this.animeCoolDown<=0) {
+//			animeCoolDown=MAX_ANIME_TIME;
+//			expand.setFrame((expand.getFrame()+1)%6);
+//		}
+//		// For placement purposes, put origin in center.
+//		float ox = 0.5f * characterSprite.getRegionWidth();
+//		float oy = 0.5f * characterSprite.getRegionHeight();
+//
+//		float effect = faceRight ? -1.0f : 1.0f;
+//		canvas.draw(expand, preColor, ox, oy, getX() * drawScale.x,
+//				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
+//		if (expand.getFrame() == expand.getSize()-1){
+//			cycles++;
+//			if(cycles == 6){
+//				cycles = 0;
+//				gotFuel = false;
+//				expand.setFrame(0);
+//			}
+//		}
+//	}
 	
 }
