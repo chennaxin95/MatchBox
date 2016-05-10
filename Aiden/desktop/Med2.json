@@ -46,7 +46,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 1,
@@ -71,7 +72,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 2,
@@ -96,7 +98,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 3,
@@ -121,7 +124,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 4,
@@ -146,7 +150,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 5,
@@ -171,7 +176,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 6,
@@ -196,7 +202,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 7,
@@ -221,7 +228,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 8,
@@ -246,7 +254,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 9,
@@ -271,7 +280,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 10,
@@ -296,7 +306,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 11,
@@ -321,7 +332,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 12,
@@ -346,7 +358,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 13,
@@ -371,7 +384,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 14,
@@ -396,7 +410,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 15,
@@ -421,7 +436,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 16,
@@ -446,7 +462,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 17,
@@ -471,7 +488,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 18,
@@ -496,7 +514,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 19,
@@ -521,7 +540,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 20,
@@ -546,7 +566,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 21,
@@ -571,7 +592,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 22,
@@ -596,7 +618,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 23,
@@ -621,7 +644,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 24,
@@ -646,7 +670,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 25,
@@ -671,7 +696,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 26,
@@ -696,7 +722,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 27,
@@ -706,7 +733,7 @@
 			"x": 8,
 			"y": 4
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -721,7 +748,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 28,
@@ -731,7 +759,7 @@
 			"x": 8,
 			"y": 6
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -746,7 +774,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 29,
@@ -756,7 +785,7 @@
 			"x": 8,
 			"y": 8
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -771,7 +800,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 30,
@@ -781,7 +811,7 @@
 			"x": 8,
 			"y": 10
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -796,7 +826,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 31,
@@ -806,7 +837,7 @@
 			"x": 8,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -821,7 +852,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 32,
@@ -831,7 +863,7 @@
 			"x": 10.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -846,7 +878,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 33,
@@ -856,7 +889,7 @@
 			"x": 12.5,
 			"y": 4
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -871,7 +904,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 34,
@@ -881,7 +915,7 @@
 			"x": 12.5,
 			"y": 8
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -896,7 +930,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 35,
@@ -906,7 +941,7 @@
 			"x": 16.5,
 			"y": 4
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -921,7 +956,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 36,
@@ -931,7 +967,7 @@
 			"x": 18.5,
 			"y": 2
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -946,7 +982,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 37,
@@ -956,7 +993,7 @@
 			"x": 14.5,
 			"y": 8
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -971,7 +1008,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 38,
@@ -981,7 +1019,7 @@
 			"x": 12.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -996,7 +1034,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 39,
@@ -1006,7 +1045,7 @@
 			"x": 20.5,
 			"y": 6
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1021,7 +1060,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 40,
@@ -1031,7 +1071,7 @@
 			"x": 14.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1046,7 +1086,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 41,
@@ -1056,7 +1097,7 @@
 			"x": 18.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1071,7 +1112,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 42,
@@ -1081,7 +1123,7 @@
 			"x": 18.5,
 			"y": 8
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1096,7 +1138,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 43,
@@ -1106,7 +1149,7 @@
 			"x": 20.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1121,7 +1164,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 44,
@@ -1131,7 +1175,7 @@
 			"x": 16.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1146,7 +1190,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 45,
@@ -1156,7 +1201,7 @@
 			"x": 10.5,
 			"y": 14
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1171,7 +1216,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 46,
@@ -1181,7 +1227,7 @@
 			"x": 10.5,
 			"y": 16
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1196,7 +1242,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 47,
@@ -1206,7 +1253,7 @@
 			"x": 10.5,
 			"y": 18
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1221,7 +1268,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 48,
@@ -1231,7 +1279,7 @@
 			"x": 22.5,
 			"y": 12
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1246,7 +1294,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 49,
@@ -1256,7 +1305,7 @@
 			"x": 24.5,
 			"y": 2
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1271,7 +1320,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 50,
@@ -1281,7 +1331,7 @@
 			"x": 22.5,
 			"y": 8
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1296,7 +1346,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 51,
@@ -1306,7 +1357,7 @@
 			"x": 22.5,
 			"y": 6
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1321,7 +1372,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 52,
@@ -1331,7 +1383,7 @@
 			"x": 24.5,
 			"y": 4
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1346,7 +1398,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 53,
@@ -1356,7 +1409,7 @@
 			"x": 26.5,
 			"y": 2
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -1371,35 +1424,11 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 54,
-		"blockType": "fuel",
-		"texture": "shared/woodenBlock.png",
-		"pos": {
-			"x": 6,
-			"y": 2
-		},
-		"scale_x": 1,
-		"scale_y": 1,
-		"density": 1,
-		"fixed": false,
-		"linked": false,
-		"link_pos": {
-			"x": 0,
-			"y": 0
-		},
-		"burning": false,
-		"burn_spread": 1,
-		"burn_time": 3,
-		"burn_left": 1,
-		"fuels": 30,
-		"isLeft": false,
-		"segments": 0
-	},
-	{
-		"id": 55,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -1421,10 +1450,11 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
-		"id": 56,
+		"id": 55,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -1446,10 +1476,11 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
-		"id": 57,
+		"id": 56,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -1471,10 +1502,11 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
-		"id": 58,
+		"id": 57,
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
@@ -1496,14 +1528,67 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 58,
+		"blockType": "platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 3,
+			"y": 12.5
+		},
+		"scale_x": 4,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 59,
+		"blockType": "fuel",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 6,
+			"y": 2
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": false,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
 	}
 ],
 "waters": [],
 "goal": {
 	"pos": {
 		"x": 3,
-		"y": 15.5
+		"y": 14.5
 	},
 	"scale_x": 3,
 	"scale_y": 3,
