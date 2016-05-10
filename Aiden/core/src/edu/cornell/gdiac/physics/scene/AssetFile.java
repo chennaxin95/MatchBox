@@ -84,6 +84,7 @@ public class AssetFile {
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
 	public FilmStrip[] fireBall;
+	public FilmStrip[] WaterWalkTextures;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -286,9 +287,15 @@ public class AssetFile {
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
-		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
-				1,
-				4);
+//		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
+//				1,
+//				4);
+		WaterWalkTextures=new FilmStrip[10];
+		for (int i = 0; i < 10; i++){
+			WaterWalkTextures[i] = createFilmStrip(manager, files.get("WATER_WALK"), 4,
+					1,
+					4);
+		}
 		AidenDieTexture = createFilmStrip(manager, files.get("AIDEN_DIE_FILE"),
 				12,
 				1, 12);
@@ -314,8 +321,8 @@ public class AssetFile {
 					files.get("BURNING_FILE"),
 					7, 1, 7);
 		}
-		fireBall = new FilmStrip[20];
-		for (int i = 0; i < 20; i++){
+		fireBall = new FilmStrip[10];
+		for (int i = 0; i < 10; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
 		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
@@ -325,7 +332,7 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
-		
+		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}
 
