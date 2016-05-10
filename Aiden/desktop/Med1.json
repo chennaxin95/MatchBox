@@ -46,7 +46,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 1,
@@ -71,7 +72,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 2,
@@ -96,7 +98,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 3,
@@ -121,7 +124,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 4,
@@ -146,7 +150,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 5,
@@ -171,7 +176,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 6,
@@ -196,7 +202,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 7,
@@ -221,7 +228,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 8,
@@ -246,7 +254,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 9,
@@ -271,7 +280,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 10,
@@ -296,7 +306,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 11,
@@ -321,7 +332,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 12,
@@ -346,7 +358,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 13,
@@ -371,7 +384,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 14,
@@ -396,7 +410,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 15,
@@ -421,7 +436,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 16,
@@ -446,7 +462,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 17,
@@ -471,7 +488,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 18,
@@ -481,7 +499,7 @@
 			"x": 39.5,
 			"y": 5
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -496,7 +514,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 19,
@@ -506,7 +525,7 @@
 			"x": 39.5,
 			"y": 7
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -521,7 +540,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 20,
@@ -531,7 +551,7 @@
 			"x": 39.5,
 			"y": 9
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -546,7 +566,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 21,
@@ -556,7 +577,7 @@
 			"x": 37.5,
 			"y": 7
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -571,7 +592,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 22,
@@ -581,7 +603,7 @@
 			"x": 37.5,
 			"y": 5
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -596,7 +618,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 23,
@@ -606,7 +629,7 @@
 			"x": 35.5,
 			"y": 5
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -621,7 +644,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 24,
@@ -631,7 +655,7 @@
 			"x": 8.5,
 			"y": 5
 		},
-		"scale_x": 2,
+		"scale_x": 1.8,
 		"scale_y": 2,
 		"density": 1,
 		"fixed": false,
@@ -646,7 +670,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 25,
@@ -671,7 +696,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 26,
@@ -696,7 +722,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 27,
@@ -704,7 +731,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44,
-			"y": 10.5
+			"y": 10
 		},
 		"scale_x": 4,
 		"scale_y": 1,
@@ -721,7 +748,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 28,
@@ -746,7 +774,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 29,
@@ -771,7 +800,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 30,
@@ -779,7 +809,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44,
-			"y": 5.5
+			"y": 5
 		},
 		"scale_x": 4,
 		"scale_y": 9,
@@ -796,7 +826,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 31,
@@ -821,7 +852,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 32,
@@ -846,7 +878,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 33,
@@ -871,7 +904,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 34,
@@ -896,7 +930,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 35,
@@ -921,7 +956,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 36,
@@ -946,7 +982,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 37,
@@ -954,7 +991,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42,
-			"y": 6
+			"y": 5.5
 		},
 		"scale_x": 3,
 		"scale_y": 10,
@@ -971,7 +1008,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 38,
@@ -996,7 +1034,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 39,
@@ -1021,7 +1060,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 40,
@@ -1046,7 +1086,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 41,
@@ -1071,7 +1112,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 42,
@@ -1096,7 +1138,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 43,
@@ -1121,7 +1164,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 44,
@@ -1146,7 +1190,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 45,
@@ -1171,7 +1216,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 46,
@@ -1196,7 +1242,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0
+		"segments": 0,
+		"isCheckpoint": false
 	},
 	{
 		"id": 47,
@@ -1221,7 +1268,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 15
+		"segments": 15,
+		"isCheckpoint": false
 	},
 	{
 		"id": 48,
@@ -1246,7 +1294,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 15
+		"segments": 15,
+		"isCheckpoint": false
 	},
 	{
 		"id": 49,
@@ -1271,7 +1320,8 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 15
+		"segments": 15,
+		"isCheckpoint": false
 	}
 ],
 "waters": [
@@ -1281,7 +1331,7 @@
 			"x": 31.85,
 			"y": 5.26
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
@@ -1292,7 +1342,7 @@
 			"x": 21.875,
 			"y": 5.425
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
@@ -1300,7 +1350,7 @@
 ],
 "goal": {
 	"pos": {
-		"x": 44.5,
+		"x": 44,
 		"y": 12
 	},
 	"scale_x": 3,

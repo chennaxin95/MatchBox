@@ -499,7 +499,7 @@
 			"x": 2.85,
 			"y": 11.76
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
@@ -510,7 +510,7 @@
 			"x": 25.35,
 			"y": 11.76
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
@@ -518,10 +518,10 @@
 	{
 		"density": 0,
 		"pos": {
-			"x": 7.375,
-			"y": 1.925
+			"x": 7.13,
+			"y": 2.165
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1.6,
 		"name": "WaterGuard",
 		"fright": true
@@ -529,8 +529,8 @@
 ],
 "goal": {
 	"pos": {
-		"x": 15.5,
-		"y": 2
+		"x": 15,
+		"y": 2.5
 	},
 	"scale_x": 3,
 	"scale_y": 3,
