@@ -833,16 +833,6 @@ public class AidenController extends WorldController
 				contact.setEnabled(false);
 			}
 		}
-
-		if (bd1 instanceof BlockAbstract) {
-			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
-			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
-		}
-		if (bd2 instanceof BlockAbstract) {
-			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
-			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
-		}
-
 	}
 
 	@Override
