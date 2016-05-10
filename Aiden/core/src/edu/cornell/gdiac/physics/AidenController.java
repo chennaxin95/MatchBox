@@ -128,6 +128,11 @@ public class AidenController extends WorldController
 	private Vector2 fuelBarInner;
 	private Vector2 fuelInnerPos;
 	private Vector2 fuelBarPos;
+	
+	private Vector2 losePos;
+	private Vector2 loseSize;
+	private Vector2 winPos;
+	private Vector2 winSize;
 
 	public Vector2 pScreen;
 	public Vector2 pPos;
@@ -196,6 +201,8 @@ public class AidenController extends WorldController
 	public void reset() {
 		af.bgm.stop();
 		pauseT = new Vector2(480, 110);
+		loseSize = new Vector2(649, 110);
+		winSize = new Vector2(707, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
 
@@ -205,6 +212,8 @@ public class AidenController extends WorldController
 		sScaleY = (float) canvas.getHeight() / 1080f;
 
 		pauseT = pauseT.scl(sScaleX, sScaleX);
+		loseSize.scl(sScaleX);
+		winSize.scl(sScaleX);
 		largeBut = largeBut.scl(sScaleX, sScaleX);
 		smallBut = smallBut.scl(sScaleX, sScaleX);
 		fuelBarSize.scl(sScaleX, sScaleX);
@@ -468,7 +477,9 @@ public class AidenController extends WorldController
 		float yOff = largeBut.y * 1.5f;
 		float tOff = pauseT.x / 2;
 
-		pScreen = new Vector2(w / 2 - tOff, h);
+		pScreen = new Vector2(w/2 - tOff, h);
+		winPos = new Vector2(w/2 - winSize.x/2, h);
+		losePos = new Vector2(w/2 - loseSize.x/2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
@@ -505,7 +516,12 @@ public class AidenController extends WorldController
 			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
 					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeSize.y) {
 				resuC = Color.GRAY;
-				instr = 1;
+				if(!isComplete() && !isFailure()){
+					instr = 1;
+				}
+				else{
+					instr = 6;
+				}
 				return;
 			}
 			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeSize.x &&
@@ -918,34 +934,86 @@ public class AidenController extends WorldController
 				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
 				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
 			}
-			
 		}
+		
+		if (isComplete()) {
+			posTemp = canvas.relativeVector(winPos.x, winPos.y);
+			canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
+					winSize.x * zoom, winSize.y * zoom);
+		}
+		else if(isFailure()){
+			posTemp = canvas.relativeVector(losePos.x, losePos.y);
+			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
+					loseSize.x * zoom, loseSize.y * zoom);
+		}
+		
 		if (pause) {
 			setPos(canvas.getZoom());
-			posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 			Vector2 pos1 = canvas.relativeVector(0, 0);
 			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y,
 					1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
-			canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
-					largeBut.x * zoom, largeBut.y * zoom);
-			posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-			canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
-					largeBut.x * zoom, largeBut.y * zoom);
-			posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-
-			canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
-					largeBut.x * zoom, largeBut.y * zoom);
-
+			
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
-			canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
-					pauseT.x * zoom, pauseT.y * zoom);
+			if(!isComplete()){
+				if (!isFailure()){
+					canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
+							pauseT.x * zoom, pauseT.y * zoom);
+					//resume
+					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+					canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+					//restart
+					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+					//home
+					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+				}
+				else{
+					posTemp = canvas.relativeVector(losePos.x, losePos.y);
+					canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
+							loseSize.x * zoom, loseSize.y * zoom);
+					//skip
+					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+					canvas.draw(af.skip, resuC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+					//retry
+					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+					//home
+					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+							largeBut.x * zoom, largeBut.y * zoom);
+				}
+			}
+			else{
+				posTemp = canvas.relativeVector(winPos.x, winPos.y);
+				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
+						winSize.x * zoom, winSize.y * zoom);
+				//nextlevel
+				posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+				canvas.draw(af.nextLevel, resuC, posTemp.x, posTemp.y,
+						largeBut.x * zoom, largeBut.y * zoom);
+				//replay
+				posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+				canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+						largeBut.x * zoom, largeBut.y * zoom);
+				//home
+				posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+				canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+						largeBut.x * zoom, largeBut.y * zoom);
+			}
+			//sound stuff
 			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
 			canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+			
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
-
 		}
 		canvas.end();
 		if (debug) {
@@ -959,25 +1027,8 @@ public class AidenController extends WorldController
 
 		// Final message
 		if (isComplete() && !isFailure()) {
-			af.displayFont.setColor(Color.YELLOW);
-			// canvas.begin();
-			Vector2 pos = canvas.relativeVector(800, 450);
-			canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
-					scene.getHeight(), beginCamFrame); // DO NOT SCALE
-
-			canvas.drawText("VICTORY!", af.displayFont, pos.x, pos.y);
-			canvas.end();
 			avatar.setComplete(true);
 		} else if (avatar.canDrawFail()) {
-			af.displayFont.setColor(Color.RED);
-			// canvas.begin();
-
-			Vector2 pos = canvas.relativeVector(800, 450);
-			canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
-					scene.getHeight(), beginCamFrame); // DO NOT SCALE
-
-			canvas.drawText("FAILURE!", af.displayFont, pos.x, pos.y);
-			canvas.end();
 			avatar.setComplete(true);
 		}
 
