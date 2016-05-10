@@ -640,18 +640,22 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
 			gs.setUnlocked(level + 1);
 		}
-
 		
-		if(beginCamFrame<180){
-			canvas.updateCam((2*((float)scene.getWidth())/(float)64));
-			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
-		}		
-		if(beginCamFrame> 180 && beginCamFrame < 280){
-			canvas.updateCam(0.8f);
-
+		if(InputController.getInstance().getHorizontal()!=0){
+			System.out.println("moved!!!!!!!!!!!");
+			beginCamFrame = 400;
 		}
 
-		if (beginCamFrame > 280) {
+		
+		if(beginCamFrame<200){
+			float a = (2*((float)scene.getWidth())/(float)60);
+			float b = (2*((float)scene.getHeight())/(float)36);
+			canvas.updateCam(Math.max(a,b));
+			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
+		}		
+
+		if (beginCamFrame > 300) {
+			canvas.updateCam(1f);
 			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
 					scene.getHeight());
 		}

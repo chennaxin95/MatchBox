@@ -627,12 +627,12 @@ public class GameCanvas {
 	}
 
 	public void begin(float x, float y, int w, int h, float camFrame) {
-		if(camFrame > 200){
+		/*if(camFrame > 200){
 			translate(x,y,w,h);
 			if (InputController.getInstance().zoomIn() && camera.zoom>0.77) camera.zoom-=0.02f;
 			if (InputController.getInstance().zoomOut() && camera.zoom<1.8) camera.zoom+=0.02f;
 
-		}
+		}*/
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
@@ -1500,18 +1500,18 @@ public class GameCanvas {
 	}
 
 	public void translate(float x, float y, int w, int h){
-		if(x<15) {
-			x = Math.min(15, w/2);
+		if(x<12) {
+			x = Math.min(12, w/2);
 		}else if(x>w-12){
 			x = Math.max(w-12, w/2);
 		}
-		if(y<6){
-			y = Math.min(6, h/2);
-		}else if (y > h-6){
-			y = Math.max(h-6, h/2);
+		if(y<8){
+			y = Math.min(8, h/2);
+		}else if (y > h-8){
+			y = Math.max(h-8, h/2);
 		}
-		x = x*1920/64;
-		y = y*1080/40;
+		x = x*1920/60;
+		y = y*1080/36;
 		// x = x*getWidth()/w;
 		// y = y*getHeight()/w;
 		target.set(x, y, 0);
@@ -1521,7 +1521,7 @@ public class GameCanvas {
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
 		if (d.x*d.x + d.y*d.y>100){
-			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
+			camera.translate(new Vector3(d.x/50, d.y/50, 0f));
 		}	
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
