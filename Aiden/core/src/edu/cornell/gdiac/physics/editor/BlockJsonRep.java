@@ -96,7 +96,9 @@ public class BlockJsonRep implements Json.Serializable {
 		pos = new PointJsonRep(trap.getX(),  trap.getY());
 		scale_x=trap.getWidth();
 		scale_y=trap.getHeight();
+		isLeft = trap.isLeft;
 	}
+	
 	
 	@Override
 	public void write(Json json) {
