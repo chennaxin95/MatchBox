@@ -965,30 +965,26 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial level
 			break;
 		case 1:
-			this.scene = new Scene("Easy1.json");  //gap introduce water guard
-			
+			this.scene = new Scene("Tutorial3.json"); //avoid water guard
 			break;
 		case 2:
-			this.scene = new Scene("Tutorial4.json"); //channel to the top	
-			
+			this.scene = new Scene("Tutorial4.json");
 			break;
 		case 3:
-			this.scene = new Scene("Tutorial3.json"); //avoid water guard
-			
+			this.scene = new Scene("Tutorial2.json");
 			break;
 			
 		case 4:
-			this.scene = new Scene("Easy2.json"); //spirit boost
+			this.scene = new Scene("Easy1.json");
 			break;
 		case 5:
-			this.scene = new Scene("Easy3.json"); //spirit boost with rope and water
+			this.scene = new Scene("Easy2.json");
 			break;
 		case 6:
-			this.scene = new Scene("Tutorial2.json"); //save the block
-			
+			this.scene = new Scene("Easy3.json");
 			break;
 		case 7:
-			this.scene = new Scene("Med1.json");  
+			this.scene = new Scene("Med1.json");
 			break;
 		case 8:
 			this.scene = new Scene("Med2.json");
@@ -1007,7 +1003,7 @@ public class AidenController extends WorldController
 			break;
 
 		default:
-			this.scene = new Scene("Tutorial0.json");
+			this.scene = new Scene("Hard1.json");
 			break;
 		}
 
