@@ -110,6 +110,7 @@ public class AidenController extends WorldController
 
 	private boolean beginCam = true;
 	private int beginCamFrame = 0;
+	private TextureRegion backgroundTexture;
 	
 	
 	//-------------------------------------------------------------
@@ -851,12 +852,8 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
 				scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
-		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
-		if(level == 0){
-			canvas.draw(af.backGround0, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-					scene.getWidth() * scale.x, scene.getHeight() * scale.y);
-		}
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -968,47 +965,61 @@ public class AidenController extends WorldController
 		switch(level){
 		case 0: 
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial level
+			backgroundTexture = af.backGround0;
 			break;
 		case 1:
 			this.scene = new Scene("Tutorial3.json"); //avoid water guard
+			backgroundTexture = af.backGround;
 			break;
 		case 2:
 			this.scene = new Scene("Tutorial4.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 3:
 			this.scene = new Scene("Tutorial2.json");
+			backgroundTexture = af.backGround;
 			break;
 			
 		case 4:
 			this.scene = new Scene("Easy1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 5:
 			this.scene = new Scene("Easy2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 6:
 			this.scene = new Scene("Easy3.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 7:
 			this.scene = new Scene("Med1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 8:
 			this.scene = new Scene("Med2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 9:
 			this.scene = new Scene("Level2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 10:
 			this.scene = new Scene("Level3.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 11:
 			this.scene = new Scene("Level4.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 12:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 
 		default:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 		}
 
