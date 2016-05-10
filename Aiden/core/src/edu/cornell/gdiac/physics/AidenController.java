@@ -705,13 +705,13 @@ public class AidenController extends WorldController
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
 					&& bd1 instanceof StoneBlock)) {
-				if (Math.abs(bd1.getVY()) >= 1) {
+				if (Math.abs(bd1.getVY()) >= 1 && !avatar.isSpiriting()) {
 					setFailure(true);
 				}
 			}
 			if ((avatar.getTopName().equals(fd1) && avatar != bd2
 					&& bd2 instanceof StoneBlock)) {
-				if (Math.abs(bd2.getVY()) >= 1) {
+				if (Math.abs(bd2.getVY()) >= 1 && !avatar.isSpiriting()) {
 					setFailure(true);
 				}
 			}
@@ -776,6 +776,23 @@ public class AidenController extends WorldController
 
 	/** Unused ContactListener method */
 	public void postSolve(Contact contact, ContactImpulse impulse) {
+		Fixture fix1 = contact.getFixtureA();
+		Fixture fix2 = contact.getFixtureB();
+
+		Body body1 = fix1.getBody();
+		Body body2 = fix2.getBody();
+
+		Object bd1 = body1.getUserData();
+		Object bd2 = body2.getUserData();
+		
+		if (bd1 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
+			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		if (bd2 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
+			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		}
 	}
 
 	/**

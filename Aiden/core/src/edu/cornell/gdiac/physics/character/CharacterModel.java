@@ -101,7 +101,7 @@ public class CharacterModel extends CapsuleObstacle{
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
-		setDensity(DUDE_DENSITY);
+		setDensity(0);
 		setFriction(DUDE_FRICTION); /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
 		
