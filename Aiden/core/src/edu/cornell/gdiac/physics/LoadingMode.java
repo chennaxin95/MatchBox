@@ -24,6 +24,8 @@ package edu.cornell.gdiac.physics;
 
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
+import sun.org.mozilla.javascript.internal.json.JsonParser;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.assets.*;
@@ -251,6 +253,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		// Compute the dimensions from the canvas
 		resize(canvas.getWidth(), canvas.getHeight());
 
+		// TODO:
+		populate();
+		
 		// Load the next two images immediately.
 		playButton = null;
 		background = new Texture(af.get("BACKGROUND_FILE"));
@@ -358,6 +363,20 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			}
 		}
 	}
+	// TODO: POPULATE
+	private float[] selectorPos;
+	
+	private void populate(){
+		selectorPos=new float[40];
+		for (int i = 0; i<4; i++){
+			float y = tlY - i *  heightY * 3f / 20f;
+			for (int j = 0; j < 5; j++){
+				float x = tlX + j * widthX * 3f /  25f;
+				selectorPos[2*(i*5+j)]=x;
+				selectorPos[2*(i*5+j)+1]=y;
+			}
+		}
+	}
 
 	/**
 	 * Draw the status of this player mode.
@@ -410,23 +429,36 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			pos = canvas.relativeVector(canvas.getWidth()/4f, canvas.getHeight()/7f);
 			canvas.draw(back, Color.WHITE, back.getWidth()/2, back.getHeight()/2,
 					pos.x, pos.y, 0, BUTTON_SCALE*scale, BUTTON_SCALE*scale);
-			int n = 1;
-			for (int i = 0; i<4; i++){
-				float y = tlY - i *  heightY * 3 / 20;
-				for (int j = 0; j < 5; j++){
-					String level_texture = "shared/" + n + ".png";
-					level = new Texture(level_texture);
-					level.setFilter(TextureFilter.Linear,
-							TextureFilter.Linear);
-					float x = tlX + j * widthX * 3 /  25;
-					pos = canvas.relativeVector(x, y);
-					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
-							level.getHeight() / 2,
-							pos.x, pos.y, 0, LEVEL_BUTTON_SCALE * scale,
-							LEVEL_BUTTON_SCALE * scale);
-					n++;
-				}
+			
+			for (int i=0; i<20; i++){
+				String level_texture = "shared/" + (i+1) + ".png";
+				level = new Texture(level_texture);
+				level.setFilter(TextureFilter.Linear,
+						TextureFilter.Linear);
+				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
+				canvas.draw(level, Color.WHITE, level.getWidth() / 2,
+						level.getHeight() / 2,
+						pos.x, pos.y,
+						0, LEVEL_BUTTON_SCALE * scale,
+						LEVEL_BUTTON_SCALE * scale);
 			}
+//			int n = 1;
+//			for (int i = 0; i<4; i++){
+////				float y = tlY - i *  heightY * 3 / 20;
+//				for (int j = 0; j < 5; j++){
+//					String level_texture = "shared/" + n + ".png";
+//					level = new Texture(level_texture);
+//					level.setFilter(TextureFilter.Linear,
+//							TextureFilter.Linear);
+////					float x = tlX + j * widthX * 3 /  25;
+////					pos = canvas.relativeVector(x, y);
+//					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
+//							level.getHeight() / 2,
+//							selectorPos[2*(5*i+j)], selectorPos[2*(5*i+j)+1], 0, LEVEL_BUTTON_SCALE * scale,
+//							LEVEL_BUTTON_SCALE * scale);
+//					n++;
+//				}
+//			}
 		}
 		canvas.end();
 	}
@@ -499,6 +531,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		heightY = height;
 		centerBarX = (int) (width/2);
 		widthX = width;
+		
+		// TODO:
+		populate();
 	}
 
 	/**
@@ -587,16 +622,22 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
 		height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
 		if (pressState == 4){
-			for (int i = 0; i < 4; i++){
-				float y = tlY - i *  heightY * 3 / 20;
-				for (int j = 0; j < 5; j++){
-					float x = tlX + j * widthX * 3 /  25;
-					if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+//			for (int i = 0; i < 4; i++){
+//				float y = tlY - i *  heightY * 3 / 20;
+//				for (int j = 0; j < 5; j++){
+//					float x = tlX + j * widthX * 3 /  25;
+//					if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+//						pressState = 5;
+//						levelSelected = i*5 + j;
+//					}
+//				}
+//			}
+			for (int i = 0; i < 20; i++){
+					if (selectorPos[2*i] - width/2 < screenX && selectorPos[2*i] + width/2 > screenX 
+							&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){
 						pressState = 5;
-						int level = (i+1) * (j+1) - 1;
-						levelSelected = level;
+						levelSelected = i;
 					}
-				}
 			}
 			float x = widthX/4f;
 			float y = heightY/7f;
