@@ -877,7 +877,6 @@ public class AidenController extends WorldController
 			((CharacterModel) bd2).setLinearVelocity(new Vector2(0,((CharacterModel) bd2).getLinearVelocity().y));
 			}
 		}
-
 	}
 
 	@Override
