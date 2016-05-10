@@ -10,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import edu.cornell.gdiac.physics.AidenController;
 import edu.cornell.gdiac.physics.GameCanvas;
+import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.GoalDoor;
 import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
@@ -74,11 +76,12 @@ public class NavBoard {
 //			Vector2 pos=obj.getPosition();
 			if (!(obj instanceof PolygonObstacle) &&
 					!(obj instanceof Rope) && !(obj instanceof AidenModel)
-					&& !obj.equals(self)){
+					&& !obj.equals(self)
+					&& !(obj instanceof GoalDoor)
+					&& !(obj instanceof FuelBlock)){
 //				float w=((BoxObstacle)obj).getWidth();
 //				float h=((BoxObstacle)obj).getHeight();
 				Rectangle rec=obj.getBoundingBox();
-				System.out.println(rec);
 				int lIndX=Math.round((rec.x-lx)/unitX);
 				int lIndY=Math.round((rec.y-ly)/unitY);	
 				int uIndX=Math.round((rec.x+rec.width-lx)/unitX)-1;

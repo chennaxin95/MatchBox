@@ -178,7 +178,6 @@ public class LevelEditor extends WorldController {
 //			panel.update(nPos.x, nPos.y);
 			panel.update(InputController.getInstance().getCrossHair().x,
 					canvas.getHeight()-InputController.getInstance().getCrossHair().y);
-			System.out.println(InputController.getInstance().getCrossHair());
 //			panel.update(InputController.getInstance().mousePos.x,
 //					canvas.getHeight()
 //							- InputController.getInstance().mousePos.y);
@@ -485,7 +484,7 @@ public class LevelEditor extends WorldController {
 					holdingBlock = block;
 					break;
 				case GOAL_DOOR_IND:
-					block = new StoneBlock(xPos, yPos, 2, 2);
+					block = new StoneBlock(xPos, yPos, 3.5f, 3);
 					trans = fitInGrid(new Vector2(block.getX()
 							- block.getWidth() / 2f,
 							block.getY()
@@ -825,7 +824,7 @@ public class LevelEditor extends WorldController {
 				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
-		String outputfile = "Hard1.json";
+		String outputfile = "Hard2.json";
 
 		FileHandle file = Gdx.files
 				.absolute(Gdx.files.getLocalStoragePath() + outputfile);
@@ -836,7 +835,7 @@ public class LevelEditor extends WorldController {
 	public void loadFromJson() {
 		System.out.println("Loading");
 
-		Scene scene = new Scene("Hard1.json");
+		Scene scene = new Scene("Hard2.json");
 
 		reset();
 		System.out.println("Loading Characters");

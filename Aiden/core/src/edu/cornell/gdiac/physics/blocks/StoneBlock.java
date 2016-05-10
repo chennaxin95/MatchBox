@@ -20,6 +20,7 @@ public class StoneBlock extends BlockAbstract {
 		material=new GeneralMaterial();
 		this.setBlockType(BlockType.STONE);
 		this.setDensity(Float.MAX_VALUE);
+		this.resetMass();
 		this.setFriction(100);
 	}
 	
@@ -28,7 +29,8 @@ public class StoneBlock extends BlockAbstract {
 		// TODO Auto-generated constructor stub
 		material=new GeneralMaterial();
 		this.setBlockType(BlockType.STONE);
-		this.setDensity(Float.MAX_VALUE);
+		this.setDensity(100000);
+		this.resetMass();
 		this.setFriction(100);
 	}
 	

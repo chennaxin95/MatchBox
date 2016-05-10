@@ -643,18 +643,22 @@ public class AidenController extends WorldController
 		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
 			gs.setUnlocked(level + 1);
 		}
-
-		if (beginCamFrame < 180) {
-			canvas.updateCam((2 * ((float) scene.getWidth()) / (float) 64));
-			canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
-					scene.getWidth(), scene.getHeight());
-		}
-		if (beginCamFrame > 180 && beginCamFrame < 280) {
-			canvas.updateCam(0.8f);
-
+		
+		if(InputController.getInstance().getHorizontal()!=0){
+			beginCamFrame = 400;
 		}
 
-		if (beginCamFrame > 280) {
+
+		
+		if(beginCamFrame<200){
+			float a = (2*((float)scene.getWidth())/(float)60);
+			float b = (2*((float)scene.getHeight())/(float)36);
+			canvas.updateCam(Math.max(a,b));
+			canvas.translate(scene.getWidth()/2, scene.getHeight()/2, scene.getWidth(), scene.getHeight());		
+		}		
+
+		if (beginCamFrame > 300) {
+			canvas.updateCam(1f);
 			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
 					scene.getHeight());
 		}
@@ -705,13 +709,13 @@ public class AidenController extends WorldController
 			// Check for aiden top
 			if ((avatar.getTopName().equals(fd2) && avatar != bd1
 					&& bd1 instanceof StoneBlock)) {
-				if (Math.abs(bd1.getVY()) >= 1) {
+				if (Math.abs(bd1.getVY()) >= 1 && !avatar.isSpiriting()) {
 					setFailure(true);
 				}
 			}
 			if ((avatar.getTopName().equals(fd1) && avatar != bd2
 					&& bd2 instanceof StoneBlock)) {
-				if (Math.abs(bd2.getVY()) >= 1) {
+				if (Math.abs(bd2.getVY()) >= 1 && !avatar.isSpiriting()) {
 					setFailure(true);
 				}
 			}
@@ -776,6 +780,23 @@ public class AidenController extends WorldController
 
 	/** Unused ContactListener method */
 	public void postSolve(Contact contact, ContactImpulse impulse) {
+		Fixture fix1 = contact.getFixtureA();
+		Fixture fix2 = contact.getFixtureB();
+
+		Body body1 = fix1.getBody();
+		Body body2 = fix2.getBody();
+
+		Object bd1 = body1.getUserData();
+		Object bd2 = body2.getUserData();
+		
+		if (bd1 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
+			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		if (bd2 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
+			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		}
 	}
 
 	/**
@@ -796,7 +817,17 @@ public class AidenController extends WorldController
 				|| bd2 == avatar && bd1 instanceof WheelObstacle) {
 			contact.setEnabled(false);
 		}
-
+		// Disable collision between goal door and NPCs
+		if (bd1 instanceof CharacterModel && bd2 instanceof GoalDoor
+				|| bd2 instanceof CharacterModel && bd1 instanceof GoalDoor) {
+			contact.setEnabled(false);
+		}
+		// Disable collision between fire balls and NPCs
+		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
+			contact.setEnabled(false);
+		}
+		
+		
 		if (spirit) {
 			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform)
@@ -947,46 +978,51 @@ public class AidenController extends WorldController
 	}
 
 	private void createScenes(int level) {
-		switch (level) {
-		case 0:
-			this.scene = new Scene("Easy1.json");
+
+		switch(level){
+		case 0: 
+			this.scene = new Scene("Tutorial0.json"); // super easy tutorial level
 			break;
 		case 1:
-
-			this.scene = new Scene("Tutorial4.json");
-
+			this.scene = new Scene("Tutorial3.json"); //avoid water guard
 			break;
 		case 2:
-			this.scene = new Scene("Tutorial2.json");
-
+			this.scene = new Scene("Tutorial4.json");
 			break;
 		case 3:
-			this.scene = new Scene("Med1.json");
+			this.scene = new Scene("Tutorial2.json");
 			break;
+			
 		case 4:
 
-			this.scene = new Scene("Easy2.json");
+			this.scene = new Scene("Easy1.json");
 			break;
 		case 5:
-			this.scene = new Scene("Easy3.json");
+			this.scene = new Scene("Easy2.json");
 			break;
 		case 6:
-			this.scene = new Scene("Med1.json");
+			this.scene = new Scene("Easy3.json");
 			break;
 		case 7:
-			this.scene = new Scene("Med2.json");
+			this.scene = new Scene("Med1.json");
 			break;
 		case 8:
-			this.scene = new Scene("Level2.json");
+			this.scene = new Scene("Med2.json");
 			break;
 		case 9:
-			this.scene = new Scene("Level3.json");
+			this.scene = new Scene("Level2.json");
 			break;
 		case 10:
-			this.scene = new Scene("Level4.json");
+			this.scene = new Scene("Level3.json");
 			break;
 		case 11:
+			this.scene = new Scene("Level4.json");
+			break;
+		case 12:
 			this.scene = new Scene("Hard1.json");
+			break;
+		case 13:
+			this.scene = new Scene("Hard2.json");
 			break;
 		default:
 			this.scene = new Scene("Hard1.json");
