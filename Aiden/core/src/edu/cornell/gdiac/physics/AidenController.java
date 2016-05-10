@@ -642,7 +642,6 @@ public class AidenController extends WorldController
 		}
 		
 		if(InputController.getInstance().getHorizontal()!=0){
-			System.out.println("moved!!!!!!!!!!!");
 			beginCamFrame = 400;
 		}
 
