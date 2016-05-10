@@ -174,6 +174,7 @@ public class Scene implements SceneInterface {
 				System.out.println(g_scale_x);
 				WaterGuard water = new WaterGuard(
 						CharacterType.WATER_GUARD,
+						guard_name, g_x, g_y, 1.8f, 1.4f, g_fright);
 				guards.add(water);
 			}
 		}
