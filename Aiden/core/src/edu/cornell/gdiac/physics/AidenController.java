@@ -554,6 +554,11 @@ public class AidenController extends WorldController
 			buttonPressed(dt);
 			return;
 		}
+		else{
+			this.homeC=Color.WHITE;
+			this.restC=Color.WHITE;
+			this.resuC=Color.WHITE;
+		}
 		
 		if(avatar.getFuel() /avatar.getMaxFuel() < 0.3){
 			blinkCD -= dt;
