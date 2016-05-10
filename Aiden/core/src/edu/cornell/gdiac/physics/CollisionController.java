@@ -45,8 +45,7 @@ public class CollisionController {
 						&& bd2 instanceof FlammableBlock) {
 					FlammableBlock fb1 = (FlammableBlock) bd1;
 					FlammableBlock fb2 = (FlammableBlock) bd2;
-					
-					
+
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
@@ -130,10 +129,14 @@ public class CollisionController {
 				}
 
 				if (bd1 == avatar && bd2 instanceof WaterGuard) {
-					return false;
+					if (!((WaterGuard) bd2).isDead()) {
+						return false;
+					}
 				}
 				if (bd2 == avatar && bd1 instanceof WaterGuard) {
-					return false;
+					if (!((WaterGuard) bd1).isDead()) {
+						return false;
+					}
 				}
 
 			} catch (Exception e) {
