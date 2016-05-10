@@ -17,6 +17,7 @@ import edu.cornell.gdiac.physics.blocks.Platform;
 import edu.cornell.gdiac.physics.blocks.Rope;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.blocks.TrapDoor;
+import edu.cornell.gdiac.physics.blocks.WaterPlatform;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -126,11 +127,20 @@ public class Scene implements SceneInterface {
 											icp));
 						} else {
 							if (material.equals("platform")) {
-								platforms.add(new Platform(
-										new Rectangle(x - b_scale_x / 2f,
-												y - b_scale_y / 2f, b_scale_x,
-												b_scale_y),
-										1));
+								if (y<0){
+									platforms.add(new WaterPlatform(
+											new Rectangle(x - b_scale_x / 2f,
+													y - b_scale_y / 2f, b_scale_x,
+													b_scale_y),
+											1));
+								}
+								else{
+									platforms.add(new Platform(
+											new Rectangle(x - b_scale_x / 2f,
+													y - b_scale_y / 2f, b_scale_x,
+													b_scale_y),
+											1));
+								}
 							} else {
 								if(material.equals("rope")){
 									ropes.add(new Rope(x,y,0.25f,0.25f));

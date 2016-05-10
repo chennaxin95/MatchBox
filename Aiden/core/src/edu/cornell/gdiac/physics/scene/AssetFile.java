@@ -66,6 +66,7 @@ public class AssetFile {
 	public TextureRegion sound;
 	public TextureRegion music_no;
 	public TextureRegion sound_no;
+	public TextureRegion water;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenGlow;
@@ -163,6 +164,7 @@ public class AssetFile {
 		files.put("19", "shared/1.png");
 		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
+		files.put("WATER", "shared/water.png");
 		System.out.println(files);
 	}
 
@@ -323,6 +325,8 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
+		
+		water=createTexture(manager, files.get("WATER"), true);
 	}
 
 }

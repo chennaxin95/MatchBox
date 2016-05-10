@@ -263,11 +263,16 @@ public class AidenController extends WorldController
 		for (int ii = 0; ii < scene.getPlatform().size(); ii++) {
 			// PolygonObstacle obj;
 			Platform p = scene.getPlatform().get(ii);
+			if (p instanceof WaterPlatform){
+				p.setTexture(af.water);
+			}
+			else{
+				p.setTexture(af.earthTile);
+			}
 			p.setDensity(BASIC_DENSITY);
 			p.setFriction(0);
 			p.setRestitution(BASIC_RESTITUTION);
 			p.setDrawScale(scale);
-			p.setTexture(af.earthTile);
 			p.setName(pname + ii);
 			addObject(p);
 		}
@@ -819,6 +824,11 @@ public class AidenController extends WorldController
 		}
 		// Disable collision between fire balls and NPCs
 		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
+			contact.setEnabled(false);
+		}
+		
+		// Disable collision between fire balls and NPCs
+		if (bd1 instanceof WaterPlatform || bd2 instanceof WaterPlatform) {
 			contact.setEnabled(false);
 		}
 	
