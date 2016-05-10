@@ -826,8 +826,12 @@ public class AidenController extends WorldController
 		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
 			contact.setEnabled(false);
 		}
-		
 		// Disable collision between fire balls and NPCs
+		if ((bd1 instanceof RopePart || bd2 instanceof RopePart) && (bd1 instanceof WaterGuard || bd2 instanceof WaterGuard)) {
+			contact.setEnabled(false);
+		}
+		
+		// Disable collision between water platform and NPCs
 		if (bd1 instanceof WaterPlatform || bd2 instanceof WaterPlatform) {
 			contact.setEnabled(false);
 		}
