@@ -331,7 +331,7 @@ public class AidenModel extends CharacterModel {
 			}
 		}
 		movementY = Math.max(Math.min(movementY, 10.5f), -10);
-		movement = Math.max(Math.min(movement, 9), -10);
+		movement = Math.max(Math.min(movement, 8), -8);
 		body.setLinearVelocity(movement, movementY);
 	}
 
