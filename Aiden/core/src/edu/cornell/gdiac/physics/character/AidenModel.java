@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -301,8 +302,8 @@ public class AidenModel extends CharacterModel {
 		}
 
 		if (isClimbing) {
-			movement = Math.min(movement, 5);
-			movementY = Math.min(movementY, 5);
+			movement = Math.min(movement, 10);
+			movementY = Math.min(movementY, 10);
 		}
 		if (isSpiriting) {
 			float signx = (Math.abs(getVX()) <= 2) ? 0 : Math.signum(getVX());

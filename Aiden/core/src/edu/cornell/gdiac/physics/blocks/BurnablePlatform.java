@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 
 import edu.cornell.gdiac.physics.GameCanvas;
@@ -30,7 +31,7 @@ public class BurnablePlatform extends ComplexObstacle {
 
 	float width;
 	float height;
-	
+
 	public BurnablePlatform(Rectangle r, float unit, World world) {
 		super(r.x + 0.5f * r.getWidth(), r.y + 0.5f * r.getHeight());
 		platform = new FlamePlatform(this, r, unit);
@@ -44,9 +45,9 @@ public class BurnablePlatform extends ComplexObstacle {
 		this.pin = new WheelObstacle(this.getX(), this.getY(), 0.1f);
 		pin.setBodyType(BodyDef.BodyType.StaticBody);
 		bodies.add(pin);
-		
-		width=r.width;
-		height=r.height;
+
+		width = r.width;
+		height = r.height;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,7 +56,8 @@ public class BurnablePlatform extends ComplexObstacle {
 	}
 
 	protected boolean createJoints(World world) {
-		WheelJointDef def = new WheelJointDef();
+		System.out.println("joint created");
+		WeldJointDef def = new WeldJointDef();
 
 		def.bodyA = platform.getBody();
 		def.bodyB = pin.getBody();
@@ -63,6 +65,7 @@ public class BurnablePlatform extends ComplexObstacle {
 		def.localAnchorB.set(new Vector2());
 		def.collideConnected = false;
 		Joint j = world.createJoint(def);
+
 		joints.add(j);
 
 		return true;
@@ -125,7 +128,7 @@ public class BurnablePlatform extends ComplexObstacle {
 	@Override
 	public void drawDebug(GameCanvas canvas, Color c) {
 		// TODO Auto-generated method stub
-		platform.drawDebug(canvas,c);
+		platform.drawDebug(canvas, c);
 
 	}
 
@@ -151,7 +154,7 @@ public class BurnablePlatform extends ComplexObstacle {
 		public BurnablePlatform getBP() {
 			return bp;
 		}
-		
+
 		@Override
 		public void setTexture(TextureRegion texture) {
 			super.setTexture(texture);
@@ -172,7 +175,8 @@ public class BurnablePlatform extends ComplexObstacle {
 							* texture.getRegionWidth();
 					vertices[8 * (i * numY + j) + 5] = (j + 1)
 							* texture.getRegionHeight();
-					vertices[8 * (i * numY + j) + 6] = i * texture.getRegionWidth();
+					vertices[8 * (i * numY + j) + 6] = i
+							* texture.getRegionWidth();
 					vertices[8 * (i * numY + j) + 7] = (j + 1)
 							* texture.getRegionHeight();
 					tridx[6 * (i * numY + j)] = (short) (4 * (i * numY + j));
@@ -184,8 +188,10 @@ public class BurnablePlatform extends ComplexObstacle {
 							+ 3] = (short) (4 * (i * numY + j) + 2);
 					tridx[6 * (i * numY + j)
 							+ 4] = (short) (4 * (i * numY + j) + 1);
-					tridx[6 * (i * numY + j) + 5] = (short) (4 * (i * numY + j));
+					tridx[6 * (i * numY + j)
+							+ 5] = (short) (4 * (i * numY + j));
 				}
+
 			}
 			region = new PolygonRegion(texture, vertices, tridx);
 		}
@@ -195,6 +201,7 @@ public class BurnablePlatform extends ComplexObstacle {
 		// TODO Auto-generated method stub
 		return width;
 	}
+
 	public float getHeight() {
 		// TODO Auto-generated method stub
 		return height;
@@ -203,10 +210,9 @@ public class BurnablePlatform extends ComplexObstacle {
 	@Override
 	public Rectangle getBoundingBox() {
 		// TODO Auto-generated method stub
-		return new Rectangle(this.getX()-getWidth()/2f, 
-				this.getY()-getHeight()/2f, 
+		return new Rectangle(this.getX() - getWidth() / 2f,
+				this.getY() - getHeight() / 2f,
 				getWidth(), getHeight());
 	}
-	
 
 }
