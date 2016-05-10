@@ -53,6 +53,10 @@ public class AssetFile {
 	public TextureRegion barInner;
 	public TextureRegion barLow;
 	public TextureRegion barBack;
+	public TextureRegion barIcon;
+	public TextureRegion barYellow;
+	public TextureRegion barGray;
+	public TextureRegion barDie;
 	
 	/** Texture for background */
 	public TextureRegion backGround;
@@ -131,9 +135,9 @@ public class AssetFile {
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
 		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
-		files.put("BAR_OUTTER", "platform/barOuter.png");
-		files.put("BAR_INNER", "platform/barInner.png");
-		files.put("BAR_LOW", "platform/barLow.png");
+		files.put("BAR_OUTTER", "platform/empty.png");
+		files.put("BAR_INNER", "platform/red.png");
+		files.put("BAR_LOW", "platform/dark red.png");
 		files.put("AIDEN_RUN", "platform/fast.png");
 		files.put("AIDEN_IDLE", "platform/idle.png");
 		files.put("WATER_CHASE", "platform/water-chase.png");
@@ -142,8 +146,14 @@ public class AssetFile {
 		files.put("SOUND", "shared/sound.png");
 		files.put("MUSIC_NO", "shared/music-no.png");
 		files.put("SOUND_NO", "shared/sound-no.png");
-		files.put("BAR_BACK", "platform/barBack.png");
+		files.put("BAR_BACK", "platform/white.png");
 		files.put("FIRE_BALL", "platform/fuel ball-s64.png");
+		files.put("BAR_ICON", "platform/color_icon.png");
+		files.put("BAR_YELLOW", "platform/yellow_icon.png");
+		files.put("BAR_GRAY", "platform/grey_icon.png");
+		files.put("AIDEN_GLOW", "platform/aidenGlow.png");
+		files.put("BAR_DIE", "platform/empty grey.png");
+		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
 		files.put("3", "shared/1.png");
@@ -262,6 +272,10 @@ public class AssetFile {
 		sound_no = createTexture(manager, files.get("SOUND_NO"), false);
 		barLow = createTexture(manager, files.get("BAR_LOW"), false);
 		barBack = createTexture(manager, files.get("BAR_BACK"), false);
+		barIcon = createTexture(manager, files.get("BAR_ICON"), false);
+		barYellow = createTexture(manager, files.get("BAR_YELLOW"),false);
+		barGray = createTexture(manager, files.get("BAR_GRAY"),false);
+		barDie = createTexture(manager, files.get("BAR_DIE"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
