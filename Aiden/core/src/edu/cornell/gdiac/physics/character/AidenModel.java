@@ -231,8 +231,6 @@ public class AidenModel extends CharacterModel {
 	 * @param height
 	 *            The object width in physics units
 	 */
-	public float oldFuel;
-	
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
@@ -259,7 +257,6 @@ public class AidenModel extends CharacterModel {
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
-		oldFuel = START_FUEL;
 	}
 
 
@@ -393,9 +390,6 @@ public class AidenModel extends CharacterModel {
 		if(ratio >= 0.9 && smallSized){
 			resizeSensor();
 			smallSized = false;
-		}
-		if(fuel-oldFuel > 5 && ratio >= 0.9){
-			resizeSensor();
 		}
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
