@@ -2,6 +2,7 @@ package edu.cornell.gdiac.physics.blocks;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
@@ -109,6 +110,7 @@ public class TrapDoor extends ComplexObstacle{
 			return false;
 		}
 		if(((FlammableBlock) bodies.get(1)).isBurnt()){
+			System.out.println("burnt");
 			world.destroyBody(bodies.get(1).getBody());
 			bodies.removeIndex(1);
 			return false;
@@ -138,7 +140,9 @@ public class TrapDoor extends ComplexObstacle{
 	public void draw(GameCanvas canvas) {
 //		super.draw(canvas);
 		((StoneBlock) bodies.get(0)).draw(canvas);
-		rope.draw(canvas);
+		if(!rope.isBurnt()){
+			rope.draw(canvas);
+		}	
 		if (anchor != null){
 			anchor.draw(canvas);
 		}
@@ -171,5 +175,18 @@ public class TrapDoor extends ComplexObstacle{
 	public float getHeight() {
 		// TODO Auto-generated method stub
 		return 0.25f;
+	}
+
+
+
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		Vector2 pos=((StoneBlock) bodies.get(0)).getPosition();
+		
+		return new Rectangle(pos.x-this.getWidth()/2f, 
+				pos.y-this.getHeight()/2f,
+				this.getWidth(),
+				this.getHeight());
 	}
 }

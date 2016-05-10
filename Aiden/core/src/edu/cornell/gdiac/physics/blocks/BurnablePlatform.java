@@ -30,7 +30,7 @@ public class BurnablePlatform extends ComplexObstacle {
 
 	float width;
 	float height;
-	
+
 	public BurnablePlatform(Rectangle r, float unit, World world) {
 		super(r.x + 0.5f * r.getWidth(), r.y + 0.5f * r.getHeight());
 		platform = new FlamePlatform(this, r, unit);
@@ -44,9 +44,9 @@ public class BurnablePlatform extends ComplexObstacle {
 		this.pin = new WheelObstacle(this.getX(), this.getY(), 0.1f);
 		pin.setBodyType(BodyDef.BodyType.StaticBody);
 		bodies.add(pin);
-		
-		width=r.width;
-		height=r.height;
+
+		width = r.width;
+		height = r.height;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,6 +55,7 @@ public class BurnablePlatform extends ComplexObstacle {
 	}
 
 	protected boolean createJoints(World world) {
+		System.out.println("joint created");
 		WheelJointDef def = new WheelJointDef();
 
 		def.bodyA = platform.getBody();
@@ -125,7 +126,7 @@ public class BurnablePlatform extends ComplexObstacle {
 	@Override
 	public void drawDebug(GameCanvas canvas, Color c) {
 		// TODO Auto-generated method stub
-		platform.drawDebug(canvas,c);
+		platform.drawDebug(canvas, c);
 
 	}
 
@@ -151,7 +152,7 @@ public class BurnablePlatform extends ComplexObstacle {
 		public BurnablePlatform getBP() {
 			return bp;
 		}
-		
+
 		@Override
 		public void setTexture(TextureRegion texture) {
 			super.setTexture(texture);
@@ -186,18 +187,31 @@ public class BurnablePlatform extends ComplexObstacle {
 							+ 4] = (short) (4 * (i * numY + j) + 1);
 					tridx[6 * (i * numY + j) + 5] = (short) (4 * (i * numY + j));
 				}
+
 			}
 			region = new PolygonRegion(texture, vertices, tridx);
 		}
 	}
 
+
+	
+	
 	public float getWidth() {
 		// TODO Auto-generated method stub
 		return width;
 	}
+
 	public float getHeight() {
 		// TODO Auto-generated method stub
 		return height;
+	}
+
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX() - getWidth() / 2f,
+				this.getY() - getHeight() / 2f,
+				getWidth(), getHeight());
 	}
 
 }

@@ -120,6 +120,8 @@ public class AidenController extends WorldController
 	public Vector2 largeBut;
 	public Vector2 smallBut;
 	private Vector2 fuelBarSize;
+	private Vector2 fuelBarInner;
+	private Vector2 fuelInnerPos;
 	public Vector2 largeSize = new Vector2(320, 128);
 	public Vector2 smallSize = new Vector2(100, 96);
 	private Vector2 fuelBarPos;
@@ -189,17 +191,24 @@ public class AidenController extends WorldController
 	 * This method disposes of the world and creates a new one.
 	 */
 	public void reset() {
+		af.bgm.stop();
 		pauseT = new Vector2(480, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
-		fuelBarSize = new Vector2(417, 91);
+
+		fuelBarSize = new Vector2(449, 91);
+		fuelBarInner = new Vector2(377, 91);
 		sScaleX = (float) canvas.getWidth() / 1920f;
 		sScaleY = (float) canvas.getHeight() / 1080f;
 		pauseT = pauseT.scl(sScaleX, sScaleX);
 		largeBut = largeBut.scl(sScaleX, sScaleX);
 		smallBut = smallBut.scl(sScaleX, sScaleX);
 		fuelBarSize.scl(sScaleX, sScaleX);
+		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
+		resuC = Color.WHITE;
+		restC = Color.WHITE;
+		homeC = Color.WHITE;
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
 		for (Obstacle obj : objects) {
@@ -213,7 +222,6 @@ public class AidenController extends WorldController
 		addQueue.clear();
 		npcs.clear();
 		world.dispose();
-		af.fuelFont.setColor(Color.WHITE);
 		world = new World(gravity, false);
 		world.setContactListener(this);
 		setComplete(false);
@@ -225,8 +233,19 @@ public class AidenController extends WorldController
 			jump.dispose();
 			bgm.dispose();
 		}
+		System.out.println("scen");
 		populateLevel();
-		bgm.play();
+		System.out.println("scenEND");
+		if (listener.getMuted()) {
+			this.musicMuted = true;
+		}
+		if (listener.getSound()) {
+			this.soundMuted = true;
+		}
+		if (!musicMuted) {
+			af.bgm.play();
+			wasPlaying = true;
+		}
 	}
 
 	/**
@@ -377,11 +396,11 @@ public class AidenController extends WorldController
 			addObject(ch1);
 		}
 
-		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
-		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
+		// bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
+		// jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
 
-		for (int ii = 0; ii < scene.getTrapDoors().size(); ii++) {
-			TrapDoor td = scene.getTrapDoors().get(ii);
+		int ii = 0;
+		for (TrapDoor td : scene.getTrapDoors()) {
 			td.setDrawScale(scale);
 			addObject(td);
 			td.createJoints(world);
@@ -393,39 +412,8 @@ public class AidenController extends WorldController
 			td.setRestitution(BASIC_RESTITUTION);
 			td.setMass(1000f);
 			td.setName("trapdoor" + ii);
+			ii++;
 		}
-
-		// td.setDrawScale(scale);
-		// addObject(td);
-		// System.out.println("here");
-		// td.createJoints(world);
-
-		// objects.add(td.rope);
-		// td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-
-		// for(int ii = 0; ii < scene.getTrapDoors().size(); ii +=2){
-		// TrapDoor td = scene.getTrapDoors().get(ii);
-		// addObject(td);
-		// td.setTexture(af.trapDoor);
-		// td.rope.setTexture(af.trapDoor);
-		// td.setDrawScale(scale);
-		// }
-		// for(int ii = 0; ii < scene.getTrapDoors().size(); ii ++){
-		// TrapDoor td = scene.getTrapDoors().get(ii);
-		// td.rw = 0.25f;
-		// td.rl = 0.25f*16f;
-		// td.setDrawScale(scale);
-		// addObject(td);
-		// td.createJoints(world);
-		// objects.add(td.rope);
-		// td.setChildrenTexture(af.ropeLongTexture, af.nailTexture);
-		// td.setTexture(af.trapDoor);
-		//
-		// }
-
-		// ropes.add(td);
-		// td.setChildrenTexture(af.trapDoor,af.ropeLongTexture,
-		// af.nailTexture);
 
 		this.aiController = new AIController(scene, 0, 0, scene.getWidth(),
 				scene.getHeight(), 1f, 1f, objects);
@@ -469,6 +457,7 @@ public class AidenController extends WorldController
 		float mOff = largeBut.x / 2;
 		float yOff = largeBut.y * 1.5f;
 		float tOff = pauseT.x / 2;
+
 		pScreen = new Vector2(w / 2 - tOff, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
@@ -482,13 +471,18 @@ public class AidenController extends WorldController
 		sScreen = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		sPos = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		fuelBarPos = new Vector2(w / 8, h);
+		fuelInnerPos = new Vector2(fuelBarPos.x + 68 * sScaleX, h);
 	}
 
-	public void buttonPressed() {
+	public float cooldown = 0.5f;
+
+	public void buttonPressed(float dt) {
 
 		boolean isPressed = InputController.getInstance().didTertiary();
+		cooldown -= dt;
 
-		if (isPressed && instr == 0) {
+		if (isPressed && instr == 0 && cooldown <= 0) {
+			cooldown = 0.5f;
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
@@ -530,6 +524,11 @@ public class AidenController extends WorldController
 		}
 	}
 
+	public float jumpCD = 0.5f;
+	public boolean wasPaused = false;
+	public boolean drawCrit = false;
+	public float blinkCD = 0.07f;
+
 	/**
 	 * The core gameplay loop of this world.
 	 *
@@ -545,14 +544,27 @@ public class AidenController extends WorldController
 	public void update(float dt) {
 		if (pause) {
 			if (musicMuted) {
-				bgm.pause();
+				af.bgm.pause();
 			} else {
-				bgm.resume();
+				if (!wasPlaying) {
+					af.bgm.play();
+					wasPlaying = true;
+				}
 			}
 			avatar.resume = true;
 			prevMovement = avatar.getLinearVelocity();
-			buttonPressed();
+			buttonPressed(dt);
 			return;
+		}
+
+		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
+			blinkCD -= dt;
+			if (blinkCD <= 0) {
+				drawCrit = !drawCrit;
+				blinkCD = 0.3f;
+			}
+		} else {
+			drawCrit = false;
 		}
 
 		if (this.isActive() && level != gs.getLevel()) {
@@ -575,6 +587,9 @@ public class AidenController extends WorldController
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
+		for (ComplexObstacle co : ropes) {
+			co.updateParts(world);
+		}
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
@@ -603,8 +618,16 @@ public class AidenController extends WorldController
 		avatar.setDt(dt);
 		avatar.applyForce();
 
-		if (avatar.isJumping() && !soundMuted) {
-			jump.play();
+		if (jumpCD < 0.5f) {
+			jumpCD -= dt;
+			if (jumpCD <= 0) {
+				jumpCD = 0.5f;
+			}
+		}
+
+		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
+			af.jump.play();
+			jumpCD -= dt;
 		}
 
 		// Update movements of npcs, including all interactions/side effects
@@ -794,8 +817,6 @@ public class AidenController extends WorldController
 
 	}
 
-	private Vector2 fuelBar = new Vector2(100, 800);
-
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -822,23 +843,34 @@ public class AidenController extends WorldController
 		float zoom = canvas.getZoom();
 		if (avatar != null) {
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
+
+			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
+					fuelInnerPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
-			canvas.draw(af.barBack, Color.WHITE, pos.x, pos.y,
-					fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
+					fuelBarInner.x * zoom, fuelBarInner.y * zoom);
 			if (sx < 0.3f) {
-				canvas.draw(af.barLow, Color.WHITE, pos.x + 10, pos.y,
-						fuelBarSize.x * sx * zoom, fuelBarSize.y * zoom);
+				if (!drawCrit) {
+					canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
+							fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+				}
 			} else {
-				canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * sx * zoom, fuelBarSize.y * zoom);
+				canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
+						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
 			}
-			if (sx < 0.1f) {
-				canvas.draw(af.barOutter, Color.RED, pos.x, pos.y,
+
+			if (sx == 0) {
+				canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			} else if (drawCrit) {
+				canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y,
 						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
 			} else {
-				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y,
 						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
 			}
+			canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+					fuelBarSize.x * zoom, fuelBarSize.y * zoom);
 
 		}
 		if (pause) {
@@ -903,22 +935,15 @@ public class AidenController extends WorldController
 			avatar.setComplete(true);
 		}
 
-		// drawing the fuel level
-
-		// if (avatar != null) {
-		// canvas.begin();
-		// Vector2 pos = canvas.relativeVector(fuelBar.x, fuelBar.y);
-		// float sx = avatar.getFuel() * 480f / avatar.getMaxFuel();
-		// canvas.draw(af.barInner, Color.WHITE, pos.x, pos.y, sx, 60f);
-		// canvas.draw(af.barOutter, pos.x, pos.y);
-		// canvas.end();
-		// }
-
 	}
 
 	@Override
 	public void setScene(Scene scene) {
 		this.scene = scene;
+	}
+
+	public void stopSound() {
+		af.bgm.stop();
 	}
 
 	private void createScenes(int level) {

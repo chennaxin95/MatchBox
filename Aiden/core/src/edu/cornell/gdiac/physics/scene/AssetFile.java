@@ -2,7 +2,9 @@ package edu.cornell.gdiac.physics.scene;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,7 +25,8 @@ public class AssetFile {
 	/** The texture for the exit condition */
 	public TextureRegion goalTile;
 	public TextureRegion burnablePlatform;
-	
+	public Sound bgm;
+	public Sound jump;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -46,6 +49,9 @@ public class AssetFile {
 	public TextureRegion black;
 	public TextureRegion longRope;
 	public TextureRegion trapDoor;
+	public TextureRegion barIcon;
+	public TextureRegion barYellow;
+	public TextureRegion barGray;
 	public TextureRegion barOutter;
 	public TextureRegion barInner;
 	public TextureRegion barLow;
@@ -123,9 +129,9 @@ public class AssetFile {
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
 		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
-		files.put("BAR_OUTTER", "platform/barOuter.png");
-		files.put("BAR_INNER", "platform/barInner.png");
-		files.put("BAR_LOW", "platform/barLow.png");
+		files.put("BAR_OUTTER", "platform/empty.png");
+		files.put("BAR_INNER", "platform/red.png");
+		files.put("BAR_LOW", "platform/dark red.png");
 		files.put("AIDEN_RUN", "platform/fast.png");
 		files.put("AIDEN_IDLE", "platform/idle.png");
 		files.put("WATER_CHASE", "platform/water-chase.png");
@@ -134,8 +140,12 @@ public class AssetFile {
 		files.put("SOUND", "shared/sound.png");
 		files.put("MUSIC_NO", "shared/music-no.png");
 		files.put("SOUND_NO", "shared/sound-no.png");
-		files.put("BAR_BACK", "platform/barBack.png");
+		files.put("BAR_BACK", "platform/white.png");
 		files.put("FIRE_BALL", "platform/fuel ball-s64.png");
+		files.put("BAR_ICON", "platform/color_icon.png");
+		files.put("BAR_YELLOW", "platform/yellow_icon.png");
+		files.put("BAR_GRAY", "platform/grey_icon.png");
+		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
 		files.put("3", "shared/1.png");
@@ -253,6 +263,9 @@ public class AssetFile {
 		sound_no = createTexture(manager, files.get("SOUND_NO"), false);
 		barLow = createTexture(manager, files.get("BAR_LOW"), false);
 		barBack = createTexture(manager, files.get("BAR_BACK"), false);
+		barIcon = createTexture(manager, files.get("BAR_ICON"), false);
+		barYellow = createTexture(manager, files.get("BAR_YELLOW"),false);
+		barGray = createTexture(manager, files.get("BAR_GRAY"),false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -307,6 +320,8 @@ public class AssetFile {
 		for (int i = 0; i < 20; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
+		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
+		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));

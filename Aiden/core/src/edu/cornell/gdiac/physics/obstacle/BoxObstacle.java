@@ -208,5 +208,12 @@ public class BoxObstacle extends SimpleObstacle {
 		canvas.drawPhysics(shape,c,getX(),getY(),getAngle(),drawScale.x,drawScale.y);
 	}
 
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-this.getWidth()/2f, this.getY()-this.getHeight()/2f,
+				this.getWidth(), this.getHeight());
+	}
+
 
 }

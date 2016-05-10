@@ -403,8 +403,8 @@ public class InputController {
 		didPause = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 		
-		exitPressed = (secondary && exitPressed)
-				||Gdx.input.isKeyPressed(Input.Keys.BACKSPACE);
+//		exitPressed = (secondary && exitPressed)
+//				||Gdx.input.isKeyPressed(Input.Keys.BACKSPACE);
 		
 		// Unable to detect redundance here
 		leftClicked =  (secondary && nextPressed) || 
@@ -478,9 +478,6 @@ public class InputController {
 		// Mouse results
 		tertiaryPressed = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 		crosshair.set(Gdx.input.getX(), Gdx.input.getY());
-//		crosshair.scl(1 / scale.x, -1 / scale.y);
-//		crosshair.y += bounds.height;
-//		clampPosition(bounds);
 	}
 	
 

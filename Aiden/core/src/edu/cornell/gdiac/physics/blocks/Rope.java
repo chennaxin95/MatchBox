@@ -150,7 +150,7 @@ public class Rope extends ComplexObstacle {
 			jointDef.bodyB = bodies.get(ii+1).getBody();
 			jointDef.localAnchorA.set(anchor1);
  			jointDef.localAnchorB.set(anchor2);
-			jointDef.collideConnected = false;
+//			jointDef.collideConnected = false;
 			joint = world.createJoint(jointDef);
 			joints.add(joint);
 		}
@@ -224,6 +224,16 @@ public class Rope extends ComplexObstacle {
 	public void drawDebug(GameCanvas canvas, Color c) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Rectangle getBoundingBox() {
+		// TODO Auto-generated method stub
+		return new Rectangle(this.getX()-this.getWidth()/2f, 
+				this.getY()-this.getHeight()/2f,
+				this.getWidth(),
+				this.getHeight());
 	}
 	
 }

@@ -226,6 +226,8 @@ public class AidenModel extends CharacterModel {
 	 * @param height
 	 *            The object width in physics units
 	 */
+	public float oldFuel;
+	
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
@@ -252,6 +254,7 @@ public class AidenModel extends CharacterModel {
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
+		oldFuel = START_FUEL;
 	}
 
 
@@ -385,6 +388,9 @@ public class AidenModel extends CharacterModel {
 		if(ratio >= 0.9 && smallSized){
 			resizeSensor();
 			smallSized = false;
+		}
+		if(fuel-oldFuel > 5 && ratio >= 0.9){
+			resizeSensor();
 		}
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
@@ -586,14 +592,14 @@ public class AidenModel extends CharacterModel {
 	public void drawSpirit(GameCanvas canvas, float ratio, Color c){
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
-			spirit.setFrame((spirit.getFrame()+1)%5);
+			spirit.setFrame((spirit.getFrame()+1)%3);
 		}
 
 		// For placement purposes, put origin in center.
 		float ox = 0.5f * characterSprite.getRegionWidth();
 		float oy = 0.5f * characterSprite.getRegionHeight();
 
-		float effect = faceRight ? 1.0f : -1.0f;
+		float effect = faceRight ? -1.0f : 1.0f;
 		canvas.draw(spirit, c, ox, oy, getX() * drawScale.x,
 				getY() * drawScale.y+20, getAngle(), -effect*ratio, ratio);
 	}
