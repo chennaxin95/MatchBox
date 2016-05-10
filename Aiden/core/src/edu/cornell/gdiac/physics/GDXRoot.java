@@ -245,6 +245,16 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("FIRE_BALL"));
 		manager.load(af.get("AIDEN_SPIRIT"), Texture.class);
 		assets.add(af.get("AIDEN_SPIRIT"));
+		manager.load(af.get("BAR_ICON"), Texture.class);
+		assets.add(af.get("BAR_ICON"));
+		manager.load(af.get("BAR_YELLOW"), Texture.class);
+		assets.add(af.get("BAR_YELLOW"));
+		manager.load(af.get("BAR_GRAY"), Texture.class);
+		assets.add(af.get("BAR_GRAY"));
+		manager.load(af.get("AIDEN_GLOW"), Texture.class);
+		assets.add(af.get("AIDEN_GLOW"));
+		manager.load(af.get("BAR_DIE"), Texture.class);
+		assets.add(af.get("BAR_DIE"));
 		
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
@@ -254,7 +264,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("POP_FILE"));
 		manager.load(af.get("BGM_FILE"), Sound.class);
 		assets.add(af.get("BGM_FILE"));
-
+		
+		manager.load(af.get("WATER"), Texture.class);
+		assets.add(af.get("WATER"));
 	}
 
 	/**

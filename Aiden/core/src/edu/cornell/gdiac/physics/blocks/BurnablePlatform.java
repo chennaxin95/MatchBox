@@ -56,7 +56,7 @@ public class BurnablePlatform extends ComplexObstacle {
 	}
 
 	protected boolean createJoints(World world) {
-		System.out.println("joint created");
+//		System.out.println("joint created");
 		WeldJointDef def = new WeldJointDef();
 
 		def.bodyA = platform.getBody();

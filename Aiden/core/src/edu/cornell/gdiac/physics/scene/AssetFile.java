@@ -53,6 +53,10 @@ public class AssetFile {
 	public TextureRegion barInner;
 	public TextureRegion barLow;
 	public TextureRegion barBack;
+	public TextureRegion barIcon;
+	public TextureRegion barYellow;
+	public TextureRegion barGray;
+	public TextureRegion barDie;
 	
 	/** Texture for background */
 	public TextureRegion backGround;
@@ -66,6 +70,7 @@ public class AssetFile {
 	public TextureRegion sound;
 	public TextureRegion music_no;
 	public TextureRegion sound_no;
+	public TextureRegion water;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenGlow;
@@ -83,6 +88,7 @@ public class AssetFile {
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
 	public FilmStrip[] fireBall;
+	public FilmStrip[] WaterWalkTextures;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -129,9 +135,9 @@ public class AssetFile {
 		files.put("EDITOR_PANEL_FILE", "shared/panel.png");
 		files.put("ROPE_LONG_FILE", "platform/rope-long.png");
 		files.put("TRAPDOOR_FILE", "platform/trapdoor.png");
-		files.put("BAR_OUTTER", "platform/barOuter.png");
-		files.put("BAR_INNER", "platform/barInner.png");
-		files.put("BAR_LOW", "platform/barLow.png");
+		files.put("BAR_OUTTER", "platform/empty.png");
+		files.put("BAR_INNER", "platform/red.png");
+		files.put("BAR_LOW", "platform/dark red.png");
 		files.put("AIDEN_RUN", "platform/fast.png");
 		files.put("AIDEN_IDLE", "platform/idle.png");
 		files.put("WATER_CHASE", "platform/water-chase.png");
@@ -140,8 +146,14 @@ public class AssetFile {
 		files.put("SOUND", "shared/sound.png");
 		files.put("MUSIC_NO", "shared/music-no.png");
 		files.put("SOUND_NO", "shared/sound-no.png");
-		files.put("BAR_BACK", "platform/barBack.png");
+		files.put("BAR_BACK", "platform/white.png");
 		files.put("FIRE_BALL", "platform/fuel ball-s64.png");
+		files.put("BAR_ICON", "platform/color_icon.png");
+		files.put("BAR_YELLOW", "platform/yellow_icon.png");
+		files.put("BAR_GRAY", "platform/grey_icon.png");
+		files.put("AIDEN_GLOW", "platform/aidenGlow.png");
+		files.put("BAR_DIE", "platform/empty grey.png");
+		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
 		files.put("3", "shared/1.png");
@@ -163,6 +175,7 @@ public class AssetFile {
 		files.put("19", "shared/1.png");
 		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
+		files.put("WATER", "shared/water.png");
 		System.out.println(files);
 	}
 
@@ -259,6 +272,10 @@ public class AssetFile {
 		sound_no = createTexture(manager, files.get("SOUND_NO"), false);
 		barLow = createTexture(manager, files.get("BAR_LOW"), false);
 		barBack = createTexture(manager, files.get("BAR_BACK"), false);
+		barIcon = createTexture(manager, files.get("BAR_ICON"), false);
+		barYellow = createTexture(manager, files.get("BAR_YELLOW"),false);
+		barGray = createTexture(manager, files.get("BAR_GRAY"),false);
+		barDie = createTexture(manager, files.get("BAR_DIE"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -284,9 +301,15 @@ public class AssetFile {
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
-		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
-				1,
-				4);
+//		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
+//				1,
+//				4);
+		WaterWalkTextures=new FilmStrip[10];
+		for (int i = 0; i < 10; i++){
+			WaterWalkTextures[i] = createFilmStrip(manager, files.get("WATER_WALK"), 4,
+					1,
+					4);
+		}
 		AidenDieTexture = createFilmStrip(manager, files.get("AIDEN_DIE_FILE"),
 				12,
 				1, 12);
@@ -312,8 +335,8 @@ public class AssetFile {
 					files.get("BURNING_FILE"),
 					7, 1, 7);
 		}
-		fireBall = new FilmStrip[20];
-		for (int i = 0; i < 20; i++){
+		fireBall = new FilmStrip[10];
+		for (int i = 0; i < 10; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
 		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
@@ -323,6 +346,8 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
+		// water platform
+		water=createTexture(manager, files.get("WATER"), true);
 	}
 
 }
