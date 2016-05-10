@@ -827,6 +827,7 @@ public class LevelEditor extends WorldController {
 		String outputfile = "Hard2.json";
 
 
+
 		FileHandle file = Gdx.files
 				.absolute(Gdx.files.getLocalStoragePath() + outputfile);
 
@@ -838,7 +839,6 @@ public class LevelEditor extends WorldController {
 
 
 		Scene scene = new Scene("Hard2.json");
-
 
 		reset();
 		System.out.println("Loading Characters");
