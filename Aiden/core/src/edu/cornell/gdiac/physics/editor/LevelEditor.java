@@ -823,7 +823,7 @@ public class LevelEditor extends WorldController {
 				gridWidth, gridHeight);
 		String project_str = json.prettyPrint(project);
 
-		String outputfile = "Med2.json";
+		String outputfile = "Tutorial0.json";
 
 		FileHandle file = Gdx.files
 				.absolute(Gdx.files.getLocalStoragePath() + outputfile);
@@ -834,7 +834,7 @@ public class LevelEditor extends WorldController {
 	public void loadFromJson() {
 		System.out.println("Loading");
 
-		Scene scene = new Scene("Med2.json");
+		Scene scene = new Scene("Tutorial0.json");
 
 		reset();
 		System.out.println("Loading Characters");

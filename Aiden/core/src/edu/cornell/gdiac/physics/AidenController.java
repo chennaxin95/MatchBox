@@ -110,6 +110,7 @@ public class AidenController extends WorldController
 
 	private boolean beginCam = true;
 	private int beginCamFrame = 0;
+	private TextureRegion backgroundTexture;
 	
 	
 	//-------------------------------------------------------------
@@ -553,6 +554,11 @@ public class AidenController extends WorldController
 			buttonPressed(dt);
 			return;
 		}
+		else{
+			this.homeC=Color.WHITE;
+			this.restC=Color.WHITE;
+			this.resuC=Color.WHITE;
+		}
 		
 		if(avatar.getFuel() /avatar.getMaxFuel() < 0.3){
 			blinkCD -= dt;
@@ -823,14 +829,43 @@ public class AidenController extends WorldController
 		if (bd1 instanceof FuelBlock || bd2 instanceof FuelBlock ) {
 			contact.setEnabled(false);
 		}
-		
-		
+	
 		if (spirit) {
 			if (bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform)
 					|| bd2 == avatar && bd1 instanceof FlammableBlock
 							&& !(bd1 instanceof FlamePlatform)) {
 				contact.setEnabled(false);
+			}
+		}
+
+		if (bd1 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd1).getLinearVelocity();
+			((BlockAbstract) bd1).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		if (bd2 instanceof BlockAbstract) {
+			Vector2 velocity = ((BlockAbstract) bd2).getLinearVelocity();
+			((BlockAbstract) bd2).setLinearVelocity(new Vector2(0, velocity.y));
+		}
+		
+		if(bd1 instanceof CharacterModel && bd2 instanceof StoneBlock && !(bd2 instanceof Platform)){
+			float x_diff = ((CharacterModel) bd1).getX() - ((StoneBlock) bd2).getX();
+			float y_diff = ((CharacterModel) bd1).getY() - ((StoneBlock) bd2).getY();
+			float x_v = ((CharacterModel) bd1).getVX();
+			//System.out.println(x_diff+" "+y_diff+" "+x_v);
+			if (Math.abs(x_diff)>1.3 && Math.abs(y_diff)<1.2 && x_v*x_diff<0){
+			((CharacterModel) bd1).setLinearVelocity(new Vector2(0,((CharacterModel) bd1).getLinearVelocity().y));
+			}
+			}
+		
+		if(bd2 instanceof CharacterModel && bd1 instanceof StoneBlock  && !(bd1 instanceof Platform)){
+			float x_diff = ((CharacterModel) bd2).getX() - ((StoneBlock) bd1).getX();
+			float y_diff = ((CharacterModel) bd2).getY() - ((StoneBlock) bd1).getY();
+			float x_v = ((CharacterModel) bd2).getVX();
+			//System.out.println(x_diff+" "+y_diff+" "+x_v);
+			
+			if (Math.abs(x_diff)>1.3 && Math.abs(y_diff)<1.2 && x_v*x_diff<0){
+			((CharacterModel) bd2).setLinearVelocity(new Vector2(0,((CharacterModel) bd2).getLinearVelocity().y));
 			}
 		}
 	}
@@ -841,12 +876,8 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
 				scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
-		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
-		if(level == 0){
-			canvas.draw(af.backGround0, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-					scene.getWidth() * scale.x, scene.getHeight() * scale.y);
-		}
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -958,47 +989,61 @@ public class AidenController extends WorldController
 		switch(level){
 		case 0: 
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial level
+			backgroundTexture = af.backGround0;
 			break;
 		case 1:
-			this.scene = new Scene("Tutorial3.json"); //avoid water guard
+			this.scene = new Scene("Easy1.json");  //gap introduce water guard
+			backgroundTexture = af.backGround;
 			break;
 		case 2:
-			this.scene = new Scene("Tutorial4.json");
+			this.scene = new Scene("Tutorial4.json"); //channel to the top	
+			backgroundTexture = af.backGround;
 			break;
 		case 3:
-			this.scene = new Scene("Tutorial2.json");
+			this.scene = new Scene("Tutorial3.json"); //avoid water guard
+			backgroundTexture = af.backGround;
 			break;
 			
 		case 4:
-			this.scene = new Scene("Easy1.json");
+			this.scene = new Scene("Med2.json"); // stonesss
+			backgroundTexture = af.backGround;
 			break;
 		case 5:
-			this.scene = new Scene("Easy2.json");
+			this.scene = new Scene("Easy2.json"); //spirit boost
+			backgroundTexture = af.backGround;
 			break;
 		case 6:
-			this.scene = new Scene("Easy3.json");
+			this.scene = new Scene("Easy3.json"); //spirit boost with rope and water
+			backgroundTexture = af.backGround;
 			break;
 		case 7:
-			this.scene = new Scene("Med1.json");
+			this.scene = new Scene("Tutorial2.json"); //save the block
+			backgroundTexture = af.backGround;
 			break;
 		case 8:
-			this.scene = new Scene("Med2.json");
+			this.scene = new Scene("Med1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 9:
 			this.scene = new Scene("Level2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 10:
 			this.scene = new Scene("Level3.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 11:
 			this.scene = new Scene("Level4.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 12:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 
 		default:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 		}
 

@@ -86,9 +86,6 @@ public class AssetFile {
 	/** Texture for burning animation */
 	public FilmStrip[] burningTexture;
 	public FilmStrip[] fireBall;
-	
-	/** Level files	 */
-	public Scene[] levels;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -174,8 +171,6 @@ public class AssetFile {
 		files.put("19", "shared/1.png");
 		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
-		// JSON files
-		files.put("LEVEL1", "Easy1.json");
 		System.out.println(files);
 	}
 
@@ -339,9 +334,6 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
-		// Load JSON files
-		levels=new Scene[1];
-		levels[0]=new Scene(files.get("LEVEL1"));
 	}
 
 }
