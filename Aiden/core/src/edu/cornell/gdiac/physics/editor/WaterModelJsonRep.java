@@ -8,7 +8,7 @@ public class WaterModelJsonRep {
 	
 	public PointJsonRep pos = new PointJsonRep(1,1);
 	
-	public float scale_x = 1;
+	public float scale_x = 2;
 	public float scale_y = 1.6f;
 	
 	public String name = "a";

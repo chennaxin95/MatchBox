@@ -177,6 +177,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("ROPE_FILE"));
 		manager.load(af.get("BACKGROUND"), Texture.class);
 		assets.add(af.get("BACKGROUND"));
+		manager.load(af.get("BACKGROUND0"), Texture.class);
+		assets.add(af.get("BACKGROUND0"));
 		manager.load(af.get("WATER_FILE"), Texture.class);
 		assets.add(af.get("WATER_FILE"));
 		manager.load(af.get("STONE_FILE"), Texture.class);
@@ -249,7 +251,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("BAR_YELLOW"));
 		manager.load(af.get("BAR_GRAY"), Texture.class);
 		assets.add(af.get("BAR_GRAY"));
-
+		manager.load(af.get("AIDEN_GLOW"), Texture.class);
+		assets.add(af.get("AIDEN_GLOW"));
 		
 		manager.load(af.get("JUMP_FILE"), Sound.class);
 		assets.add(af.get("JUMP_FILE"));
@@ -363,25 +366,16 @@ public class GDXRoot extends Game implements ScreenListener {
 		setScreen(loading);
 
 		// Initialize the three game worlds
-		controllers = new WorldController[15]; ////
+
+		int levels = 15;
+		controllers = new WorldController[levels]; ////
 		current = 0;
-		controllers[0] = new AidenController(0);
-		controllers[1] = new AidenController(1);
-		controllers[2] = new AidenController(2);
-		controllers[3] = new AidenController(3);
-		controllers[4] = new AidenController(4);
-		controllers[5] = new AidenController(5);
-		controllers[6] = new AidenController(6);
-		controllers[7] = new AidenController(7);
-		controllers[8] = new AidenController(8);
-		controllers[9] = new AidenController(9);
-		controllers[10] = new AidenController(10);
-		controllers[11] = new AidenController(11);//////
-		controllers[12] = new AidenController(12);
-		controllers[13] = new AidenController(13);
+		for(int i=0;i<levels-1;i++){
+			controllers[i] = new AidenController(i);
+		}
 		loading.setScreenListener(this);
 
-		controllers[14] = new LevelEditor();///////
+		controllers[levels-1] = new LevelEditor();///////
 	}
 
 	public void unloadContent(AssetManager manager) {

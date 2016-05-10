@@ -1,5 +1,7 @@
 package edu.cornell.gdiac.physics.blocks;
 
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import edu.cornell.gdiac.physics.material.GeneralMaterial;
 
 public class StoneBlock extends BlockAbstract {
@@ -19,7 +21,7 @@ public class StoneBlock extends BlockAbstract {
 		// TODO Auto-generated constructor stub
 		material=new GeneralMaterial();
 		this.setBlockType(BlockType.STONE);
-		this.setDensity(Float.MAX_VALUE);
+		this.setDensity(1000000);
 		this.resetMass();
 		this.setFriction(100);
 	}

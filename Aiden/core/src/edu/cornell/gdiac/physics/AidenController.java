@@ -111,10 +111,13 @@ public class AidenController extends WorldController
 	private boolean beginCam = true;
 	private int beginCamFrame = 0;
 
-	// -------------------------------------------------------------
-	// -----------------------menu stuff----------------------------
-	// -------------------------------------------------------------
-
+	private TextureRegion backgroundTexture;
+	
+	
+	//-------------------------------------------------------------
+	//-----------------------menu stuff----------------------------
+	//-------------------------------------------------------------
+	
 	public Vector2 posTemp;
 	public Vector2 pauseT;
 	public Vector2 largeBut;
@@ -281,7 +284,6 @@ public class AidenController extends WorldController
 			dheight = texture.getRegionHeight() / scale.y;
 
 			FlammableBlock box = scene.getWoodBlocks().get(ii);
-
 			box.setFixedRotation(true);
 			box.setDensity(HEAVY_DENSITY);
 			box.setFriction(0);
@@ -365,6 +367,7 @@ public class AidenController extends WorldController
 		avatar.setTexture(af.avatarTexture);
 		avatar.setDeath(af.AidenDieTexture);
 		avatar.setSpirit(af.AidenSpiritTexture);
+		avatar.setExpand(af.AidenGlow);
 		avatar.setFriction(0);
 		avatar.setLinearDamping(.1f);
 		avatar.setRestitution(0f);
@@ -634,6 +637,7 @@ public class AidenController extends WorldController
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
+		
 
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);
@@ -854,7 +858,7 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
 				scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
-		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
@@ -982,50 +986,65 @@ public class AidenController extends WorldController
 		switch(level){
 		case 0: 
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial level
+			backgroundTexture = af.backGround0;
 			break;
 		case 1:
 			this.scene = new Scene("Tutorial3.json"); //avoid water guard
+			backgroundTexture = af.backGround;
 			break;
 		case 2:
 			this.scene = new Scene("Tutorial4.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 3:
 			this.scene = new Scene("Tutorial2.json");
+			backgroundTexture = af.backGround;
 			break;
 			
 		case 4:
 
 			this.scene = new Scene("Easy1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 5:
 			this.scene = new Scene("Easy2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 6:
 			this.scene = new Scene("Easy3.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 7:
 			this.scene = new Scene("Med1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 8:
 			this.scene = new Scene("Med2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 9:
 			this.scene = new Scene("Level2.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 10:
 			this.scene = new Scene("Level3.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 11:
 			this.scene = new Scene("Level4.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 12:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 		case 13:
 			this.scene = new Scene("Hard2.json");
+			backgroundTexture = af.backGround;
 			break;
 		default:
 			this.scene = new Scene("Hard1.json");
+			backgroundTexture = af.backGround;
 			break;
 		}
 

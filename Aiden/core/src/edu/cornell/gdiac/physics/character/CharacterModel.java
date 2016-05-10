@@ -101,7 +101,8 @@ public class CharacterModel extends CapsuleObstacle{
 	public CharacterModel(CharacterType t, String name, float x, float y, float width, 
 			float height, boolean fright){
 		super(x, y, width * DUDE_HSHRINK, height * DUDE_VSHRINK);
-		setDensity(0);
+		setDensity(0.00001f);
+		this.resetMass();
 		setFriction(DUDE_FRICTION); /// HE WILL STICK TO WALLS IF YOU FORGET
 		setFixedRotation(true);
 		
@@ -535,7 +536,7 @@ public class CharacterModel extends CapsuleObstacle{
 		float effect = faceRight ? 1.0f : -1.0f;
 		
 		canvas.draw(characterSprite, c, ox, oy, getX() * drawScale.x, 
-				getY() * drawScale.y + 20, getAngle(), effect*sx, sy);
+				getY() * drawScale.y + 30*sx, getAngle(), effect*sx, sy);
 	}
 	
 	public void animate(GameCanvas canvas, Color c, float ratio){
