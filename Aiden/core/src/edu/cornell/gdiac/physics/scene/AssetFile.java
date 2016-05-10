@@ -59,6 +59,7 @@ public class AssetFile {
 	
 	/** Texture for background */
 	public TextureRegion backGround;
+	public TextureRegion backGround0;
 	public TextureRegion homeButton;
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
@@ -110,7 +111,8 @@ public class AssetFile {
 		files.put("PEW_FILE", "music/pew.mp3");
 		files.put("POP_FILE", "music/plop.mp3");
 		files.put("BGM_FILE", "music/bgm.mp3");
-		files.put("BACKGROUND", "shared/background.png");
+		files.put("BACKGROUND0", "background/tutorial0background2.png");
+		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
 		files.put("PROGRESS_FILE", "shared/progressbar.png");
 		files.put("PLAY_BTN_FILE", "shared/start.png");
@@ -284,6 +286,7 @@ public class AssetFile {
 		fuelTexture = createTexture(manager, files.get("FUEL_FILE"), false);
 		ropeTexture = createTexture(manager, files.get("ROPE_FILE"), true);
 		backGround = createTexture(manager, files.get("BACKGROUND"), false);
+		backGround0 = createTexture(manager, files.get("BACKGROUND0"),false);
 		waterTexture = createTexture(manager, files.get("WATER_FILE"), false);
 		stoneTexture = createTexture(manager, files.get("STONE_FILE"), false);
 		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);

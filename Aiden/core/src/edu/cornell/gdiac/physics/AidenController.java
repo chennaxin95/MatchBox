@@ -852,6 +852,10 @@ public class AidenController extends WorldController
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(af.backGround, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
+		if(level == 0){
+			canvas.draw(af.backGround0, new Color(1f, 1f, 1f, 1f), 0f, 0f,
+					scene.getWidth() * scale.x, scene.getHeight() * scale.y);
+		}
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
