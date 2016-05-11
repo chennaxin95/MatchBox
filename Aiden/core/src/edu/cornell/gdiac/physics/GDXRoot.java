@@ -386,7 +386,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 
-		int levels = 16;
+		int levels = 17;
 		controllers = new WorldController[levels]; ////
 		current = 0;
 		for(int i=0;i<levels-1;i++){
