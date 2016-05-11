@@ -273,7 +273,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		editor = new Texture("shared/level editor.png");
 		levelTemp = new Texture("shared/3.png");
 		castle = new Texture("shared/castle.png");
-		light = new Texture("shared/light.png");
+		light = new Texture("shared/gradient.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -493,8 +493,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					canvas.draw(light, new Color(1, 1, 0.2f, 0.7f), light.getWidth()/2f,
 							light.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale*1.5f,
-							LEVEL_BUTTON_SCALE * scale*1.5f);
+							0, LEVEL_BUTTON_SCALE * scale / 3.5f,
+							LEVEL_BUTTON_SCALE * scale / 3.5f);
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;
