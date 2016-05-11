@@ -182,7 +182,6 @@ public class Scene implements SceneInterface {
 				float g_scale_x = guard.getFloat("scale_x");
 				float g_scale_y = guard.getFloat("scale_y");
 				boolean g_fright = guard.getBoolean("fright");
-				System.out.println(g_scale_x);
 				WaterGuard water = new WaterGuard(
 						CharacterType.WATER_GUARD,
 						guard_name, g_x, g_y, 1.8f, 1.4f, g_fright);
