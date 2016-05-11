@@ -1061,9 +1061,11 @@ public class AidenController extends WorldController
 	private void createScenes(int level) {
 
 		switch (level) {
+		
+		//======================Tutorials========================//
 		case 0:
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial
-														// level
+													  // level
 			backgroundTexture = af.backGround0;
 			break;
 			
@@ -1081,12 +1083,13 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Med2.json"); // stonesss // pretty easy 
 			backgroundTexture = af.backGround;
 			break;
-
+		
 		case 4:
 			this.scene = new Scene("Easy2.json"); //spirit boost changed
 			backgroundTexture = af.backGround;
 			break;
 			
+		//======================Easy========================//
 		case 5:
 
 			this.scene = new Scene("Easy1.json");  //gap introduce water guard
@@ -1114,7 +1117,8 @@ public class AidenController extends WorldController
 
 			backgroundTexture = af.backGround;
 			break;
-		
+			
+		//======================Medium========================//
 		case 10:
 			this.scene = new Scene("Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
@@ -1137,6 +1141,7 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Level3.json"); //trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
+		//======================Hard========================//
 		case 15:
 			this.scene = new Scene("Hard1.json");  // square
 			backgroundTexture = af.backGround;
