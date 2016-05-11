@@ -824,7 +824,7 @@ public class LevelEditor extends WorldController {
 		String project_str = json.prettyPrint(project);
 
 
-		String outputfile = "Hard2.json";
+		String outputfile = "Hard2b.json";
 
 
 
