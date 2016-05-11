@@ -30,7 +30,7 @@ public class AidenModel extends CharacterModel {
 	// Physics constants
 
 	/** The Fuel system for Aiden */
-	private static final float START_FUEL = 30;
+	private static float START_FUEL = 30;
 	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
@@ -235,6 +235,11 @@ public class AidenModel extends CharacterModel {
 	public float oldFuel;
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
+		this(x,y,width,height,fright,START_FUEL);
+	}
+	
+	public AidenModel(float x, float y, float width, float height, boolean fright, 
+			float start_fuel){
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
 		fuel = START_FUEL;
 		// Gameplay attributes
@@ -636,5 +641,6 @@ public class AidenModel extends CharacterModel {
 			}
 		}
 	}
+
 	
 }

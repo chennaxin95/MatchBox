@@ -1523,7 +1523,7 @@ public class GameCanvas {
 		float dst = d.x*d.x+d.y*d.y;
 		 
 		if (dst>100 ){
-			camera.translate(new Vector3(d.x/30, d.y/30, 0f));
+			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
 			//System.out.println("0");
 		}
 		camera.update();
@@ -1532,8 +1532,7 @@ public class GameCanvas {
 
 	}
 	
-	public void setCamPos(float x, float y){
-		
+	public void setCamPos(float x, float y){	
 		x = x*1920/59;
 		y = y*1080/32;
 		target.set(x, y, 0);
@@ -1544,5 +1543,9 @@ public class GameCanvas {
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		active = DrawPass.STANDARD;
+	}
+	
+	public void setZoom(float z){
+		camera.zoom = z;
 	}
 }

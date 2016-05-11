@@ -23,10 +23,10 @@ public class CameraController {
 	public void zoom(OrthographicCamera camera, float zoom){
 		float czoom = camera.zoom;
 		targetZoom = zoom;
-		if(czoom < zoom - 0.02){
-			camera.zoom += 0.02;
-		}else if (czoom > zoom + 0.02){
-			camera.zoom -= 0.02;
+		if(czoom < zoom - 0.015){
+			camera.zoom += 0.015;
+		}else if (czoom > zoom + 0.015){
+			camera.zoom -= 0.015;
 		}
 	}
 	
