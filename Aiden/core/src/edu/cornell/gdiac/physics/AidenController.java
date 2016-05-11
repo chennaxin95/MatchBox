@@ -127,7 +127,7 @@ public class AidenController extends WorldController
 	private Vector2 fuelBarInner;
 	private Vector2 fuelInnerPos;
 	private Vector2 fuelBarPos;
-	
+
 	private Vector2 losePos;
 	private Vector2 loseSize;
 	private Vector2 winPos;
@@ -277,10 +277,9 @@ public class AidenController extends WorldController
 		for (int ii = 0; ii < scene.getPlatform().size(); ii++) {
 			// PolygonObstacle obj;
 			Platform p = scene.getPlatform().get(ii);
-			if (p instanceof WaterPlatform){
+			if (p instanceof WaterPlatform) {
 				p.setTexture(af.water);
-			}
-			else{
+			} else {
 				p.setTexture(af.earthTile);
 			}
 			p.setDensity(BASIC_DENSITY);
@@ -410,7 +409,8 @@ public class AidenController extends WorldController
 			ch1.setName("wg" + ii);
 			npcs.add(ch1);
 			ch1.setDeath(af.WaterDieTexture);
-			ch1.setCharacterSprite(af.WaterWalkTextures[ii % (af.WaterWalkTextures.length)]);
+			ch1.setCharacterSprite(
+					af.WaterWalkTextures[ii % (af.WaterWalkTextures.length)]);
 			addObject(ch1);
 		}
 
@@ -476,9 +476,9 @@ public class AidenController extends WorldController
 		float yOff = largeBut.y * 1.5f;
 		float tOff = pauseT.x / 2;
 
-		pScreen = new Vector2(w/2 - tOff, h);
-		winPos = new Vector2(w/2 - winSize.x/2, h);
-		losePos = new Vector2(w/2 - loseSize.x/2, h);
+		pScreen = new Vector2(w / 2 - tOff, h);
+		winPos = new Vector2(w / 2 - winSize.x / 2, h);
+		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
@@ -515,10 +515,9 @@ public class AidenController extends WorldController
 			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
 					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeSize.y) {
 				resuC = Color.GRAY;
-				if(!isComplete() && !isFailure()){
+				if (!isComplete() && !isFailure()) {
 					instr = 1;
-				}
-				else{
+				} else {
 					instr = 6;
 				}
 				return;
@@ -582,22 +581,21 @@ public class AidenController extends WorldController
 			return;
 		}
 
-		else{
-			this.homeC=Color.WHITE;
-			this.restC=Color.WHITE;
-			this.resuC=Color.WHITE;
+		else {
+			this.homeC = Color.WHITE;
+			this.restC = Color.WHITE;
+			this.resuC = Color.WHITE;
 		}
-		if(avatar.getFuel() /avatar.getMaxFuel() < 0.3){
+		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
 			blinkCD -= dt;
-			if(blinkCD <= 0){
+			if (blinkCD <= 0) {
 				drawCrit = !drawCrit;
 				blinkCD = 0.3f;
-			 }
-			 }
-		else{
-			 drawCrit = false;
+			}
+		} else {
+			drawCrit = false;
 		}
-	
+
 		if (this.isActive() && level != gs.getLevel()) {
 			gs.setLevel(level);
 			gs.setCheckpoint(-1);
@@ -671,8 +669,12 @@ public class AidenController extends WorldController
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
-		if (isComplete() && !isFailure() && gs.getUnlocked() == level) {
-			gs.setUnlocked(level + 1);
+		if (isComplete() && !isFailure()) {
+			gs.setLevel(level + 1);
+			gs.setCheckpoint(-1);
+			if (gs.getUnlocked() == level) {
+				gs.setUnlocked(level + 1);
+			}
 		}
 
 		if (InputController.getInstance().getHorizontal() != 0) {
@@ -680,8 +682,8 @@ public class AidenController extends WorldController
 		}
 
 		if (beginCamFrame < 200) {
-			float a = (2 * ((float) scene.getWidth()) / (float) 60);
-			float b = (2 * ((float) scene.getHeight()) / (float) 36);
+			float a = (2 * ((float) scene.getWidth()) / (float) 72);
+			float b = (2 * ((float) scene.getHeight()) / (float) 44);
 			canvas.updateCam(Math.max(a, b));
 			canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
 					scene.getWidth(), scene.getHeight());
@@ -756,18 +758,17 @@ public class AidenController extends WorldController
 
 			// Check for aiden down water top
 			if (avatar.getTopName().equals(fd2) && avatar != bd1
-					&& bd1 instanceof WaterGuard){
-				if ((!isComplete())&&(!((WaterGuard) bd1).isDead())) {
+					&& bd1 instanceof WaterGuard) {
+				if ((!isComplete()) && (!((WaterGuard) bd1).isDead())) {
 					setFailure(true);
 				}
 			}
 			if (avatar.getTopName().equals(fd1) && avatar != bd2
-					&& bd2 instanceof WaterGuard){
-				if ((!isComplete())&&(!((WaterGuard) bd2).isDead())) {
+					&& bd2 instanceof WaterGuard) {
+				if ((!isComplete()) && (!((WaterGuard) bd2).isDead())) {
 					setFailure(true);
 				}
 			}
-					
 
 			// Check for water top
 			for (CharacterModel wg : npcs) {
@@ -869,15 +870,16 @@ public class AidenController extends WorldController
 		}
 
 		// Disable collision between fire balls and NPCs
-		if ((bd1 instanceof RopePart || bd2 instanceof RopePart) && (bd1 instanceof WaterGuard || bd2 instanceof WaterGuard)) {
+		if ((bd1 instanceof RopePart || bd2 instanceof RopePart)
+				&& (bd1 instanceof WaterGuard || bd2 instanceof WaterGuard)) {
 			contact.setEnabled(false);
 		}
-		
+
 		// Disable collision between water platform and NPCs
 		if (bd1 instanceof WaterPlatform || bd2 instanceof WaterPlatform) {
 			contact.setEnabled(false);
 		}
-	
+
 		if (spirit) {
 			if ((bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform))
@@ -928,104 +930,108 @@ public class AidenController extends WorldController
 		float zoom = canvas.getZoom();
 		if (avatar != null) {
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
-			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x, fuelInnerPos.y);
-			float sx = avatar.getFuel() /avatar.getMaxFuel();
-			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y, fuelBarInner.x*zoom, fuelBarInner.y*zoom );
-			if (sx < 0.3f){
-				canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y, fuelBarInner.x*sx*zoom, fuelBarInner.y*zoom);
+			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
+					fuelInnerPos.y);
+			float sx = avatar.getFuel() / avatar.getMaxFuel();
+			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
+					fuelBarInner.x * zoom, fuelBarInner.y * zoom);
+			if (sx < 0.3f) {
+				canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
+						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+			} else {
+				canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
+						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
 			}
-			else{
-				canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y, fuelBarInner.x*sx*zoom, fuelBarInner.y*zoom);
-			}
-			if(sx == 0){
-				canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
-				canvas.draw(af.barDie, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
-			}
-			else if(drawCrit){
-				canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
-				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
-			}
-			else{
-				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
-				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y, fuelBarSize.x*zoom, fuelBarSize.y*zoom);
+			if (sx == 0) {
+				canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				canvas.draw(af.barDie, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			} else if (drawCrit) {
+				canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			} else {
+				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
 			}
 		}
-		
+
 		if (isComplete()) {
 			posTemp = canvas.relativeVector(winPos.x, winPos.y);
 			canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 					winSize.x * zoom, winSize.y * zoom);
-		}
-		else if(isFailure()){
+		} else if (isFailure()) {
 			posTemp = canvas.relativeVector(losePos.x, losePos.y);
 			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 					loseSize.x * zoom, loseSize.y * zoom);
 		}
-		
+
 		if (pause) {
 			setPos(canvas.getZoom());
 			Vector2 pos1 = canvas.relativeVector(0, 0);
 			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y,
 					1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
-			
+
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
-			if(!isComplete()){
-				if (!isFailure()){
+			if (!isComplete()) {
+				if (!isFailure()) {
 					canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
 							pauseT.x * zoom, pauseT.y * zoom);
-					//resume
+					// resume
 					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
 					canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
-					//restart
+					// restart
 					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
 					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
-					//home
+					// home
 					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
-				}
-				else{
+				} else {
 					posTemp = canvas.relativeVector(losePos.x, losePos.y);
 					canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 							loseSize.x * zoom, loseSize.y * zoom);
-					//skip
+					// skip
 					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
 					canvas.draw(af.skip, resuC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
-					//retry
+					// retry
 					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
 					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
-					//home
+					// home
 					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
-			}
-			else{
+			} else {
 				posTemp = canvas.relativeVector(winPos.x, winPos.y);
 				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 						winSize.x * zoom, winSize.y * zoom);
-				//nextlevel
+				// nextlevel
 				posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
 				canvas.draw(af.nextLevel, resuC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
-				//replay
+				// replay
 				posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
 				canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
-				//home
+				// home
 				posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
 				canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
-			//sound stuff
+			// sound stuff
 			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
 			canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
-			
+
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
@@ -1061,91 +1067,100 @@ public class AidenController extends WorldController
 	private void createScenes(int level) {
 
 		switch (level) {
+
+		// ======================Tutorials========================//
 		case 0:
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial
 														// level
 			backgroundTexture = af.backGround0;
 			break;
-			
+
 		case 1:
-			this.scene = new Scene("Tutorial4.json"); //spirit mode to the top	
-			
+			this.scene = new Scene("Tutorial4.json"); // spirit mode to the top
+
 			backgroundTexture = af.backGround;
 			break;
 		case 2:
 			this.scene = new Scene("Level01.json"); // spirit mode going down
-			
+
 			backgroundTexture = af.backGround;
 			break;
 		case 3:
-			this.scene = new Scene("Med2.json"); // stonesss // pretty easy 
+			this.scene = new Scene("Med2.json"); // stonesss // pretty easy
 			backgroundTexture = af.backGround;
 			break;
 
 		case 4:
-			this.scene = new Scene("Easy2.json"); //spirit boost changed
+			this.scene = new Scene("Easy2.json"); // spirit boost changed
 			backgroundTexture = af.backGround;
 			break;
-			
+
+		// ======================Easy========================//
 		case 5:
 
-			this.scene = new Scene("Easy1.json");  //gap introduce water guard
+			this.scene = new Scene("Easy1.json"); // gap introduce water guard
 			backgroundTexture = af.backGround;
 			break;
-			
+
 		case 6:
 
-			this.scene = new Scene("Tutorial6.json");  //gap introduce water guard
+			this.scene = new Scene("Tutorial6.json"); // gap introduce water
+														// guard
 			backgroundTexture = af.backGround;
 			break;
-			
+
 		case 7:
-		
-			this.scene = new Scene("Tutorial3.json");  //avoid water guard
+
+			this.scene = new Scene("Tutorial3.json"); // avoid water guard
 			backgroundTexture = af.backGround;
 			break;
-			
+
 		case 8:
-			this.scene = new Scene("Easy3.json"); //spirit boost with rope and water
+			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
+													// water
 			backgroundTexture = af.backGround;
 			break;
 		case 9:
-			this.scene = new Scene("Tutorial2.json"); //save the block
+			this.scene = new Scene("Tutorial2.json"); // save the block
 
 			backgroundTexture = af.backGround;
 			break;
-		
+
+		// ======================Medium========================//
 		case 10:
 			this.scene = new Scene("Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
-						
-		case 11: 
-			this.scene = new Scene("Med4.json"); // wooden boxessssssssssssssssssss
+
+		case 11:
+			this.scene = new Scene("Med4.json"); // wooden
+													// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
 		case 12:
-			this.scene = new Scene("Med3.json"); // vertical // add more fuel and move the rope
+			this.scene = new Scene("Med3.json"); // vertical // add more fuel
+													// and move the rope
 			backgroundTexture = af.backGround;
 			break;
-	
+
 		case 13:
-			this.scene = new Scene("Level2.json");  // L 
+			this.scene = new Scene("Level2.json"); // L
 			backgroundTexture = af.backGround;
 			break;
 		case 14:
-			this.scene = new Scene("Level3.json"); //trick + tunnel
+			this.scene = new Scene("Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
+		// ======================Hard========================//
 		case 15:
-			this.scene = new Scene("Hard1.json");  // square
+			this.scene = new Scene("Hard1.json"); // square
 			backgroundTexture = af.backGround;
 			break;
 		case 16:
 			this.scene = new Scene("Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
-			
+
 		default:
 			this.scene = new Scene("Hard1.json");
 			backgroundTexture = af.backGround;
