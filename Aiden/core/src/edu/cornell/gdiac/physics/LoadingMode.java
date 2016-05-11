@@ -177,6 +177,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public int startButton;
 	/** Whether or not this player mode is still active */
 	public boolean active;
+	private Texture castle;
 
 	/**
 	 * Returns the budget for the asset loader.
@@ -262,7 +263,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		back = new Texture("shared/back_button.png");
 		editor = new Texture("shared/level editor.png");
 		levelTemp = new Texture("shared/3.png");
-		
+		castle = new Texture("shared/castle.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -315,6 +316,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 
 		background.dispose();
 		statusBar.dispose();
+		castle.dispose();
 		background = null;
 		statusBar = null;
 		if (playButton != null) {
@@ -375,22 +377,26 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	
 	private void populate_map(){
 		selectorPos=new float[]{
-			995,990,
-			995,890,
-			1286,884,
-			1011,802,
-			845,867,
-			668,874,
-			672,791,
-			764,676,
-			1016,642,
-			1202,677,
-			1032,511,
-			902,440,
-			1040,411,
-			990,340,
-			990,268,
-			990,197
+				995, 989,
+				1275, 993,
+				1419, 1017,
+				1292, 878,
+				1167, 864,
+				997, 890,
+				734, 989,
+				525, 1011,
+				669, 862,
+				675, 789,
+				846, 774,
+				1010, 796,
+				1254, 780,
+				1036, 662,
+				725, 660,
+				837, 486,
+				1200, 530,
+				1020, 525,
+				1023, 437,
+				1011, 346
 		};
 		for (int i=0; i<selectorPos.length/2; i++){
 			selectorPos[2*i]*=scale;
@@ -448,11 +454,12 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
 		}else if (pressState >=4){
+			canvas.draw(castle, Color.WHITE, 0, 0, 0, 0, 0, scale, scale);
 			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.25f/5);
 			canvas.draw(select, Color.WHITE, select.getWidth()/2, select.getHeight()/2,
 					pos.x, pos.y, 0, scale, scale);
 			Color tint_back = (hoverState == HOVER_LEVELS_BACK ? Color.GRAY : Color.WHITE);
-			pos = canvas.relativeVector(canvas.getWidth()/4f, canvas.getHeight()/7f);
+			pos = canvas.relativeVector(canvas.getWidth()/4f, canvas.getHeight()*6f/7f);
 			canvas.draw(back, tint_back, back.getWidth()/2, back.getHeight()/2,
 					pos.x, pos.y, 0, BUTTON_SCALE*scale, BUTTON_SCALE*scale);
 			
@@ -463,15 +470,15 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 						TextureFilter.Linear);
 				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
 				if ((pressState==5 && this.levelSelected==i) || (hoverState==HOVER_LEVEL_SELECTOR && levelHovered==i)){
-					canvas.draw(level, Color.GRAY, level.getWidth() / 2,
-							level.getHeight() / 2,
+					canvas.draw(level, Color.GRAY, level.getWidth() / 2f,
+							level.getHeight() / 2f,
 							pos.x, pos.y,
 							0, LEVEL_BUTTON_SCALE * scale,
 							LEVEL_BUTTON_SCALE * scale);
 				}
 				else{
-					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
-							level.getHeight() / 2,
+					canvas.draw(level, Color.WHITE, level.getWidth() / 2f,
+							level.getHeight() / 2f,
 							pos.x, pos.y,
 							0, LEVEL_BUTTON_SCALE * scale,
 							LEVEL_BUTTON_SCALE * scale);
@@ -675,7 +682,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					}
 			}
 			float x = widthX/4f;
-			float y = heightY/7f;
+			float y = heightY*6f/7f;
 			width = BUTTON_SCALE * scale * back.getWidth();
 			height = BUTTON_SCALE * scale * back.getHeight();
 			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
@@ -846,7 +853,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			}
 		}
 		float x = widthX/4f;
-		float y = heightY/7f;
+		float y = heightY*6f/7f;
 		width = BUTTON_SCALE * scale * back.getWidth();
 		height = BUTTON_SCALE * scale * back.getHeight();
 		if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
