@@ -1510,8 +1510,8 @@ public class GameCanvas {
 		}else if (y > h-8){
 			y = Math.max(h-8, h/2);
 		}
-		x = x*1920/60;
-		y = y*1080/36;
+		x = x*1920/59;
+		y = y*1080/32;
 		// x = x*getWidth()/w;
 		// y = y*getHeight()/w;
 		target.set(x, y, 0);
