@@ -679,6 +679,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 							&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){
 						pressState = 5;
 						levelSelected = i;
+						break;
 					}
 			}
 			float x = widthX/4f;
@@ -850,6 +851,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){	
 				hoverState=HOVER_LEVEL_SELECTOR;
 				levelHovered = i;
+				break;
 			}
 		}
 		float x = widthX/4f;
