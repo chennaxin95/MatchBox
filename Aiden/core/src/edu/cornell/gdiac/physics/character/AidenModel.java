@@ -452,7 +452,7 @@ public class AidenModel extends CharacterModel {
 	
 
 	public void resizeSensor(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.99f);
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.9f);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;

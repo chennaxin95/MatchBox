@@ -246,9 +246,12 @@ public class AidenController extends WorldController
 			jump.dispose();
 			bgm.dispose();
 		}
-		System.out.println("scen");
 		populateLevel();
-		System.out.println("scenEND");
+		confeti = new ParticleEffect();
+		confeti.load(Gdx.files.internal("platform/confetti.p"),
+				Gdx.files.internal("platform"));
+		Vector2 pos = canvas.relativeVector(-100, -100);
+		confeti.setPosition(pos.x, pos.y);
 		if (listener.getMuted()) {
 			this.musicMuted = true;
 		}
@@ -568,6 +571,7 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+		confeti.update(dt);
 		if (pause) {
 			if (musicMuted) {
 				af.bgm.pause();
@@ -739,6 +743,7 @@ public class AidenController extends WorldController
 			if ((bd1 == avatar && bd2 == goalDoor) ||
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
+				confeti.start();
 				avatar.setComplete(true);
 			}
 
@@ -907,6 +912,13 @@ public class AidenController extends WorldController
 		}
 
 	}
+	
+	//---------------------------------confetti-------------------------------//
+	public ParticleEffect confeti;
+	
+	
+	
+	//-------------------------------------------------------------------------//
 
 	@Override
 	public void draw(float delta) {
@@ -1035,6 +1047,11 @@ public class AidenController extends WorldController
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+		}
+		if((pause&&isComplete()) || isComplete()){
+			Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.05f);
+			confeti.setPosition(pos.x, pos.y);
+			canvas.drawParticle(confeti);
 		}
 		canvas.end();
 		if (debug) {
