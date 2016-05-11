@@ -490,11 +490,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				Color c=Color.GRAY;
 				if (i<gs.getUnlocked()) {
 					c=Color.WHITE;
-					canvas.draw(light, new Color(1, 1, 0.2f, 0.7f), light.getWidth()/2f,
+					canvas.draw(light, new Color(1, 1, 0.2f, 1f), light.getWidth()/2f,
 							light.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale / 3.5f,
-							LEVEL_BUTTON_SCALE * scale / 3.5f);
+							0, LEVEL_BUTTON_SCALE * scale / 4f,
+							LEVEL_BUTTON_SCALE * scale / 4f);
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;
