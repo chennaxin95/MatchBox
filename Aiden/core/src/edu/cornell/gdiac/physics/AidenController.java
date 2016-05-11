@@ -1094,48 +1094,54 @@ public class AidenController extends WorldController
 			break;
 			
 		case 6:
+
+			this.scene = new Scene("Tutorial6.json");  //gap introduce water guard
+			backgroundTexture = af.backGround;
+			break;
+			
+		case 7:
 		
 			this.scene = new Scene("Tutorial3.json");  //avoid water guard
 			backgroundTexture = af.backGround;
 			break;
 			
-		case 7:
+		case 8:
 			this.scene = new Scene("Easy3.json"); //spirit boost with rope and water
 			backgroundTexture = af.backGround;
 			break;
-		case 8:
+		case 9:
 			this.scene = new Scene("Tutorial2.json"); //save the block
 
 			backgroundTexture = af.backGround;
 			break;
 		
-		case 9:
+		case 10:
 			this.scene = new Scene("Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
 						
-		case 10: 
+		case 11: 
 			this.scene = new Scene("Med4.json"); // wooden boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
-		case 11:
+		case 12:
 			this.scene = new Scene("Med3.json"); // vertical // add more fuel and move the rope
 			backgroundTexture = af.backGround;
 			break;
 	
-		case 12:
+		case 13:
 			this.scene = new Scene("Level2.json");  // L 
 			backgroundTexture = af.backGround;
 			break;
-		case 13:
+		case 14:
 			this.scene = new Scene("Level3.json"); //trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
-		case 14:
+		case 15:
 			this.scene = new Scene("Hard1.json");  // square
 			backgroundTexture = af.backGround;
 			break;
-		case 15:
+		case 16:
 			this.scene = new Scene("Hard2.json");
 			backgroundTexture = af.backGround;
 			break;

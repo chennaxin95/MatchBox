@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
 level: 0
+=======
+level: 9
+>>>>>>> Stashed changes
 checkpoint: -1
 unlocked: 11
 filename: savedGame.json
