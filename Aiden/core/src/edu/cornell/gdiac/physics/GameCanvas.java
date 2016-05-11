@@ -1510,8 +1510,8 @@ public class GameCanvas {
 		}else if (y > h-8){
 			y = Math.max(h-8, h/2);
 		}
-		x = x*1920/60;
-		y = y*1080/36;
+		x = x*1920/59;
+		y = y*1080/32;
 		// x = x*getWidth()/w;
 		// y = y*getHeight()/w;
 		target.set(x, y, 0);
@@ -1530,5 +1530,19 @@ public class GameCanvas {
 		spriteBatch.setProjectionMatrix(camera.combined);
 		active = DrawPass.STANDARD;
 
+	}
+	
+	public void setCamPos(float x, float y){
+		
+		x = x*1920/59;
+		y = y*1080/32;
+		target.set(x, y, 0);
+		float f = -1f;
+		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
+		//camera.position.set(new Vector3(x,y,0));
+		camera.translate(new Vector3(d.x,d.y,0f));
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		active = DrawPass.STANDARD;
 	}
 }
