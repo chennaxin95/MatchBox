@@ -264,9 +264,9 @@ public class AidenController extends WorldController
 		fuelBarSize.scl(sScaleX, sScaleX);
 		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
-		resuC = Color.WHITE;
-		restC = Color.WHITE;
-		homeC = Color.WHITE;
+//		resuC = Color.WHITE;
+//		restC = Color.WHITE;
+//		homeC = Color.WHITE;
 	}
 	/**
 	 * Lays out the game geography.
@@ -503,57 +503,84 @@ public class AidenController extends WorldController
 	}
 
 	public float cooldown = 0.5f;
+	public int isHolding=-1;
 
 	public void buttonPressed(float dt) {
-
 		boolean isPressed = InputController.getInstance().didTertiary();
 		cooldown -= dt;
-
-		if (isPressed && instr == 0 && cooldown <= 0) {
-			cooldown = 0.5f;
+		if (count == 0.4f) {
+			mC =  Color.WHITE;
+			sC =  Color.WHITE;
+			resuC =  Color.WHITE;
+			homeC =  Color.WHITE;
+			restC =  Color.WHITE;
+			isHolding=-1;
+		}
+		float zoom = canvas.getZoom();
+		System.out.println(zoom);
+//		if (isPressed && instr == 0 && cooldown <= 0) {
+//			cooldown = 0.5f;
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
-			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
-					mPos.y >= homePos.y && mPos.y <= homePos.y + largeSize.y) {
+			if (mPos.x >= homePos.x && mPos.x <= homePos.x + zoom*largeSize.x &&
+					mPos.y >= homePos.y && mPos.y <= homePos.y + zoom*largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 2;
+					isHolding = 0;
+				}
 				homeC = Color.GRAY;
-				instr = 2;
-				return;
 			}
-			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
-					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeSize.y) {
+			else if (isHolding !=0){
+				homeC = Color.WHITE;
+			}
+			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + zoom*largeSize.x &&
+					mPos.y >= resuPos.y && mPos.y <= resuPos.y + zoom*largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					if(!isComplete() && !isFailure()){
+						instr = 1;
+					}
+					else{
+						instr = 6;
+					}
+					isHolding=1;
+				}
 				resuC = Color.GRAY;
-				if (!isComplete() && !isFailure()) {
-					instr = 1;
-				} else {
-					instr = 6;
+			}
+			else if (isHolding !=1){
+				resuC = Color.WHITE;
+			}
+			if (mPos.x >= restPos.x && mPos.x <= restPos.x + zoom*largeSize.x &&
+					mPos.y >= restPos.y && mPos.y <= restPos.y + zoom*largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 3;
+					isHolding=2;
+				}
+				restC = Color.GRAY;
+			}
+			else if (isHolding !=2){
+				restC = Color.WHITE;
+			}
+			if (mPos.x >= sPos.x && mPos.x <= sPos.x + zoom*smallSize.x &&
+					mPos.y >= sPos.y && mPos.y <= sPos.y + zoom*smallSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 4;
 				}
 				return;
 			}
-			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeSize.x &&
-					mPos.y >= restPos.y && mPos.y <= restPos.y + largeSize.y) {
-				restC = Color.GRAY;
-				instr = 3;
+			if (mPos.x >= muPos.x && mPos.x <= muPos.x + zoom*smallSize.x &&
+					mPos.y >= muPos.y && mPos.y <= muPos.y + zoom*smallSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 5;
+				}
 				return;
 			}
-			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallSize.x &&
-					mPos.y >= sPos.y && mPos.y <= sPos.y + smallSize.y) {
-				instr = 4;
-				return;
-			}
-			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallSize.x &&
-					mPos.y >= muPos.y && mPos.y <= muPos.y + smallSize.y) {
-				instr = 5;
-				return;
-			}
-		}
-		if (count == 0.4f) {
-			mC = Color.WHITE;
-			sC = Color.WHITE;
-			resuC = Color.WHITE;
-			homeC = Color.WHITE;
-			restC = Color.WHITE;
-		}
+//		}
 	}
 
 	public float jumpCD = 0.5f;
@@ -589,11 +616,12 @@ public class AidenController extends WorldController
 			buttonPressed(dt);
 			return;
 		}
-
 		else {
 			this.homeC = Color.WHITE;
 			this.restC = Color.WHITE;
 			this.resuC = Color.WHITE;
+			isHolding=-1;
+
 		}
 		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
 			blinkCD -= dt;
