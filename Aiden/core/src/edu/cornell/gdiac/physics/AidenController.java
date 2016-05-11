@@ -223,6 +223,7 @@ public class AidenController extends WorldController
 		homeC = Color.WHITE;
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
+		
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
@@ -678,7 +679,12 @@ public class AidenController extends WorldController
 		if (InputController.getInstance().getHorizontal() != 0) {
 			beginCamFrame = 400;
 		}
-
+		
+		
+		if(beginCamFrame == 0){
+			canvas.setCamPos(avatar.getX(), avatar.getY());
+		}
+		
 		if (beginCamFrame < 200) {
 			float a = (2 * ((float) scene.getWidth()) / (float) 72);
 			float b = (2 * ((float) scene.getHeight()) / (float) 44);
