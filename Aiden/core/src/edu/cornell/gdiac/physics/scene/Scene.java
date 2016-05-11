@@ -81,7 +81,8 @@ public class Scene implements SceneInterface {
 				int jump_height = aiden.getInt("jump_height");
 				int start_fuel = aiden.getInt("start_fuel");
 				aidenModel = new AidenModel(start_pos_x, start_pos_y,
-						scale_x, scale_y, fright);
+						scale_x, scale_y, fright, start_fuel);
+				
 			}
 
 		}

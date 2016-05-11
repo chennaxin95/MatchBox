@@ -1469,7 +1469,7 @@ public class GameCanvas {
 		if(czoom < zoom){
 			while(camera.zoom < zoom){
 				if(updateFrame %100 == 0){
-					camera.zoom += 0.02;
+					camera.zoom += 0.05;
 				}
 				updateFrame ++;
 				//camera.update();
@@ -1477,7 +1477,7 @@ public class GameCanvas {
 		}else{
 			while(camera.zoom > zoom){
 				if(updateFrame %100 == 0){
-					camera.zoom -= 0.02;
+					camera.zoom -= 0.05;
 				}
 				updateFrame ++;
 				//camera.update();
@@ -1510,8 +1510,8 @@ public class GameCanvas {
 		}else if (y > h-8){
 			y = Math.max(h-8, h/2);
 		}
-		x = x*1920/60;
-		y = y*1080/36;
+		x = x*1920/59;
+		y = y*1080/32;
 		// x = x*getWidth()/w;
 		// y = y*getHeight()/w;
 		target.set(x, y, 0);
@@ -1520,25 +1520,32 @@ public class GameCanvas {
 		// Position the camera
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-		if (d.x*d.x + d.y*d.y>500){
+		float dst = d.x*d.x+d.y*d.y;
+		 
+		if (dst>100 ){
 			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
-		}
-		else if (d.x*d.x + d.y*d.y>400){
-			camera.translate(new Vector3(d.x/25, d.y/25, 0f));
-		}	
-		else if (d.x*d.x + d.y*d.y>200){
-			camera.translate(new Vector3(d.x/12, d.y/12, 0f));
-		}	
-		
-		else if (d.x*d.x + d.y*d.y>100){
-			camera.translate(new Vector3(d.x/20, d.y/20, 0f));
-		}	
-		else if (d.x*d.x + d.y*d.y>0 && d.x*d.x + d.y*d.y<100 ){
-			camera.translate(new Vector3(d.x/30, d.y/30, 0f));
+			//System.out.println("0");
 		}
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		active = DrawPass.STANDARD;
 
+	}
+	
+	public void setCamPos(float x, float y){	
+		x = x*1920/59;
+		y = y*1080/32;
+		target.set(x, y, 0);
+		float f = -1f;
+		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
+		//camera.position.set(new Vector3(x,y,0));
+		camera.translate(new Vector3(d.x,d.y,0f));
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		active = DrawPass.STANDARD;
+	}
+	
+	public void setZoom(float z){
+		camera.zoom = z;
 	}
 }

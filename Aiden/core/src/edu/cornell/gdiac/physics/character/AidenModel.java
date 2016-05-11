@@ -30,13 +30,14 @@ public class AidenModel extends CharacterModel {
 	// Physics constants
 
 	/** The Fuel system for Aiden */
-	private static final float START_FUEL = 30;
+	private static float START_FUEL = 30;
 	private static final float CRITICAL_FUEL = 15;
 	private static final float MAX_FUEL = 50;
 	private float fuel;
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
+	private ParticleEffect fuelP;
 	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
@@ -235,6 +236,11 @@ public class AidenModel extends CharacterModel {
 	public float oldFuel;
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
+		this(x,y,width,height,fright,START_FUEL);
+	}
+	
+	public AidenModel(float x, float y, float width, float height, boolean fright, 
+			float start_fuel){
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
 		fuel = START_FUEL;
 		// Gameplay attributes
@@ -254,11 +260,16 @@ public class AidenModel extends CharacterModel {
 		trailStill = new ParticleEffect();
 		trailStill.load(Gdx.files.internal("platform/still.p"),
 				Gdx.files.internal("platform"));
+		fuelP = new ParticleEffect();
+		fuelP.load(Gdx.files.internal("platform/fuelP.p"),
+				Gdx.files.internal("platform"));
 		trailLeft.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailRight.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		fuelP.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 	}
 
@@ -400,12 +411,15 @@ public class AidenModel extends CharacterModel {
 		trailLeft.update(dt);
 		trailRight.update(dt);
 		trailStill.update(dt);
+		fuelP.update(dt);
 		trailLeft.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailRight.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
+		fuelP.setPosition(getX() * drawScale.x,
+				(getY()) * drawScale.y);
 	}
 	
 	@Override
@@ -452,7 +466,7 @@ public class AidenModel extends CharacterModel {
 	
 
 	public void resizeSensor(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.99f);
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.9f);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
@@ -530,8 +544,7 @@ public class AidenModel extends CharacterModel {
 					drawJumping = false;
 				}
 			}
-			else 
-			if (drawJumping){
+			else if (drawJumping){
 				drawJump(canvas, ratio);
 			}
 			else if (Math.abs(this.getVX()) >= 5){
@@ -616,6 +629,7 @@ public class AidenModel extends CharacterModel {
 	
 	public int cycles = 0;
 	public void drawFuel(GameCanvas canvas, float ratio){
+		fuelP.start();
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
 			expand.setFrame((expand.getFrame()+1)%6);
@@ -629,12 +643,14 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
 		if (expand.getFrame() == expand.getSize()-1){
 			cycles++;
-			if(cycles == 6){
+			if(cycles == 9){
 				cycles = 0;
 				gotFuel = false;
 				expand.setFrame(0);
 			}
 		}
+		canvas.drawParticle(fuelP);
 	}
+
 	
 }
