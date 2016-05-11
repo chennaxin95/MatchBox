@@ -1128,28 +1128,26 @@ public class AidenController extends WorldController
 		// ======================Tutorials========================//
 		case 0:
 			this.scene = new Scene("Tutorial0.json"); // super easy tutorial
-														// level
 			backgroundTexture = af.backGround0;
 			break;
 
 		case 1:
 			this.scene = new Scene("Tutorial4.json"); // spirit mode to the top
-
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.tutorial1;
 			break;
 		case 2:
 			this.scene = new Scene("Level01.json"); // spirit mode going down
 
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.tutorial2;
 			break;
 		case 3:
 			this.scene = new Scene("Med2.json"); // stonesss // pretty easy
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.tutorial3;
 			break;
 
 		case 4:
 			this.scene = new Scene("Easy2.json"); // spirit boost changed
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.tutorial4;
 			break;
 
 		// ======================Easy========================//

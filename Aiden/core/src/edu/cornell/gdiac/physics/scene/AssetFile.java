@@ -62,6 +62,10 @@ public class AssetFile {
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion backGround0;
+	public TextureRegion tutorial4;
+	public TextureRegion tutorial3;
+	public TextureRegion tutorial2;
+	public TextureRegion tutorial1;
 	public TextureRegion homeButton;
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
@@ -167,6 +171,10 @@ public class AssetFile {
 		files.put("SKIP", "shared/skip.png");
 		files.put("YOU_LOSE", "shared/you lose.png");
 		files.put("NEXT_LEVEL", "shared/nextlevel.png");
+		files.put("TUT4_BACK", "background/tutorial4.png");
+		files.put("TUT1_BACK", "background/tutorial1.png");
+		files.put("TUT2_BACK", "background/tutorial2.png");
+		files.put("TUT3_BACK", "background/tutorial3.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -297,6 +305,11 @@ public class AssetFile {
 		barYellow = createTexture(manager, files.get("BAR_YELLOW"),false);
 		barGray = createTexture(manager, files.get("BAR_GRAY"),false);
 		barDie = createTexture(manager, files.get("BAR_DIE"), false);
+		
+		tutorial4 = createTexture(manager, files.get("TUT4_BACK"), false);
+		tutorial1 = createTexture(manager, files.get("TUT1_BACK"), false);
+		tutorial2 = createTexture(manager, files.get("TUT2_BACK"), false);
+		tutorial3 = createTexture(manager, files.get("TUT3_BACK"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
