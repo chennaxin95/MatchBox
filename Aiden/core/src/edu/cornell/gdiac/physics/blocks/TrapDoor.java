@@ -39,9 +39,7 @@ public class TrapDoor extends ComplexObstacle{
 		doorPos = new Vector2(x,y);
 		sb.setDensity(1f); sb.setName("door");
 		bodies.add(sb);
-		System.out.println("thihere");
 		rope = new FlammableBlock(x-end*1.1f, y+rl/2, rw, rl, 2, 2);
-		System.out.println("thihere1");
 		rope.setDensity(1f); rope.setName("rope");
 		bodies.add(rope);
 	}
@@ -50,7 +48,6 @@ public class TrapDoor extends ComplexObstacle{
 	
 	public boolean createJoints(World world){
 		//anchor joint
-		System.out.println("there");
 		Vector2 pos = new Vector2(doorPos.x+end, this.getY());
 		anchor = new WheelObstacle(pos.x, pos.y, rw/2f);
 		anchor.setName("anchor");
@@ -110,7 +107,6 @@ public class TrapDoor extends ComplexObstacle{
 			return false;
 		}
 		if(((FlammableBlock) bodies.get(1)).isBurnt()){
-			System.out.println("burnt");
 			world.destroyBody(bodies.get(1).getBody());
 			bodies.removeIndex(1);
 			return false;
@@ -121,7 +117,6 @@ public class TrapDoor extends ComplexObstacle{
 	
 	public void setChildrenTexture(TextureRegion door, TextureRegion rope, TextureRegion nail){
 		((StoneBlock) bodies.get(0)).setTexture(door);;
-		System.out.println("set texture");
 		if (this.rope!=null && rope!=null){
 			this.rope.setTexture(rope);
 			this.rope.setDrawScale(this.drawScale);
