@@ -390,12 +390,9 @@ public class AidenModel extends CharacterModel {
 			resizeSensor();
 			smallSized = true;
 		}
-		else if(ratio >= 0.9 && smallSized){
+		else if(ratio >= 0.95 && smallSized){
 			resizeSensor();
 			smallSized = false;
-		}
-		else if(fuel-oldFuel >= 5){
-			resizeSensor();
 		}
 		
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
@@ -455,7 +452,7 @@ public class AidenModel extends CharacterModel {
 	
 
 	public void resizeSensor(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.99f);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
@@ -527,13 +524,13 @@ public class AidenModel extends CharacterModel {
 			c.g = cRatio;
 			c.b = c.g;
 			preColor = c;
-//			if(gotFuel){
-//				drawFuel(canvas, ratio);
-//				if(drawJumping){
-//					drawJumping = false;
-//				}
-//			}
-//			else 
+			if(gotFuel){
+				drawFuel(canvas, ratio);
+				if(drawJumping){
+					drawJumping = false;
+				}
+			}
+			else 
 			if (drawJumping){
 				drawJump(canvas, ratio);
 			}
@@ -617,27 +614,27 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y+30*ratio, getAngle(), -effect*ratio, ratio);
 	}
 	
-//	public int cycles = 0;
-//	public void drawFuel(GameCanvas canvas, float ratio){
-//		if (this.animeCoolDown<=0) {
-//			animeCoolDown=MAX_ANIME_TIME;
-//			expand.setFrame((expand.getFrame()+1)%6);
-//		}
-//		// For placement purposes, put origin in center.
-//		float ox = 0.5f * characterSprite.getRegionWidth();
-//		float oy = 0.5f * characterSprite.getRegionHeight();
-//
-//		float effect = faceRight ? -1.0f : 1.0f;
-//		canvas.draw(expand, preColor, ox, oy, getX() * drawScale.x,
-//				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
-//		if (expand.getFrame() == expand.getSize()-1){
-//			cycles++;
-//			if(cycles == 6){
-//				cycles = 0;
-//				gotFuel = false;
-//				expand.setFrame(0);
-//			}
-//		}
-//	}
+	public int cycles = 0;
+	public void drawFuel(GameCanvas canvas, float ratio){
+		if (this.animeCoolDown<=0) {
+			animeCoolDown=MAX_ANIME_TIME;
+			expand.setFrame((expand.getFrame()+1)%6);
+		}
+		// For placement purposes, put origin in center.
+		float ox = 0.5f * characterSprite.getRegionWidth();
+		float oy = 0.5f * characterSprite.getRegionHeight();
+
+		float effect = faceRight ? -1.0f : 1.0f;
+		canvas.draw(expand, preColor, ox, oy, getX() * drawScale.x,
+				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
+		if (expand.getFrame() == expand.getSize()-1){
+			cycles++;
+			if(cycles == 6){
+				cycles = 0;
+				gotFuel = false;
+				expand.setFrame(0);
+			}
+		}
+	}
 	
 }
