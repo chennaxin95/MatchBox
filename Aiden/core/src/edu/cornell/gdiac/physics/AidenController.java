@@ -517,7 +517,6 @@ public class AidenController extends WorldController
 			isHolding=-1;
 		}
 		float zoom = /*1f/canvas.getZoom()**/sScaleX;
-		System.out.println(zoom);
 //		if (isPressed && instr == 0 && cooldown <= 0) {
 //			cooldown = 0.5f;
 			Vector2 pos = InputController.getInstance().getCrossHair();
