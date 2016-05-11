@@ -12,9 +12,14 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.blocks.BlockAbstract;
+import edu.cornell.gdiac.physics.blocks.FuelBlock;
+import edu.cornell.gdiac.physics.blocks.GoalDoor;
+import edu.cornell.gdiac.physics.blocks.Rope;
+import edu.cornell.gdiac.physics.blocks.RopePart;
 import edu.cornell.gdiac.physics.blocks.StoneBlock;
 import edu.cornell.gdiac.physics.character.CharacterModel;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.physics.obstacle.WheelObstacle;
 import edu.cornell.gdiac.physics.scene.Scene;
 
 public class SightDetector {
@@ -55,6 +60,11 @@ public class SightDetector {
 			
 			// Skip if being itself
 			if (obstacle.equals(npc)) continue;
+			if (obstacle instanceof Rope) continue;
+			if (obstacle instanceof RopePart) continue;
+			if (obstacle instanceof GoalDoor) continue;
+			if (obstacle instanceof FuelBlock) continue;
+//			if (obstacle instanceof WheelObstacle) continue;
 			// Ray-box intersection test
 			Rectangle rec=obstacle.getBoundingBox();
 			float lx=rec.x;
