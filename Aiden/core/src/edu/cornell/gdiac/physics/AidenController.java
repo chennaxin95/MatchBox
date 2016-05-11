@@ -680,8 +680,8 @@ public class AidenController extends WorldController
 		}
 
 		if (beginCamFrame < 200) {
-			float a = (2 * ((float) scene.getWidth()) / (float) 60);
-			float b = (2 * ((float) scene.getHeight()) / (float) 36);
+			float a = (2 * ((float) scene.getWidth()) / (float) 72);
+			float b = (2 * ((float) scene.getHeight()) / (float) 44);
 			canvas.updateCam(Math.max(a, b));
 			canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
 					scene.getWidth(), scene.getHeight());

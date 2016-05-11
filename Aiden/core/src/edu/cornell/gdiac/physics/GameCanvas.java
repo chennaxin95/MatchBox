@@ -1520,9 +1520,22 @@ public class GameCanvas {
 		// Position the camera
 		float f = -1f;
 		Vector3 d = target.add(new Vector3(f*camera.position.x,f*camera.position.y,-1));
-		if (d.x*d.x + d.y*d.y>100){
-			camera.translate(new Vector3(d.x/50, d.y/50, 0f));
+		if (d.x*d.x + d.y*d.y>500){
+			camera.translate(new Vector3(d.x/40, d.y/40, 0f));
+		}
+		else if (d.x*d.x + d.y*d.y>400){
+			camera.translate(new Vector3(d.x/25, d.y/25, 0f));
 		}	
+		else if (d.x*d.x + d.y*d.y>200){
+			camera.translate(new Vector3(d.x/12, d.y/12, 0f));
+		}	
+		
+		else if (d.x*d.x + d.y*d.y>100){
+			camera.translate(new Vector3(d.x/20, d.y/20, 0f));
+		}	
+		else if (d.x*d.x + d.y*d.y>0 && d.x*d.x + d.y*d.y<100 ){
+			camera.translate(new Vector3(d.x/30, d.y/30, 0f));
+		}
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		active = DrawPass.STANDARD;
