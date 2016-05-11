@@ -254,7 +254,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		resize(canvas.getWidth(), canvas.getHeight());
 
 		// TODO:
-		populate();
+		populate_default();
 		
 		// Load the next two images immediately.
 		playButton = null;
@@ -366,7 +366,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	// TODO: POPULATE
 	private float[] selectorPos;
 	
-	private void populate(){
+	private void populate_default(){
 		selectorPos=new float[40];
 		for (int i = 0; i<4; i++){
 			float y = tlY - i *  heightY * 3f / 20f;
@@ -436,11 +436,20 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				level.setFilter(TextureFilter.Linear,
 						TextureFilter.Linear);
 				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
-				canvas.draw(level, Color.WHITE, level.getWidth() / 2,
-						level.getHeight() / 2,
-						pos.x, pos.y,
-						0, LEVEL_BUTTON_SCALE * scale,
-						LEVEL_BUTTON_SCALE * scale);
+				if (pressState==5 && this.levelSelected==i){
+					canvas.draw(level, Color.GRAY, level.getWidth() / 2,
+							level.getHeight() / 2,
+							pos.x, pos.y,
+							0, LEVEL_BUTTON_SCALE * scale,
+							LEVEL_BUTTON_SCALE * scale);
+				}
+				else{
+					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
+							level.getHeight() / 2,
+							pos.x, pos.y,
+							0, LEVEL_BUTTON_SCALE * scale,
+							LEVEL_BUTTON_SCALE * scale);
+				}
 			}
 //			int n = 1;
 //			for (int i = 0; i<4; i++){
@@ -533,7 +542,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		widthX = width;
 		
 		// TODO:
-		populate();
+		populate_default();
 	}
 
 	/**
