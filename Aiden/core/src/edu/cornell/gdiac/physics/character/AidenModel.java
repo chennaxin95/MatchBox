@@ -78,6 +78,11 @@ public class AidenModel extends CharacterModel {
 	private boolean failed = false;
 	public boolean gotFuel = false;
 	
+	public void setFuelPPos(){
+		fuelP.setPosition(getX() * drawScale.x,
+				(getY()) * drawScale.y);
+	}
+	
 	public boolean canDrawFail(){
 		return drawFail;
 	}
@@ -418,8 +423,6 @@ public class AidenModel extends CharacterModel {
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
-		fuelP.setPosition(getX() * drawScale.x,
-				(getY()) * drawScale.y);
 	}
 	
 	@Override
@@ -643,7 +646,7 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
 		if (expand.getFrame() == expand.getSize()-1){
 			cycles++;
-			if(cycles == 9){
+			if(cycles == 7){
 				cycles = 0;
 				gotFuel = false;
 				expand.setFrame(0);

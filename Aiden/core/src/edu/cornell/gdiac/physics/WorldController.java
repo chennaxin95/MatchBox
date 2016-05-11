@@ -431,6 +431,8 @@ public abstract class WorldController implements Screen {
 				}
 				if(instr == 6){
 					listener.exitScreen(this, EXIT_NEXT);
+					instr = 0;
+					this.pause();
 					return false;
 				}
 			}
@@ -456,7 +458,7 @@ public abstract class WorldController implements Screen {
 			reset();
 		}
 		// Now it is time to maybe switch screens.
-		if (input.didPause()){
+		if (input.didPause() && !isComplete() && !isFailure()){
 			this.pause();
 			return false;
 		}
