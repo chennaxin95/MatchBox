@@ -1061,6 +1061,12 @@ public class AidenController extends WorldController
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
 			} else {
+				if((pause&&isComplete()) || isComplete()){
+					Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.05f);
+					confeti.setPosition(pos.x, pos.y);
+					canvas.drawParticle(confeti);
+				}
+				
 				posTemp = canvas.relativeVector(winPos.x, winPos.y);
 				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 						winSize.x * zoom, winSize.y * zoom);
@@ -1085,11 +1091,6 @@ public class AidenController extends WorldController
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
-		}
-		if((pause&&isComplete()) || isComplete()){
-			Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.05f);
-			confeti.setPosition(pos.x, pos.y);
-			canvas.drawParticle(confeti);
 		}
 		canvas.end();
 		if (debug) {
