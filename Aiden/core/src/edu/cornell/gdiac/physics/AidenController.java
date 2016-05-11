@@ -199,28 +199,8 @@ public class AidenController extends WorldController
 	 */
 	public void reset() {
 		af.bgm.stop();
-		pauseT = new Vector2(480, 110);
-		loseSize = new Vector2(649, 110);
-		winSize = new Vector2(707, 110);
-		largeBut = new Vector2(320, 128);
-		smallBut = new Vector2(100, 96);
-
-		fuelBarSize = new Vector2(449, 91);
-		fuelBarInner = new Vector2(377, 91);
-		sScaleX = (float) canvas.getWidth() / 1920f;
-		sScaleY = (float) canvas.getHeight() / 1080f;
-
-		pauseT = pauseT.scl(sScaleX, sScaleX);
-		loseSize.scl(sScaleX);
-		winSize.scl(sScaleX);
-		largeBut = largeBut.scl(sScaleX, sScaleX);
-		smallBut = smallBut.scl(sScaleX, sScaleX);
-		fuelBarSize.scl(sScaleX, sScaleX);
-		fuelBarInner.scl(sScaleX);
-		setPos(canvas.getZoom());
-		resuC = Color.WHITE;
-		restC = Color.WHITE;
-		homeC = Color.WHITE;
+		resetPos();
+		
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
 		
@@ -263,7 +243,31 @@ public class AidenController extends WorldController
 			wasPlaying = true;
 		}
 	}
+	
+	public void resetPos(){
+		pauseT = new Vector2(480, 110);
+		loseSize = new Vector2(649, 110);
+		winSize = new Vector2(707, 110);
+		largeBut = new Vector2(320, 128);
+		smallBut = new Vector2(100, 96);
 
+		fuelBarSize = new Vector2(449, 91);
+		fuelBarInner = new Vector2(377, 91);
+		sScaleX = (float) canvas.getWidth() / 1920f;
+		sScaleY = (float) canvas.getHeight() / 1080f;
+
+		pauseT = pauseT.scl(sScaleX, sScaleX);
+		loseSize.scl(sScaleX);
+		winSize.scl(sScaleX);
+		largeBut = largeBut.scl(sScaleX, sScaleX);
+		smallBut = smallBut.scl(sScaleX, sScaleX);
+		fuelBarSize.scl(sScaleX, sScaleX);
+		fuelBarInner.scl(sScaleX);
+		setPos(canvas.getZoom());
+		resuC = Color.WHITE;
+		restC = Color.WHITE;
+		homeC = Color.WHITE;
+	}
 	/**
 	 * Lays out the game geography.
 	 */
@@ -981,7 +985,7 @@ public class AidenController extends WorldController
 		}
 		
 		if (pause) {
-			setPos(canvas.getZoom());
+			resetPos();
 			Vector2 pos1 = canvas.relativeVector(0, 0);
 			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y,
 					1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
