@@ -417,18 +417,20 @@ public abstract class WorldController implements Screen {
 					reset();
 				}
 				if(instr == 4){
-					System.out.println(soundMuted);
 					soundMuted = !soundMuted;
 					instr = 0;
 					listener.setSound();
 					return false;
 				}
 				if(instr == 5){
-					System.out.println(musicMuted);
 					musicMuted = !musicMuted;
 					wasPlaying = false;
 					instr = 0;
 					listener.setMuted();
+					return false;
+				}
+				if(instr == 6){
+					listener.exitScreen(this, EXIT_NEXT);
 					return false;
 				}
 			}
@@ -472,9 +474,9 @@ public abstract class WorldController implements Screen {
 		} else if (countdown == 0) {
 			countdown = -1;
 			if (failed) {
-				reset();
+				this.pause();
 			} else if (complete) {
-				listener.exitScreen(this, EXIT_NEXT);
+				this.pause();
 				return false;
 			}
 		}

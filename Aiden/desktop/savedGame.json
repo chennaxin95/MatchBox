@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 level: 15
+=======
+level: 9
+>>>>>>> origin/master
 checkpoint: -1
 unlocked: 12
 filename: savedGame.json

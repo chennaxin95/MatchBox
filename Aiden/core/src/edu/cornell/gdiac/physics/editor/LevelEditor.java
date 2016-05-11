@@ -839,7 +839,6 @@ public class LevelEditor extends WorldController {
 
 		Scene scene = new Scene("Hard2.json");
 
-
 		reset();
 		System.out.println("Loading Characters");
 		for (CharacterModel ch : scene.getGuards()) {
