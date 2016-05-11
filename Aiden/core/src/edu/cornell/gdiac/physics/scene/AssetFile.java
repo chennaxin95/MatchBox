@@ -57,6 +57,7 @@ public class AssetFile {
 	public TextureRegion barYellow;
 	public TextureRegion barGray;
 	public TextureRegion barDie;
+	public TextureRegion nextLevel;
 	
 	/** Texture for background */
 	public TextureRegion backGround;
@@ -64,6 +65,13 @@ public class AssetFile {
 	public TextureRegion homeButton;
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
+	public TextureRegion youWin;
+	public TextureRegion youLose;
+	public TextureRegion retry;
+	public TextureRegion replay;
+	public TextureRegion skip;
+	
+	
 	public TextureRegion editorPanelTexture;
 	public TextureRegion paused;
 	public TextureRegion music;
@@ -153,6 +161,12 @@ public class AssetFile {
 		files.put("BAR_GRAY", "platform/grey_icon.png");
 		files.put("AIDEN_GLOW", "platform/aidenGlow.png");
 		files.put("BAR_DIE", "platform/empty grey.png");
+		files.put("GOOD_JOB", "shared/Good Job.png");
+		files.put("RETRY", "shared/retry.png");
+		files.put("REPLAY", "shared/replay.png");
+		files.put("SKIP", "shared/skip.png");
+		files.put("YOU_LOSE", "shared/you lose.png");
+		files.put("NEXT_LEVEL", "shared/nextlevel.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -261,6 +275,13 @@ public class AssetFile {
 		homeButton = createTexture(manager, files.get("HOME_BUTTON"), false);
 		resumeButton = createTexture(manager, files.get("RESUME_BUTTON"), false);
 		restartButton = createTexture(manager, files.get("RESTART_BUTTON"), false);
+		youLose = createTexture(manager, files.get("YOU_LOSE"), false);
+		youWin = createTexture(manager, files.get("GOOD_JOB"), false);
+		retry = createTexture(manager, files.get("RETRY"), false);
+		replay = createTexture(manager, files.get("REPLAY"), false);
+		skip = createTexture(manager, files.get("SKIP"), false);
+		nextLevel = createTexture(manager, files.get("NEXT_LEVEL"), false);
+		
 		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
 		barOutter = createTexture(manager, files.get("BAR_OUTTER"),false);
