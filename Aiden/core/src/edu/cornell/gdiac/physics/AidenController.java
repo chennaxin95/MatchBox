@@ -264,9 +264,9 @@ public class AidenController extends WorldController
 		fuelBarSize.scl(sScaleX, sScaleX);
 		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
-		resuC = Color.WHITE;
-		restC = Color.WHITE;
-		homeC = Color.WHITE;
+//		resuC = Color.WHITE;
+//		restC = Color.WHITE;
+//		homeC = Color.WHITE;
 	}
 	/**
 	 * Lays out the game geography.
@@ -505,49 +505,6 @@ public class AidenController extends WorldController
 	public float cooldown = 0.5f;
 
 	public void buttonPressed(float dt) {
-
-		boolean isPressed = InputController.getInstance().didTertiary();
-		cooldown -= dt;
-
-		if (isPressed && instr == 0 && cooldown <= 0) {
-			cooldown = 0.5f;
-			Vector2 pos = InputController.getInstance().getCrossHair();
-			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
-
-			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
-					mPos.y >= homePos.y && mPos.y <= homePos.y + largeSize.y) {
-				homeC = Color.GRAY;
-				instr = 2;
-				return;
-			}
-			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
-					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeSize.y) {
-				resuC = Color.GRAY;
-				if(!isComplete() && !isFailure()){
-					instr = 1;
-				}
-				else{
-					instr = 6;
-				}
-				return;
-			}
-			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeSize.x &&
-					mPos.y >= restPos.y && mPos.y <= restPos.y + largeSize.y) {
-				restC = Color.GRAY;
-				instr = 3;
-				return;
-			}
-			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallSize.x &&
-					mPos.y >= sPos.y && mPos.y <= sPos.y + smallSize.y) {
-				instr = 4;
-				return;
-			}
-			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallSize.x &&
-					mPos.y >= muPos.y && mPos.y <= muPos.y + smallSize.y) {
-				instr = 5;
-				return;
-			}
-		}
 		if (count == 0.4f) {
 			mC = Color.WHITE;
 			sC = Color.WHITE;
@@ -555,6 +512,63 @@ public class AidenController extends WorldController
 			homeC = Color.WHITE;
 			restC = Color.WHITE;
 		}
+		boolean isPressed = InputController.getInstance().didTertiary();
+		cooldown -= dt;
+
+//		if (isPressed && instr == 0 && cooldown <= 0) {
+//			cooldown = 0.5f;
+			Vector2 pos = InputController.getInstance().getCrossHair();
+			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
+
+			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeSize.x &&
+					mPos.y >= homePos.y && mPos.y <= homePos.y + largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 2;
+				}
+				homeC = Color.GRAY;
+				return;
+			}
+			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeSize.x &&
+					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					if(!isComplete() && !isFailure()){
+						instr = 1;
+					}
+					else{
+						instr = 6;
+					}
+				}
+				resuC = Color.GRAY;
+				return;
+			}
+			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeSize.x &&
+					mPos.y >= restPos.y && mPos.y <= restPos.y + largeSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 3;
+				}
+				restC = Color.GRAY;
+				return;
+			}
+			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallSize.x &&
+					mPos.y >= sPos.y && mPos.y <= sPos.y + smallSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 4;
+				}
+				return;
+			}
+			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallSize.x &&
+					mPos.y >= muPos.y && mPos.y <= muPos.y + smallSize.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 5;
+				}
+				return;
+			}
+//		}
 	}
 
 	public float jumpCD = 0.5f;
@@ -590,7 +604,6 @@ public class AidenController extends WorldController
 			buttonPressed(dt);
 			return;
 		}
-
 		else{
 			this.homeC=Color.WHITE;
 			this.restC=Color.WHITE;
