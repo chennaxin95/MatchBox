@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.controllers.*;
 
 import edu.cornell.gdiac.physics.scene.AssetFile;
+import edu.cornell.gdiac.physics.scene.GameSave;
 import edu.cornell.gdiac.util.*;
 
 
@@ -178,6 +179,11 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** Whether or not this player mode is still active */
 	public boolean active;
 	private Texture castle;
+	private Texture level_background;
+	
+	/** The game save shared across all levels */
+	private GameSave gs;
+	private Texture light;
 
 	/**
 	 * Returns the budget for the asset loader.
@@ -252,9 +258,12 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		// Compute the dimensions from the canvas
 		resize(canvas.getWidth(), canvas.getHeight());
 		
+		gs = new GameSave("savedGame.json");
+		
 		// Load the next two images immediately.
 		playButton = null;
 		background = new Texture(af.get("BACKGROUND_FILE"));
+		level_background = new Texture("background/background2.png");
 		statusBar = new Texture(af.get("PROGRESS_FILE"));
 		blackBack = new Texture("shared/blackBack.png");
 		grayLine = new Texture("shared/grey line.png");
@@ -264,6 +273,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		editor = new Texture("shared/level editor.png");
 		levelTemp = new Texture("shared/3.png");
 		castle = new Texture("shared/castle.png");
+		light = new Texture("shared/gradient.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -317,8 +327,15 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		background.dispose();
 		statusBar.dispose();
 		castle.dispose();
+		level_background.dispose();
+		light.dispose();
+		
 		background = null;
 		statusBar = null;
+		castle=null;
+		level_background=null;
+		light=null;
+		
 		if (playButton != null) {
 			playButton.dispose();
 			playButton = null;
@@ -454,34 +471,47 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
 		}else if (pressState >=4){
+			canvas.draw(level_background, new Color(0.1f, 0.2f, 0.7f, 1f), 0, 0, STANDARD_WIDTH, STANDARD_HEIGHT);
 			canvas.draw(castle, Color.WHITE, 0, 0, 0, 0, 0, scale, scale);
-			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.25f/5);
+			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.5f/5);
 			canvas.draw(select, Color.WHITE, select.getWidth()/2, select.getHeight()/2,
-					pos.x, pos.y, 0, scale, scale);
+					pos.x, pos.y, 0, scale*0.8f, scale*0.8f);
 			Color tint_back = (hoverState == HOVER_LEVELS_BACK ? Color.GRAY : Color.WHITE);
-			pos = canvas.relativeVector(canvas.getWidth()/4f, canvas.getHeight()*6f/7f);
+			pos = canvas.relativeVector(canvas.getWidth()*7f/8f, canvas.getHeight()*1f/8f);
 			canvas.draw(back, tint_back, back.getWidth()/2, back.getHeight()/2,
 					pos.x, pos.y, 0, BUTTON_SCALE*scale, BUTTON_SCALE*scale);
 			
 			for (int i = 0; i < selectorPos.length/2; i++){
-				String level_texture = "shared/" + (i+1) + ".png";
+				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
+				String level_texture = "shared/numbers/" + (i+1) + ".png";
 				level = new Texture(level_texture);
 				level.setFilter(TextureFilter.Linear,
 						TextureFilter.Linear);
-				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
+				Color c=Color.GRAY;
+				if (i<gs.getUnlocked()) {
+					c=Color.WHITE;
+					canvas.draw(light, new Color(1, 1, 0.2f, 1f), light.getWidth()/2f,
+							light.getHeight() / 2f,
+							pos.x, pos.y,
+							0, LEVEL_BUTTON_SCALE * scale / 4f,
+							LEVEL_BUTTON_SCALE * scale / 4f);
+				}
+				else if (i==gs.getUnlocked()){
+					c=Color.WHITE;
+				}
 				if ((pressState==5 && this.levelSelected==i) || (hoverState==HOVER_LEVEL_SELECTOR && levelHovered==i)){
-					canvas.draw(level, Color.GRAY, level.getWidth() / 2f,
+					canvas.draw(level, c, level.getWidth() / 2f,
 							level.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale,
-							LEVEL_BUTTON_SCALE * scale);
+							0, LEVEL_BUTTON_SCALE * scale*2.5f,
+							LEVEL_BUTTON_SCALE * scale*2.5f);
 				}
 				else{
-					canvas.draw(level, Color.WHITE, level.getWidth() / 2f,
+					canvas.draw(level, c, level.getWidth() / 2f,
 							level.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale,
-							LEVEL_BUTTON_SCALE * scale);
+							0, LEVEL_BUTTON_SCALE * scale*1.5f,
+							LEVEL_BUTTON_SCALE * scale*1.5f);
 				}
 			}
 //			int n = 1;
@@ -660,6 +690,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		}
 		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
 			pressState = 3;
+			/** The game save shared across all levels */
+			gs = new GameSave("savedGame.json");
 		}
 		width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
 		height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
@@ -682,8 +714,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 						break;
 					}
 			}
-			float x = widthX/4f;
-			float y = heightY*6f/7f;
+			float x = widthX*7f/8f;
+			float y = heightY/8f;
 			width = BUTTON_SCALE * scale * back.getWidth();
 			height = BUTTON_SCALE * scale * back.getHeight();
 			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
@@ -854,8 +886,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				break;
 			}
 		}
-		float x = widthX/4f;
-		float y = heightY*6f/7f;
+		float x = widthX*7f/8f;
+		float y = heightY/8f;
 		width = BUTTON_SCALE * scale * back.getWidth();
 		height = BUTTON_SCALE * scale * back.getHeight();
 		if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
