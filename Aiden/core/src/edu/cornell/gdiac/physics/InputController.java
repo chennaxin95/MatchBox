@@ -227,7 +227,8 @@ public class InputController {
 	 * @return true if the reset button was pressed.
 	 */
 	public boolean didReset() {
-		return resetPressed && !resetPrevious;
+		return false;
+//		return resetPressed && !resetPrevious;
 	}
 
 	/**
@@ -236,7 +237,8 @@ public class InputController {
 	 * @return true if the player wants to go to the next level.
 	 */
 	public boolean didAdvance() {
-		return nextPressed && !nextPrevious;
+		return false;
+//		return nextPressed && !nextPrevious;
 	}
 
 	/**
@@ -245,7 +247,8 @@ public class InputController {
 	 * @return true if the player wants to go to the previous level.
 	 */
 	public boolean didRetreat() {
-		return prevPressed && !prevPrevious;
+		return false;
+//		return prevPressed && !prevPrevious;
 	}
 
 	/**
