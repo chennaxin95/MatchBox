@@ -232,6 +232,7 @@ public class AidenModel extends CharacterModel {
 	 * @param height
 	 *            The object width in physics units
 	 */
+	public float oldFuel;
 	public AidenModel(float x, float y, float width, float height,
 			boolean fright) {
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
@@ -240,6 +241,7 @@ public class AidenModel extends CharacterModel {
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
+		oldFuel = START_FUEL;
 		setName("Aiden");
 		iWidth = width;
 		iHeight = height;
@@ -388,10 +390,14 @@ public class AidenModel extends CharacterModel {
 			resizeSensor();
 			smallSized = true;
 		}
-		if(ratio >= 0.9 && smallSized){
+		else if(ratio >= 0.9 && smallSized){
 			resizeSensor();
 			smallSized = false;
 		}
+		else if(fuel-oldFuel >= 5){
+			resizeSensor();
+		}
+		
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
 		trailLeft.update(dt);
