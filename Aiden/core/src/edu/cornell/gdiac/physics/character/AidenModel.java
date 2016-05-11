@@ -37,6 +37,7 @@ public class AidenModel extends CharacterModel {
 	private ParticleEffect trailLeft;
 	private ParticleEffect trailRight;
 	private ParticleEffect trailStill;
+	private ParticleEffect fuelP;
 	protected static final float MAX_JUMP_TIME=0.05f;
 	private boolean smallSized = false;
 	private int jumpFrame = 0;
@@ -259,11 +260,16 @@ public class AidenModel extends CharacterModel {
 		trailStill = new ParticleEffect();
 		trailStill.load(Gdx.files.internal("platform/still.p"),
 				Gdx.files.internal("platform"));
+		fuelP = new ParticleEffect();
+		fuelP.load(Gdx.files.internal("platform/fuelP.p"),
+				Gdx.files.internal("platform"));
 		trailLeft.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailRight.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
+				(getY() - 0.5f) * drawScale.y);
+		fuelP.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 	}
 
@@ -405,12 +411,15 @@ public class AidenModel extends CharacterModel {
 		trailLeft.update(dt);
 		trailRight.update(dt);
 		trailStill.update(dt);
+		fuelP.update(dt);
 		trailLeft.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailRight.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
 		trailStill.setPosition(getX() * drawScale.x,
 				(getY() - 0.5f) * drawScale.y);
+		fuelP.setPosition(getX() * drawScale.x,
+				(getY()) * drawScale.y);
 	}
 	
 	@Override
@@ -535,8 +544,7 @@ public class AidenModel extends CharacterModel {
 					drawJumping = false;
 				}
 			}
-			else 
-			if (drawJumping){
+			else if (drawJumping){
 				drawJump(canvas, ratio);
 			}
 			else if (Math.abs(this.getVX()) >= 5){
@@ -621,6 +629,7 @@ public class AidenModel extends CharacterModel {
 	
 	public int cycles = 0;
 	public void drawFuel(GameCanvas canvas, float ratio){
+		fuelP.start();
 		if (this.animeCoolDown<=0) {
 			animeCoolDown=MAX_ANIME_TIME;
 			expand.setFrame((expand.getFrame()+1)%6);
@@ -634,12 +643,13 @@ public class AidenModel extends CharacterModel {
 				getY() * drawScale.y + 30*ratio, getAngle(), -effect*ratio, ratio);
 		if (expand.getFrame() == expand.getSize()-1){
 			cycles++;
-			if(cycles == 6){
+			if(cycles == 9){
 				cycles = 0;
 				gotFuel = false;
 				expand.setFrame(0);
 			}
 		}
+		canvas.drawParticle(fuelP);
 	}
 
 	
