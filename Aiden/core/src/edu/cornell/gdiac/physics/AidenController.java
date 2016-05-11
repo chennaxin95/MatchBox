@@ -230,7 +230,7 @@ public class AidenController extends WorldController
 		confeti = new ParticleEffect();
 		confeti.load(Gdx.files.internal("platform/confetti.p"),
 				Gdx.files.internal("platform"));
-		Vector2 pos = canvas.relativeVector(-100, -100);
+		Vector2 pos = canvas.relativeVector(-1000, -1000);
 		confeti.setPosition(pos.x, pos.y);
 		if (listener.getMuted()) {
 			this.musicMuted = true;
@@ -250,7 +250,8 @@ public class AidenController extends WorldController
 		winSize = new Vector2(707, 110);
 		largeBut = new Vector2(320, 128);
 		smallBut = new Vector2(100, 96);
-
+		largeSize = new Vector2(320, 128);
+		smallSize = new Vector2(100, 96);
 		fuelBarSize = new Vector2(449, 91);
 		fuelBarInner = new Vector2(377, 91);
 		sScaleX = (float) canvas.getWidth() / 1920f;
@@ -259,6 +260,8 @@ public class AidenController extends WorldController
 		pauseT = pauseT.scl(sScaleX, sScaleX);
 		loseSize.scl(sScaleX);
 		winSize.scl(sScaleX);
+		largeSize.scl(sScaleX);
+		smallSize.scl(sScaleX);
 		largeBut = largeBut.scl(sScaleX, sScaleX);
 		smallBut = smallBut.scl(sScaleX, sScaleX);
 		fuelBarSize.scl(sScaleX, sScaleX);
@@ -523,8 +526,8 @@ public class AidenController extends WorldController
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
-			if (mPos.x >= homePos.x && mPos.x <= homePos.x + zoom*largeSize.x &&
-					mPos.y >= homePos.y && mPos.y <= homePos.y + zoom*largeSize.y) {
+			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
+					mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
 					instr = 2;
@@ -535,8 +538,8 @@ public class AidenController extends WorldController
 			else if (isHolding !=0){
 				homeC = Color.WHITE;
 			}
-			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + zoom*largeSize.x &&
-					mPos.y >= resuPos.y && mPos.y <= resuPos.y + zoom*largeSize.y) {
+			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
+					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
 					if(!isComplete() && !isFailure()){
@@ -552,8 +555,8 @@ public class AidenController extends WorldController
 			else if (isHolding !=1){
 				resuC = Color.WHITE;
 			}
-			if (mPos.x >= restPos.x && mPos.x <= restPos.x + zoom*largeSize.x &&
-					mPos.y >= restPos.y && mPos.y <= restPos.y + zoom*largeSize.y) {
+			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
+					mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
 					instr = 3;
@@ -564,16 +567,16 @@ public class AidenController extends WorldController
 			else if (isHolding !=2){
 				restC = Color.WHITE;
 			}
-			if (mPos.x >= sPos.x && mPos.x <= sPos.x + zoom*smallSize.x &&
-					mPos.y >= sPos.y && mPos.y <= sPos.y + zoom*smallSize.y) {
+			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
+					mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
 					instr = 4;
 				}
 				return;
 			}
-			if (mPos.x >= muPos.x && mPos.x <= muPos.x + zoom*smallSize.x &&
-					mPos.y >= muPos.y && mPos.y <= muPos.y + zoom*smallSize.y) {
+			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
+					mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
 					instr = 5;
