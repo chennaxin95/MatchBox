@@ -115,7 +115,7 @@ public class Scene implements SceneInterface {
 				} else {
 					if (material.equals("stone")) {
 						stoneBlocks.add(
-								new StoneBlock(x, y, 1.99f, 1.99f));
+								new StoneBlock(x, y, 1.95f, 1.99f));
 					} else {
 						if (material.equals("fuel")) {
 							boolean icp = false;

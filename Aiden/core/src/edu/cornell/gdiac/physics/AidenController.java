@@ -587,7 +587,7 @@ public class AidenController extends WorldController
 	public float jumpCD = 0.5f;
 	public boolean wasPaused = false;
 	public boolean drawCrit = false;
-	public float blinkCD = 0.07f;
+	public float blinkCD = 0.01f;
 
 	/**
 	 * The core gameplay loop of this world.
