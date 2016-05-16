@@ -9,9 +9,12 @@ package edu.cornell.gdiac.physics;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -24,6 +27,7 @@ import edu.cornell.gdiac.physics.blocks.BurnablePlatform.FlamePlatform;
 import edu.cornell.gdiac.physics.obstacle.*;
 import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.GameSave;
+import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
@@ -82,7 +86,7 @@ public class AidenController extends WorldController
 	// Physics objects for the game
 	// Characters
 	/** Reference to the character avatar */
-	private AidenModel avatar;
+	protected AidenModel avatar;
 	Vector2 prevMovement;
 	/** Reference to the list of non-player characters */
 	private ArrayList<CharacterModel> npcs = new ArrayList<CharacterModel>();
@@ -983,6 +987,7 @@ public class AidenController extends WorldController
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 					fuelInnerPos.y);
+			canvas.drawText("level: "+level, af.displayFont, iPos.x, iPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
 			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
 					fuelBarInner.x * zoom, fuelBarInner.y * zoom);
@@ -1215,6 +1220,23 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
+			
+		case 17:
+			this.scene = new Scene("NewTutorial1.json");
+			backgroundTexture = af.backGround;
+			break;
+		case 18:
+			this.scene = new Scene("NewTutorial2.json");
+			backgroundTexture = af.backGround;
+			break;
+		case 19:
+			this.scene = new Scene("NewTutorial3.json");
+			backgroundTexture = af.backGround;
+			break;
+		case 20:
+			this.scene = new Scene("NewTutorial4.json");
+			backgroundTexture = af.backGround;
+			break;
 
 		default:
 			this.scene = new Scene("Hard1.json");
@@ -1224,4 +1246,176 @@ public class AidenController extends WorldController
 
 	}
 
+}
+
+class TutorialController extends AidenController{
+	
+	private Message[] messages;
+	// currentMsg is the msg index, is -1 when there is no task
+	// larger than 0 when a task started until the user completes the task
+	private int currentMsg ;
+	private boolean read = false;
+
+	public TutorialController(int level) {
+		super(level);
+		// TODO Auto-generated constructor stub
+		switch (level){
+		case 0:
+			this.messages = parseJson("tutorial1message.json");
+		default:
+			this.messages = parseJson("tutorial1message.json");
+		}
+		currentMsg = -1;
+			
+	}
+	
+	private Message[] parseJson(String s){
+		JSONParser jp = new JSONParser(s);
+		JsonValue jv = jp.getJsonValue();
+		JsonValue messages = jv.get("messages");
+		int n = messages.size;
+		Message[] msgs =  new Message[n];
+		for(int i = 0; i<n; i++){
+			JsonValue m = messages.get(i);
+			String type = m.getString("type");
+			String msg = m.getString("message");
+			String end_s = m.getString("end_message");
+			JsonValue end_pos = m.get("end_pos");
+			float end_x = end_pos.getFloat("x");
+			float end_y = end_pos.getFloat("y");
+			if(type.equals("position")){
+				JsonValue pos = m.get("position");
+				float msg_x = pos.getFloat("x");
+				float msg_y = pos.getFloat("y");
+				msgs[i] = new PositionMessage(msg, msg_x, msg_y, end_x, end_y, end_s);
+			}else{
+				float fuel = m.getFloat("fuel");
+				msgs[i] = new FuelMessage(msg, fuel, end_x, end_y, end_s);
+			}
+		}
+		return msgs;
+	}
+	
+	
+	public void update(float dt){
+		super.update(dt);
+		
+		int i = 0;
+		// when we are not in a task, check if we should start any task
+		while(!this.pause && i < this.messages.length && !read){
+			Message m = messages[i];
+			// if the task is already done, skip it
+			if(m.getDone()) {
+				i++;
+				continue;
+			}
+			if(m instanceof PositionMessage){
+				
+				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 0.1
+						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 1){
+					//System.out.println("task1 here!!!!!!");
+					this.pause();
+					this.currentMsg = i;
+				}
+			}else{
+				System.out.println(avatar.getX() +" "+avatar.getY());
+				if(avatar.getFuel() < ((FuelMessage) m).getFuel()){
+					//System.out.println("task2 here!!!!!!");
+					this.pause();
+					this.currentMsg = i;
+				}
+			}
+			i++;
+		}
+		//System.out.println(currentMsg);
+		// if we are in a task, check if the task is completed
+		if(this.currentMsg>-1){
+			Message m = messages[currentMsg];
+			float end_x = m.end_x;
+			float end_y = m.end_y;	
+			if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<1){
+				messages[currentMsg].setDone();
+				this.pause();
+				//System.out.println("task "+currentMsg+" completed");
+				this.currentMsg = -1;
+				this.read = false;
+			}
+		}
+		// when we are displaying a task, check if the user pressed enter to dismiss the msg
+		if(this.pause && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+			this.pause();
+			if(this.currentMsg>-1){
+				this.read = true;
+			}
+		}
+	}
+	
+	public int getCurrentMsg(){
+		return this.currentMsg;
+	}
+	
+	public void display(String s, float x, float y){
+		
+	}
+	
+	/** pop window when aiden is at a place **/
+	public void popWindowAt(String s, TextureRegion texture, float x, float y){
+		
+	}
+	
+	/** pop window when fuel is lower than some amounr **/
+	public void popWindowFuel(String s, TextureRegion texture, float fuel){
+		
+	}
+	
+	private void popWindow(String s, TextureRegion texture){
+		
+	}
+}
+
+abstract class Message{
+	protected String msg_s;
+	protected String msg_end_s;
+	protected float end_x;
+	protected float end_y;
+	private boolean msg_done;
+	
+	public Message(String s, float x, float y, String end_s){
+		this.msg_s = s;
+		this.msg_done = false;
+		this.end_x = x;
+		this.end_y = y;
+		this.msg_end_s = end_s;
+	}
+	
+	public void setDone(){this.msg_done = true;}
+	
+	public boolean getDone(){return this.msg_done;}
+}
+
+class PositionMessage extends Message{
+	private float msg_x;
+	private float msg_y;
+	
+	public PositionMessage(String s, float x, float y, float end_x, float end_y, String end_s){
+		super(s, end_x, end_y, end_s);
+		this.msg_x = x;
+		this.msg_y = y;
+	}
+	
+	public float getX(){return msg_x;}
+	
+	public float getY(){return msg_y;}
+	
+}
+
+class FuelMessage extends Message{
+	private float msg_fuel;
+	public FuelMessage(String s, float f, float end_x, float end_y, String end_s){
+		super(s, end_x, end_y, end_s);
+		this.msg_fuel = f;
+	}
+	
+	public float getFuel(){return msg_fuel;}
+	
 }
