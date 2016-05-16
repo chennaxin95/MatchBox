@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,8 +26,8 @@ public class AssetFile {
 	/** The texture for the exit condition */
 	public TextureRegion goalTile;
 	public TextureRegion burnablePlatform;
-	public Sound bgm;
-	public Sound jump;
+	public Music bgm;
+	public Music jump;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -373,8 +374,8 @@ public class AssetFile {
 		for (int i = 0; i < 10; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
-		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
-		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
+		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));
+		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
