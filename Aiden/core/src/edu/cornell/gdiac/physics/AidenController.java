@@ -958,7 +958,6 @@ public class AidenController extends WorldController
 	
 	
 	//-------------------------------------------------------------------------//
-
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -987,6 +986,7 @@ public class AidenController extends WorldController
 			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 					fuelInnerPos.y);
+			af.displayFont.getData().setScale(zoom/2, zoom/2);
 			canvas.drawText("level: "+level, af.displayFont, iPos.x, iPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
 			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
@@ -1031,7 +1031,6 @@ public class AidenController extends WorldController
 			Vector2 pos1 = canvas.relativeVector(0, 0);
 			canvas.draw(af.black, Color.WHITE, pos1.x, pos1.y,
 					1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
-
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			if (!isComplete()) {
 				if (!isFailure()) {
