@@ -466,6 +466,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void exitScreen(Screen screen, int exitCode) {
 		canvas.setEditor(false);
 		if (screen == loading) {
+			if(exitCode == 100){
+				Gdx.app.exit();
+			}
 			exitCode = exitCode % controllers.length;
 			loadContent(manager);
 			for (int ii = 0; ii < controllers.length; ii++) {
@@ -478,7 +481,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){
 			controllers[current].reset();
-			loading.pressState = 0;
+			loading.pressState = 4;
 			setScreen(loading);
 		}
 		else if (exitCode == WorldController.EXIT_NEXT) {

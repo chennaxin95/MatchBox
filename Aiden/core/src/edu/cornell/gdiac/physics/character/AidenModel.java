@@ -399,6 +399,7 @@ public class AidenModel extends CharacterModel {
 		ratio = fuel / MAX_FUEL;
 		ratio = Math.max(0.8f, ratio);
 		ratio = Math.min(1.0f, ratio);
+		System.out.println(ratio);
 		this.setDimension(iWidth * ratio, iHeight * ratio);
 		this.resize(getWidth(), getHeight());
 		this.resizeFixture(ratio);
@@ -406,11 +407,11 @@ public class AidenModel extends CharacterModel {
 			resizeSensor();
 			smallSized = true;
 		}
-		else if(ratio >= 0.95 && smallSized){
+		else if(ratio >= 0.95 && (smallSized || fuel-oldFuel >= 1)){
 			resizeSensor();
 			smallSized = false;
 		}
-		
+		oldFuel = fuel;
 		cRatio = Math.max(.4f, Math.min(1f, fuel / CRITICAL_FUEL));
 
 		trailLeft.update(dt);
@@ -440,7 +441,7 @@ public class AidenModel extends CharacterModel {
 		// To determine whether or not the dude is on the ground,
 		// we create a thin sensor under his feet, which reports
 		// collisions with the world but has no collision response.
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 2);
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.9f);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;
@@ -469,7 +470,7 @@ public class AidenModel extends CharacterModel {
 	
 
 	public void resizeSensor(){
-		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.9f);
+		Vector2 sensorCenter = new Vector2(0, -getHeight() / 1.8f);
 		FixtureDef sensorDef = new FixtureDef();
 		sensorDef.density = DUDE_DENSITY;
 		sensorDef.isSensor = true;

@@ -547,8 +547,11 @@ public class AidenController extends WorldController
 					if(!isComplete() && !isFailure()){
 						instr = 1;
 					}
-					else{
+					else if (isComplete()){
 						instr = 6;
+					}
+					else{
+						instr = 3;
 					}
 					isHolding=1;
 				}
@@ -561,7 +564,12 @@ public class AidenController extends WorldController
 					mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
-					instr = 3;
+					if(isFailure()){
+						instr = 6;
+					}
+					else{
+						instr = 3;
+					}
 					isHolding=2;
 				}
 				restC = Color.GRAY;
@@ -1025,7 +1033,7 @@ public class AidenController extends WorldController
 			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 					loseSize.x * zoom, loseSize.y * zoom);
 		}
-
+		
 		if (pause) {
 			resetPos();
 			Vector2 pos1 = canvas.relativeVector(0, 0);
@@ -1054,11 +1062,11 @@ public class AidenController extends WorldController
 							loseSize.x * zoom, loseSize.y * zoom);
 					// skip
 					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-					canvas.draw(af.skip, resuC, posTemp.x, posTemp.y,
+					canvas.draw(af.restartButton, resuC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
 					// retry
 					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+					canvas.draw(af.skip, restC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
 					// home
 					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
@@ -1066,12 +1074,6 @@ public class AidenController extends WorldController
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
 			} else {
-				if((pause&&isComplete()) || isComplete()){
-					Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.05f);
-					confeti.setPosition(pos.x, pos.y);
-					canvas.drawParticle(confeti);
-				}
-				
 				posTemp = canvas.relativeVector(winPos.x, winPos.y);
 				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 						winSize.x * zoom, winSize.y * zoom);
@@ -1096,6 +1098,11 @@ public class AidenController extends WorldController
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+		}
+		if(isComplete() || countdown > 0){
+			Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.01f);
+			confeti.setPosition(pos.x, pos.y);
+			canvas.drawParticle(confeti);
 		}
 		canvas.end();
 		if (debug) {

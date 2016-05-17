@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 public class JSONParser {
 	private JsonValue jv;
 	public JSONParser(String s){
-		FileHandle fh = Gdx.files.absolute(Gdx.files.getLocalStoragePath()+s);
+		FileHandle fh = Gdx.files.internal(s);
 		JsonReader jr = new JsonReader();
 		jv = jr.parse(fh);
 	}
