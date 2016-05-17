@@ -1036,20 +1036,25 @@ implements ContactListener {
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			if (!isComplete()) {
 				if (!isFailure()) {
-					canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
-							pauseT.x * zoom, pauseT.y * zoom);
-					// resume
-					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-					canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
-					// restart
-					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
-					// home
-					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
-					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
+					if(this instanceof TutorialController){
+						canvas.drawText(((TutorialController)this).getMsgString(),af.displayFont, posTemp.x, posTemp.y);
+					}else{
+						canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
+								pauseT.x * zoom, pauseT.y * zoom);
+						// resume
+						posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+						canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+						// restart
+						posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+						canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+						// home
+						posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+						canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+					}
+
 				} else {
 					posTemp = canvas.relativeVector(losePos.x, losePos.y);
 					canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
@@ -1258,7 +1263,7 @@ implements ContactListener {
 }
 
 class TutorialController extends AidenController{
-
+	private String tutmsg_s;
 	private Message[] messages;
 	// currentMsg is the msg index, is -1 when there is no task
 	// larger than 0 when a task started until the user completes the task
@@ -1285,8 +1290,9 @@ class TutorialController extends AidenController{
 			this.messages = parseJson("tutorial1message.json");
 		}
 		currentMsg = -1;
-
+		tutmsg_s = "";
 	}
+
 
 	private Message[] parseJson(String s){
 		JSONParser jp = new JSONParser(s);
@@ -1342,21 +1348,24 @@ class TutorialController extends AidenController{
 				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 1
 						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 3){
 					System.out.println("task1 here!!!!!!");
-					this.pause();
+					
 					this.currentMsg = i;
+					this.tutmsg_s = m.getMsg();
+					this.pause();
 				}
 			}else{
 				System.out.println(avatar.getX() +" "+avatar.getY());
 				System.out.println(avatar.getFuel());
 				if(avatar.getFuel() < ((FuelMessage) m).getFuel()){
 					System.out.println("task2 here!!!!!!");
-					this.pause();
+					
 					this.currentMsg = i;
+					this.tutmsg_s = m.getMsg();
+					this.pause();
 				}
 			}
 			i++;
 		}
-		//System.out.println(currentMsg);
 		// if we are in a task, check if the task is completed
 		if(this.currentMsg>-1){
 			Message m = messages[currentMsg];
@@ -1365,19 +1374,23 @@ class TutorialController extends AidenController{
 				float end_y = ((PositionMessage) m).getEndY();	
 				if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<3){
 					messages[currentMsg].setDone();
+					this.tutmsg_s = m.getEndMsg();
 					this.pause();
 					System.out.println("task "+currentMsg+" completed");
 					this.currentMsg = -1;
 					this.read = false;
+					
 				}
 			}else{
 				float end_f  = ((FuelMessage) m).getEndFuel();
 				if(avatar.getFuel() > end_f){
 					System.out.println("task "+currentMsg+" completed");
 					messages[currentMsg].setDone();
+					this.tutmsg_s = m.getEndMsg();
 					this.pause();
 					this.currentMsg = -1;
 					this.read = false;
+					
 				}
 
 			}
@@ -1387,8 +1400,13 @@ class TutorialController extends AidenController{
 			this.pause();
 			if(this.currentMsg>-1){
 				this.read = true;
+				this.tutmsg_s = "";
 			}
 		}
+	}
+	
+	public String getMsgString(){
+		return this.tutmsg_s;
 	}
 
 	public int getCurrentMsg(){
@@ -1425,6 +1443,9 @@ abstract class Message{
 		this.msg_done = false;
 		this.msg_end_s = end_s;
 	}
+	
+	public String getMsg(){return this.msg_s;}
+	public String getEndMsg(){return this.msg_end_s;}
 
 	public void setDone(){this.msg_done = true;}
 
