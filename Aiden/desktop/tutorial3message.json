@@ -1,17 +1,17 @@
 {
-	"level":1,
+	"level":3,
 	"messages":[
 		{
 			"type": "position",
-			"message": "jump!",
+			"message": "Go into wood blocks",
 			"end_message":"good job",
 			"position":{
-				"x":6,
-				"y":1.6
+				"x":2.3,
+				"y":3
 			},
 			"end_pos":{
-				"x":12,
-				"y":4
+				"x":11,
+				"y":3
 			}
 		}
 	]
