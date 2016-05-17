@@ -290,6 +290,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		
 		manager.load(af.get("WATER"), Texture.class);
 		assets.add(af.get("WATER"));
+		
+		manager.load(af.get("CHECKPOINT_FLAG"), Texture.class);
+		assets.add(af.get("CHECKPOINT_FLAG"));
 	}
 
 	/**
@@ -403,7 +406,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 		loading.setScreenListener(this);
 
-//		controllers[levels-1] = new LevelEditor();///////
+		controllers[levels-1] = new LevelEditor();///////
 	}
 
 	public void unloadContent(AssetManager manager) {

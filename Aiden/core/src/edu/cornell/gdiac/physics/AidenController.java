@@ -218,6 +218,8 @@ public class AidenController extends WorldController
 		flammables.clear();
 		addQueue.clear();
 		npcs.clear();
+		checkpoints.clear();
+		
 		world.dispose();
 		world = new World(gravity, false);
 		world.setContactListener(this);
@@ -967,6 +969,14 @@ public class AidenController extends WorldController
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
+	
+		Vector2 origin=new Vector2(af.checkpointTexture.getRegionWidth()/2.0f, 0);
+		for (FuelBlock fb:checkpoints){
+			canvas.draw(af.checkpointTexture, Color.WHITE, origin.x, origin.y, 
+					fb.getX()*scale.x, (fb.getY()+fb.getHeight()/2f)*scale.y, 0f, 
+					0.4f, 0.4f);
+		}
+		
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -1318,7 +1328,7 @@ class TutorialController extends AidenController{
 					this.currentMsg = i;
 				}
 			}else{
-				System.out.println(avatar.getX() +" "+avatar.getY());
+				//System.out.println(avatar.getX() +" "+avatar.getY());
 				if(avatar.getFuel() < ((FuelMessage) m).getFuel()){
 					//System.out.println("task2 here!!!!!!");
 					this.pause();

@@ -102,6 +102,7 @@ public class AssetFile {
 	public FilmStrip[] burningTexture;
 	public FilmStrip[] fireBall;
 	public FilmStrip[] WaterWalkTextures;
+	public TextureRegion checkpointTexture;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -199,6 +200,7 @@ public class AssetFile {
 		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
 		files.put("WATER", "shared/water.png");
+		files.put("CHECKPOINT_FLAG", "shared/flag.png");
 		System.out.println(files);
 	}
 
@@ -335,6 +337,9 @@ public class AssetFile {
 		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
+		checkpointTexture=createTexture(manager, files.get("CHECKPOINT_FLAG"), false);
+		
+		
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
 //		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 //				1,
