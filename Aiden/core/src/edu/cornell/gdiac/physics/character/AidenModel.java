@@ -249,12 +249,12 @@ public class AidenModel extends CharacterModel {
 	public AidenModel(float x, float y, float width, float height, boolean fright, 
 			float start_fuel){
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
-		fuel = START_FUEL;
+		fuel = start_fuel;
 		// Gameplay attributes
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
-		oldFuel = START_FUEL;
+		oldFuel = start_fuel;
 		setName("Aiden");
 		iWidth = width;
 		iHeight = height;
