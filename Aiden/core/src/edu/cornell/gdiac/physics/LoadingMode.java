@@ -425,8 +425,18 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			selectorPos[2*i]*=scale;
 			selectorPos[2*i+1]=(STANDARD_HEIGHT-selectorPos[2*i+1])*scale;		
 		}
+		light_radius=new float[selectorPos.length/2];
+		light_alpha=new float[selectorPos.length/2];
+		for (int i=0; i<light_radius.length; i++){
+			light_radius[i]=LEVEL_BUTTON_SCALE * scale / 4f;
+		}
+		for (int i=0; i<light_alpha.length; i++){
+			light_alpha[i]=.8f;
+		}
 	}
 	
+	private float[] light_radius;
+	private float[] light_alpha;
 
 	/**
 	 * Draw the status of this player mode.
@@ -496,11 +506,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				Color c=Color.GRAY;
 				if (i<gs.getUnlocked()) {
 					c=Color.WHITE;
-					canvas.draw(light, new Color(1, 1, 0.2f, 1f), light.getWidth()/2f,
+					if (RandomController.rollFloat(0, 1)>0.85f){
+						light_radius[i]=Math.max(LEVEL_BUTTON_SCALE * scale / 5f,Math.min(LEVEL_BUTTON_SCALE * scale / 3f, 
+								light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
+						light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+					}
+					canvas.draw(light, new Color(1, 1, 0.2f, light_alpha[i]), light.getWidth()/2f,
 							light.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale / 4f,
-							LEVEL_BUTTON_SCALE * scale / 4f);
+							0, light_radius[i],
+							light_radius[i]);
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;

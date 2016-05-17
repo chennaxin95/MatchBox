@@ -44,7 +44,9 @@ public class AidenModel extends CharacterModel {
 	private int runFrame = 0;
 	private boolean drawJumping = false;
 	private FilmStrip jump;	
-	public boolean resume = false;;
+	public boolean resume = false;
+	
+	public boolean keepFuel = false;
 
 	/** Amount of time spent in spirit mode */
 	private float spiritCount = 0;
@@ -247,12 +249,12 @@ public class AidenModel extends CharacterModel {
 	public AidenModel(float x, float y, float width, float height, boolean fright, 
 			float start_fuel){
 		super(CharacterType.AIDEN, "Aiden", x, y, width, height, fright);
-		fuel = START_FUEL;
+		fuel = start_fuel;
 		// Gameplay attributes
 		isJumping = false;
 		complete = false;
 		isClimbing = false;
-		oldFuel = START_FUEL;
+		oldFuel = start_fuel;
 		setName("Aiden");
 		iWidth = width;
 		iHeight = height;
@@ -363,7 +365,7 @@ public class AidenModel extends CharacterModel {
 
 	/** subtract fuel from Aiden */
 	public void subFuel(float i) {
-
+		if (keepFuel) return;
 		float fuelloss = (float) Math.max(0, 0.008
 				* Math.sqrt(getVX() * getVX() + getVY() * getVY()));
 		if (isSpiriting) {

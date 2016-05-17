@@ -44,7 +44,7 @@ import edu.cornell.gdiac.physics.CollisionController;
  */
 
 public class AidenController extends WorldController
-		implements ContactListener {
+implements ContactListener {
 
 	// private Scene[] scenes;
 
@@ -204,10 +204,10 @@ public class AidenController extends WorldController
 	public void reset() {
 		af.bgm.stop();
 		resetPos();
-		
+
 		Vector2 gravity = new Vector2(world.getGravity());
 		beginCamFrame = 0;
-		
+
 		for (Obstacle obj : objects) {
 			obj.deactivatePhysics(world);
 		}
@@ -218,6 +218,8 @@ public class AidenController extends WorldController
 		flammables.clear();
 		addQueue.clear();
 		npcs.clear();
+		checkpoints.clear();
+		
 		world.dispose();
 		world = new World(gravity, false);
 		world.setContactListener(this);
@@ -247,7 +249,7 @@ public class AidenController extends WorldController
 			wasPlaying = true;
 		}
 	}
-	
+
 	public void resetPos(){
 		pauseT = new Vector2(480, 110);
 		loseSize = new Vector2(649, 110);
@@ -271,9 +273,9 @@ public class AidenController extends WorldController
 		fuelBarSize.scl(sScaleX, sScaleX);
 		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
-//		resuC = Color.WHITE;
-//		restC = Color.WHITE;
-//		homeC = Color.WHITE;
+		//		resuC = Color.WHITE;
+		//		restC = Color.WHITE;
+		//		homeC = Color.WHITE;
 	}
 	/**
 	 * Lays out the game geography.
@@ -368,7 +370,7 @@ public class AidenController extends WorldController
 			bp.setTexture(texture);
 			bp.getPlatform().setBurningTexture(
 					af.burningTexture[(ii + af.burningTexture.length / 2)
-							% af.burningTexture.length],
+					                  % af.burningTexture.length],
 					2);
 			bp.setDensity(BASIC_DENSITY);
 			bp.setFriction(0);
@@ -523,22 +525,17 @@ public class AidenController extends WorldController
 			restC =  Color.WHITE;
 			isHolding=-1;
 		}
-//		if (isPressed && instr == 0 && cooldown <= 0) {
-//			cooldown = 0.5f;
-			Vector2 pos = InputController.getInstance().getCrossHair();
-			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
+		//		if (isPressed && instr == 0 && cooldown <= 0) {
+		//			cooldown = 0.5f;
+		Vector2 pos = InputController.getInstance().getCrossHair();
+		Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
-			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
-					mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 2;
-					isHolding = 0;
-				}
-				homeC = Color.GRAY;
-			}
-			else if (isHolding !=0){
-				homeC = Color.WHITE;
+		if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
+				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 2;
+				isHolding = 0;
 			}
 			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
 					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
@@ -572,28 +569,42 @@ public class AidenController extends WorldController
 					}
 					isHolding=2;
 				}
-				restC = Color.GRAY;
+				isHolding=1;
 			}
-			else if (isHolding !=2){
-				restC = Color.WHITE;
+			resuC = Color.GRAY;
+		}
+		else if (isHolding !=1){
+			resuC = Color.WHITE;
+		}
+		if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
+				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 3;
+				isHolding=2;
 			}
-			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
-					mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 4;
-				}
-				return;
+			restC = Color.GRAY;
+		}
+		else if (isHolding !=2){
+			restC = Color.WHITE;
+		}
+		if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
+				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 4;
 			}
-			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
-					mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 5;
-				}
-				return;
+			return;
+		}
+		if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
+				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 5;
 			}
-//		}
+			return;
+		}
+		//		}
 	}
 
 	public float jumpCD = 0.5f;
@@ -685,73 +696,73 @@ public class AidenController extends WorldController
 
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
-				: InputController.getInstance().getHorizontal();
-		double accY = (spirit)
-				? InputController.getInstance().getVertical() * 1.5
-				: InputController.getInstance().getVertical();
+						: InputController.getInstance().getHorizontal();
+				double accY = (spirit)
+						? InputController.getInstance().getVertical() * 1.5
+								: InputController.getInstance().getVertical();
 
-		// Process actions in object model
-		avatar.setMovement((float) accX * 9);
-		avatar.setMovementY((float) accY * 8);
-		avatar.setJumping(InputController.getInstance().didPrimary());
-		avatar.setDt(dt);
-		avatar.applyForce();
+						// Process actions in object model
+						avatar.setMovement((float) accX * 9);
+						avatar.setMovementY((float) accY * 8);
+						avatar.setJumping(InputController.getInstance().didPrimary());
+						avatar.setDt(dt);
+						avatar.applyForce();
 
-		if (jumpCD < 0.5f) {
-			jumpCD -= dt;
-			if (jumpCD <= 0) {
-				jumpCD = 0.5f;
-			}
-		}
+						if (jumpCD < 0.5f) {
+							jumpCD -= dt;
+							if (jumpCD <= 0) {
+								jumpCD = 0.5f;
+							}
+						}
 
-		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
-			af.jump.play();
-			jumpCD -= dt;
-		}
+						if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
+							af.jump.play();
+							jumpCD -= dt;
+						}
 
-		// Update movements of npcs, including all interactions/side effects
-		for (CharacterModel npc : npcs) {
-			npc.applyForce();
-		}
+						// Update movements of npcs, including all interactions/side effects
+						for (CharacterModel npc : npcs) {
+							npc.applyForce();
+						}
 
-		BurnController BurnControl = new BurnController();
-		BurnControl.getBurning(flammables, objects, dt, world);
+						BurnController BurnControl = new BurnController();
+						BurnControl.getBurning(flammables, objects, dt, world);
 
-		// If we use sound, we must remember this.
-		SoundController.getInstance().update();
-		if (isComplete() && !isFailure()) {
-			gs.setLevel(level + 1);
-			gs.setCheckpoint(-1);
-			if (gs.getUnlocked() == level) {
-				gs.setUnlocked(level + 1);
-			}
-		}
+						// If we use sound, we must remember this.
+						SoundController.getInstance().update();
+						if (isComplete() && !isFailure()) {
+							gs.setLevel(level + 1);
+							gs.setCheckpoint(-1);
+							if (gs.getUnlocked() == level) {
+								gs.setUnlocked(level + 1);
+							}
+						}
 
-		if (InputController.getInstance().getHorizontal() != 0) {
-			beginCamFrame = 400;
-		}
-		
-		
-		if(beginCamFrame == 0){
-			canvas.setCamPos(avatar.getX(), avatar.getY());
-		}
-		
-		if (beginCamFrame < 200) {
-			float a = (2 * ((float) scene.getWidth()) / (float) 72);
-			float b = (2 * ((float) scene.getHeight()) / (float) 44);
-			canvas.updateCam(Math.max(Math.max(a, b),1f));
-			canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
-					scene.getWidth(), scene.getHeight());
-		}
+						if (InputController.getInstance().getHorizontal() != 0) {
+							beginCamFrame = 400;
+						}
 
-		if (beginCamFrame > 300) {
-			canvas.updateCam(1f);
-			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
-					scene.getHeight());
-		}
-		if (beginCamFrame < 300) {
-			beginCamFrame++;
-		}
+
+						if(beginCamFrame == 0){
+							canvas.setCamPos(avatar.getX(), avatar.getY());
+						}
+
+						if (beginCamFrame < 200) {
+							float a = (2 * ((float) scene.getWidth()) / (float) 72);
+							float b = (2 * ((float) scene.getHeight()) / (float) 44);
+							canvas.updateCam(Math.max(Math.max(a, b),1f));
+							canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
+									scene.getWidth(), scene.getHeight());
+						}
+
+						if (beginCamFrame > 300) {
+							canvas.updateCam(1f);
+							canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
+									scene.getHeight());
+						}
+						if (beginCamFrame < 300) {
+							beginCamFrame++;
+						}
 
 	}
 
@@ -940,7 +951,7 @@ public class AidenController extends WorldController
 			if ((bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform))
 					|| (bd2 == avatar && bd1 instanceof FlammableBlock
-							&& !(bd1 instanceof FlamePlatform))) {
+					&& !(bd1 instanceof FlamePlatform))) {
 				contact.setEnabled(false);
 			}
 			if ((bd1 == avatar && bd2 instanceof BurnablePlatform)
@@ -959,12 +970,12 @@ public class AidenController extends WorldController
 		}
 
 	}
-	
+
 	//---------------------------------confetti-------------------------------//
 	public ParticleEffect confeti;
-	
-	
-	
+
+
+
 	//-------------------------------------------------------------------------//
 	@Override
 	public void draw(float delta) {
@@ -974,6 +985,14 @@ public class AidenController extends WorldController
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
+	
+		Vector2 origin=new Vector2(af.checkpointTexture.getRegionWidth()/2.0f, 0);
+		for (FuelBlock fb:checkpoints){
+			canvas.draw(af.checkpointTexture, Color.WHITE, origin.x, origin.y, 
+					fb.getX()*scale.x, (fb.getY()+fb.getHeight()/2f)*scale.y, 0f, 
+					0.4f, 0.4f);
+		}
+		
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -997,30 +1016,32 @@ public class AidenController extends WorldController
 			af.displayFont.getData().setScale(zoom/2, zoom/2);
 			canvas.drawText("level: "+level, af.displayFont, iPos.x, iPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
-			canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
-					fuelBarInner.x * zoom, fuelBarInner.y * zoom);
-			if (sx < 0.3f) {
-				canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
-						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
-			} else {
-				canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
-						fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
-			}
-			if (sx == 0) {
-				canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-				canvas.draw(af.barDie, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-			} else if (drawCrit) {
-				canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-			} else {
-				canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
-				canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
-						fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+			if(level!=0) {
+				canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
+						fuelBarInner.x * zoom, fuelBarInner.y * zoom);
+				if (sx < 0.3f) {
+					canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
+							fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+				} else {
+					canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
+							fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+				}
+				if (sx == 0) {
+					canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+					canvas.draw(af.barDie, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				} else if (drawCrit) {
+					canvas.draw(af.barYellow, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+					canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				} else {
+					canvas.draw(af.barIcon, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+					canvas.draw(af.barOutter, Color.WHITE, pos.x, pos.y,
+							fuelBarSize.x * zoom, fuelBarSize.y * zoom);
+				}
 			}
 		}
 
@@ -1042,20 +1063,26 @@ public class AidenController extends WorldController
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			if (!isComplete()) {
 				if (!isFailure()) {
-					canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
-							pauseT.x * zoom, pauseT.y * zoom);
-					// resume
-					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-					canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
-					// restart
-					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-					canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
-					// home
-					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
-					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
-							largeBut.x * zoom, largeBut.y * zoom);
+					if(this instanceof TutorialController &&
+							((TutorialController)this).tutpause){
+						canvas.drawText(((TutorialController)this).getMsgString(),af.displayFont, posTemp.x, posTemp.y);
+					}else{
+						canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
+								pauseT.x * zoom, pauseT.y * zoom);
+						// resume
+						posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+						canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+						// restart
+						posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+						canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+						// home
+						posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+						canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+								largeBut.x * zoom, largeBut.y * zoom);
+					}
+
 				} else {
 					posTemp = canvas.relativeVector(losePos.x, losePos.y);
 					canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
@@ -1138,52 +1165,60 @@ public class AidenController extends WorldController
 
 		// ======================Tutorials========================//
 		case 0:
-			this.scene = new Scene("Tutorial0.json"); // super easy tutorial
+			this.scene = new Scene("Tut1.json"); // super easy tutorial
 			backgroundTexture = af.backGround0;
 			break;
 
 		case 1:
-			this.scene = new Scene("Tutorial4.json"); // spirit mode to the top
+			this.scene = new Scene("Tut2.json"); // spirit mode to the top
 			backgroundTexture = af.tutorial1;
 			break;
-		case 2:
+		case 2: 
+			this.scene = new Scene("Tut3.json"); // spirit mode to the top
+			backgroundTexture = af.tutorial1;
+			break;
+		case 3: 
+			this.scene = new Scene("Tut4.json"); // spirit mode to the top
+			backgroundTexture = af.tutorial1;
+			break;
+		case 4:
 			this.scene = new Scene("Level01.json"); // spirit mode going down
 
 			backgroundTexture = af.tutorial2;
 			break;
-		case 3:
+		case 5:
 			this.scene = new Scene("Med2.json"); // stonesss // pretty easy
 			backgroundTexture = af.tutorial3;
 			break;
 
-		case 4:
+		case 6:
 			this.scene = new Scene("Easy2.json"); // spirit boost changed
 			backgroundTexture = af.tutorial4;
 			break;
 
-		// ======================Easy========================//
-		case 5:
+			// ======================Easy========================//
+		case 7:
 
 			this.scene = new Scene("Easy1.json"); // gap introduce water guard
 			backgroundTexture = af.backGround;
 			break;
 
-		case 6:
+			//		case 7:
+			//
+			//			this.scene = new Scene("Tutorial6.json"); // gap introduce water
+			//														// guard
+			//			backgroundTexture = af.backGround;
+			//			break;
 
-			this.scene = new Scene("Tutorial6.json"); // gap introduce water
-														// guard
-			backgroundTexture = af.backGround;
-			break;
-
-		case 7:
-
-			this.scene = new Scene("Tutorial3.json"); // avoid water guard
-			backgroundTexture = af.backGround;
-			break;
+			//		case 7:
+			//
+			//			this.scene = new Scene("Tutorial3.json"); // avoid water guard
+			//			backgroundTexture = af.backGround;
+			//			break;
 
 		case 8:
 			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
-													// water
+			// water
 			backgroundTexture = af.backGround;
 			break;
 		case 9:
@@ -1192,7 +1227,7 @@ public class AidenController extends WorldController
 			backgroundTexture = af.backGround;
 			break;
 
-		// ======================Medium========================//
+			// ======================Medium========================//
 		case 10:
 			this.scene = new Scene("Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
@@ -1200,12 +1235,12 @@ public class AidenController extends WorldController
 
 		case 11:
 			this.scene = new Scene("Med4.json"); // wooden
-													// boxessssssssssssssssssss
+			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
 		case 12:
 			this.scene = new Scene("Med3.json"); // vertical // add more fuel
-													// and move the rope
+			// and move the rope
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1217,7 +1252,7 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
-		// ======================Hard========================//
+			// ======================Hard========================//
 		case 15:
 			this.scene = new Scene("Hard1.json"); // square
 			backgroundTexture = af.backGround;
@@ -1226,21 +1261,21 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
-			
+
 		case 17:
-			this.scene = new Scene("NewTutorial1.json");
+			this.scene = new Scene("Tut5.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 18:
-			this.scene = new Scene("NewTutorial2.json");
+			this.scene = new Scene("Tut6.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 19:
-			this.scene = new Scene("NewTutorial3.json");
+			this.scene = new Scene("Tut7.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 20:
-			this.scene = new Scene("NewTutorial4.json");
+			this.scene = new Scene("Tut8.json");
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1255,12 +1290,13 @@ public class AidenController extends WorldController
 }
 
 class TutorialController extends AidenController{
-	
+	private String tutmsg_s;
 	private Message[] messages;
 	// currentMsg is the msg index, is -1 when there is no task
 	// larger than 0 when a task started until the user completes the task
 	private int currentMsg ;
-	private boolean read = false;
+	boolean read = false;
+	boolean tutpause = false;
 
 	public TutorialController(int level) {
 		super(level);
@@ -1268,13 +1304,24 @@ class TutorialController extends AidenController{
 		switch (level){
 		case 0:
 			this.messages = parseJson("tutorial1message.json");
+			break;
+		case 1:
+			this.messages = parseJson("tutorial2message.json");
+			break;
+		case 2:
+			this.messages = parseJson("tutorial3message.json");
+			break;
+		case 3:
+			this.messages = parseJson("tutorial4message.json");
+			break;
 		default:
 			this.messages = parseJson("tutorial1message.json");
 		}
 		currentMsg = -1;
-			
+		tutmsg_s = "";
 	}
-	
+
+
 	private Message[] parseJson(String s){
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
@@ -1286,26 +1333,34 @@ class TutorialController extends AidenController{
 			String type = m.getString("type");
 			String msg = m.getString("message");
 			String end_s = m.getString("end_message");
-			JsonValue end_pos = m.get("end_pos");
-			float end_x = end_pos.getFloat("x");
-			float end_y = end_pos.getFloat("y");
+			
 			if(type.equals("position")){
 				JsonValue pos = m.get("position");
+				JsonValue end_pos = m.get("end_pos");
+				float end_x = end_pos.getFloat("x");
+				float end_y = end_pos.getFloat("y");
 				float msg_x = pos.getFloat("x");
 				float msg_y = pos.getFloat("y");
 				msgs[i] = new PositionMessage(msg, msg_x, msg_y, end_x, end_y, end_s);
 			}else{
 				float fuel = m.getFloat("fuel");
-				msgs[i] = new FuelMessage(msg, fuel, end_x, end_y, end_s);
+				float end_f = m.getFloat("end_fuel");
+				msgs[i] = new FuelMessage(msg, fuel, end_f, end_s);
 			}
 		}
 		return msgs;
 	}
-	
-	
+
+	public void reset(){
+		super.reset();
+		read = false;
+		for (Message m: messages) m.setUndo();
+		tutpause = false;
+	}
 	public void update(float dt){
 		super.update(dt);
-		
+		if(level == 0) avatar.keepFuel = true;
+		System.out.println(avatar.getX()+" "+avatar.getY());
 		int i = 0;
 		// when we are not in a task, check if we should start any task
 		while(!this.pause && i < this.messages.length && !read){
@@ -1313,115 +1368,165 @@ class TutorialController extends AidenController{
 			// if the task is already done, skip it
 			if(m.getDone()) {
 				i++;
+				System.out.println("task done");
 				continue;
 			}
+
 			if(m instanceof PositionMessage){
-				
-				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 0.1
-						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 1){
-					//System.out.println("task1 here!!!!!!");
-					this.pause();
+				System.out.println(level+" "+avatar.getX() +" "+avatar.getY());
+				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 1
+						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 3){
+					System.out.println("task1 here!!!!!!");
+					
 					this.currentMsg = i;
+					this.tutmsg_s = m.getMsg();
+					this.tutpause = true;
+					this.pause();
 				}
 			}else{
+
 				System.out.println(avatar.getX() +" "+avatar.getY());
+				System.out.println(avatar.getFuel());
+
 				if(avatar.getFuel() < ((FuelMessage) m).getFuel()){
-					//System.out.println("task2 here!!!!!!");
-					this.pause();
+					System.out.println("task2 here!!!!!!");
+					
 					this.currentMsg = i;
+					this.tutmsg_s = m.getMsg();
+					this.tutpause = true;
+					this.pause();
 				}
 			}
 			i++;
 		}
-		//System.out.println(currentMsg);
 		// if we are in a task, check if the task is completed
 		if(this.currentMsg>-1){
 			Message m = messages[currentMsg];
-			float end_x = m.end_x;
-			float end_y = m.end_y;	
-			if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<1){
-				messages[currentMsg].setDone();
-				this.pause();
-				//System.out.println("task "+currentMsg+" completed");
-				this.currentMsg = -1;
-				this.read = false;
+			if(m instanceof PositionMessage){
+				float end_x = ((PositionMessage) m).getEndX();
+				float end_y = ((PositionMessage) m).getEndY();	
+				if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<3){
+					messages[currentMsg].setDone();
+					this.tutmsg_s = m.getEndMsg();
+					this.tutpause = true;
+					this.pause();
+					System.out.println("task "+currentMsg+" completed");
+					this.currentMsg = -1;
+					this.read = false;
+					
+				}
+			}else{
+				float end_f  = ((FuelMessage) m).getEndFuel();
+				if(avatar.getFuel() > end_f){
+					System.out.println("task "+currentMsg+" completed");
+					messages[currentMsg].setDone();
+					this.tutmsg_s = m.getEndMsg();
+					this.tutpause = true;
+					this.pause();
+					this.read = false;
+					this.currentMsg = -1;
+				}
+
 			}
 		}
 		// when we are displaying a task, check if the user pressed enter to dismiss the msg
 		if(this.pause && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
 			this.pause();
+			this.tutpause = false;
 			if(this.currentMsg>-1){
 				this.read = true;
+				this.tutmsg_s = "";
+				
 			}
 		}
+		System.out.println(tutpause);
 	}
 	
+	public String getMsgString(){
+		return this.tutmsg_s;
+	}
+
 	public int getCurrentMsg(){
 		return this.currentMsg;
 	}
-	
+
 	public void display(String s, float x, float y){
-		
+
 	}
-	
+
 	/** pop window when aiden is at a place **/
 	public void popWindowAt(String s, TextureRegion texture, float x, float y){
-		
+
 	}
-	
+
 	/** pop window when fuel is lower than some amounr **/
 	public void popWindowFuel(String s, TextureRegion texture, float fuel){
-		
+
 	}
-	
+
 	private void popWindow(String s, TextureRegion texture){
-		
+		canvas.draw(af.avatarTexture, 1, 1);
 	}
 }
 
 abstract class Message{
 	protected String msg_s;
 	protected String msg_end_s;
-	protected float end_x;
-	protected float end_y;
+
 	private boolean msg_done;
-	
-	public Message(String s, float x, float y, String end_s){
+
+	public Message(String s, String end_s){
 		this.msg_s = s;
 		this.msg_done = false;
-		this.end_x = x;
-		this.end_y = y;
 		this.msg_end_s = end_s;
 	}
 	
+	public String getMsg(){return this.msg_s;}
+	public String getEndMsg(){return this.msg_end_s;}
+
 	public void setDone(){this.msg_done = true;}
-	
+
 	public boolean getDone(){return this.msg_done;}
+
+	public void setUndo(){this.msg_done = false;}
 }
 
 class PositionMessage extends Message{
 	private float msg_x;
 	private float msg_y;
-	
+	private float end_x;
+	private float end_y;
+
 	public PositionMessage(String s, float x, float y, float end_x, float end_y, String end_s){
-		super(s, end_x, end_y, end_s);
+		super(s,  end_s);
 		this.msg_x = x;
 		this.msg_y = y;
+		this.end_x = end_x;
+		this.end_y = end_y;
 	}
-	
+
 	public float getX(){return msg_x;}
-	
+
 	public float getY(){return msg_y;}
-	
+
+	public float getEndX(){return end_x;}
+
+	public float getEndY(){return end_y;}
+
 }
 
 class FuelMessage extends Message{
 	private float msg_fuel;
-	public FuelMessage(String s, float f, float end_x, float end_y, String end_s){
-		super(s, end_x, end_y, end_s);
+	private float end_fuel;
+
+	public FuelMessage(String s, float f, float end_f, String end_s){
+		super(s, end_s);
 		this.msg_fuel = f;
+		this.end_fuel = end_f;
 	}
-	
+
 	public float getFuel(){return msg_fuel;}
-	
+
+	public float getEndFuel(){return end_fuel;}
+
 }

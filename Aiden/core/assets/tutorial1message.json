@@ -3,25 +3,28 @@
 	"messages":[
 		{
 			"type": "position",
-			"message": "jump!",
+			"message": "keys",
 			"end_message":"good job",
 			"position":{
-				"x":7,
-				"y":9
+				"x":3,
+				"y":1.6
 			},
 			"end_pos":{
-				"x":20,
-				"y":10
+				"x":10,
+				"y":4
 			}
 		},
 		{
-			"type":"fuel",
-			"message": "find fuel box",
-			"end_message":"fuel increased",
-			"fuel": 10,
+			"type": "position",
+			"message": "jump!",
+			"end_message":"good job",
+			"position":{
+				"x":17,
+				"y":1.6
+			},
 			"end_pos":{
-				"x":30,
-				"y":10
+				"x":23,
+				"y":4
 			}
 		}
 	]

@@ -1,0 +1,12 @@
+{
+	"level":2,
+	"messages":[
+		{
+			"type":"fuel",
+			"message": "find fuel box",
+			"end_message":"fuel increased",
+			"fuel": 10,
+			"end_fuel":20
+		}
+	]
+}
