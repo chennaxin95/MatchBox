@@ -75,6 +75,7 @@ public class AssetFile {
 	public TextureRegion retry;
 	public TextureRegion replay;
 	public TextureRegion skip;
+	public TextureRegion levelSelect;
 	
 	
 	public TextureRegion editorPanelTexture;
@@ -177,6 +178,7 @@ public class AssetFile {
 		files.put("TUT1_BACK", "background/tutorial1.png");
 		files.put("TUT2_BACK", "background/tutorial2.png");
 		files.put("TUT3_BACK", "background/tutorial3.png");
+		files.put("LEVEL_S", "shared/levels.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -292,6 +294,7 @@ public class AssetFile {
 		replay = createTexture(manager, files.get("REPLAY"), false);
 		skip = createTexture(manager, files.get("SKIP"), false);
 		nextLevel = createTexture(manager, files.get("NEXT_LEVEL"), false);
+		levelSelect = createTexture(manager, files.get("LEVEL_S"), false);
 		
 		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);

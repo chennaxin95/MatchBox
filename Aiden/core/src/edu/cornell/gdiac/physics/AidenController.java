@@ -525,17 +525,22 @@ implements ContactListener {
 			restC =  Color.WHITE;
 			isHolding=-1;
 		}
-		//		if (isPressed && instr == 0 && cooldown <= 0) {
-		//			cooldown = 0.5f;
-		Vector2 pos = InputController.getInstance().getCrossHair();
-		Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
+//		if (isPressed && instr == 0 && cooldown <= 0) {
+//			cooldown = 0.5f;
+			Vector2 pos = InputController.getInstance().getCrossHair();
+			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
-		if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
-				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
-			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				instr = 2;
-				isHolding = 0;
+			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
+					mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 2;
+					isHolding = 0;
+				}
+				homeC = Color.GRAY;
+			}
+			else if (isHolding !=0){
+				homeC = Color.WHITE;
 			}
 			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
 					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
@@ -561,50 +566,37 @@ implements ContactListener {
 					mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
 				if (isPressed && instr == 0 && cooldown <= 0) {
 					cooldown = 0.5f;	
-					if(isFailure()){
-						instr = 6;
-					}
-					else{
+					if (isComplete()){
 						instr = 3;
 					}
+					else if (isFailure()){
+						instr = 6;
+					}
+					instr = 3;
 					isHolding=2;
 				}
-				isHolding=1;
+				restC = Color.GRAY;
 			}
-			resuC = Color.GRAY;
-		}
-		else if (isHolding !=1){
-			resuC = Color.WHITE;
-		}
-		if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
-				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
-			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				instr = 3;
-				isHolding=2;
+			else if (isHolding !=2){
+				restC = Color.WHITE;
 			}
-			restC = Color.GRAY;
-		}
-		else if (isHolding !=2){
-			restC = Color.WHITE;
-		}
-		if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
-				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
-			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				instr = 4;
+			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
+					mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 4;
+				}
+				return;
 			}
-			return;
-		}
-		if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
-				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
-			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				instr = 5;
+			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
+					mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
+				if (isPressed && instr == 0 && cooldown <= 0) {
+					cooldown = 0.5f;	
+					instr = 5;
+				}
+				return;
 			}
-			return;
-		}
-		//		}
+//		}
 	}
 
 	public float jumpCD = 0.5f;
@@ -1079,7 +1071,7 @@ implements ContactListener {
 								largeBut.x * zoom, largeBut.y * zoom);
 						// home
 						posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
-						canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+						canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 								largeBut.x * zoom, largeBut.y * zoom);
 					}
 
@@ -1089,7 +1081,7 @@ implements ContactListener {
 							loseSize.x * zoom, loseSize.y * zoom);
 					// skip
 					posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-					canvas.draw(af.restartButton, resuC, posTemp.x, posTemp.y,
+					canvas.draw(af.retry, resuC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
 					// retry
 					posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
@@ -1097,7 +1089,7 @@ implements ContactListener {
 							largeBut.x * zoom, largeBut.y * zoom);
 					// home
 					posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
-					canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+					canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
 			} else {
@@ -1110,11 +1102,11 @@ implements ContactListener {
 						largeBut.x * zoom, largeBut.y * zoom);
 				// replay
 				posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-				canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+				canvas.draw(af.replay, restC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// home
 				posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
-				canvas.draw(af.homeButton, homeC, posTemp.x, posTemp.y,
+				canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
 			// sound stuff
