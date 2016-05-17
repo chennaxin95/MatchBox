@@ -104,6 +104,8 @@ public class AssetFile {
 	public FilmStrip[] fireBall;
 	public FilmStrip[] WaterWalkTextures;
 	public TextureRegion checkpointTexture;
+	
+	public TextureRegion[] tutorialInstructions;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -203,6 +205,12 @@ public class AssetFile {
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
 		files.put("WATER", "shared/water.png");
 		files.put("CHECKPOINT_FLAG", "shared/flag.png");
+		
+		for (int i=0; i<4; i++){
+			files.put("TUTORIAL_INST"+i, "platform/tutorial/instruction_"+i+".png");
+		}
+		tutorialInstructions=new TextureRegion[4];
+		
 		System.out.println(files);
 	}
 
@@ -382,6 +390,11 @@ public class AssetFile {
 		for (int i = 0; i < 10; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
+		
+		for (int i=0; i<this.tutorialInstructions.length; i++){
+			tutorialInstructions[i]=createTexture(manager, files.get("TUTORIAL_INST"+i), false);
+		}
+		
 		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));
 		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
 		SoundController sounds = SoundController.getInstance();
