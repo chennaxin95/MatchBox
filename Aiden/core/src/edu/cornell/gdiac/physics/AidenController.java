@@ -1014,7 +1014,7 @@ implements ContactListener {
 			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 					fuelInnerPos.y);
 			af.displayFont.getData().setScale(zoom/2, zoom/2);
-			canvas.drawText("level: "+level, af.displayFont, iPos.x, iPos.y);
+			canvas.drawText("level: "+(level+1), af.displayFont, iPos.x, iPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
 			if(level!=0) {
 				canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
@@ -1118,6 +1118,8 @@ implements ContactListener {
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
 			// sound stuff
+			if(!(this instanceof TutorialController &&
+					((TutorialController)this).tutpause)){
 			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
 			canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
@@ -1125,6 +1127,7 @@ implements ContactListener {
 			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+			}
 		}
 		if(isComplete() || countdown > 0){
 			Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.01f);
@@ -1192,7 +1195,7 @@ implements ContactListener {
 			break;
 
 		case 6:
-			this.scene = new Scene("Easy2.json"); // spirit boost changed
+			this.scene = new Scene("Tut5.json"); // spirit boost changed
 			backgroundTexture = af.tutorial4;
 			break;
 
@@ -1229,12 +1232,12 @@ implements ContactListener {
 
 			// ======================Medium========================//
 		case 10:
-			this.scene = new Scene("Med1.json"); // boxes line on the bottom
+			this.scene = new Scene("Med4.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
 
 		case 11:
-			this.scene = new Scene("Med4.json"); // wooden
+			this.scene = new Scene("Med1.json"); // wooden
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
@@ -1258,24 +1261,24 @@ implements ContactListener {
 			backgroundTexture = af.backGround;
 			break;
 		case 16:
-			this.scene = new Scene("Hard2b.json");
+			this.scene = new Scene("level1.json");
 			backgroundTexture = af.backGround;
 			break;
 
 		case 17:
-			this.scene = new Scene("Tut5.json");
+			this.scene = new Scene("level2.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 18:
-			this.scene = new Scene("Tut6.json");
+			this.scene = new Scene("level3.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 19:
-			this.scene = new Scene("Tut7.json");
+			this.scene = new Scene("Hard1.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 20:
-			this.scene = new Scene("Tut8.json");
+			this.scene = new Scene("Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1434,9 +1437,10 @@ class TutorialController extends AidenController{
 			this.pause();
 			this.tutpause = false;
 			if(this.currentMsg>-1){
-				this.read = true;
-				this.tutmsg_s = "";
-				
+				if(!messages[currentMsg].msg_end_s.equals("")){
+					this.read = true;
+					this.tutmsg_s = "";
+				}
 			}
 		}
 		System.out.println(tutpause);
