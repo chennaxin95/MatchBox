@@ -131,6 +131,9 @@ implements ContactListener {
 	private Vector2 fuelBarInner;
 	private Vector2 fuelInnerPos;
 	private Vector2 fuelBarPos;
+	
+	private Vector2 restartPos;
+	private Vector2 restartIcon;
 
 	private Vector2 losePos;
 	private Vector2 loseSize;
@@ -260,6 +263,7 @@ implements ContactListener {
 		smallSize = new Vector2(100, 96);
 		fuelBarSize = new Vector2(449, 91);
 		fuelBarInner = new Vector2(377, 91);
+		restartIcon = new Vector2(200, 185);
 		sScaleX = (float) canvas.getWidth() / 1920f;
 		sScaleY = (float) canvas.getHeight() / 1080f;
 
@@ -268,6 +272,7 @@ implements ContactListener {
 		winSize.scl(sScaleX);
 		largeSize.scl(sScaleX);
 		smallSize.scl(sScaleX);
+		restartIcon.scl(sScaleX);
 		largeBut = largeBut.scl(sScaleX, sScaleX);
 		smallBut = smallBut.scl(sScaleX, sScaleX);
 		fuelBarSize.scl(sScaleX, sScaleX);
@@ -280,6 +285,7 @@ implements ContactListener {
 	/**
 	 * Lays out the game geography.
 	 */
+	
 	private void populateLevel() {
 		// Add level goal
 		// if (goalDoor!=null) return;
@@ -407,9 +413,12 @@ implements ContactListener {
 		avatar.setRun(af.AidenRunTexture);
 		avatar.setCharacterSprite(af.AidenIdleTexture);
 		avatar.setName("aiden");
-		if (gs.getLevel() == level && gs.getCheckpoint() != -1) {
+		if (gs.getLevel() == level && gs.getCheckpoint() != -1 && !restart) {
 			avatar.setPosition(
 					checkpoints.get(gs.getCheckpoint()).getPosition());
+		}
+		if(restart = true){
+			restart = false;
 		}
 		addObject(avatar);
 
@@ -508,6 +517,7 @@ implements ContactListener {
 		sScreen = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		sPos = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		fuelBarPos = new Vector2(w / 8, h);
+		restartPos = new Vector2(w*10/11, canvas.getHeight()*8/9);
 		fuelInnerPos = new Vector2(fuelBarPos.x + 68 * sScaleX, h);
 	}
 
@@ -525,84 +535,82 @@ implements ContactListener {
 			restC =  Color.WHITE;
 			isHolding=-1;
 		}
-//		if (isPressed && instr == 0 && cooldown <= 0) {
-//			cooldown = 0.5f;
-			Vector2 pos = InputController.getInstance().getCrossHair();
-			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
+		Vector2 pos = InputController.getInstance().getCrossHair();
+		Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
 
-			if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
-					mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 2;
-					isHolding = 0;
+		if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
+				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 2;
+				isHolding = 0;
+			}
+			homeC = Color.GRAY;
+		}
+		else if (isHolding !=0){
+			homeC = Color.WHITE;
+		}
+		if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
+				mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				if(!isComplete() && !isFailure()){
+					instr = 1;
 				}
-				homeC = Color.GRAY;
-			}
-			else if (isHolding !=0){
-				homeC = Color.WHITE;
-			}
-			if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
-					mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					if(!isComplete() && !isFailure()){
-						instr = 1;
-					}
-					else if (isComplete()){
-						instr = 6;
-					}
-					else{
-						instr = 3;
-					}
-					isHolding=1;
+				else if (isComplete()){
+					instr = 6;
 				}
-				resuC = Color.GRAY;
-			}
-			else if (isHolding !=1){
-				resuC = Color.WHITE;
-			}
-			if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
-					mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					if (isComplete()){
-						instr = 3;
-					}
-					else if (isFailure()){
-						instr = 6;
-					}
+				else{
 					instr = 3;
-					isHolding=2;
 				}
-				restC = Color.GRAY;
+				isHolding=1;
 			}
-			else if (isHolding !=2){
-				restC = Color.WHITE;
-			}
-			if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
-					mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 4;
+			resuC = Color.GRAY;
+		}
+		else if (isHolding !=1){
+			resuC = Color.WHITE;
+		}
+		if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
+				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				if (isComplete()){
+					instr = 3;
 				}
-				return;
-			}
-			if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
-					mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
-				if (isPressed && instr == 0 && cooldown <= 0) {
-					cooldown = 0.5f;	
-					instr = 5;
+				else if (isFailure()){
+					instr = 6;
 				}
-				return;
+				instr = 3;
+				isHolding=2;
 			}
-//		}
+			restC = Color.GRAY;
+		}
+		else if (isHolding !=2){
+			restC = Color.WHITE;
+		}
+		if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
+				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 4;
+			}
+			return;
+		}
+		if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
+				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
+			if (isPressed && instr == 0 && cooldown <= 0) {
+				cooldown = 0.5f;	
+				instr = 5;
+			}
+			return;
+		}
 	}
 
 	public float jumpCD = 0.5f;
 	public boolean wasPaused = false;
 	public boolean drawCrit = false;
 	public float blinkCD = 0.01f;
+	public Color rstColor = Color.WHITE;
 
 	/**
 	 * The core gameplay loop of this world.
@@ -637,8 +645,21 @@ implements ContactListener {
 			this.restC = Color.WHITE;
 			this.resuC = Color.WHITE;
 			isHolding=-1;
-
+			Vector2 pos = InputController.getInstance().getCrossHair();
+			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
+			if(mPos.x >= restartPos.x && mPos.x <= restartPos.x + smallBut.x &&
+					mPos.y >= restartPos.y && mPos.y <= restartPos.y + smallBut.y){
+				rstColor = Color.GRAY;
+				boolean isPressed = InputController.getInstance().didTertiary();
+				if (isPressed){
+					this.reset();
+				}
+			}
+			else{
+				rstColor = Color.WHITE;
+			}
 		}
+		
 		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
 			blinkCD -= dt;
 			if (blinkCD <= 0) {
@@ -1002,7 +1023,11 @@ implements ContactListener {
 
 		float zoom = canvas.getZoom();
 		if (avatar != null) {
-			Vector2 pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
+			Vector2 pos = canvas.relativeVector(restartPos.x, restartPos.y);
+			canvas.draw(af.restartIcon, rstColor, pos.x, pos.y,
+					smallBut.x * zoom, smallBut.y * zoom);
+			
+			pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 					fuelInnerPos.y);
 			af.displayFont.getData().setScale(zoom/2, zoom/2);

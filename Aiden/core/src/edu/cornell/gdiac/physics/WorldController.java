@@ -393,7 +393,7 @@ public abstract class WorldController implements Screen {
 	 * @return whether to process the update loop
 	 */
 	public boolean wasPlaying = false;
-	
+	public boolean restart = false;
 	public boolean preUpdate(float dt) {
 		if(pause && instr != 0){
 			if (count <= 0){
@@ -414,6 +414,7 @@ public abstract class WorldController implements Screen {
 					instr = 0;
 					count = 0.2f;
 					this.pause();
+					restart = true;
 					reset();
 				}
 				if(instr == 4){

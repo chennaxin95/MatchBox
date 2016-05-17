@@ -279,6 +279,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("TUT3_BACK"));
 		manager.load(af.get("LEVEL_S"), Texture.class);
 		assets.add(af.get("LEVEL_S"));
+		manager.load(af.get("RESTART_ICON"), Texture.class);
+		assets.add(af.get("RESTART_ICON"));
 		
 		
 		manager.load(af.get("JUMP_FILE"), Sound.class);
