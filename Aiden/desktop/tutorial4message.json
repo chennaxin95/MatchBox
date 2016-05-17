@@ -3,8 +3,8 @@
 	"messages":[
 		{
 			"type": "position",
-			"message": "Move along the wood blocks",
-			"end_message":"good job",
+			"message": 8,
+			"end_message":9,
 			"position":{
 				"x":2.5,
 				"y":3
@@ -16,8 +16,8 @@
 		},
 		{
 			"type": "position",
-			"message": "Move along the wood blocks",
-			"end_message":"good job",
+			"message": 10,
+			"end_message":11,
 			"position":{
 				"x":37,
 				"y":7

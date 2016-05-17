@@ -3,8 +3,8 @@
 	"messages":[
 		{
 			"type":"fuel",
-			"message": "find fuel box",
-			"end_message":"fuel increased",
+			"message": 4,
+			"end_message":5,
 			"fuel": 10,
 			"end_fuel":20
 		}
