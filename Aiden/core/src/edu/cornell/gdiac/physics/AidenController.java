@@ -1046,7 +1046,8 @@ implements ContactListener {
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			if (!isComplete()) {
 				if (!isFailure()) {
-					if(this instanceof TutorialController){
+					if(this instanceof TutorialController &&
+							((TutorialController)this).tutpause){
 						canvas.drawText(((TutorialController)this).getMsgString(),af.displayFont, posTemp.x, posTemp.y);
 					}else{
 						canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
@@ -1278,7 +1279,8 @@ class TutorialController extends AidenController{
 	// currentMsg is the msg index, is -1 when there is no task
 	// larger than 0 when a task started until the user completes the task
 	private int currentMsg ;
-	private boolean read = false;
+	boolean read = false;
+	boolean tutpause = false;
 
 	public TutorialController(int level) {
 		super(level);
@@ -1337,6 +1339,7 @@ class TutorialController extends AidenController{
 		super.reset();
 		read = false;
 		for (Message m: messages) m.setUndo();
+		tutpause = false;
 	}
 	public void update(float dt){
 		super.update(dt);
@@ -1361,6 +1364,7 @@ class TutorialController extends AidenController{
 					
 					this.currentMsg = i;
 					this.tutmsg_s = m.getMsg();
+					this.tutpause = true;
 					this.pause();
 				}
 			}else{
@@ -1373,6 +1377,7 @@ class TutorialController extends AidenController{
 					
 					this.currentMsg = i;
 					this.tutmsg_s = m.getMsg();
+					this.tutpause = true;
 					this.pause();
 				}
 			}
@@ -1387,6 +1392,7 @@ class TutorialController extends AidenController{
 				if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<3){
 					messages[currentMsg].setDone();
 					this.tutmsg_s = m.getEndMsg();
+					this.tutpause = true;
 					this.pause();
 					System.out.println("task "+currentMsg+" completed");
 					this.currentMsg = -1;
@@ -1399,10 +1405,10 @@ class TutorialController extends AidenController{
 					System.out.println("task "+currentMsg+" completed");
 					messages[currentMsg].setDone();
 					this.tutmsg_s = m.getEndMsg();
+					this.tutpause = true;
 					this.pause();
-					this.currentMsg = -1;
 					this.read = false;
-					
+					this.currentMsg = -1;
 				}
 
 			}
@@ -1410,11 +1416,14 @@ class TutorialController extends AidenController{
 		// when we are displaying a task, check if the user pressed enter to dismiss the msg
 		if(this.pause && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
 			this.pause();
+			this.tutpause = false;
 			if(this.currentMsg>-1){
 				this.read = true;
 				this.tutmsg_s = "";
+				
 			}
 		}
+		System.out.println(tutpause);
 	}
 	
 	public String getMsgString(){
