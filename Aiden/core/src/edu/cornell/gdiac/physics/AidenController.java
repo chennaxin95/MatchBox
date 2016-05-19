@@ -1260,38 +1260,53 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
+
 		case 8:
+			this.scene = new Scene("Tut6.json"); //Introduce ropes
+			backgroundTexture = af.backGround;
+			break;
+			
+/*		case 9:
+			this.scene = new Scene("Tutorial2.json"); // save the block
+
+			backgroundTexture = af.backGround;
+			break;*/
+		case 9:
 			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
 			// water
 			backgroundTexture = af.backGround;
 			break;
-		case 9:
-			this.scene = new Scene("Tutorial2.json"); // save the block
 
+		case 10:
+			this.scene = new Scene("Tut7.json"); // Introduce wooden platforms
 			backgroundTexture = af.backGround;
 			break;
-
-		// ======================Medium========================//
-		case 10:
+		case 11:
+			this.scene = new Scene("Tut8.json"); // Introduce wooden trapdoor
+			backgroundTexture = af.backGround;
+			break;
+			
+			// ======================Medium========================//
+		case 12:
 			this.scene = new Scene("Med4.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
 
-		case 11:
+		case 13:
 			this.scene = new Scene("Med1.json"); // wooden
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
-		case 12:
+	/*	case 14:
 			this.scene = new Scene("Med3.json"); // vertical // add more fuel
 			// and move the rope
 			backgroundTexture = af.backGround;
-			break;
+			break;*/
 
-		case 13:
+	/*	case 13:
 			this.scene = new Scene("Level2.json"); // L
 			backgroundTexture = af.backGround;
-			break;
+			break;*/
 		case 14:
 			this.scene = new Scene("Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
