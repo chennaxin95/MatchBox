@@ -2,12 +2,12 @@
 "level": 1,
 "background": "shared/background.png",
 "width": 44,
-"height": 24,
+"height": 34,
 "aiden": {
 	"start_pos": [
 		{
 			"x": 2.375,
-			"y": 1.925
+			"y": 11.925
 		}
 	],
 	"scale_x": 1,
@@ -29,7 +29,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 30.5,
-			"y": 5
+			"y": 15
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -55,7 +55,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 30.5,
-			"y": 7
+			"y": 17
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -81,7 +81,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 17
+			"y": 27
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -107,7 +107,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17.5,
-			"y": 19
+			"y": 29
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -133,7 +133,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 38.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -159,7 +159,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 37,
-			"y": 21
+			"y": 31
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -185,7 +185,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 28.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -211,7 +211,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 30.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -237,7 +237,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 32.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -263,7 +263,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 34.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -289,7 +289,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 36.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -315,7 +315,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 15.5
+			"y": 25.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -341,7 +341,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 25,
-			"y": 15.5
+			"y": 25.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -367,7 +367,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 21
+			"y": 31
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -393,7 +393,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 37,
-			"y": 23
+			"y": 33
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -419,7 +419,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 23
+			"y": 33
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -445,7 +445,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -471,7 +471,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -497,7 +497,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8,
-			"y": 16
+			"y": 26
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -523,7 +523,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8,
-			"y": 18
+			"y": 28
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -549,7 +549,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8,
-			"y": 20
+			"y": 30
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -575,7 +575,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 21,
-			"y": 25
+			"y": 35
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -601,9 +601,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4.495,
-			"y": 14.995
+			"y": 24.994999
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -627,9 +627,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40.995,
-			"y": 15.495
+			"y": 25.494999
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -653,9 +653,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42.995,
-			"y": 15.495
+			"y": 25.494999
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -679,9 +679,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40.995,
-			"y": 17.495
+			"y": 27.495
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -705,9 +705,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42.995,
-			"y": 17.495
+			"y": 27.495
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -731,9 +731,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 41.995,
-			"y": 19.495
+			"y": 29.495
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -757,9 +757,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -783,9 +783,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 10.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -809,9 +809,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 12.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -835,9 +835,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 14.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -861,9 +861,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 13,
-			"y": 19
+			"y": 29
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -887,9 +887,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17.5,
-			"y": 17
+			"y": 27
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -913,9 +913,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17.5,
-			"y": 15
+			"y": 25
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -939,9 +939,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 16.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -965,9 +965,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 18.5,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -991,9 +991,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4.495,
-			"y": 22.995
+			"y": 32.995003
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1017,9 +1017,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.995,
-			"y": 9.495
+			"y": 19.494999
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1043,9 +1043,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 18
+			"y": 28
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1069,9 +1069,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 25,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1095,9 +1095,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 16
+			"y": 26
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1121,9 +1121,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 14
+			"y": 24
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1147,9 +1147,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 21,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1173,9 +1173,9 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 23
+			"y": 33
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -1199,7 +1199,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 3.5,
-			"y": 24.5
+			"y": 34.5
 		},
 		"scale_x": 7,
 		"scale_y": 1,
@@ -1225,7 +1225,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 6.5
+			"y": 16.5
 		},
 		"scale_x": 1,
 		"scale_y": 11,
@@ -1251,7 +1251,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 26,
-			"y": 4.5
+			"y": 14.5
 		},
 		"scale_x": 5,
 		"scale_y": 1,
@@ -1277,7 +1277,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 10.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 5,
 		"scale_y": 1,
@@ -1303,7 +1303,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.5,
-			"y": 4
+			"y": 14
 		},
 		"scale_x": 8,
 		"scale_y": 1,
@@ -1329,7 +1329,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 15,
-			"y": 10
+			"y": 20
 		},
 		"scale_x": 12,
 		"scale_y": 1,
@@ -1355,7 +1355,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40,
-			"y": 4.5
+			"y": 14.5
 		},
 		"scale_x": 8,
 		"scale_y": 1,
@@ -1381,7 +1381,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4,
-			"y": 2
+			"y": 12
 		},
 		"scale_x": 1,
 		"scale_y": 3,
@@ -1407,7 +1407,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 2.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 6,
 		"scale_y": 1,
@@ -1433,7 +1433,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1459,7 +1459,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 2,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 4,
 		"scale_y": 1,
@@ -1485,7 +1485,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1511,7 +1511,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 4,
@@ -1537,7 +1537,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 16,
-			"y": 4
+			"y": 14
 		},
 		"scale_x": 9,
 		"scale_y": 1,
@@ -1563,7 +1563,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 35.5,
-			"y": 4.5
+			"y": 14.5
 		},
 		"scale_x": 4,
 		"scale_y": 1,
@@ -1589,7 +1589,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 7
+			"y": 17
 		},
 		"scale_x": 1,
 		"scale_y": 6,
@@ -1615,7 +1615,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 21.5,
-			"y": 10
+			"y": 20
 		},
 		"scale_x": 2,
 		"scale_y": 1,
@@ -1641,7 +1641,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 12.5,
-			"y": 11.5
+			"y": 21.5
 		},
 		"scale_x": 1,
 		"scale_y": 3,
@@ -1667,7 +1667,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 12.5
+			"y": 22.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1693,7 +1693,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1719,7 +1719,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 35.5,
-			"y": 8.5
+			"y": 18.5
 		},
 		"scale_x": 1,
 		"scale_y": 8,
@@ -1745,7 +1745,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 31,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 9,
 		"scale_y": 1,
@@ -1771,7 +1771,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 13
+			"y": 23
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1797,7 +1797,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 14
+			"y": 24
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1823,7 +1823,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 26,
-			"y": 11
+			"y": 21
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1849,7 +1849,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 11
+			"y": 21
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1875,7 +1875,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 24.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1901,7 +1901,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 33,
-			"y": 15
+			"y": 25
 		},
 		"scale_x": 10,
 		"scale_y": 1,
@@ -1927,7 +1927,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 32.5,
-			"y": 24.5
+			"y": 34.5
 		},
 		"scale_x": 21,
 		"scale_y": 1,
@@ -1953,7 +1953,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 43.5,
-			"y": 24.5
+			"y": 34.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -1979,7 +1979,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44.5,
-			"y": 17
+			"y": 27
 		},
 		"scale_x": 1,
 		"scale_y": 16,
@@ -2005,7 +2005,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44.5,
-			"y": 4.5
+			"y": 14.5
 		},
 		"scale_x": 1,
 		"scale_y": 9,
@@ -2031,7 +2031,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 23
+			"y": 33
 		},
 		"scale_x": 1,
 		"scale_y": 4,
@@ -2057,7 +2057,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 20.5
+			"y": 30.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2083,7 +2083,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 17
+			"y": 27
 		},
 		"scale_x": 1,
 		"scale_y": 6,
@@ -2109,7 +2109,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": -0.5,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2135,7 +2135,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39,
-			"y": 5
+			"y": 15
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2161,7 +2161,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 24.5,
-			"y": 14
+			"y": 24
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2187,7 +2187,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.5,
-			"y": 14.5
+			"y": 24.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2213,7 +2213,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8.5,
-			"y": 14.5
+			"y": 24.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2239,7 +2239,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 10
+			"y": 20
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2265,7 +2265,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 5.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2291,7 +2291,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 16,
-			"y": 9
+			"y": 19
 		},
 		"scale_x": 14,
 		"scale_y": 1,
@@ -2317,7 +2317,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 16.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 13,
 		"scale_y": 1,
@@ -2343,7 +2343,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 20.5,
-			"y": 11.5
+			"y": 21.5
 		},
 		"scale_x": 4,
 		"scale_y": 3,
@@ -2369,7 +2369,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23,
-			"y": 11.5
+			"y": 21.5
 		},
 		"scale_x": 1,
 		"scale_y": 3,
@@ -2395,7 +2395,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 18,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 4,
@@ -2421,7 +2421,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 13.5,
-			"y": 24.5
+			"y": 34.5
 		},
 		"scale_x": 13,
 		"scale_y": 1,
@@ -2447,7 +2447,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 18.5,
-			"y": 2
+			"y": 12
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2473,7 +2473,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 2,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2499,7 +2499,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 26,
-			"y": 12.5
+			"y": 22.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2525,7 +2525,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 14.5,
-			"y": 17
+			"y": 27
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2551,7 +2551,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 24,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2577,7 +2577,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2603,7 +2603,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 28,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2629,7 +2629,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 29,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2655,7 +2655,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 30,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2681,7 +2681,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 31,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2707,7 +2707,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 32,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2733,7 +2733,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 33,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2759,7 +2759,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 18,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2785,7 +2785,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2811,7 +2811,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 20,
-			"y": 5
+			"y": 15
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2837,7 +2837,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 3.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2863,7 +2863,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2889,7 +2889,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 5.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2915,7 +2915,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2941,7 +2941,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 4.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2967,7 +2967,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 5.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2993,7 +2993,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6,
-			"y": 20.5
+			"y": 30.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3019,7 +3019,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 9.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3045,7 +3045,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 10.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3071,7 +3071,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3097,7 +3097,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 12.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3123,7 +3123,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 13.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3149,7 +3149,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 14.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3175,7 +3175,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 15.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3201,7 +3201,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 16.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3227,7 +3227,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3253,7 +3253,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 18.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3279,7 +3279,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 19.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3305,7 +3305,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3331,7 +3331,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 22,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3357,7 +3357,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 20,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3383,7 +3383,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 34,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3409,7 +3409,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 35,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3435,7 +3435,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 36,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3461,7 +3461,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 19,
-			"y": 0.5
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3487,7 +3487,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 2.5,
-			"y": 14
+			"y": 24
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3513,7 +3513,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 1.5,
-			"y": 14.5
+			"y": 24.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3539,7 +3539,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 14.5
+			"y": 24.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3565,7 +3565,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 15.5
+			"y": 25.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3591,7 +3591,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 16.5
+			"y": 26.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3617,7 +3617,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 17.5
+			"y": 27.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3643,7 +3643,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 18.5
+			"y": 28.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3669,7 +3669,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3695,7 +3695,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 20.5
+			"y": 30.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3721,7 +3721,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6.5,
-			"y": 17.5
+			"y": 27.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3747,7 +3747,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 3.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3773,7 +3773,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 22.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3799,7 +3799,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 36.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3825,7 +3825,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 36.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3851,7 +3851,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 20.5
+			"y": 30.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3877,7 +3877,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 14.5
+			"y": 24.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3903,7 +3903,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 15.5
+			"y": 25.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3929,7 +3929,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 18.5
+			"y": 28.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3955,7 +3955,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 11.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -3981,7 +3981,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 17.5,
-			"y": 20.5
+			"y": 30.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4007,7 +4007,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 36.5,
-			"y": 11
+			"y": 21
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4033,7 +4033,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 21.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4059,7 +4059,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4085,7 +4085,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4111,7 +4111,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4137,7 +4137,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 37.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4163,7 +4163,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 38,
-			"y": 17
+			"y": 27
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4189,7 +4189,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 34.5,
-			"y": 22
+			"y": 32
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4215,7 +4215,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40.5,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4241,7 +4241,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 38,
-			"y": 16
+			"y": 26
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4267,7 +4267,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 37.5,
-			"y": 18.5
+			"y": 28.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4293,7 +4293,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 41.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4319,7 +4319,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 37.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4345,7 +4345,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 43.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4371,7 +4371,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 11
+			"y": 21
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4397,7 +4397,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 10
+			"y": 20
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4423,7 +4423,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 9
+			"y": 19
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4449,7 +4449,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 39.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4475,7 +4475,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 40.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4501,7 +4501,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42.5,
-			"y": 12
+			"y": 22
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4527,7 +4527,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 38.5,
-			"y": 9.5
+			"y": 19.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4553,7 +4553,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4579,7 +4579,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4605,7 +4605,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 8.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4631,7 +4631,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 0.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4657,7 +4657,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 1.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4683,7 +4683,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 9.5,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4709,7 +4709,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 7.5,
-			"y": 13.5
+			"y": 23.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4735,7 +4735,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6,
-			"y": 19.5
+			"y": 29.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4761,7 +4761,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 6,
-			"y": 18.5
+			"y": 28.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4787,7 +4787,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 2.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4813,7 +4813,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 24.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4839,7 +4839,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 25.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4865,7 +4865,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 20.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4891,7 +4891,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 26.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4917,7 +4917,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 27.5,
-			"y": 21.5
+			"y": 31.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4943,7 +4943,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 30.5,
-			"y": 19
+			"y": 29
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -4969,7 +4969,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 3,
-			"y": 7.5
+			"y": 17.5
 		},
 		"scale_x": 0.25,
 		"scale_y": 0.25,
@@ -4995,7 +4995,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 1,
-			"y": 8
+			"y": 18
 		},
 		"scale_x": 0.25,
 		"scale_y": 0.25,
@@ -5021,7 +5021,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 23.5,
-			"y": 10
+			"y": 20
 		},
 		"scale_x": 0.25,
 		"scale_y": 0.25,
@@ -5047,7 +5047,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 31,
-			"y": 4
+			"y": 14
 		},
 		"scale_x": 4,
 		"scale_y": 0.25,
@@ -5073,7 +5073,7 @@
 		"density": 0,
 		"pos": {
 			"x": 18.85,
-			"y": 5.7599998
+			"y": 15.76
 		},
 		"scale_x": 2,
 		"scale_y": 1.6,
@@ -5084,7 +5084,7 @@
 		"density": 0,
 		"pos": {
 			"x": 2.13,
-			"y": 23.165
+			"y": 33.165
 		},
 		"scale_x": 2,
 		"scale_y": 1.6,
@@ -5095,7 +5095,7 @@
 		"density": 0,
 		"pos": {
 			"x": 30.375,
-			"y": 16.925
+			"y": 26.925
 		},
 		"scale_x": 2,
 		"scale_y": 1.6,
@@ -5106,7 +5106,7 @@
 		"density": 0,
 		"pos": {
 			"x": 36.875,
-			"y": 6.425
+			"y": 16.425
 		},
 		"scale_x": 2,
 		"scale_y": 1.6,
@@ -5117,7 +5117,7 @@
 "goal": {
 	"pos": {
 		"x": 42,
-		"y": 6.5
+		"y": 16.5
 	},
 	"scale_x": 3,
 	"scale_y": 3,
