@@ -1523,7 +1523,8 @@ public class AidenController extends WorldController
 			backgroundTexture = af.tutorial1;
 			break;
 		case 4:
-			this.scene = new Scene("json/Level01.json"); // spirit mode going down
+			this.scene = new Scene("json/Level01.json"); // spirit mode going
+															// down
 
 			backgroundTexture = af.tutorial2;
 			break;
@@ -1544,16 +1545,16 @@ public class AidenController extends WorldController
 			break;
 		case 8:
 
-			this.scene = new Scene("json/Tutorial2.json"); //Save the block
-			backgroundTexture = af.backGround;
-			break;	
-		
-/*		case 7:
-
-			this.scene = new Scene("Easy1.json"); // gap introduce water guard
+			this.scene = new Scene("json/Tutorial2.json"); // Save the block
 			backgroundTexture = af.backGround;
 			break;
-*/
+
+		/*
+		 * case 7:
+		 * 
+		 * this.scene = new Scene("Easy1.json"); // gap introduce water guard
+		 * backgroundTexture = af.backGround; break;
+		 */
 		// case 7:
 		//
 		// this.scene = new Scene("json/Tutorial6.json"); // gap introduce water
@@ -1567,19 +1568,19 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-
-
 		/*
 		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
 		 * 
 		 * backgroundTexture = af.backGround; break;
 		 */
 		case 9:
-			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope and
+			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope
+														// and
 			// water
 			backgroundTexture = af.backGround;
 			break;
 		case 10:
+
 			this.scene = new Scene("json/Easy4.json"); 
 			backgroundTexture = af.backGround;
 			break;
