@@ -786,9 +786,10 @@ public class AidenController extends WorldController
 			gs.exportToJson();
 		}
 		
-		System.out.println("yay = " + (yaycounter*dt));
+
 		if  (yaycounter*dt <= 1){
 			af.yay.stop();
+			af.thump.stop();
 		}
 
 		if (!notFailure && !avatar.getComplete()) {
