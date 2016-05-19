@@ -1506,7 +1506,7 @@ public class AidenController extends WorldController
 
 		// ======================Tutorials========================//
 		case 0:
-			this.scene = new Scene("json/Tut1.json"); // super easy tutorial
+			this.scene = new Scene("json/Level1.json"); // super easy tutorial
 			backgroundTexture = af.backGround0;
 			break;
 
@@ -1595,14 +1595,15 @@ public class AidenController extends WorldController
 
 		// ======================Medium========================//
 		case 13:
-			this.scene = new Scene("json/Med1.json"); // boxes line on the bottom
-			backgroundTexture = af.backGround;
-			break;
-		case 14:
 			this.scene = new Scene("json/Med4.json"); // wooden
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
+		case 14:
+			this.scene = new Scene("json/Med1.json"); // boxes line on the bottom
+			backgroundTexture = af.backGround;
+			break;
+
 
 
 
@@ -1617,21 +1618,23 @@ public class AidenController extends WorldController
 		 */
 
 		// ======================Hard========================//
-		case 15:
-			this.scene = new Scene("json/Hard1.json"); // square
-			backgroundTexture = af.backGround;
-			break;
-		case 16:
-			this.scene = new Scene("json/Med3.json");
-			backgroundTexture = af.backGround;
-			break;
 
-		case 17:
+
+
+		case 15:
 			this.scene = new Scene("json/level2.json");
 			backgroundTexture = af.backGround;
 			break;
-		case 18:
+		case 16:
 			this.scene = new Scene("json/level3.json");
+			backgroundTexture = af.backGround;
+			break;
+		case 17:
+			this.scene = new Scene("json/Med3.json");
+			backgroundTexture = af.backGround;
+			break;
+		case 18:
+			this.scene = new Scene("json/Hard1.json"); // square
 			backgroundTexture = af.backGround;
 			break;
 		case 19:
