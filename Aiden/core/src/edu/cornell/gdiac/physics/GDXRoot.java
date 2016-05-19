@@ -331,7 +331,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		manager.load(af.get("LEVEL_BACKGROUND"), Texture.class);
 		assets.add(af.get("LEVEL_BACKGROUND"));
 		
-		for (int i=0; i<4; i++){
+		for (int i=0; i<af.tutorialInstructions.length; i++){
 			manager.load(af.get("TUTORIAL_INST"+i), Texture.class);
 			assets.add(af.get("TUTORIAL_INST"+i));
 		}
@@ -448,7 +448,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		controllers = new WorldController[levels]; ////
 		current = 0;
 		for(int i = 0; i<4; i++){
-			controllers[i] = new AidenController(i);
+			controllers[i] = new TutorialController(i);
 		}
 		
 		for(int i=4;i<levels;i++){
