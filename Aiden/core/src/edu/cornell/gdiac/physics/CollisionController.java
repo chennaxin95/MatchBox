@@ -73,7 +73,7 @@ public class CollisionController {
 								&& !(bd2 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
-							af.spiriting.play();
+//							af.spiriting.play();
 						}
 						if (bd2 instanceof RopePart) {
 							avatar.setClimbing(true);
@@ -112,7 +112,7 @@ public class CollisionController {
 								&& !(bd1 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
-							af.spiriting.play();
+//							af.spiriting.play();
 						}
 						if ((bd1 instanceof RopePart)) {
 							avatar.setClimbing(true);

@@ -56,6 +56,9 @@ public class AidenController extends WorldController
 	/** Track asset loading from all instances and subclasses */
 	// private AssetState platformAssetState = AssetState.EMPTY;
 
+	/** To stop yaying after resetting*/
+	private float yaycounter = 0;
+	
 	/**
 	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
 	 * Enables him to pass through burning objects and travel faster through
@@ -274,6 +277,7 @@ public class AidenController extends WorldController
 			wasPlaying = true;
 		}
 		populate_map();
+		yaycounter = 0;
 	}
 
 	public void resetPos() {
@@ -655,6 +659,7 @@ public class AidenController extends WorldController
 	 *            Number of seconds since last animation frame
 	 */
 	public void update(float dt) {
+		yaycounter += 1;
 		confeti.update(dt);
 		if (pause) {
 			if (musicMuted) {
@@ -741,6 +746,11 @@ public class AidenController extends WorldController
 		if (CollControl.getCheckpoint() != -1) {
 			gs.setCheckpoint(CollControl.getCheckpoint());
 			gs.exportToJson();
+		}
+		
+		System.out.println("yay = " + (yaycounter*dt));
+		if  (yaycounter*dt <= 1){
+			af.yay.stop();
 		}
 
 		if (!notFailure && !avatar.getComplete()) {
