@@ -1538,11 +1538,21 @@ public class AidenController extends WorldController
 
 		// ======================Easy========================//
 		case 7:
-
-			this.scene = new Scene("json/Easy1.json"); // gap introduce water guard
+			this.scene = new Scene("Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
+		case 8:
 
+			this.scene = new Scene("json/Tutorial2.json"); //Save the block
+			backgroundTexture = af.backGround;
+			break;	
+		
+/*		case 7:
+
+			this.scene = new Scene("Easy1.json"); // gap introduce water guard
+			backgroundTexture = af.backGround;
+			break;
+*/
 		// case 7:
 		//
 		// this.scene = new Scene("json/Tutorial6.json"); // gap introduce water
@@ -1556,10 +1566,7 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-		case 8:
-			this.scene = new Scene("Tut6.json"); // Introduce ropes
-			backgroundTexture = af.backGround;
-			break;
+
 
 		/*
 		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
@@ -1611,7 +1618,7 @@ public class AidenController extends WorldController
 			backgroundTexture = af.backGround;
 			break;
 		case 16:
-			this.scene = new Scene("json/level01.json");
+			this.scene = new Scene("json/Med3.json");
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1624,7 +1631,7 @@ public class AidenController extends WorldController
 			backgroundTexture = af.backGround;
 			break;
 		case 19:
-			this.scene = new Scene("json/Hard1.json");
+			this.scene = new Scene("json/Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 20:
