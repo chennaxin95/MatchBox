@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.joints.*;
 
 import edu.cornell.gdiac.physics.GameCanvas;
 import edu.cornell.gdiac.physics.obstacle.*;
+import edu.cornell.gdiac.physics.scene.AssetFile;
 
 /**
  * A bridge with planks connected by revolute joints.
@@ -43,6 +44,7 @@ public class Rope extends ComplexObstacle {
 	protected float SPREAD = 1f;
 	protected float BURN = 4f;
 	
+	private boolean isBurning = false;
 
 	// Dimension information
 	/** The size of the entire bridge */
@@ -61,6 +63,11 @@ public class Rope extends ComplexObstacle {
 	/** number of rope segments */
 	protected int SEGMENTS = 15;
 
+	
+	public boolean isBurning(){
+		return isBurning;
+	}
+	
     /**
      * Creates a new rope bridge with the given anchors.
      *
@@ -191,9 +198,13 @@ public class Rope extends ComplexObstacle {
 			this.start.markRemoved(true);
 			return true;
 		}
+//		boolean burning = false;
 		for (int i = 0; i < bodies.size; i++){
 			if(bodies.get(i) != null){
 				temp = (FlammableBlock) bodies.get(i);
+				if (temp.isBurning()){
+					isBurning = true;
+				}
 				if(temp.isBurnt() && temp.getBody()!=null){
 					world.destroyBody(bodies.get(i).getBody());
 					bodies.removeIndex(i);

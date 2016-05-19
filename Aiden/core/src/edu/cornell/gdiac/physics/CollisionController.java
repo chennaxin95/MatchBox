@@ -54,11 +54,13 @@ public class CollisionController {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
 								+ " " + fb2.getName());
 						fb2.activateBurnTimer();
+						af.match.play();
 					} else if (fb2.canSpreadFire()
 							&& (!fb1.isBurning() && !fb1.isBurnt())) {
 						System.out.println(fb2.getName() + "" + fb2.isBurning()
 								+ " " + fb1.getName());
 						fb1.activateBurnTimer();
+						af.match.play();
 					}
 				}
 

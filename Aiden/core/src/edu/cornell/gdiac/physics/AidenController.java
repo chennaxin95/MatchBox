@@ -687,9 +687,19 @@ public class AidenController extends WorldController
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
+		// boolean ropeburn = false;
 		for (ComplexObstacle co : ropes) {
 			co.updateParts(world);
+			// if (co instanceof Rope){
+			// if (((Rope) co).isBurning()){
+			// af.ropeburn.play();
+			// ropeburn = true;
+			// }
+			// }
 		}
+		// if (!ropeburn && af.ropeburn.isPlaying()){
+		// af.ropeburn.stop();
+		// }
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
@@ -734,24 +744,22 @@ public class AidenController extends WorldController
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
 		}
-		
+
 		burning = false;
 		for (FlammableBlock f : flammables) {
 			if (f.isBurning()) {
 				burning = true;
 			}
 		}
-		if (burning && !af.burn.isPlaying()){
+		if (burning && !af.burn.isPlaying()) {
 			af.burn.play();
 		}
-		if (!burning && af.burn.isPlaying()){
+		if (!burning && af.burn.isPlaying()) {
 			af.burn.stop();
 		}
-		
+
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);
-
-		
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
@@ -814,6 +822,15 @@ public class AidenController extends WorldController
 			Obstacle bd1 = (Obstacle) body1.getUserData();
 			Obstacle bd2 = (Obstacle) body2.getUserData();
 
+			if ((bd1 instanceof BlockAbstract && !(bd1 instanceof RopePart))
+					&& (bd2 instanceof BlockAbstract
+							&& !(bd2 instanceof RopePart))) {
+				if (bd1.getVY() <= -1 || bd2.getVY() <= -1) {
+					af.thump.stop();
+					af.thump.play();
+				}
+			}
+
 			// See if we have landed on the ground.
 			if ((avatar.getSensorName().equals(fd2) && avatar != bd1) ||
 					(avatar.getSensorName().equals(fd1) && avatar != bd2)) {
@@ -868,11 +885,13 @@ public class AidenController extends WorldController
 						&& bd1 instanceof StoneBlock &&
 						bd1.getVY() <= -2) {
 					w.setDead(true);
+					af.splash.play();
 				}
 				if (w.getTopName().equals(fd1) && w != bd2
 						&& bd2 instanceof StoneBlock &&
 						bd2.getVY() <= -2) {
 					w.setDead(true);
+					af.splash.play();
 				}
 			}
 
@@ -1260,17 +1279,16 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-
 		case 8:
-			this.scene = new Scene("Tut6.json"); //Introduce ropes
+			this.scene = new Scene("Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
-			
-/*		case 9:
-			this.scene = new Scene("Tutorial2.json"); // save the block
 
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
+		 * 
+		 * backgroundTexture = af.backGround; break;
+		 */
 		case 9:
 			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
 			// water
@@ -1285,8 +1303,8 @@ public class AidenController extends WorldController
 			this.scene = new Scene("Tut8.json"); // Introduce wooden trapdoor
 			backgroundTexture = af.backGround;
 			break;
-			
-			// ======================Medium========================//
+
+		// ======================Medium========================//
 		case 12:
 			this.scene = new Scene("Med4.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
@@ -1297,16 +1315,15 @@ public class AidenController extends WorldController
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
-	/*	case 14:
-			this.scene = new Scene("Med3.json"); // vertical // add more fuel
-			// and move the rope
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 14: this.scene = new Scene("Med3.json"); // vertical // add more
+		 * fuel // and move the rope backgroundTexture = af.backGround; break;
+		 */
 
-	/*	case 13:
-			this.scene = new Scene("Level2.json"); // L
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 13: this.scene = new Scene("Level2.json"); // L
+		 * backgroundTexture = af.backGround; break;
+		 */
 		case 14:
 			this.scene = new Scene("Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;

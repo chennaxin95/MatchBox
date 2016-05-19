@@ -281,7 +281,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		exit = new Texture("shared/exit word.png");
 		creditList = new Texture("shared/credits detail.png");
 		creditText = new Texture("shared/credits-title.png");
-		circle = new Texture("shared/circle.png");
+//		circle = new Texture("shared/circle.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
