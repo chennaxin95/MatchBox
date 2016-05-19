@@ -256,6 +256,7 @@ public class AidenController extends WorldController
 			bgm.dispose();
 		}
 		populateLevel();
+		af.yay.stop();
 		confeti = new ParticleEffect();
 		confeti.load(Gdx.files.internal("platform/confetti.p"),
 				Gdx.files.internal("platform"));
@@ -745,6 +746,10 @@ public class AidenController extends WorldController
 			setFailure(true);
 			af.extinguish.play();
 		}
+		
+		if (!avatar.isSpiriting()){
+			af.spiriting.stop();
+		}
 
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
@@ -767,7 +772,7 @@ public class AidenController extends WorldController
 			}
 		}
 
-		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
+		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f && !avatar.isSpiriting()) {
 			af.jump.play();
 			jumpCD -= dt;
 		}

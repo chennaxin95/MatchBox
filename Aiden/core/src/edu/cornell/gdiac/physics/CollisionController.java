@@ -73,6 +73,7 @@ public class CollisionController {
 								&& !(bd2 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
+							af.spiriting.play();
 						}
 						if (bd2 instanceof RopePart) {
 							avatar.setClimbing(true);
@@ -86,9 +87,12 @@ public class CollisionController {
 									avatar.addFuel(
 											fbb.getFuelBonus());
 									avatar.gotFuel = true;
+									af.bubble.play();
 									avatar.setFuelPPos();
 									avatar.setSpiriting(false);
 									if (fbb.isCheckpoint()) {
+										af.bubble.stop();
+										af.yay.play();
 										int dex = checkpoints.indexOf(fbb,
 												true);
 										if (gs.getCheckpoint() != dex) {
@@ -108,6 +112,7 @@ public class CollisionController {
 								&& !(bd1 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
+							af.spiriting.play();
 						}
 						if ((bd1 instanceof RopePart)) {
 							avatar.setClimbing(true);
