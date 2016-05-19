@@ -291,6 +291,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("POP_FILE"));
 		manager.load(af.get("BGM_FILE"), Sound.class);
 		assets.add(af.get("BGM_FILE"));
+		manager.load(af.get("BURN_FILE"), Sound.class);
+		assets.add(af.get("BURN_FILE"));
+		manager.load(af.get("MATCH_FILE"), Sound.class);
+		assets.add(af.get("MATCH_FILE"));
 		
 		manager.load(af.get("WATER"), Texture.class);
 		assets.add(af.get("WATER"));
@@ -415,11 +419,11 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 
-		int levels = 21;
+		int levels = 22;
 		controllers = new WorldController[levels]; ////
 		current = 0;
 		for(int i = 0; i<4; i++){
-			controllers[i] = new TutorialController(i);
+			controllers[i] = new AidenController(i);
 		}
 		
 		for(int i=4;i<levels;i++){

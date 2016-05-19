@@ -28,6 +28,8 @@ public class AssetFile {
 	public TextureRegion burnablePlatform;
 	public Music bgm;
 	public Music jump;
+	public Music burn;
+	public Music match;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -137,6 +139,8 @@ public class AssetFile {
 		files.put("PEW_FILE", "music/pew.mp3");
 		files.put("POP_FILE", "music/plop.mp3");
 		files.put("BGM_FILE", "music/bgm.mp3");
+		files.put("BURN_FILE", "music/burn.mp3");
+		files.put("MATCH_FILE", "music/match.mp3");
 		files.put("BACKGROUND0", "background/tutorial0background2.png");
 		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
@@ -412,11 +416,16 @@ public class AssetFile {
 		
 		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));
 		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
+		burn = Gdx.audio.newMusic(Gdx.files.internal("music/burn.mp3"));
+		match = Gdx.audio.newMusic(Gdx.files.internal("music/match.mp3"));
+		
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
+		sounds.allocate(manager, files.get("BURN_FILE"));
+		sounds.allocate(manager, files.get("MATCH_FILE"));
 		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}
