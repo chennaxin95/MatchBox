@@ -1349,7 +1349,7 @@ public class AidenController extends WorldController
 								af.tutorialInstructions[((TutorialController) this)
 										.getMsgString()],
 								Color.WHITE, posTemp.x, posTemp.y, 800 * zoom,
-								600 * zoom);
+								500 * zoom);
 					} else {
 						canvas.draw(af.paused, Color.WHITE, posTemp.x,
 								posTemp.y,

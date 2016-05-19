@@ -241,14 +241,14 @@ public class AssetFile {
 		files.put("WATER", "shared/water.png");
 		files.put("CHECKPOINT_FLAG", "shared/flag.png");
 		
-		for (int i=0; i<4; i++){
+		tutorialInstructions=new TextureRegion[9];
+		numberTextures=new TextureRegion[20];
+		for (int i=0; i<tutorialInstructions.length; i++){
 			files.put("TUTORIAL_INST"+i, "platform/tutorial/instruction_"+i+".png");
 		}
 		for (int i=1; i<=20; i++){
 			files.put(String.valueOf(i), "shared/numbers/"+String.valueOf(i)+".png");
 		}
-		tutorialInstructions=new TextureRegion[4];
-		numberTextures=new TextureRegion[20];
 		
 		System.out.println(files);
 	}
