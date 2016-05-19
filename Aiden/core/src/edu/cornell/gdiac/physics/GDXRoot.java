@@ -269,6 +269,18 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("NEXT_LEVEL"));
 		manager.load(af.get("BAR_DIE"), Texture.class);
 		assets.add(af.get("BAR_DIE"));
+		manager.load(af.get("TUT4_BACK"), Texture.class);
+		assets.add(af.get("TUT4_BACK"));
+		manager.load(af.get("TUT1_BACK"), Texture.class);
+		assets.add(af.get("TUT1_BACK"));
+		manager.load(af.get("TUT2_BACK"), Texture.class);
+		assets.add(af.get("TUT2_BACK"));
+		manager.load(af.get("TUT3_BACK"), Texture.class);
+		assets.add(af.get("TUT3_BACK"));
+		manager.load(af.get("LEVEL_S"), Texture.class);
+		assets.add(af.get("LEVEL_S"));
+		manager.load(af.get("RESTART_ICON"), Texture.class);
+		assets.add(af.get("RESTART_ICON"));
 		
 		
 		manager.load(af.get("JUMP_FILE"), Sound.class);
@@ -279,9 +291,21 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("POP_FILE"));
 		manager.load(af.get("BGM_FILE"), Sound.class);
 		assets.add(af.get("BGM_FILE"));
+		manager.load(af.get("BURN_FILE"), Sound.class);
+		assets.add(af.get("BURN_FILE"));
+		manager.load(af.get("MATCH_FILE"), Sound.class);
+		assets.add(af.get("MATCH_FILE"));
 		
 		manager.load(af.get("WATER"), Texture.class);
 		assets.add(af.get("WATER"));
+		
+		manager.load(af.get("CHECKPOINT_FLAG"), Texture.class);
+		assets.add(af.get("CHECKPOINT_FLAG"));
+		
+		for (int i=0; i<4; i++){
+			manager.load(af.get("TUTORIAL_INST"+i), Texture.class);
+			assets.add(af.get("TUTORIAL_INST"+i));
+		}
 	}
 
 	/**
@@ -386,10 +410,14 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 
-		int levels = 18;
+		int levels = 22;
 		controllers = new WorldController[levels]; ////
 		current = 0;
-		for(int i=0;i<levels-1;i++){
+		for(int i = 0; i<4; i++){
+			controllers[i] = new AidenController(i);
+		}
+		
+		for(int i=4;i<levels;i++){
 			controllers[i] = new AidenController(i);
 		}
 		loading.setScreenListener(this);
@@ -457,6 +485,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void exitScreen(Screen screen, int exitCode) {
 		canvas.setEditor(false);
 		if (screen == loading) {
+			if(exitCode == 100){
+				Gdx.app.exit();
+			}
 			exitCode = exitCode % controllers.length;
 			loadContent(manager);
 			for (int ii = 0; ii < controllers.length; ii++) {
@@ -464,11 +495,12 @@ public class GDXRoot extends Game implements ScreenListener {
 				controllers[ii].setCanvas(canvas);
 			}
 			controllers[exitCode].reset();
+			current = exitCode;
 			setScreen(controllers[exitCode]);
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){
 			controllers[current].reset();
-			loading.pressState = 0;
+			loading.pressState = 4;
 			setScreen(loading);
 		}
 		else if (exitCode == WorldController.EXIT_NEXT) {

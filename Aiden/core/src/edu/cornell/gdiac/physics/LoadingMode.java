@@ -82,7 +82,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	public Texture select;
 	public Texture back;
 	public Texture editor;
+	public Texture exit;
 	public Texture levelTemp;
+	public Texture creditList;
+	public Texture creditText;
 
 	// statusBar is a "texture atlas." Break it up into parts.
 	/** Left cap to the status background (grey region) */
@@ -274,6 +277,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		levelTemp = new Texture("shared/3.png");
 		castle = new Texture("shared/castle.png");
 		light = new Texture("shared/gradient.png");
+		exit = new Texture("shared/exit word.png");
+		creditList = new Texture("shared/credits detail.png");
+		creditText = new Texture("shared/credits-title.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -419,8 +425,18 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			selectorPos[2*i]*=scale;
 			selectorPos[2*i+1]=(STANDARD_HEIGHT-selectorPos[2*i+1])*scale;		
 		}
+		light_radius=new float[selectorPos.length/2];
+		light_alpha=new float[selectorPos.length/2];
+		for (int i=0; i<light_radius.length; i++){
+			light_radius[i]=LEVEL_BUTTON_SCALE * scale / 4f;
+		}
+		for (int i=0; i<light_alpha.length; i++){
+			light_alpha[i]=.8f;
+		}
 	}
 	
+	private float[] light_radius;
+	private float[] light_alpha;
 
 	/**
 	 * Draw the status of this player mode.
@@ -440,7 +456,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		if (playButton == null) {
 			canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 			drawProgress(canvas);
-		} else if (pressState == 0 || pressState == 1 || pressState == 3){
+		} else if (pressState == 0 || pressState == 1 || pressState == 3 || pressState >= 9){
 			canvas.draw(background, Color.WHITE, 0, 0, pos1.x, pos1.y, 0, wRatio, hRatio);
 			Color tint1 = (pressState == 1 || hoverState == HOVER_START ? Color.GRAY : Color.WHITE);
 			pos = canvas.relativeVector(centerX, centerY * START_V_SCALE);
@@ -457,20 +473,20 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					levels.getHeight() / 2,
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
-			// TODO: UNIMPLEMENTED
-			Color tint2 = (hoverState==HOVER_SETTINGS? Color.GRAY : Color.WHITE);
+			Color tint2 = (hoverState==HOVER_CREDITS? Color.GRAY : Color.WHITE);
 			pos = canvas.relativeVector(centerX, centerY * SETTINGS_V_SCALE);
-			canvas.draw(settings, Color.WHITE, settings.getWidth() / 2,
+			canvas.draw(credits, tint2, settings.getWidth() / 2,
 					settings.getHeight() / 2,
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
-			Color tint4 = (hoverState==HOVER_CREDITS? Color.GRAY : Color.WHITE);
+			Color tint4 = (hoverState==HOVER_EXIT? Color.GRAY : Color.WHITE);
 			pos = canvas.relativeVector(centerX, centerY * CREDITS_V_SCALE);
-			canvas.draw(credits, tint4, credits.getWidth() / 2,
-					credits.getHeight() / 2,
+			canvas.draw(exit, tint4, exit.getWidth() / 2,
+					exit.getHeight() / 2,
 					pos.x, pos.y, 0, BUTTON_SCALE * scale,
 					BUTTON_SCALE * scale);
-		}else if (pressState >=4){
+		}
+		else if (pressState >= 4 && pressState < 7 ){
 			canvas.draw(level_background, new Color(0.1f, 0.2f, 0.7f, 1f), 0, 0, STANDARD_WIDTH, STANDARD_HEIGHT);
 			canvas.draw(castle, Color.WHITE, 0, 0, 0, 0, 0, scale, scale);
 			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.5f/5);
@@ -490,11 +506,16 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				Color c=Color.GRAY;
 				if (i<gs.getUnlocked()) {
 					c=Color.WHITE;
-					canvas.draw(light, new Color(1, 1, 0.2f, 1f), light.getWidth()/2f,
+					if (RandomController.rollFloat(0, 1)>0.85f){
+						light_radius[i]=Math.max(LEVEL_BUTTON_SCALE * scale / 5f,Math.min(LEVEL_BUTTON_SCALE * scale / 3f, 
+								light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
+						light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+					}
+					canvas.draw(light, new Color(1, 1, 0.2f, light_alpha[i]), light.getWidth()/2f,
 							light.getHeight() / 2f,
 							pos.x, pos.y,
-							0, LEVEL_BUTTON_SCALE * scale / 4f,
-							LEVEL_BUTTON_SCALE * scale / 4f);
+							0, light_radius[i],
+							light_radius[i]);
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;
@@ -514,23 +535,25 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 							LEVEL_BUTTON_SCALE * scale*1.5f);
 				}
 			}
-//			int n = 1;
-//			for (int i = 0; i<4; i++){
-////				float y = tlY - i *  heightY * 3 / 20;
-//				for (int j = 0; j < 5; j++){
-//					String level_texture = "shared/" + n + ".png";
-//					level = new Texture(level_texture);
-//					level.setFilter(TextureFilter.Linear,
-//							TextureFilter.Linear);
-////					float x = tlX + j * widthX * 3 /  25;
-////					pos = canvas.relativeVector(x, y);
-//					canvas.draw(level, Color.WHITE, level.getWidth() / 2,
-//							level.getHeight() / 2,
-//							selectorPos[2*(5*i+j)], selectorPos[2*(5*i+j)+1], 0, LEVEL_BUTTON_SCALE * scale,
-//							LEVEL_BUTTON_SCALE * scale);
-//					n++;
-//				}
-//			}
+		}
+		else{
+			pos = canvas.relativeVector(canvas.getWidth()*7f/8f, canvas.getHeight()*1f/8f);
+			Color tint5 = (hoverState==HOVER_LEVELS_BACK? Color.GRAY : Color.WHITE);
+			canvas.draw(back, tint5, back.getWidth()/2, back.getHeight()/2,
+					pos.x, pos.y, 0, BUTTON_SCALE*scale, BUTTON_SCALE*scale);
+			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()/2.3f);
+			canvas.draw(creditList, Color.WHITE, creditList.getWidth() / 2f,
+					creditList.getHeight() / 2f,
+					pos.x, pos.y,
+					0, LEVEL_BUTTON_SCALE * scale*1.5f,
+					LEVEL_BUTTON_SCALE * scale*1.5f);
+			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*7/8);
+			canvas.draw(creditText, Color.WHITE, creditText.getWidth() / 2f,
+					creditText.getHeight() / 2f,
+					pos.x, pos.y,
+					0, 0.3f * scale*1.5f,
+					0.3f * scale*1.5f);
+			
 		}
 		canvas.end();
 	}
@@ -567,6 +590,9 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			draw();
 
 			// We are are ready, notify our listener
+			if (pressState == 10){
+				listener.exitScreen(this, 100);
+			}
 			if (isReady() && listener != null && pressState != 6) {
 				listener.exitScreen(this, 0);
 			}
@@ -693,19 +719,17 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			/** The game save shared across all levels */
 			gs = new GameSave("savedGame.json");
 		}
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * SETTINGS_V_SCALE - height/2 < screenY && centerY * SETTINGS_V_SCALE + height/2 > screenY ){
+			pressState = 7;
+		}
+		width = BUTTON_SCALE * scale * exit.getWidth();
+		height = BUTTON_SCALE * scale * exit.getHeight();
+		if (pressState == 0 && centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * CREDITS_V_SCALE - height/2 < screenY && centerY * CREDITS_V_SCALE + height/2 > screenY ){
+			pressState = 9;
+		}
 		width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
 		height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
 		if (pressState == 4){
-//			for (int i = 0; i < 4; i++){
-//				float y = tlY - i *  heightY * 3 / 20;
-//				for (int j = 0; j < 5; j++){
-//					float x = tlX + j * widthX * 3 /  25;
-//					if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
-//						pressState = 5;
-//						levelSelected = i*5 + j;
-//					}
-//				}
-//			}
 			for (int i = 0; i < selectorPos.length/2; i++){
 					if (selectorPos[2*i] - width/2 < screenX && selectorPos[2*i] + width/2 > screenX 
 							&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){
@@ -721,7 +745,15 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
 				pressState = 0;
 			}
-			
+		}
+		if(pressState == 8){
+			float x = widthX*7f/8f;
+			float y = heightY/8f;
+			width = BUTTON_SCALE * scale * back.getWidth();
+			height = BUTTON_SCALE * scale * back.getHeight();
+			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+				pressState = 0;
+			}
 		}
 		return false;
 	}
@@ -751,6 +783,14 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		}
 		if (pressState == 5){
 			pressState = 6;
+			return false;
+		}
+		if (pressState == 7){
+			pressState = 8;
+			return false;
+		}
+		if (pressState == 9){
+			pressState = 10;
 			return false;
 		}
 		return true;
@@ -832,10 +872,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	 * @return whether to hand the event to other listeners.
 	 */
 	public boolean keyUp(int keycode) {
-		if (keycode == Input.Keys.N || keycode == Input.Keys.P) {
-			pressState = 2;
-			return false;
-		}
+//		if (keycode == Input.Keys.N || keycode == Input.Keys.P) {
+//			pressState = 2;
+//			return false;
+//		}
 		return true;
 	}
 
@@ -843,8 +883,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	private static final int HOVER_START=0;
 	private static final int HOVER_LEVELS=1;
 	private static final int HOVER_LEVELS_BACK=2;
-	private static final int HOVER_SETTINGS=3;
-	private static final int HOVER_CREDITS=4;
+	private static final int HOVER_EXIT=4;
+	private static final int HOVER_CREDITS=3;
 	private static final int HOVER_LEVEL_SELECTOR=5;
 	private int levelHovered=-1;
 	/**
@@ -864,34 +904,43 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		}
 		// Flip to match graphics coordinates
 		screenY = heightY - screenY;
-
-		// TODO: Fix scaling
-		// Play button is a Rectangle.
 		float width = BUTTON_SCALE * scale * playButton.getWidth();
 		float height = BUTTON_SCALE * scale * playButton.getHeight();
-		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
-			hoverState = HOVER_START;
-		}
-		if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
-			hoverState = HOVER_LEVELS;
-		}
-		
-		width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
-		height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
-		for (int i = 0; i < selectorPos.length/2; i++){
-			if (selectorPos[2*i] - width/2 < screenX && selectorPos[2*i] + width/2 > screenX 
-					&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){	
-				hoverState=HOVER_LEVEL_SELECTOR;
-				levelHovered = i;
-				break;
+
+		if(pressState == 0){
+			if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * START_V_SCALE - height/2 < screenY && centerY * START_V_SCALE + height/2 > screenY ){
+				hoverState = HOVER_START;
+			}
+			if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * LEVEL_V_SCALE - height/2 < screenY && centerY * LEVEL_V_SCALE + height/2 > screenY ){
+				hoverState = HOVER_LEVELS;
+			}
+			if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * SETTINGS_V_SCALE - height/2 < screenY && centerY * SETTINGS_V_SCALE + height/2 > screenY ){
+				hoverState = HOVER_CREDITS;
+			}
+			width = BUTTON_SCALE * scale * exit.getWidth();
+			height = BUTTON_SCALE * scale * exit.getHeight();
+			if (centerX - width/2 < screenX && centerX + width/2 > screenX && centerY * CREDITS_V_SCALE - height/2 < screenY && centerY * CREDITS_V_SCALE + height/2 > screenY ){
+				hoverState = HOVER_EXIT;
 			}
 		}
-		float x = widthX*7f/8f;
-		float y = heightY/8f;
-		width = BUTTON_SCALE * scale * back.getWidth();
-		height = BUTTON_SCALE * scale * back.getHeight();
-		if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
-			hoverState = HOVER_LEVELS_BACK;
+		else{
+			width = LEVEL_BUTTON_SCALE * scale * levelTemp.getWidth();
+			height = LEVEL_BUTTON_SCALE * scale * levelTemp.getHeight();
+			for (int i = 0; i < selectorPos.length/2; i++){
+				if (selectorPos[2*i] - width/2 < screenX && selectorPos[2*i] + width/2 > screenX 
+						&& selectorPos[2*i+1] - height/2 < screenY && selectorPos[2*i+1] + height/2 > screenY){	
+					hoverState=HOVER_LEVEL_SELECTOR;
+					levelHovered = i;
+					break;
+				}
+			}
+			float x = widthX*7f/8f;
+			float y = heightY/8f;
+			width = BUTTON_SCALE * scale * back.getWidth();
+			height = BUTTON_SCALE * scale * back.getHeight();
+			if (x - width/2 < screenX && x + width/2 > screenX && y - height/2 < screenY && y + height/2 > screenY){
+				hoverState = HOVER_LEVELS_BACK;
+			}
 		}
 		return true;
 	}
@@ -980,7 +1029,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 
 	/**
 	 * Called when an x-slider on the Controller moved. (UNSUPPORTED)
-	 *
+	 *  
 	 * The x-slider is controller specific.
 	 *
 	 * @param controller

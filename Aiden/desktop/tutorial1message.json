@@ -1,0 +1,31 @@
+{
+	"level":1,
+	"messages":[
+		{
+			"type": "position",
+			"message": 0,
+			"end_message":1,
+			"position":{
+				"x":3,
+				"y":1.6
+			},
+			"end_pos":{
+				"x":10,
+				"y":4
+			}
+		},
+		{
+			"type": "position",
+			"message": 2,
+			"end_message":3,
+			"position":{
+				"x":17,
+				"y":1.6
+			},
+			"end_pos":{
+				"x":28,
+				"y":4
+			}
+		}
+	]
+}

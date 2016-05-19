@@ -2,6 +2,7 @@ package edu.cornell.gdiac.physics.scene;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -51,7 +52,6 @@ public class Scene implements SceneInterface {
 	}
 
 	public Scene(String s) {
-
 		JSONParser jp = new JSONParser(s);
 		JsonValue jv = jp.getJsonValue();
 		String background = jv.getString("background");
@@ -115,7 +115,7 @@ public class Scene implements SceneInterface {
 				} else {
 					if (material.equals("stone")) {
 						stoneBlocks.add(
-								new StoneBlock(x, y, 1.99f, 1.99f));
+								new StoneBlock(x, y, 1.95f, 1.99f));
 					} else {
 						if (material.equals("fuel")) {
 							boolean icp = false;
@@ -182,7 +182,6 @@ public class Scene implements SceneInterface {
 				float g_scale_x = guard.getFloat("scale_x");
 				float g_scale_y = guard.getFloat("scale_y");
 				boolean g_fright = guard.getBoolean("fright");
-				System.out.println(g_scale_x);
 				WaterGuard water = new WaterGuard(
 						CharacterType.WATER_GUARD,
 						guard_name, g_x, g_y, 1.8f, 1.4f, g_fright);

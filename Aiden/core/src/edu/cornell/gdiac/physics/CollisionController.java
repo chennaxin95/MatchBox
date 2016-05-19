@@ -14,6 +14,7 @@ import edu.cornell.gdiac.physics.blocks.RopePart;
 import edu.cornell.gdiac.physics.character.AidenModel;
 import edu.cornell.gdiac.physics.character.WaterGuard;
 import edu.cornell.gdiac.physics.obstacle.Obstacle;
+import edu.cornell.gdiac.physics.scene.AssetFile;
 import edu.cornell.gdiac.physics.scene.GameSave;
 import edu.cornell.gdiac.util.PooledList;
 
@@ -30,7 +31,7 @@ public class CollisionController {
 	}
 
 	public boolean getCollisions(Array<Contact> cList, AidenModel avatar,
-			GameSave gs, Array<FuelBlock> checkpoints) {
+			GameSave gs, Array<FuelBlock> checkpoints, AssetFile af) {
 		for (Contact c : cList) {
 			Fixture fix1 = c.getFixtureA();
 			Fixture fix2 = c.getFixtureB();
@@ -45,6 +46,8 @@ public class CollisionController {
 						&& bd2 instanceof FlammableBlock) {
 					FlammableBlock fb1 = (FlammableBlock) bd1;
 					FlammableBlock fb2 = (FlammableBlock) bd2;
+					
+					
 
 					if (fb1.canSpreadFire()
 							&& (!fb2.isBurning() && !fb2.isBurnt())) {

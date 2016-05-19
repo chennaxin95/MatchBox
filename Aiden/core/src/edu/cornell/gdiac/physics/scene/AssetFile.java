@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -25,8 +26,10 @@ public class AssetFile {
 	/** The texture for the exit condition */
 	public TextureRegion goalTile;
 	public TextureRegion burnablePlatform;
-	public Sound bgm;
-	public Sound jump;
+	public Music bgm;
+	public Music jump;
+	public Music burn;
+	public Music match;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -62,6 +65,10 @@ public class AssetFile {
 	/** Texture for background */
 	public TextureRegion backGround;
 	public TextureRegion backGround0;
+	public TextureRegion tutorial4;
+	public TextureRegion tutorial3;
+	public TextureRegion tutorial2;
+	public TextureRegion tutorial1;
 	public TextureRegion homeButton;
 	public TextureRegion resumeButton;
 	public TextureRegion restartButton;
@@ -70,6 +77,8 @@ public class AssetFile {
 	public TextureRegion retry;
 	public TextureRegion replay;
 	public TextureRegion skip;
+	public TextureRegion levelSelect;
+	public TextureRegion restartIcon;
 	
 	
 	public TextureRegion editorPanelTexture;
@@ -97,6 +106,9 @@ public class AssetFile {
 	public FilmStrip[] burningTexture;
 	public FilmStrip[] fireBall;
 	public FilmStrip[] WaterWalkTextures;
+	public TextureRegion checkpointTexture;
+	
+	public TextureRegion[] tutorialInstructions;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -123,6 +135,8 @@ public class AssetFile {
 		files.put("PEW_FILE", "music/pew.mp3");
 		files.put("POP_FILE", "music/plop.mp3");
 		files.put("BGM_FILE", "music/bgm.mp3");
+		files.put("BURN_FILE", "music/burn.mp3");
+		files.put("MATCH_FILE", "music/match.mp3");
 		files.put("BACKGROUND0", "background/tutorial0background2.png");
 		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
@@ -167,6 +181,12 @@ public class AssetFile {
 		files.put("SKIP", "shared/skip.png");
 		files.put("YOU_LOSE", "shared/you lose.png");
 		files.put("NEXT_LEVEL", "shared/nextlevel.png");
+		files.put("TUT4_BACK", "background/tutorial4.png");
+		files.put("TUT1_BACK", "background/tutorial1.png");
+		files.put("TUT2_BACK", "background/tutorial2.png");
+		files.put("TUT3_BACK", "background/tutorial3.png");
+		files.put("LEVEL_S", "shared/levels.png");
+		files.put("RESTART_ICON", "shared/restart icon.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -190,6 +210,13 @@ public class AssetFile {
 		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
 		files.put("WATER", "shared/water.png");
+		files.put("CHECKPOINT_FLAG", "shared/flag.png");
+		
+		for (int i=0; i<4; i++){
+			files.put("TUTORIAL_INST"+i, "platform/tutorial/instruction_"+i+".png");
+		}
+		tutorialInstructions=new TextureRegion[4];
+		
 		System.out.println(files);
 	}
 
@@ -281,6 +308,8 @@ public class AssetFile {
 		replay = createTexture(manager, files.get("REPLAY"), false);
 		skip = createTexture(manager, files.get("SKIP"), false);
 		nextLevel = createTexture(manager, files.get("NEXT_LEVEL"), false);
+		levelSelect = createTexture(manager, files.get("LEVEL_S"), false);
+		restartIcon = createTexture(manager, files.get("RESTART_ICON"), false);
 		
 		longRope = createTexture(manager, files.get("LONG_ROPE"), false);
 		trapDoor = createTexture(manager, files.get("TRAP_DOOR"), false);
@@ -297,6 +326,11 @@ public class AssetFile {
 		barYellow = createTexture(manager, files.get("BAR_YELLOW"),false);
 		barGray = createTexture(manager, files.get("BAR_GRAY"),false);
 		barDie = createTexture(manager, files.get("BAR_DIE"), false);
+		
+		tutorial4 = createTexture(manager, files.get("TUT4_BACK"), false);
+		tutorial1 = createTexture(manager, files.get("TUT1_BACK"), false);
+		tutorial2 = createTexture(manager, files.get("TUT2_BACK"), false);
+		tutorial3 = createTexture(manager, files.get("TUT3_BACK"), false);
 		
 		// Allocate the font
 		if (manager.isLoaded(files.get("FONT_FILE"))) {
@@ -321,6 +355,9 @@ public class AssetFile {
 		ropeLongTexture = createTexture(manager, files.get("ROPE_LONG_FILE"), false);
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
+		checkpointTexture=createTexture(manager, files.get("CHECKPOINT_FLAG"), false);
+		
+		
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
 //		WaterWalkTexture = createFilmStrip(manager, files.get("WATER_WALK"), 4,
 //				1,
@@ -360,13 +397,23 @@ public class AssetFile {
 		for (int i = 0; i < 10; i++){
 			fireBall[i] = createFilmStrip(manager, files.get("FIRE_BALL"), 4, 1, 4);
 		}
-		bgm = Gdx.audio.newSound(Gdx.files.internal("music/bgm.mp3"));
-		jump = Gdx.audio.newSound(Gdx.files.internal("music/jump.mp3"));
+		
+		for (int i=0; i<this.tutorialInstructions.length; i++){
+			tutorialInstructions[i]=createTexture(manager, files.get("TUTORIAL_INST"+i), false);
+		}
+		
+		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));
+		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
+		burn = Gdx.audio.newMusic(Gdx.files.internal("music/burn.mp3"));
+		match = Gdx.audio.newMusic(Gdx.files.internal("music/match.mp3"));
+		
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
+		sounds.allocate(manager, files.get("BURN_FILE"));
+		sounds.allocate(manager, files.get("MATCH_FILE"));
 		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}
