@@ -30,7 +30,7 @@ public class AssetFile {
 	public Music jump;
 	public Music burn;
 	public Music match;
-	public Music splash;
+	public Sound splash;
 	public Music ropeburn;
 	public Sound thump;
 	public Music bubble;
@@ -447,7 +447,7 @@ public class AssetFile {
 		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
 		burn = Gdx.audio.newMusic(Gdx.files.internal("music/burn.mp3"));
 		match = Gdx.audio.newMusic(Gdx.files.internal("music/match.mp3"));
-		splash = Gdx.audio.newMusic(Gdx.files.internal("music/splash.mp3"));
+		splash = Gdx.audio.newSound(Gdx.files.internal("music/splash.mp3"));
 		ropeburn = Gdx.audio.newMusic(Gdx.files.internal("music/ropeburn.mp3"));
 		thump = Gdx.audio.newSound(Gdx.files.internal("music/thump.mp3"));
 		bubble = Gdx.audio.newMusic(Gdx.files.internal("music/bubble.mp3"));
