@@ -542,6 +542,7 @@ public class AidenController extends WorldController
 	public void setPos(float zoom) {
 		float w = canvas.getWidth();
 		float h = canvas.getHeight() * 4 / 5;
+		float h_trans = canvas.getHeight() * 5 / 6;
 		float xsOff = smallBut.x * 1.5f;
 		float mOff = largeBut.x / 2;
 		float yOff = largeBut.y * 1.5f;
@@ -552,16 +553,16 @@ public class AidenController extends WorldController
 		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
 		
-		resuScreen_trans = new Vector2(3 * w / 4 - mOff, h - yOff);
-		resuPos_trans = new Vector2(3* w / 4 - mOff, h - yOff);
-		restScreen_trans = new Vector2(3* w / 4 - mOff, h - 2 * yOff);
-		restPos_trans = new Vector2(3 * w/ 4 - mOff, h - 2 * yOff);
-		homeScreen_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
-		homePos_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
-		mScreen_trans = new Vector2(3* w / 4 - xsOff, h - 4 * yOff);
-		muPos_trans = new Vector2(3 * w / 4 - xsOff, h - 4 * yOff);
-		sPos_trans=new Vector2(3 * w / 4 + (xsOff / 2.98f), h - 4 * yOff);
-		sScreen_trans = new Vector2(3* w / 4 + (xsOff / 2.98f), h - 4 * yOff);
+		resuScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
+		resuPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
+		restScreen_trans = new Vector2(4 * w / 5- mOff, h_trans - 2 * yOff);
+		restPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 2 * yOff);
+		homeScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
+		homePos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
+		mScreen_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
+		muPos_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
+		sPos_trans=new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
+		sScreen_trans = new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
 		
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
@@ -1370,7 +1371,7 @@ public class AidenController extends WorldController
 						pos1.x, pos1.y,
 						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
 				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
-						canvas.getHeight()/2);
+						canvas.getHeight()*6/11f);
 				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
 				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
 						af.castle.getRegionHeight()/2, 
@@ -1409,25 +1410,28 @@ public class AidenController extends WorldController
 									light_radius[i]*sScale*zoom);
 						}
 					}
-					else if (i==gs.getUnlocked() && level+1 == i){
+					else if (i==gs.getUnlocked()){
 						c=Color.WHITE;
-						canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1, transitionTimer/6+0.5f)), 
-								af.circle.getRegionWidth()/2f,
-								af.circle.getRegionHeight() / 2f,
-								pos.x, pos.y,
-								circle_rot, 
-								0.25f*sScale*zoom *Math.max(1, 4-transitionTimer), 
-								0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
 					}
-					else if (i==gs.getUnlocked() && level+1 != i){
-						c=Color.WHITE;
-						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
-								af.circle.getRegionHeight() / 2f,
-								pos.x, pos.y,
-								circle_rot, 
-								0.25f*sScale*zoom, 0.25f*sScale*zoom);
-						
-					}
+//					else if (i==gs.getUnlocked() && level+1 == i){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1, transitionTimer/6+0.5f)), 
+//								af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 
+//								0.25f*sScale*zoom *Math.max(1, 4-transitionTimer), 
+//								0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
+//					}
+//					else if (i==gs.getUnlocked() && level+1 != i){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 
+//								0.25f*sScale*zoom, 0.25f*sScale*zoom);
+//						
+//					}
 					canvas.draw(af.numberTextures[i], c, af.numberTextures[i].getRegionWidth() / 2f,
 							af.numberTextures[i].getRegionHeight() / 2f,
 								pos.x, pos.y,
@@ -1449,7 +1453,7 @@ public class AidenController extends WorldController
 							AidenPos.y=(float) (ratio*AidenPos.y+(1-ratio)*temp.y + 
 									Math.cos(transitionTimer*3)*sScale*zoom*8);
 						}
-						animateAidenIcon(canvas, AidenPos, sScale*zoom*0.5f, sScale*zoom*0.5f, fr);
+						animateAidenIcon(canvas, AidenPos, sScale*zoom*0.7f, sScale*zoom*0.7f, fr);
 					}
 				}
 				// Draw transition map end
@@ -1582,11 +1586,21 @@ public class AidenController extends WorldController
 
 		// ======================Easy========================//
 		case 7:
-
-			this.scene = new Scene("json/Easy1.json"); // gap introduce water guard
+			this.scene = new Scene("json/Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
+		case 8:
 
+			this.scene = new Scene("json/Tutorial2.json"); //Save the block
+			backgroundTexture = af.backGround;
+			break;	
+		
+/*		case 7:
+
+			this.scene = new Scene("Easy1.json"); // gap introduce water guard
+			backgroundTexture = af.backGround;
+			break;
+*/
 		// case 7:
 		//
 		// this.scene = new Scene("json/Tutorial6.json"); // gap introduce water
@@ -1600,10 +1614,7 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-		case 8:
-			this.scene = new Scene("Tut6.json"); // Introduce ropes
-			backgroundTexture = af.backGround;
-			break;
+
 
 		/*
 		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
@@ -1646,7 +1657,7 @@ public class AidenController extends WorldController
 		 * backgroundTexture = af.backGround; break;
 		 */
 		case 14:
-			this.scene = new Scene("json/Level3.json"); // trick + tunnel
+			this.scene = new Scene("json/NewTutorial4.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
 		// ======================Hard========================//
@@ -1655,7 +1666,7 @@ public class AidenController extends WorldController
 			backgroundTexture = af.backGround;
 			break;
 		case 16:
-			this.scene = new Scene("json/level01.json");
+			this.scene = new Scene("json/Med3.json");
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1668,7 +1679,7 @@ public class AidenController extends WorldController
 			backgroundTexture = af.backGround;
 			break;
 		case 19:
-			this.scene = new Scene("json/Hard1.json");
+			this.scene = new Scene("json/Hard2b.json");
 			backgroundTexture = af.backGround;
 			break;
 		case 20:

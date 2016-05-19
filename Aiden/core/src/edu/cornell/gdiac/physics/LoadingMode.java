@@ -282,7 +282,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		exit = new Texture("shared/exit word.png");
 		creditList = new Texture("shared/credits detail.png");
 		creditText = new Texture("shared/credits-title.png");
-//		circle = new Texture("shared/circle.png");
+		circle = new Texture("shared/circle.png");
 		
 		numbers=new Texture[20];
 		for (int i=0; i<20; i++){
