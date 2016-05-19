@@ -539,6 +539,7 @@ public class AidenController extends WorldController
 	public void setPos(float zoom) {
 		float w = canvas.getWidth();
 		float h = canvas.getHeight() * 4 / 5;
+		float h_trans = canvas.getHeight() * 5 / 6;
 		float xsOff = smallBut.x * 1.5f;
 		float mOff = largeBut.x / 2;
 		float yOff = largeBut.y * 1.5f;
@@ -549,16 +550,16 @@ public class AidenController extends WorldController
 		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
 		
-		resuScreen_trans = new Vector2(3 * w / 4 - mOff, h - yOff);
-		resuPos_trans = new Vector2(3* w / 4 - mOff, h - yOff);
-		restScreen_trans = new Vector2(3* w / 4 - mOff, h - 2 * yOff);
-		restPos_trans = new Vector2(3 * w/ 4 - mOff, h - 2 * yOff);
-		homeScreen_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
-		homePos_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
-		mScreen_trans = new Vector2(3* w / 4 - xsOff, h - 4 * yOff);
-		muPos_trans = new Vector2(3 * w / 4 - xsOff, h - 4 * yOff);
-		sPos_trans=new Vector2(3 * w / 4 + (xsOff / 2.98f), h - 4 * yOff);
-		sScreen_trans = new Vector2(3* w / 4 + (xsOff / 2.98f), h - 4 * yOff);
+		resuScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
+		resuPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
+		restScreen_trans = new Vector2(4 * w / 5- mOff, h_trans - 2 * yOff);
+		restPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 2 * yOff);
+		homeScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
+		homePos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
+		mScreen_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
+		muPos_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
+		sPos_trans=new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
+		sScreen_trans = new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
 		
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
@@ -1341,7 +1342,7 @@ public class AidenController extends WorldController
 						pos1.x, pos1.y,
 						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
 				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
-						canvas.getHeight()/2);
+						canvas.getHeight()/2f);
 				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
 				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
 						af.castle.getRegionHeight()/2, 
