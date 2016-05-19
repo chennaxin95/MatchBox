@@ -295,6 +295,26 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("BURN_FILE"));
 		manager.load(af.get("MATCH_FILE"), Sound.class);
 		assets.add(af.get("MATCH_FILE"));
+		manager.load(af.get("SPLASH_FILE"), Sound.class);
+		assets.add(af.get("SPLASH_FILE"));
+		manager.load(af.get("ROPEBURN_FILE"), Sound.class);
+		assets.add(af.get("ROPEBURN_FILE"));
+		manager.load(af.get("THUMP_FILE"), Sound.class);
+		assets.add(af.get("THUMP_FILE"));
+		manager.load(af.get("BUBBLE_FILE"), Sound.class);
+		assets.add(af.get("BUBBLE_FILE"));
+		manager.load(af.get("LOSER_FILE"), Sound.class);
+		assets.add(af.get("LOSER_FILE"));
+		manager.load(af.get("YAY_FILE"), Sound.class);
+		assets.add(af.get("YAY_FILE"));
+		manager.load(af.get("CLAP_FILE"), Sound.class);
+		assets.add(af.get("CLAP_FILE"));
+		manager.load(af.get("EXTINGUISH_FILE"), Sound.class);
+		assets.add(af.get("EXTINGUISH_FILE"));
+		manager.load(af.get("SPIRITING_FILE"), Sound.class);
+		assets.add(af.get("SPIRITING_FILE"));
+		manager.load(af.get("MADWATER_FILE"), Sound.class);
+		assets.add(af.get("MADWATER_FILE"));
 		
 		manager.load(af.get("WATER"), Texture.class);
 		assets.add(af.get("WATER"));
@@ -513,6 +533,7 @@ public class GDXRoot extends Game implements ScreenListener {
 			setScreen(controllers[exitCode]);
 		} 
 		else if (exitCode == WorldController.EXIT_HOME){
+			af.clap.stop();
 			controllers[current].reset();
 			loading.pressState = 4;
 			setScreen(loading);
@@ -520,6 +541,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		else if (exitCode == WorldController.EXIT_NEXT) {
 			if(controllers[current] instanceof AidenController){
 				((AidenController) controllers[current]).stopSound();
+				af.clap.stop();
 			}
 			current = (current + 1) % controllers.length;
 			System.out.println("start");
@@ -527,6 +549,7 @@ public class GDXRoot extends Game implements ScreenListener {
 			System.out.println("end");
 			setScreen(controllers[current]);
 		} else if (exitCode == WorldController.EXIT_PREV) {
+			af.clap.stop();
 			current = (current + controllers.length - 1) % controllers.length;
 			controllers[current].reset();
 			setScreen(controllers[current]);

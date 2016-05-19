@@ -54,11 +54,13 @@ public class CollisionController {
 						System.out.println(fb1.getName() + "" + fb1.isBurning()
 								+ " " + fb2.getName());
 						fb2.activateBurnTimer();
+						af.match.play();
 					} else if (fb2.canSpreadFire()
 							&& (!fb1.isBurning() && !fb1.isBurnt())) {
 						System.out.println(fb2.getName() + "" + fb2.isBurning()
 								+ " " + fb1.getName());
 						fb1.activateBurnTimer();
+						af.match.play();
 					}
 				}
 
@@ -71,6 +73,7 @@ public class CollisionController {
 								&& !(bd2 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
+							af.spiriting.play();
 						}
 						if (bd2 instanceof RopePart) {
 							avatar.setClimbing(true);
@@ -84,9 +87,12 @@ public class CollisionController {
 									avatar.addFuel(
 											fbb.getFuelBonus());
 									avatar.gotFuel = true;
+									af.bubble.play();
 									avatar.setFuelPPos();
 									avatar.setSpiriting(false);
 									if (fbb.isCheckpoint()) {
+										af.bubble.stop();
+										af.yay.play();
 										int dex = checkpoints.indexOf(fbb,
 												true);
 										if (gs.getCheckpoint() != dex) {
@@ -106,6 +112,7 @@ public class CollisionController {
 								&& !(bd1 instanceof RopePart)) {
 							avatar.setGravityScale(0);
 							avatar.setSpiriting(true);
+							af.spiriting.play();
 						}
 						if ((bd1 instanceof RopePart)) {
 							avatar.setClimbing(true);
@@ -117,10 +124,13 @@ public class CollisionController {
 								FuelBlock fbb = (FuelBlock) fb;
 								avatar.addFuel(
 										fbb.getFuelBonus());
+								af.bubble.play();
 								avatar.gotFuel = true;
 								avatar.setFuelPPos();
 								avatar.setSpiriting(false);
 								if (fbb.isCheckpoint()) {
+									af.bubble.stop();
+									af.yay.play();
 									int dex = checkpoints.indexOf(fbb, true);
 									if (gs.getCheckpoint() != dex) {
 										chkptReached = dex;

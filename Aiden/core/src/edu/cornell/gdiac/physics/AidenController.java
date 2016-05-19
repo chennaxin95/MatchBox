@@ -32,6 +32,7 @@ import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.character.FSMNode.BasicFSMState;
 import edu.cornell.gdiac.physics.CollisionController;
 
 /**
@@ -261,6 +262,7 @@ public class AidenController extends WorldController
 			bgm.dispose();
 		}
 		populateLevel();
+		af.yay.stop();
 		confeti = new ParticleEffect();
 		confeti.load(Gdx.files.internal("platform/confetti.p"),
 				Gdx.files.internal("platform"));
@@ -519,7 +521,9 @@ public class AidenController extends WorldController
 		}
 
 		if (isFailure()) {
+			SoundController.getInstance();
 			avatar.setFail(true);
+//			af.loser.play();
 		}
 
 		return true;
@@ -738,6 +742,7 @@ public class AidenController extends WorldController
 
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
+			af.extinguish.play();
 		}
 
 		if (avatar.resume) {
@@ -750,9 +755,19 @@ public class AidenController extends WorldController
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
+		// boolean ropeburn = false;
 		for (ComplexObstacle co : ropes) {
 			co.updateParts(world);
+			// if (co instanceof Rope){
+			// if (((Rope) co).isBurning()){
+			// af.ropeburn.play();
+			// ropeburn = true;
+			// }
+			// }
 		}
+		// if (!ropeburn && af.ropeburn.isPlaying()){
+		// af.ropeburn.stop();
+		// }
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
@@ -765,6 +780,11 @@ public class AidenController extends WorldController
 
 		if (!notFailure && !avatar.getComplete()) {
 			setFailure(true);
+			af.extinguish.play();
+		}
+		
+		if (!avatar.isSpiriting()){
+			af.spiriting.stop();
 		}
 
 		double accX = (spirit)
@@ -788,33 +808,41 @@ public class AidenController extends WorldController
 			}
 		}
 
-		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
+		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f && !avatar.isSpiriting()) {
 			af.jump.play();
 			jumpCD -= dt;
 		}
 
 		// Update movements of npcs, including all interactions/side effects
+		boolean chasing = false;
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
+			if (npc instanceof WaterGuard){
+				if (npc.getStateMachine().getCurrentState()==BasicFSMState.CHASE){
+					chasing = true;
+					af.madwater.play();
+				}
+			}
 		}
-		
+		if (!chasing){
+			af.madwater.stop();
+		}
+
 		burning = false;
 		for (FlammableBlock f : flammables) {
 			if (f.isBurning()) {
 				burning = true;
 			}
 		}
-		if (burning && !af.burn.isPlaying()){
+		if (burning && !af.burn.isPlaying()) {
 			af.burn.play();
 		}
-		if (!burning && af.burn.isPlaying()){
+		if (!burning && af.burn.isPlaying()) {
 			af.burn.stop();
 		}
-		
+
 		BurnController BurnControl = new BurnController();
 		BurnControl.getBurning(flammables, objects, dt, world);
-
-		
 
 		// If we use sound, we must remember this.
 		SoundController.getInstance().update();
@@ -877,6 +905,14 @@ public class AidenController extends WorldController
 			Obstacle bd1 = (Obstacle) body1.getUserData();
 			Obstacle bd2 = (Obstacle) body2.getUserData();
 
+			if ((bd1 instanceof BlockAbstract && !(bd1 instanceof RopePart))
+					&& (bd2 instanceof BlockAbstract
+							&& !(bd2 instanceof RopePart))) {
+				if (bd1.getVY() <= -1 || bd2.getVY() <= -1) {
+					af.thump.play();
+				}
+			}
+
 			// See if we have landed on the ground.
 			if ((avatar.getSensorName().equals(fd2) && avatar != bd1) ||
 					(avatar.getSensorName().equals(fd1) && avatar != bd2)) {
@@ -889,6 +925,7 @@ public class AidenController extends WorldController
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 				confeti.start();
+				af.clap.play();
 				avatar.setComplete(true);
 			}
 
@@ -898,6 +935,7 @@ public class AidenController extends WorldController
 				if (Math.abs(bd1.getVY()) >= 1 && !avatar.isSpiriting()) {
 					if (!isComplete()) {
 						setFailure(true);
+						af.extinguish.play();
 					}
 				}
 			}
@@ -906,6 +944,7 @@ public class AidenController extends WorldController
 				if (Math.abs(bd2.getVY()) >= 1 && !avatar.isSpiriting()) {
 					if (!isComplete()) {
 						setFailure(true);
+						af.extinguish.play();
 					}
 				}
 			}
@@ -915,12 +954,14 @@ public class AidenController extends WorldController
 					&& bd1 instanceof WaterGuard) {
 				if ((!isComplete()) && (!((WaterGuard) bd1).isDead())) {
 					setFailure(true);
+					af.extinguish.play();
 				}
 			}
 			if (avatar.getTopName().equals(fd1) && avatar != bd2
 					&& bd2 instanceof WaterGuard) {
 				if ((!isComplete()) && (!((WaterGuard) bd2).isDead())) {
 					setFailure(true);
+					af.extinguish.play();
 				}
 			}
 
@@ -931,11 +972,13 @@ public class AidenController extends WorldController
 						&& bd1 instanceof StoneBlock &&
 						bd1.getVY() <= -2) {
 					w.setDead(true);
+					af.splash.play();
 				}
 				if (w.getTopName().equals(fd1) && w != bd2
 						&& bd2 instanceof StoneBlock &&
 						bd2.getVY() <= -2) {
 					w.setDead(true);
+					af.splash.play();
 				}
 			}
 
@@ -1500,17 +1543,16 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-
 		case 8:
-			this.scene = new Scene("json/Tut6.json"); //Introduce ropes
+			this.scene = new Scene("Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
-			
-/*		case 9:
-			this.scene = new Scene("json/Tutorial2.json"); // save the block
 
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
+		 * 
+		 * backgroundTexture = af.backGround; break;
+		 */
 		case 9:
 			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope and
 			// water
@@ -1525,8 +1567,8 @@ public class AidenController extends WorldController
 			this.scene = new Scene("json/Tut8.json"); // Introduce wooden trapdoor
 			backgroundTexture = af.backGround;
 			break;
-			
-			// ======================Medium========================//
+
+		// ======================Medium========================//
 		case 12:
 			this.scene = new Scene("json/Med4.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
@@ -1537,16 +1579,15 @@ public class AidenController extends WorldController
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
-	/*	case 14:
-			this.scene = new Scene("json/Med3.json"); // vertical // add more fuel
-			// and move the rope
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 14: this.scene = new Scene("Med3.json"); // vertical // add more
+		 * fuel // and move the rope backgroundTexture = af.backGround; break;
+		 */
 
-	/*	case 13:
-			this.scene = new Scene("json/Level2.json"); // L
-			backgroundTexture = af.backGround;
-			break;*/
+		/*
+		 * case 13: this.scene = new Scene("Level2.json"); // L
+		 * backgroundTexture = af.backGround; break;
+		 */
 		case 14:
 			this.scene = new Scene("json/Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;

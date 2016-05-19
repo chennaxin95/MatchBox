@@ -12,9 +12,11 @@ public class StoneBlock extends BlockAbstract {
 		material=m;
 	};
 	
+	
 	public GeneralMaterial getMaterial(){
 		return material;
 	};
+	
 	
 	public StoneBlock(float width, float height) {
 		super(width, height);
