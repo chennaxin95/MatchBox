@@ -187,6 +187,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	/** The game save shared across all levels */
 	private GameSave gs;
 	private Texture light;
+	private Texture circle;
 
 	/**
 	 * Returns the budget for the asset loader.
@@ -280,6 +281,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		exit = new Texture("shared/exit word.png");
 		creditList = new Texture("shared/credits detail.png");
 		creditText = new Texture("shared/credits-title.png");
+		circle = new Texture("shared/circle.png");
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -382,9 +384,14 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				
 			}
 		}
+		this.circle_rot+=delta;
+		circle_rot%=(2*Math.PI);
 	}
 	// TODO: POPULATE
 	private float[] selectorPos;
+	private float circle_rot;
+	private float[] light_radius;
+	private float[] light_alpha;
 	
 	private void populate_default(){
 		selectorPos=new float[40];
@@ -433,10 +440,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		for (int i=0; i<light_alpha.length; i++){
 			light_alpha[i]=.8f;
 		}
+		circle_rot = 0;
 	}
-	
-	private float[] light_radius;
-	private float[] light_alpha;
 
 	/**
 	 * Draw the status of this player mode.
@@ -519,6 +524,10 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;
+					canvas.draw(circle, Color.WHITE, circle.getWidth()/2f,
+							circle.getHeight() / 2f,
+							pos.x, pos.y,
+							circle_rot, 1, 1);
 				}
 				if ((pressState==5 && this.levelSelected==i) || (hoverState==HOVER_LEVEL_SELECTOR && levelHovered==i)){
 					canvas.draw(level, c, level.getWidth() / 2f,
