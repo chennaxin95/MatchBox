@@ -1539,7 +1539,7 @@ public class AidenController extends WorldController
 
 		// ======================Easy========================//
 		case 7:
-			this.scene = new Scene("Tut6.json"); // Introduce ropes
+			this.scene = new Scene("json/Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
 		case 8:
@@ -1610,7 +1610,7 @@ public class AidenController extends WorldController
 		 * backgroundTexture = af.backGround; break;
 		 */
 		case 14:
-			this.scene = new Scene("json/Level3.json"); // trick + tunnel
+			this.scene = new Scene("json/NewTutorial4.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
 		// ======================Hard========================//
