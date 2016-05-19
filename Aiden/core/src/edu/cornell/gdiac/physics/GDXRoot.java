@@ -291,12 +291,25 @@ public class GDXRoot extends Game implements ScreenListener {
 		assets.add(af.get("POP_FILE"));
 		manager.load(af.get("BGM_FILE"), Sound.class);
 		assets.add(af.get("BGM_FILE"));
+		manager.load(af.get("BURN_FILE"), Sound.class);
+		assets.add(af.get("BURN_FILE"));
+		manager.load(af.get("MATCH_FILE"), Sound.class);
+		assets.add(af.get("MATCH_FILE"));
 		
 		manager.load(af.get("WATER"), Texture.class);
 		assets.add(af.get("WATER"));
 		
 		manager.load(af.get("CHECKPOINT_FLAG"), Texture.class);
 		assets.add(af.get("CHECKPOINT_FLAG"));
+		
+		manager.load(af.get("CASTLE"), Texture.class);
+		assets.add(af.get("CASTLE"));
+		manager.load(af.get("LIGHT"), Texture.class);
+		assets.add(af.get("LIGHT"));
+		manager.load(af.get("CIRCLE"), Texture.class);
+		assets.add(af.get("CIRCLE"));
+		manager.load(af.get("LEVEL_BACKGROUND"), Texture.class);
+		assets.add(af.get("LEVEL_BACKGROUND"));
 		
 		for (int i=0; i<4; i++){
 			manager.load(af.get("TUTORIAL_INST"+i), Texture.class);
@@ -406,11 +419,11 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		// Initialize the three game worlds
 
-		int levels = 21;
+		int levels = 22;
 		controllers = new WorldController[levels]; ////
 		current = 0;
 		for(int i = 0; i<4; i++){
-			controllers[i] = new TutorialController(i);
+			controllers[i] = new AidenController(i);
 		}
 		
 		for(int i=4;i<levels;i++){

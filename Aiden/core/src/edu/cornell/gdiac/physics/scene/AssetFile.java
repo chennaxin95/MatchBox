@@ -28,6 +28,8 @@ public class AssetFile {
 	public TextureRegion burnablePlatform;
 	public Music bgm;
 	public Music jump;
+	public Music burn;
+	public Music match;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -86,6 +88,9 @@ public class AssetFile {
 	public TextureRegion music_no;
 	public TextureRegion sound_no;
 	public TextureRegion water;
+	public TextureRegion castle;
+	public TextureRegion light;
+	public TextureRegion circle;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenGlow;
@@ -107,6 +112,7 @@ public class AssetFile {
 	public TextureRegion checkpointTexture;
 	
 	public TextureRegion[] tutorialInstructions;
+	public TextureRegion level_background;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -133,6 +139,8 @@ public class AssetFile {
 		files.put("PEW_FILE", "music/pew.mp3");
 		files.put("POP_FILE", "music/plop.mp3");
 		files.put("BGM_FILE", "music/bgm.mp3");
+		files.put("BURN_FILE", "music/burn.mp3");
+		files.put("MATCH_FILE", "music/match.mp3");
 		files.put("BACKGROUND0", "background/tutorial0background2.png");
 		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
@@ -183,6 +191,10 @@ public class AssetFile {
 		files.put("TUT3_BACK", "background/tutorial3.png");
 		files.put("LEVEL_S", "shared/levels.png");
 		files.put("RESTART_ICON", "shared/restart icon.png");
+		files.put("CASTLE", "shared/castle.png");
+		files.put("LIGHT", "shared/gradient.png");
+		files.put("CIRCLE", "shared/circle.png");
+		files.put("LEVEL_BACKGROUND", "background/background2.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -352,6 +364,10 @@ public class AssetFile {
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		checkpointTexture=createTexture(manager, files.get("CHECKPOINT_FLAG"), false);
+		castle=createTexture(manager, files.get("CASTLE"), false);
+		light=createTexture(manager, files.get("LIGHT"), false);
+		circle=createTexture(manager, files.get("CIRCLE"), false);
+		level_background = createTexture(manager, files.get("LEVEL_BACKGROUND"), false);
 		
 		
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
@@ -400,11 +416,16 @@ public class AssetFile {
 		
 		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));
 		jump = Gdx.audio.newMusic(Gdx.files.internal("music/jump.mp3"));
+		burn = Gdx.audio.newMusic(Gdx.files.internal("music/burn.mp3"));
+		match = Gdx.audio.newMusic(Gdx.files.internal("music/match.mp3"));
+		
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
 		sounds.allocate(manager, files.get("PEW_FILE"));
 		sounds.allocate(manager, files.get("POP_FILE"));
 		sounds.allocate(manager, files.get("BGM_FILE"));
+		sounds.allocate(manager, files.get("BURN_FILE"));
+		sounds.allocate(manager, files.get("MATCH_FILE"));
 		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}

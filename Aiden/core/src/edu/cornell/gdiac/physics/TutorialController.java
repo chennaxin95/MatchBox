@@ -171,23 +171,6 @@ class TutorialController extends AidenController{
 		return this.currentMsg;
 	}
 
-	public void display(String s, float x, float y){
-
-	}
-
-	/** pop window when aiden is at a place **/
-	public void popWindowAt(String s, TextureRegion texture, float x, float y){
-
-	}
-
-	/** pop window when fuel is lower than some amounr **/
-	public void popWindowFuel(String s, TextureRegion texture, float fuel){
-
-	}
-
-	private void popWindow(String s, TextureRegion texture){
-		canvas.draw(af.avatarTexture, 1, 1);
-	}
 }
 
 abstract class Message{

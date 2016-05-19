@@ -17,6 +17,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -44,7 +45,7 @@ import edu.cornell.gdiac.physics.CollisionController;
  */
 
 public class AidenController extends WorldController
-implements ContactListener {
+		implements ContactListener {
 
 	// private Scene[] scenes;
 
@@ -60,6 +61,9 @@ implements ContactListener {
 	 * them. Toggled with the Tab key.
 	 */
 	private boolean spirit = true;
+
+	/** whether something is burning */
+	private boolean burning = false;
 
 	private Array<FuelBlock> checkpoints = new Array<FuelBlock>();
 
@@ -131,7 +135,7 @@ implements ContactListener {
 	private Vector2 fuelBarInner;
 	private Vector2 fuelInnerPos;
 	private Vector2 fuelBarPos;
-	
+
 	private Vector2 restartPos;
 	private Vector2 restartIcon;
 
@@ -189,6 +193,22 @@ implements ContactListener {
 	 */
 	public int level = 0;
 
+	private Vector2 resuScreen_trans;
+
+	private Vector2 resuPos_trans;
+
+	private Vector2 restScreen_trans;
+
+	private Vector2 restPos_trans;
+
+	private Vector2 homeScreen_trans;
+
+	private Vector2 homePos_trans;
+
+	private Vector2 mScreen_trans;
+
+	private Vector2 muPos_trans;
+
 	/** Sets asset file */
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
@@ -222,7 +242,7 @@ implements ContactListener {
 		addQueue.clear();
 		npcs.clear();
 		checkpoints.clear();
-		
+
 		world.dispose();
 		world = new World(gravity, false);
 		world.setContactListener(this);
@@ -251,9 +271,10 @@ implements ContactListener {
 			af.bgm.play();
 			wasPlaying = true;
 		}
+		populate_map();
 	}
 
-	public void resetPos(){
+	public void resetPos() {
 		pauseT = new Vector2(480, 110);
 		loseSize = new Vector2(649, 110);
 		winSize = new Vector2(707, 110);
@@ -278,14 +299,15 @@ implements ContactListener {
 		fuelBarSize.scl(sScaleX, sScaleX);
 		fuelBarInner.scl(sScaleX);
 		setPos(canvas.getZoom());
-		//		resuC = Color.WHITE;
-		//		restC = Color.WHITE;
-		//		homeC = Color.WHITE;
+		// resuC = Color.WHITE;
+		// restC = Color.WHITE;
+		// homeC = Color.WHITE;
 	}
+
 	/**
 	 * Lays out the game geography.
 	 */
-	
+
 	private void populateLevel() {
 		// Add level goal
 		// if (goalDoor!=null) return;
@@ -376,7 +398,7 @@ implements ContactListener {
 			bp.setTexture(texture);
 			bp.getPlatform().setBurningTexture(
 					af.burningTexture[(ii + af.burningTexture.length / 2)
-					                  % af.burningTexture.length],
+							% af.burningTexture.length],
 					2);
 			bp.setDensity(BASIC_DENSITY);
 			bp.setFriction(0);
@@ -417,7 +439,7 @@ implements ContactListener {
 			avatar.setPosition(
 					checkpoints.get(gs.getCheckpoint()).getPosition());
 		}
-		if(restart = true){
+		if (restart = true) {
 			restart = false;
 		}
 		addObject(avatar);
@@ -506,10 +528,20 @@ implements ContactListener {
 		winPos = new Vector2(w / 2 - winSize.x / 2, h);
 		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
+		
+		resuScreen_trans = new Vector2(3 * w / 4 - mOff, h - yOff);
+		resuPos_trans = new Vector2(3* w / 4 - mOff, h - yOff);
+		restScreen_trans = new Vector2(3* w / 4 - mOff, h - 2 * yOff);
+		restPos_trans = new Vector2(3 * w/ 4 - mOff, h - 2 * yOff);
+		homeScreen_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
+		homePos_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
+		mScreen_trans = new Vector2(3* w / 4 - xsOff, h - 4 * yOff);
+		muPos_trans = new Vector2(3 * w / 4 - xsOff, h - 4 * yOff);
+		
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
 		restScreen = new Vector2(w / 2 - mOff, h - 2 * yOff);
-		restPos = new Vector2(w / 2 - mOff, h - 2 * yOff);
+		restPos = new Vector2(w/ 2 - mOff, h - 2 * yOff);
 		homeScreen = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		homePos = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		mScreen = new Vector2(w / 2 - xsOff, h - 4 * yOff);
@@ -517,23 +549,23 @@ implements ContactListener {
 		sScreen = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		sPos = new Vector2(w / 2 + (xsOff / 2.98f), h - 4 * yOff);
 		fuelBarPos = new Vector2(w / 8, h);
-		restartPos = new Vector2(w*10/11, canvas.getHeight()*8/9);
+		restartPos = new Vector2(w * 10 / 11, canvas.getHeight() * 8 / 9);
 		fuelInnerPos = new Vector2(fuelBarPos.x + 68 * sScaleX, h);
 	}
 
 	public float cooldown = 0.5f;
-	public int isHolding=-1;
+	public int isHolding = -1;
 
 	public void buttonPressed(float dt) {
 		boolean isPressed = InputController.getInstance().didTertiary();
 		cooldown -= dt;
 		if (count == 0.4f) {
-			mC =  Color.WHITE;
-			sC =  Color.WHITE;
-			resuC =  Color.WHITE;
-			homeC =  Color.WHITE;
-			restC =  Color.WHITE;
-			isHolding=-1;
+			mC = Color.WHITE;
+			sC = Color.WHITE;
+			resuC = Color.WHITE;
+			homeC = Color.WHITE;
+			restC = Color.WHITE;
+			isHolding = -1;
 		}
 		Vector2 pos = InputController.getInstance().getCrossHair();
 		Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
@@ -541,57 +573,51 @@ implements ContactListener {
 		if (mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
 				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
+				cooldown = 0.5f;
 				instr = 2;
 				isHolding = 0;
 			}
 			homeC = Color.GRAY;
-		}
-		else if (isHolding !=0){
+		} else if (isHolding != 0) {
 			homeC = Color.WHITE;
 		}
 		if (mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
 				mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				if(!isComplete() && !isFailure()){
+				cooldown = 0.5f;
+				if (!isComplete() && !isFailure()) {
 					instr = 1;
-				}
-				else if (isComplete()){
+				} else if (isComplete()) {
 					instr = 6;
-				}
-				else{
+				} else {
 					instr = 3;
 				}
-				isHolding=1;
+				isHolding = 1;
 			}
 			resuC = Color.GRAY;
-		}
-		else if (isHolding !=1){
+		} else if (isHolding != 1) {
 			resuC = Color.WHITE;
 		}
 		if (mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
 				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
-				if (isComplete()){
+				cooldown = 0.5f;
+				if (isComplete()) {
 					instr = 3;
-				}
-				else if (isFailure()){
+				} else if (isFailure()) {
 					instr = 6;
 				}
 				instr = 3;
-				isHolding=2;
+				isHolding = 2;
 			}
 			restC = Color.GRAY;
-		}
-		else if (isHolding !=2){
+		} else if (isHolding != 2) {
 			restC = Color.WHITE;
 		}
 		if (mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
 				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
+				cooldown = 0.5f;
 				instr = 4;
 			}
 			return;
@@ -599,7 +625,7 @@ implements ContactListener {
 		if (mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
 				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
-				cooldown = 0.5f;	
+				cooldown = 0.5f;
 				instr = 5;
 			}
 			return;
@@ -639,27 +665,26 @@ implements ContactListener {
 			prevMovement = avatar.getLinearVelocity();
 			buttonPressed(dt);
 			return;
-		}
-		else {
+		} else {
 			this.homeC = Color.WHITE;
 			this.restC = Color.WHITE;
 			this.resuC = Color.WHITE;
-			isHolding=-1;
+			isHolding = -1;
 			Vector2 pos = InputController.getInstance().getCrossHair();
 			Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
-			if(mPos.x >= restartPos.x && mPos.x <= restartPos.x + smallBut.x &&
-					mPos.y >= restartPos.y && mPos.y <= restartPos.y + smallBut.y){
+			if (mPos.x >= restartPos.x && mPos.x <= restartPos.x + smallBut.x &&
+					mPos.y >= restartPos.y
+					&& mPos.y <= restartPos.y + smallBut.y) {
 				rstColor = Color.GRAY;
 				boolean isPressed = InputController.getInstance().didTertiary();
-				if (isPressed){
+				if (isPressed) {
 					this.reset();
 				}
-			}
-			else{
+			} else {
 				rstColor = Color.WHITE;
 			}
 		}
-		
+
 		if (avatar.getFuel() / avatar.getMaxFuel() < 0.3) {
 			blinkCD -= dt;
 			if (blinkCD <= 0) {
@@ -697,7 +722,7 @@ implements ContactListener {
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
 		boolean notFailure = CollControl.getCollisions(cList, avatar, gs,
-				checkpoints);
+				checkpoints, af);
 		if (CollControl.getCheckpoint() != -1) {
 			gs.setCheckpoint(CollControl.getCheckpoint());
 			gs.exportToJson();
@@ -709,73 +734,87 @@ implements ContactListener {
 
 		double accX = (spirit)
 				? InputController.getInstance().getHorizontal() * 1.5
-						: InputController.getInstance().getHorizontal();
-				double accY = (spirit)
-						? InputController.getInstance().getVertical() * 1.5
-								: InputController.getInstance().getVertical();
+				: InputController.getInstance().getHorizontal();
+		double accY = (spirit)
+				? InputController.getInstance().getVertical() * 1.5
+				: InputController.getInstance().getVertical();
 
-						// Process actions in object model
-						avatar.setMovement((float) accX * 9);
-						avatar.setMovementY((float) accY * 8);
-						avatar.setJumping(InputController.getInstance().didPrimary());
-						avatar.setDt(dt);
-						avatar.applyForce();
+		// Process actions in object model
+		avatar.setMovement((float) accX * 9);
+		avatar.setMovementY((float) accY * 8);
+		avatar.setJumping(InputController.getInstance().didPrimary());
+		avatar.setDt(dt);
+		avatar.applyForce();
 
-						if (jumpCD < 0.5f) {
-							jumpCD -= dt;
-							if (jumpCD <= 0) {
-								jumpCD = 0.5f;
-							}
-						}
+		if (jumpCD < 0.5f) {
+			jumpCD -= dt;
+			if (jumpCD <= 0) {
+				jumpCD = 0.5f;
+			}
+		}
 
-						if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
-							af.jump.play();
-							jumpCD -= dt;
-						}
+		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f) {
+			af.jump.play();
+			jumpCD -= dt;
+		}
 
-						// Update movements of npcs, including all interactions/side effects
-						for (CharacterModel npc : npcs) {
-							npc.applyForce();
-						}
+		// Update movements of npcs, including all interactions/side effects
+		for (CharacterModel npc : npcs) {
+			npc.applyForce();
+		}
+		
+		burning = false;
+		for (FlammableBlock f : flammables) {
+			if (f.isBurning()) {
+				burning = true;
+			}
+		}
+		if (burning && !af.burn.isPlaying()){
+			af.burn.play();
+		}
+		if (!burning && af.burn.isPlaying()){
+			af.burn.stop();
+		}
+		
+		BurnController BurnControl = new BurnController();
+		BurnControl.getBurning(flammables, objects, dt, world);
 
-						BurnController BurnControl = new BurnController();
-						BurnControl.getBurning(flammables, objects, dt, world);
+		
 
-						// If we use sound, we must remember this.
-						SoundController.getInstance().update();
-						if (isComplete() && !isFailure()) {
-							gs.setLevel(level + 1);
-							gs.setCheckpoint(-1);
-							if (gs.getUnlocked() == level) {
-								gs.setUnlocked(level + 1);
-							}
-						}
+		// If we use sound, we must remember this.
+		SoundController.getInstance().update();
+		if (isComplete() && !isFailure()) {
+			gs.setLevel(level + 1);
+			gs.setCheckpoint(-1);
+			if (gs.getUnlocked() == level) {
+				gs.setUnlocked(level + 1);
+			}
+		}
 
-						if (InputController.getInstance().getHorizontal() != 0) {
-							beginCamFrame = 400;
-						}
+		if (InputController.getInstance().getHorizontal() != 0) {
+			beginCamFrame = 400;
+		}
 
+		if (beginCamFrame == 0) {
+			canvas.setCamPos(avatar.getX(), avatar.getY());
+		}
 
-						if(beginCamFrame == 0){
-							canvas.setCamPos(avatar.getX(), avatar.getY());
-						}
+		if (beginCamFrame < 200) {
+			float a = (2 * ((float) scene.getWidth()) / (float) 72);
+			float b = (2 * ((float) scene.getHeight()) / (float) 44);
+			canvas.updateCam(Math.max(Math.max(a, b), 1f));
+			canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
+					scene.getWidth(), scene.getHeight());
+		}
 
-						if (beginCamFrame < 200) {
-							float a = (2 * ((float) scene.getWidth()) / (float) 72);
-							float b = (2 * ((float) scene.getHeight()) / (float) 44);
-							canvas.updateCam(Math.max(Math.max(a, b),1f));
-							canvas.translate(scene.getWidth() / 2, scene.getHeight() / 2,
-									scene.getWidth(), scene.getHeight());
-						}
-
-						if (beginCamFrame > 300) {
-							canvas.updateCam(1f);
-							canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
-									scene.getHeight());
-						}
-						if (beginCamFrame < 300) {
-							beginCamFrame++;
-						}
+		if (beginCamFrame > 300) {
+			canvas.updateCam(1f);
+			canvas.translate(avatar.getX(), avatar.getY(), scene.getWidth(),
+					scene.getHeight());
+		}
+		if (beginCamFrame < 300) {
+			beginCamFrame++;
+		}
 
 	}
 
@@ -964,7 +1003,7 @@ implements ContactListener {
 			if ((bd1 == avatar && bd2 instanceof FlammableBlock &&
 					!(bd2 instanceof FlamePlatform))
 					|| (bd2 == avatar && bd1 instanceof FlammableBlock
-					&& !(bd1 instanceof FlamePlatform))) {
+							&& !(bd1 instanceof FlamePlatform))) {
 				contact.setEnabled(false);
 			}
 			if ((bd1 == avatar && bd2 instanceof BurnablePlatform)
@@ -984,12 +1023,60 @@ implements ContactListener {
 
 	}
 
-	//---------------------------------confetti-------------------------------//
+	// ---------------------------------confetti-------------------------------//
 	public ParticleEffect confeti;
-
-
-
+	
+	
 	//-------------------------------------------------------------------------//
+
+
+	//--------------------------Transition------------------------------------//
+	private int circle_rot;
+
+	private float[] light_alpha;
+
+	private float[] light_radius;
+
+	private float[] selectorPos;
+	private void populate_map(){
+		selectorPos=new float[]{
+				995, 989,
+				1275, 993,
+				1419, 1017,
+				1292, 878,
+				1167, 864,
+				997, 890,
+				734, 989,
+				525, 1011,
+				669, 862,
+				675, 789,
+				846, 774,
+				1010, 796,
+				1254, 780,
+				1036, 662,
+				725, 660,
+				837, 486,
+				1200, 530,
+				1020, 525,
+				1023, 437,
+				1011, 346
+		};
+		for (int i=0; i<selectorPos.length/2; i++){
+			//selectorPos[2*i]*=scale.x;
+			selectorPos[2*i+1]=(1920-selectorPos[2*i+1])/**scale.y*/;		
+		}
+		light_radius=new float[selectorPos.length/2];
+		light_alpha=new float[selectorPos.length/2];
+		for (int i=0; i<light_radius.length; i++){
+			light_radius[i] = scale.x;
+		}
+		for (int i=0; i<light_alpha.length; i++){
+			light_alpha[i]=1f;
+		}
+		circle_rot = 0;
+	}
+	//------------------------------------------------------------------------//
+
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -998,14 +1085,16 @@ implements ContactListener {
 		// canvas.draw(backGround, 0, 0);
 		canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
 				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
-	
-		Vector2 origin=new Vector2(af.checkpointTexture.getRegionWidth()/2.0f, 0);
-		for (FuelBlock fb:checkpoints){
-			canvas.draw(af.checkpointTexture, Color.WHITE, origin.x, origin.y, 
-					fb.getX()*scale.x, (fb.getY()+fb.getHeight()/2f)*scale.y, 0f, 
+
+		Vector2 origin = new Vector2(
+				af.checkpointTexture.getRegionWidth() / 2.0f, 0);
+		for (FuelBlock fb : checkpoints) {
+			canvas.draw(af.checkpointTexture, Color.WHITE, origin.x, origin.y,
+					fb.getX() * scale.x,
+					(fb.getY() + fb.getHeight() / 2f) * scale.y, 0f,
 					0.4f, 0.4f);
 		}
-		
+
 		for (Obstacle obj : objects) {
 			if (obj == avatar) {
 				if (!isFailure()) {
@@ -1026,14 +1115,15 @@ implements ContactListener {
 			Vector2 pos = canvas.relativeVector(restartPos.x, restartPos.y);
 			canvas.draw(af.restartIcon, rstColor, pos.x, pos.y,
 					smallBut.x * zoom, smallBut.y * zoom);
-			
+
 			pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 			Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 					fuelInnerPos.y);
-			af.displayFont.getData().setScale(zoom/2, zoom/2);
-			canvas.drawText("level: "+(level+1), af.displayFont, iPos.x, iPos.y);
+			af.displayFont.getData().setScale(zoom / 2, zoom / 2);
+			canvas.drawText("level: " + (level + 1), af.displayFont, iPos.x,
+					iPos.y);
 			float sx = avatar.getFuel() / avatar.getMaxFuel();
-			if(level!=0) {
+			if (level != 0) {
 				canvas.draw(af.barBack, Color.WHITE, iPos.x, iPos.y,
 						fuelBarInner.x * zoom, fuelBarInner.y * zoom);
 				if (sx < 0.3f) {
@@ -1071,7 +1161,7 @@ implements ContactListener {
 			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 					loseSize.x * zoom, loseSize.y * zoom);
 		}
-		
+
 		if (pause) {
 			resetPos();
 			Vector2 pos1 = canvas.relativeVector(0, 0);
@@ -1080,24 +1170,33 @@ implements ContactListener {
 			posTemp = canvas.relativeVector(pScreen.x, pScreen.y);
 			if (!isComplete()) {
 				if (!isFailure()) {
-					if(this instanceof TutorialController &&
-							((TutorialController)this).tutpause){
-							posTemp = canvas.relativeVector(200f, 100f);
-								canvas.draw(af.tutorialInstructions[((TutorialController)this).getMsgString()],
-										Color.WHITE, posTemp.x, posTemp.y, 800*zoom, 600*zoom);
-					}else{
-						canvas.draw(af.paused, Color.WHITE, posTemp.x, posTemp.y,
+					if (this instanceof TutorialController &&
+							((TutorialController) this).tutpause) {
+						posTemp = canvas.relativeVector(200f, 100f);
+						canvas.draw(
+								af.tutorialInstructions[((TutorialController) this)
+										.getMsgString()],
+								Color.WHITE, posTemp.x, posTemp.y, 800 * zoom,
+								600 * zoom);
+					} else {
+						canvas.draw(af.paused, Color.WHITE, posTemp.x,
+								posTemp.y,
 								pauseT.x * zoom, pauseT.y * zoom);
 						// resume
-						posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
-						canvas.draw(af.resumeButton, resuC, posTemp.x, posTemp.y,
+						posTemp = canvas.relativeVector(resuScreen.x,
+								resuScreen.y);
+						canvas.draw(af.resumeButton, resuC, posTemp.x,
+								posTemp.y,
 								largeBut.x * zoom, largeBut.y * zoom);
 						// restart
-						posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
-						canvas.draw(af.restartButton, restC, posTemp.x, posTemp.y,
+						posTemp = canvas.relativeVector(restScreen.x,
+								restScreen.y);
+						canvas.draw(af.restartButton, restC, posTemp.x,
+								posTemp.y,
 								largeBut.x * zoom, largeBut.y * zoom);
 						// home
-						posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+						posTemp = canvas.relativeVector(homeScreen.x,
+								homeScreen.y);
 						canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 								largeBut.x * zoom, largeBut.y * zoom);
 					}
@@ -1120,36 +1219,88 @@ implements ContactListener {
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
 			} else {
+				// Draw transition map begin
+				canvas.draw(af.level_background, 
+						new Color(0.1f+((float)this.level)*0.9f/20f, 
+								0.2f+((float)this.level)*0.8f/20f, 0.7f, 1f), 
+						pos1.x, pos1.y,
+						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
+				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
+						canvas.getHeight()/2);
+				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
+				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
+						af.castle.getRegionHeight()/2, 
+						castlePos.x, castlePos.y, 0, sScaleX*zoom,sScaleX*zoom);
+				float castleRegionWidth=af.castle.getRegionWidth();
+				float castleRegionHeight=af.castle.getRegionHeight();
+				for (int i = 0; i < selectorPos.length/2; i++){
+					Vector2 pos = canvas.relativeVector(
+							(selectorPos[2*i]-castleRegionWidth/2f)*sScaleX*zoom + castleRawPos.x, 
+							(selectorPos[2*i+1]-castleRegionHeight/2f)*sScaleX*zoom + castleRawPos.y);
+					System.out.println(castlePos);
+					String level_addr = "shared/numbers/" + (i+1) + ".png";
+					Texture level_texture = new Texture(level_addr);
+					level_texture.setFilter(TextureFilter.Linear,
+							TextureFilter.Linear);
+					Color c=Color.GRAY;
+//					if (i<gs.getUnlocked()) {
+//						c=Color.WHITE;
+//						if (RandomController.rollFloat(0, 1)>0.85f){
+//							light_radius[i]=Math.max(scale.x*2f,Math.min(scale.x / 2f, 
+//									light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
+//							//light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+//						}
+//						canvas.draw(af.light, new Color(1, 1, 0.2f, light_alpha[i]), af.light.getRegionWidth()/2f,
+//								af.light.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								0, light_radius[i],
+//								light_radius[i]);
+//					}
+//					else if (i==gs.getUnlocked()){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 0.2f, 0.2f);
+//					}
+					canvas.draw(level_texture, c, level_texture.getWidth() / 2f,
+								level_texture.getHeight() / 2f,
+								pos.x, pos.y,
+								0, 1, 1);
+				}
+				// Draw transition map end
+				
 				posTemp = canvas.relativeVector(winPos.x, winPos.y);
 				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 						winSize.x * zoom, winSize.y * zoom);
 				// nextlevel
-				posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+				posTemp = canvas.relativeVector(resuScreen_trans.x, resuScreen_trans.y);
 				canvas.draw(af.nextLevel, resuC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// replay
-				posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+				posTemp = canvas.relativeVector(restScreen_trans.x, restScreen_trans.y);
 				canvas.draw(af.replay, restC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// home
-				posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+				posTemp = canvas.relativeVector(homeScreen_trans.x, homeScreen_trans.y);
 				canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
 			// sound stuff
-			if(!(this instanceof TutorialController &&
-					((TutorialController)this).tutpause)){
-			posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
-			canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
-					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+			if (!(this instanceof TutorialController &&
+					((TutorialController) this).tutpause)) {
+				posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
+				canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
+						posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
 
-			posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
-			canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
-					posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
+				posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
+				canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
+						posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
 			}
 		}
-		if(isComplete() || countdown > 0){
-			Vector2 pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*1.01f);
+		if (isComplete() || countdown > 0) {
+			Vector2 pos = canvas.relativeVector(canvas.getWidth() / 2,
+					canvas.getHeight() * 1.01f);
 			confeti.setPosition(pos.x, pos.y);
 			canvas.drawParticle(confeti);
 		}
@@ -1195,11 +1346,11 @@ implements ContactListener {
 			this.scene = new Scene("Tut2.json"); // spirit mode to the top
 			backgroundTexture = af.tutorial1;
 			break;
-		case 2: 
+		case 2:
 			this.scene = new Scene("Tut3.json"); // spirit mode to the top
 			backgroundTexture = af.tutorial1;
 			break;
-		case 3: 
+		case 3:
 			this.scene = new Scene("Tut4.json"); // spirit mode to the top
 			backgroundTexture = af.tutorial1;
 			break;
@@ -1218,69 +1369,84 @@ implements ContactListener {
 			backgroundTexture = af.tutorial4;
 			break;
 
-			// ======================Easy========================//
+		// ======================Easy========================//
 		case 7:
 
 			this.scene = new Scene("Easy1.json"); // gap introduce water guard
 			backgroundTexture = af.backGround;
 			break;
 
-			//		case 7:
-			//
-			//			this.scene = new Scene("Tutorial6.json"); // gap introduce water
-			//														// guard
-			//			backgroundTexture = af.backGround;
-			//			break;
+		// case 7:
+		//
+		// this.scene = new Scene("Tutorial6.json"); // gap introduce water
+		// // guard
+		// backgroundTexture = af.backGround;
+		// break;
 
-			//		case 7:
-			//
-			//			this.scene = new Scene("Tutorial3.json"); // avoid water guard
-			//			backgroundTexture = af.backGround;
-			//			break;
+		// case 7:
+		//
+		// this.scene = new Scene("Tutorial3.json"); // avoid water guard
+		// backgroundTexture = af.backGround;
+		// break;
+
 
 		case 8:
+			this.scene = new Scene("Tut6.json"); //Introduce ropes
+			backgroundTexture = af.backGround;
+			break;
+			
+/*		case 9:
+			this.scene = new Scene("Tutorial2.json"); // save the block
+
+			backgroundTexture = af.backGround;
+			break;*/
+		case 9:
 			this.scene = new Scene("Easy3.json"); // spirit boost with rope and
 			// water
 			backgroundTexture = af.backGround;
 			break;
-		case 9:
-			this.scene = new Scene("Tutorial2.json"); // save the block
 
+		case 10:
+			this.scene = new Scene("Tut7.json"); // Introduce wooden platforms
 			backgroundTexture = af.backGround;
 			break;
-
+		case 11:
+			this.scene = new Scene("Tut8.json"); // Introduce wooden trapdoor
+			backgroundTexture = af.backGround;
+			break;
+			
 			// ======================Medium========================//
-		case 10:
+		case 12:
 			this.scene = new Scene("Med4.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
 
-		case 11:
+		case 13:
 			this.scene = new Scene("Med1.json"); // wooden
 			// boxessssssssssssssssssss
 			backgroundTexture = af.backGround;
 			break;
-		case 12:
+	/*	case 14:
 			this.scene = new Scene("Med3.json"); // vertical // add more fuel
 			// and move the rope
 			backgroundTexture = af.backGround;
-			break;
+			break;*/
 
-		case 13:
+	/*	case 13:
 			this.scene = new Scene("Level2.json"); // L
 			backgroundTexture = af.backGround;
-			break;
+			break;*/
 		case 14:
 			this.scene = new Scene("Level3.json"); // trick + tunnel
 			backgroundTexture = af.backGround;
 			break;
-			// ======================Hard========================//
+		// ======================Hard========================//
 		case 15:
 			this.scene = new Scene("Hard1.json"); // square
 			backgroundTexture = af.backGround;
 			break;
 		case 16:
-			this.scene = new Scene("level1.json");
+			this.scene = new Scene("level01.json");
 			backgroundTexture = af.backGround;
 			break;
 
@@ -1308,6 +1474,4 @@ implements ContactListener {
 		}
 
 	}
-
 }
-
