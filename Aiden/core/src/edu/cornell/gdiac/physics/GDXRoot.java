@@ -318,6 +318,15 @@ public class GDXRoot extends Game implements ScreenListener {
 		manager.load(af.get("CHECKPOINT_FLAG"), Texture.class);
 		assets.add(af.get("CHECKPOINT_FLAG"));
 		
+		manager.load(af.get("CASTLE"), Texture.class);
+		assets.add(af.get("CASTLE"));
+		manager.load(af.get("LIGHT"), Texture.class);
+		assets.add(af.get("LIGHT"));
+		manager.load(af.get("CIRCLE"), Texture.class);
+		assets.add(af.get("CIRCLE"));
+		manager.load(af.get("LEVEL_BACKGROUND"), Texture.class);
+		assets.add(af.get("LEVEL_BACKGROUND"));
+		
 		for (int i=0; i<4; i++){
 			manager.load(af.get("TUTORIAL_INST"+i), Texture.class);
 			assets.add(af.get("TUTORIAL_INST"+i));

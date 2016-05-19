@@ -17,6 +17,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -192,6 +193,22 @@ public class AidenController extends WorldController
 	 */
 	public int level = 0;
 
+	private Vector2 resuScreen_trans;
+
+	private Vector2 resuPos_trans;
+
+	private Vector2 restScreen_trans;
+
+	private Vector2 restPos_trans;
+
+	private Vector2 homeScreen_trans;
+
+	private Vector2 homePos_trans;
+
+	private Vector2 mScreen_trans;
+
+	private Vector2 muPos_trans;
+
 	/** Sets asset file */
 	public void setAssetFile(AssetFile a) {
 		this.af = a;
@@ -254,6 +271,7 @@ public class AidenController extends WorldController
 			af.bgm.play();
 			wasPlaying = true;
 		}
+		populate_map();
 	}
 
 	public void resetPos() {
@@ -512,10 +530,20 @@ public class AidenController extends WorldController
 		winPos = new Vector2(w / 2 - winSize.x / 2, h);
 		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
+		
+		resuScreen_trans = new Vector2(3 * w / 4 - mOff, h - yOff);
+		resuPos_trans = new Vector2(3* w / 4 - mOff, h - yOff);
+		restScreen_trans = new Vector2(3* w / 4 - mOff, h - 2 * yOff);
+		restPos_trans = new Vector2(3 * w/ 4 - mOff, h - 2 * yOff);
+		homeScreen_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
+		homePos_trans = new Vector2(3 * w / 4 - mOff, h - 3 * yOff);
+		mScreen_trans = new Vector2(3* w / 4 - xsOff, h - 4 * yOff);
+		muPos_trans = new Vector2(3 * w / 4 - xsOff, h - 4 * yOff);
+		
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
 		restScreen = new Vector2(w / 2 - mOff, h - 2 * yOff);
-		restPos = new Vector2(w / 2 - mOff, h - 2 * yOff);
+		restPos = new Vector2(w/ 2 - mOff, h - 2 * yOff);
 		homeScreen = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		homePos = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		mScreen = new Vector2(w / 2 - xsOff, h - 4 * yOff);
@@ -1024,8 +1052,58 @@ public class AidenController extends WorldController
 
 	// ---------------------------------confetti-------------------------------//
 	public ParticleEffect confeti;
+	
+	
+	//-------------------------------------------------------------------------//
 
-	// -------------------------------------------------------------------------//
+
+	//--------------------------Transition------------------------------------//
+	private int circle_rot;
+
+	private float[] light_alpha;
+
+	private float[] light_radius;
+
+	private float[] selectorPos;
+	private void populate_map(){
+		selectorPos=new float[]{
+				995, 989,
+				1275, 993,
+				1419, 1017,
+				1292, 878,
+				1167, 864,
+				997, 890,
+				734, 989,
+				525, 1011,
+				669, 862,
+				675, 789,
+				846, 774,
+				1010, 796,
+				1254, 780,
+				1036, 662,
+				725, 660,
+				837, 486,
+				1200, 530,
+				1020, 525,
+				1023, 437,
+				1011, 346
+		};
+		for (int i=0; i<selectorPos.length/2; i++){
+			//selectorPos[2*i]*=scale.x;
+			selectorPos[2*i+1]=(1920-selectorPos[2*i+1])/**scale.y*/;		
+		}
+		light_radius=new float[selectorPos.length/2];
+		light_alpha=new float[selectorPos.length/2];
+		for (int i=0; i<light_radius.length; i++){
+			light_radius[i] = scale.x;
+		}
+		for (int i=0; i<light_alpha.length; i++){
+			light_alpha[i]=1f;
+		}
+		circle_rot = 0;
+	}
+	//------------------------------------------------------------------------//
+
 	@Override
 	public void draw(float delta) {
 		canvas.clear();
@@ -1168,19 +1246,70 @@ public class AidenController extends WorldController
 							largeBut.x * zoom, largeBut.y * zoom);
 				}
 			} else {
+				// Draw transition map begin
+				canvas.draw(af.level_background, 
+						new Color(0.1f+((float)this.level)*0.9f/20f, 
+								0.2f+((float)this.level)*0.8f/20f, 0.7f, 1f), 
+						pos1.x, pos1.y,
+						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
+				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
+						canvas.getHeight()/2);
+				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
+				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
+						af.castle.getRegionHeight()/2, 
+						castlePos.x, castlePos.y, 0, sScaleX*zoom,sScaleX*zoom);
+				float castleRegionWidth=af.castle.getRegionWidth();
+				float castleRegionHeight=af.castle.getRegionHeight();
+				for (int i = 0; i < selectorPos.length/2; i++){
+					Vector2 pos = canvas.relativeVector(
+							(selectorPos[2*i]-castleRegionWidth/2f)*sScaleX*zoom + castleRawPos.x, 
+							(selectorPos[2*i+1]-castleRegionHeight/2f)*sScaleX*zoom + castleRawPos.y);
+					System.out.println(castlePos);
+					String level_addr = "shared/numbers/" + (i+1) + ".png";
+					Texture level_texture = new Texture(level_addr);
+					level_texture.setFilter(TextureFilter.Linear,
+							TextureFilter.Linear);
+					Color c=Color.GRAY;
+//					if (i<gs.getUnlocked()) {
+//						c=Color.WHITE;
+//						if (RandomController.rollFloat(0, 1)>0.85f){
+//							light_radius[i]=Math.max(scale.x*2f,Math.min(scale.x / 2f, 
+//									light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
+//							//light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+//						}
+//						canvas.draw(af.light, new Color(1, 1, 0.2f, light_alpha[i]), af.light.getRegionWidth()/2f,
+//								af.light.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								0, light_radius[i],
+//								light_radius[i]);
+//					}
+//					else if (i==gs.getUnlocked()){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 0.2f, 0.2f);
+//					}
+					canvas.draw(level_texture, c, level_texture.getWidth() / 2f,
+								level_texture.getHeight() / 2f,
+								pos.x, pos.y,
+								0, 1, 1);
+				}
+				// Draw transition map end
+				
 				posTemp = canvas.relativeVector(winPos.x, winPos.y);
 				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 						winSize.x * zoom, winSize.y * zoom);
 				// nextlevel
-				posTemp = canvas.relativeVector(resuScreen.x, resuScreen.y);
+				posTemp = canvas.relativeVector(resuScreen_trans.x, resuScreen_trans.y);
 				canvas.draw(af.nextLevel, resuC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// replay
-				posTemp = canvas.relativeVector(restScreen.x, restScreen.y);
+				posTemp = canvas.relativeVector(restScreen_trans.x, restScreen_trans.y);
 				canvas.draw(af.replay, restC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// home
-				posTemp = canvas.relativeVector(homeScreen.x, homeScreen.y);
+				posTemp = canvas.relativeVector(homeScreen_trans.x, homeScreen_trans.y);
 				canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
@@ -1370,5 +1499,4 @@ public class AidenController extends WorldController
 		}
 
 	}
-
 }

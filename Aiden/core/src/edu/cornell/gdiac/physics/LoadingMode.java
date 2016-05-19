@@ -386,7 +386,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				
 			}
 		}
-		this.circle_rot+=10*delta;
+		this.circle_rot+=6*delta;
 		circle_rot%=(2*Math.PI);
 	}
 	// TODO: POPULATE
@@ -440,7 +440,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			light_radius[i]=LEVEL_BUTTON_SCALE * scale / 4f;
 		}
 		for (int i=0; i<light_alpha.length; i++){
-			light_alpha[i]=.8f;
+			light_alpha[i]=1f;
 		}
 		circle_rot = 0;
 	}
@@ -494,7 +494,8 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					BUTTON_SCALE * scale);
 		}
 		else if (pressState >= 4 && pressState < 7 ){
-			canvas.draw(level_background, new Color(0.1f, 0.2f, 0.7f, 1f), 0, 0, STANDARD_WIDTH, STANDARD_HEIGHT);
+			canvas.draw(level_background, new Color(0.1f, 0.2f, 0.7f, 1f), 
+					0, 0, (float) canvas.getWidth(), (float) canvas.getHeight());
 			canvas.draw(castle, Color.WHITE, 0, 0, 0, 0, 0, scale, scale);
 			pos = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()*4.5f/5);
 			canvas.draw(select, Color.WHITE, select.getWidth()/2, select.getHeight()/2,
@@ -516,7 +517,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					if (RandomController.rollFloat(0, 1)>0.85f){
 						light_radius[i]=Math.max(LEVEL_BUTTON_SCALE * scale / 5f,Math.min(LEVEL_BUTTON_SCALE * scale / 3f, 
 								light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
-						light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+						//light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
 					}
 					canvas.draw(light, new Color(1, 1, 0.2f, light_alpha[i]), light.getWidth()/2f,
 							light.getHeight() / 2f,
@@ -526,7 +527,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				}
 				else if (i==gs.getUnlocked()){
 					c=Color.WHITE;
-					canvas.draw(circle, Color.WHITE, circle.getWidth()/2f,
+					canvas.draw(circle, new Color(1, 1, 0.2f, 1), circle.getWidth()/2f,
 							circle.getHeight() / 2f,
 							pos.x, pos.y,
 							circle_rot, 0.2f, 0.2f);
