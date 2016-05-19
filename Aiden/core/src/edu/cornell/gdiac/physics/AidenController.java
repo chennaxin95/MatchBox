@@ -1571,22 +1571,22 @@ public class AidenController extends WorldController
 			this.scene = new Scene("json/Med2.json"); // stonesss // pretty easy
 			backgroundTexture = af.tutorial3;
 			break;
-
 		case 6:
+
+			this.scene = new Scene("json/Tutorial2.json"); // Save the block
+			backgroundTexture = af.backGround;
+			break;
+		case 7:
 			this.scene = new Scene("json/Tut5.json"); // spirit boost changed
 			backgroundTexture = af.tutorial4;
 			break;
 
 		// ======================Easy========================//
-		case 7:
+		case 8:
 			this.scene = new Scene("json/Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
-		case 8:
 
-			this.scene = new Scene("json/Tutorial2.json"); // Save the block
-			backgroundTexture = af.backGround;
-			break;
 
 		/*
 		 * case 7:
