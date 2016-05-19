@@ -1342,7 +1342,7 @@ public class AidenController extends WorldController
 						pos1.x, pos1.y,
 						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
 				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
-						canvas.getHeight()/2f);
+						canvas.getHeight()*6/11f);
 				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
 				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
 						af.castle.getRegionHeight()/2, 
