@@ -188,6 +188,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 	private GameSave gs;
 	private Texture light;
 	private Texture circle;
+	private Texture[] numbers;
 
 	/**
 	 * Returns the budget for the asset loader.
@@ -282,6 +283,14 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		creditList = new Texture("shared/credits detail.png");
 		creditText = new Texture("shared/credits-title.png");
 		circle = new Texture("shared/circle.png");
+		
+		numbers=new Texture[20];
+		for (int i=0; i<20; i++){
+			String level_texture = "shared/numbers/" + (i+1) + ".png";
+			numbers[i] = new Texture(level_texture);
+			numbers[i].setFilter(TextureFilter.Linear,
+					TextureFilter.Linear);
+		}
 		
 		float ratio = (float)canvas.getWidth()/1920f;
 		barSize = 1000 * ratio;
@@ -507,10 +516,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 			
 			for (int i = 0; i < selectorPos.length/2; i++){
 				pos = canvas.relativeVector(selectorPos[2*i], selectorPos[2*i+1]);
-				String level_texture = "shared/numbers/" + (i+1) + ".png";
-				level = new Texture(level_texture);
-				level.setFilter(TextureFilter.Linear,
-						TextureFilter.Linear);
+
 				Color c=Color.GRAY;
 				if (i<gs.getUnlocked()) {
 					c=Color.WHITE;
@@ -533,15 +539,15 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 							circle_rot, 0.2f, 0.2f);
 				}
 				if ((pressState==5 && this.levelSelected==i) || (hoverState==HOVER_LEVEL_SELECTOR && levelHovered==i)){
-					canvas.draw(level, c, level.getWidth() / 2f,
-							level.getHeight() / 2f,
+					canvas.draw(numbers[i], c, numbers[i].getWidth() / 2f,
+							numbers[i].getHeight() / 2f,
 							pos.x, pos.y,
 							0, LEVEL_BUTTON_SCALE * scale*2.5f,
 							LEVEL_BUTTON_SCALE * scale*2.5f);
 				}
 				else{
-					canvas.draw(level, c, level.getWidth() / 2f,
-							level.getHeight() / 2f,
+					canvas.draw(numbers[i], c, numbers[i].getWidth() / 2f,
+							numbers[i].getHeight() / 2f,
 							pos.x, pos.y,
 							0, LEVEL_BUTTON_SCALE * scale*1.5f,
 							LEVEL_BUTTON_SCALE * scale*1.5f);

@@ -1,13 +1,13 @@
 {
 "level": 1,
 "background": "shared/background.png",
-"width": 60,
-"height": 34,
+"width": 43,
+"height": 25,
 "aiden": {
 	"start_pos": [
 		{
-			"x": 2.375,
-			"y": 27.425
+			"x": 2.875,
+			"y": 1.925
 		}
 	],
 	"scale_x": 1,
@@ -28,7 +28,7 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
+			"x": 9,
 			"y": 2
 		},
 		"scale_x": 2,
@@ -54,8 +54,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 2
+			"x": 9,
+			"y": 4
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -80,8 +80,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 2
+			"x": 5,
+			"y": 6
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -106,8 +106,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 2
+			"x": 13,
+			"y": 6
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -132,8 +132,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 2
+			"x": 15.5,
+			"y": 6
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -158,8 +158,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 2
+			"x": 20,
+			"y": 4
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -184,7 +184,7 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
+			"x": 20,
 			"y": 2
 		},
 		"scale_x": 2,
@@ -210,8 +210,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 4
+			"x": 23.5,
+			"y": 6
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -236,7 +236,7 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
+			"x": 26,
 			"y": 6
 		},
 		"scale_x": 2,
@@ -262,8 +262,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 6
+			"x": 31,
+			"y": 4
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -288,8 +288,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 6
+			"x": 31,
+			"y": 2
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -314,7 +314,7 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
+			"x": 34,
 			"y": 6
 		},
 		"scale_x": 2,
@@ -340,8 +340,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 8
+			"x": 34,
+			"y": 11
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -366,8 +366,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 8
+			"x": 34,
+			"y": 13
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -392,8 +392,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 10
+			"x": 26,
+			"y": 11
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -418,8 +418,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 10
+			"x": 23.5,
+			"y": 12
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -444,8 +444,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 10
+			"x": 15.5,
+			"y": 11
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -470,8 +470,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 10
+			"x": 13,
+			"y": 11
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -496,8 +496,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 12
+			"x": 13,
+			"y": 13
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -522,8 +522,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 12
+			"x": 15.5,
+			"y": 13
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -548,7 +548,7 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
+			"x": 23.5,
 			"y": 14
 		},
 		"scale_x": 2,
@@ -574,8 +574,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 16
+			"x": 26,
+			"y": 13
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -600,8 +600,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 18
+			"x": 5,
+			"y": 11
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -626,8 +626,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 14
+			"x": 5,
+			"y": 13
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -652,8 +652,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 20
+			"x": 5,
+			"y": 21
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -678,8 +678,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 27.5
+			"x": 13,
+			"y": 21
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -704,8 +704,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 29.5
+			"x": 15.5,
+			"y": 21
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -730,8 +730,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 57.5,
-			"y": 15
+			"x": 26,
+			"y": 23
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -756,8 +756,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 24,
-			"y": 2
+			"x": 23.5,
+			"y": 20
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -782,8 +782,8 @@
 		"blockType": "wood",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 28,
-			"y": 2
+			"x": 34,
+			"y": 19
 		},
 		"scale_x": 2,
 		"scale_y": 2,
@@ -805,14 +805,14 @@
 	},
 	{
 		"id": 30,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 30,
-			"y": 2
+			"x": 5,
+			"y": 9
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -831,14 +831,14 @@
 	},
 	{
 		"id": 31,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 32,
-			"y": 2
+			"x": 13,
+			"y": 9
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -857,14 +857,14 @@
 	},
 	{
 		"id": 32,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 14
+			"x": 15.495,
+			"y": 8.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -883,14 +883,14 @@
 	},
 	{
 		"id": 33,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 50.5,
-			"y": 4
+			"x": 23.495,
+			"y": 8.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -909,14 +909,14 @@
 	},
 	{
 		"id": 34,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 50.5,
-			"y": 2
+			"x": 25.995,
+			"y": 8.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -935,14 +935,14 @@
 	},
 	{
 		"id": 35,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 48.5,
-			"y": 2
+			"x": 33.995,
+			"y": 8.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -961,14 +961,14 @@
 	},
 	{
 		"id": 36,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 40,
-			"y": 2
+			"x": 33.995,
+			"y": 14.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -987,14 +987,14 @@
 	},
 	{
 		"id": 37,
-		"blockType": "wood",
+		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 26,
-			"y": 2
+			"x": 23.495,
+			"y": 15.995
 		},
-		"scale_x": 2,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1016,11 +1016,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
-			"y": 4
+			"x": 15.495,
+			"y": 14.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1042,11 +1042,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 4
+			"x": 13,
+			"y": 15
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1068,11 +1068,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 4
+			"x": 13,
+			"y": 17
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1094,11 +1094,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 4
+			"x": 15.495,
+			"y": 16.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1120,11 +1120,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 4
+			"x": 23.495,
+			"y": 17.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1146,11 +1146,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 4
+			"x": 25.995,
+			"y": 16.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1172,11 +1172,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 8
+			"x": 33.995,
+			"y": 16.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1198,11 +1198,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 8
+			"x": 5,
+			"y": 15
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1224,11 +1224,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 6
+			"x": 5,
+			"y": 17
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1250,11 +1250,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 6
+			"x": 5,
+			"y": 19
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1276,11 +1276,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 10,
-			"y": 8
+			"x": 4.995,
+			"y": 22.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1302,11 +1302,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 8
+			"x": 13,
+			"y": 19
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1328,11 +1328,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
-			"y": 6
+			"x": 15.495,
+			"y": 22.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1354,11 +1354,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
-			"y": 8
+			"x": 15.495,
+			"y": 18.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1380,11 +1380,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6,
-			"y": 12
+			"x": 12.995,
+			"y": 22.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1406,11 +1406,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12,
-			"y": 10
+			"x": 25.995,
+			"y": 18.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1432,11 +1432,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 10
+			"x": 25.995,
+			"y": 20.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1458,11 +1458,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
-			"y": 10
+			"x": 23.495,
+			"y": 21.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1484,11 +1484,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 2,
-			"y": 12
+			"x": 33.995,
+			"y": 20.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1510,11 +1510,11 @@
 		"blockType": "stone",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 4,
-			"y": 12
+			"x": 33.995,
+			"y": 22.995
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1.99,
+		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -1533,16 +1533,16 @@
 	},
 	{
 		"id": 58,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 12
+			"x": 4,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 8,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1559,16 +1559,16 @@
 	},
 	{
 		"id": 59,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 12
+			"x": 12.5,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1585,16 +1585,16 @@
 	},
 	{
 		"id": 60,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 14
+			"x": 17,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 4,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1611,16 +1611,16 @@
 	},
 	{
 		"id": 61,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 14,
-			"y": 16
+			"x": 23.5,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1637,16 +1637,16 @@
 	},
 	{
 		"id": 62,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 30,
-			"y": 4
+			"x": 28,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 4,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1663,16 +1663,16 @@
 	},
 	{
 		"id": 63,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 48.5,
-			"y": 6
+			"x": 34.5,
+			"y": 4.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1689,16 +1689,16 @@
 	},
 	{
 		"id": 64,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 48.5,
-			"y": 8
+			"x": 1.5,
+			"y": 6.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 3,
+		"scale_y": 3,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1715,16 +1715,16 @@
 	},
 	{
 		"id": 65,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 48.5,
-			"y": 4
+			"x": 3,
+			"y": 6.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 1,
+		"scale_y": 3,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1741,16 +1741,16 @@
 	},
 	{
 		"id": 66,
-		"blockType": "stone",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 26,
-			"y": 4
+			"x": 9,
+			"y": 7.5
 		},
-		"scale_x": 1.8,
-		"scale_y": 2,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -1770,10 +1770,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 30,
-			"y": 33.5
+			"x": 19.5,
+			"y": 7.5
 		},
-		"scale_x": 60,
+		"scale_x": 5,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -1796,11 +1796,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 0.5,
-			"y": 16.5
+			"x": 30,
+			"y": 7.5
 		},
-		"scale_x": 1,
-		"scale_y": 33,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1822,11 +1822,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 59.5,
-			"y": 17
+			"x": 19.5,
+			"y": 13.5
 		},
-		"scale_x": 1,
-		"scale_y": 32,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1848,10 +1848,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 6.5,
-			"y": 26
+			"x": 30,
+			"y": 13.5
 		},
-		"scale_x": 11,
+		"scale_x": 5,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -1874,11 +1874,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 12.5,
-			"y": 23.5
+			"x": 9,
+			"y": 13.5
 		},
-		"scale_x": 1,
-		"scale_y": 6,
+		"scale_x": 5,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1900,11 +1900,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 17.5,
-			"y": 21
+			"x": 36.5,
+			"y": 6
 		},
-		"scale_x": 9,
-		"scale_y": 1,
+		"scale_x": 1,
+		"scale_y": 4,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1926,11 +1926,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 21.5,
-			"y": 24
+			"x": 3,
+			"y": 20.5
 		},
 		"scale_x": 1,
-		"scale_y": 5,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1952,11 +1952,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 27,
-			"y": 26
+			"x": 9,
+			"y": 20.5
 		},
-		"scale_x": 10,
-		"scale_y": 1,
+		"scale_x": 6,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -1978,11 +1978,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 36.5,
-			"y": 24
+			"x": 19.5,
+			"y": 20.5
 		},
-		"scale_x": 7,
-		"scale_y": 1,
+		"scale_x": 6,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2004,11 +2004,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 39.5,
-			"y": 25
+			"x": 30,
+			"y": 20.5
 		},
-		"scale_x": 1,
-		"scale_y": 3,
+		"scale_x": 6,
+		"scale_y": 8,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2030,11 +2030,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 44.5,
-			"y": 26
+			"x": 0.5,
+			"y": 12.5
 		},
-		"scale_x": 9,
-		"scale_y": 1,
+		"scale_x": 1,
+		"scale_y": 25,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2056,11 +2056,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 44,
-			"y": 19
+			"x": 42.5,
+			"y": 12.5
 		},
-		"scale_x": 11,
-		"scale_y": 1,
+		"scale_x": 1,
+		"scale_y": 24,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2082,10 +2082,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 51.5,
-			"y": 26
+			"x": 3,
+			"y": 8.5
 		},
-		"scale_x": 5,
+		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2108,11 +2108,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 38,
-			"y": 18.5
+			"x": 7,
+			"y": 8.5
 		},
 		"scale_x": 1,
-		"scale_y": 10,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2134,10 +2134,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 5,
-			"y": 17.5
+			"x": 17.5,
+			"y": 8.5
 		},
-		"scale_x": 8,
+		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2160,10 +2160,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 30.5,
-			"y": 0.5
+			"x": 11,
+			"y": 8.5
 		},
-		"scale_x": 59,
+		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2186,11 +2186,11 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 32.5,
-			"y": 25
+			"x": 21.5,
+			"y": 8.5
 		},
 		"scale_x": 1,
-		"scale_y": 3,
+		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2212,10 +2212,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 42.5,
-			"y": 13.5
+			"x": 28,
+			"y": 8.5
 		},
-		"scale_x": 10,
+		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2238,10 +2238,10 @@
 		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 56.5,
-			"y": 13.5
+			"x": 32,
+			"y": 8.5
 		},
-		"scale_x": 6,
+		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2261,16 +2261,16 @@
 	},
 	{
 		"id": 86,
-		"blockType": "fuel",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 8,
-			"y": 16
+			"x": 36.5,
+			"y": 8.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2287,16 +2287,16 @@
 	},
 	{
 		"id": 87,
-		"blockType": "fuel",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 27,
-			"y": 27.5
+			"x": 1.5,
+			"y": 20.5
 		},
-		"scale_x": 1,
-		"scale_y": 1,
+		"scale_x": 3,
+		"scale_y": 8,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2313,16 +2313,16 @@
 	},
 	{
 		"id": 88,
-		"blockType": "fuel",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 17,
-			"y": 22.5
+			"x": 38.5,
+			"y": 20.5
 		},
-		"scale_x": 1,
-		"scale_y": 1,
+		"scale_x": 7,
+		"scale_y": 8,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2339,16 +2339,16 @@
 	},
 	{
 		"id": 89,
-		"blockType": "fuel",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 41,
-			"y": 16
+			"x": 39,
+			"y": 12
 		},
-		"scale_x": 1,
-		"scale_y": 1,
+		"scale_x": 7,
+		"scale_y": 2,
 		"density": 1,
-		"fixed": false,
+		"fixed": true,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2365,13 +2365,13 @@
 	},
 	{
 		"id": 90,
-		"blockType": "burnable_platform",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 34.5,
-			"y": 28
+			"x": 42,
+			"y": 7
 		},
-		"scale_x": 1,
+		"scale_x": 2,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2391,14 +2391,14 @@
 	},
 	{
 		"id": 91,
-		"blockType": "burnable_platform",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 35.5,
-			"y": 28
+			"x": 41,
+			"y": 9
 		},
-		"scale_x": 1,
-		"scale_y": 1,
+		"scale_x": 3,
+		"scale_y": 5,
 		"density": 1,
 		"fixed": true,
 		"linked": false,
@@ -2417,13 +2417,13 @@
 	},
 	{
 		"id": 92,
-		"blockType": "burnable_platform",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 36.5,
-			"y": 28
+			"x": 21.5,
+			"y": 0.5
 		},
-		"scale_x": 1,
+		"scale_x": 43,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2443,13 +2443,13 @@
 	},
 	{
 		"id": 93,
-		"blockType": "burnable_platform",
+		"blockType": "platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 37.5,
-			"y": 28
+			"x": 21.5,
+			"y": 24.5
 		},
-		"scale_x": 1,
+		"scale_x": 43,
 		"scale_y": 1,
 		"density": 1,
 		"fixed": true,
@@ -2469,16 +2469,16 @@
 	},
 	{
 		"id": 94,
-		"blockType": "burnable_platform",
+		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 33.5,
-			"y": 4.5
+			"x": 23,
+			"y": 3
 		},
 		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
-		"fixed": true,
+		"fixed": false,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2495,16 +2495,16 @@
 	},
 	{
 		"id": 95,
-		"blockType": "burnable_platform",
+		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 34.5,
-			"y": 4.5
+			"x": 20,
+			"y": 15
 		},
 		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
-		"fixed": true,
+		"fixed": false,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2521,16 +2521,16 @@
 	},
 	{
 		"id": 96,
-		"blockType": "burnable_platform",
+		"blockType": "fuel",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 35.5,
-			"y": 4.5
+			"x": 20,
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
 		"density": 1,
-		"fixed": true,
+		"fixed": false,
 		"linked": false,
 		"link_pos": {
 			"x": 0,
@@ -2550,8 +2550,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 29,
-			"y": 6
+			"x": 4.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2576,8 +2576,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 30,
-			"y": 6
+			"x": 5.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2602,8 +2602,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 31,
-			"y": 6
+			"x": 12.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2628,8 +2628,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 28,
-			"y": 6
+			"x": 13.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2654,8 +2654,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 49,
-			"y": 13.5
+			"x": 15,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2680,8 +2680,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 50,
-			"y": 13.5
+			"x": 16,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2706,8 +2706,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 40,
-			"y": 4.5
+			"x": 23,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2732,8 +2732,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 41,
-			"y": 4.5
+			"x": 24,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2758,8 +2758,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 39,
-			"y": 4.5
+			"x": 25.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2784,8 +2784,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 51,
-			"y": 13.5
+			"x": 26.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2810,8 +2810,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 52,
-			"y": 13.5
+			"x": 34.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2836,8 +2836,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 53,
-			"y": 13.5
+			"x": 33.5,
+			"y": 7.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2862,8 +2862,8 @@
 		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 48,
-			"y": 13.5
+			"x": 24,
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
@@ -2885,14 +2885,144 @@
 	},
 	{
 		"id": 110,
-		"blockType": "fuel",
+		"blockType": "burnable_platform",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 44,
-			"y": 21
+			"x": 23,
+			"y": 10.5
 		},
 		"scale_x": 1,
 		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 111,
+		"blockType": "burnable_platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 25.5,
+			"y": 14.5
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 112,
+		"blockType": "burnable_platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 26.5,
+			"y": 14.5
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 113,
+		"blockType": "burnable_platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 26.5,
+			"y": 15.5
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 114,
+		"blockType": "burnable_platform",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 25.5,
+			"y": 15.5
+		},
+		"scale_x": 1,
+		"scale_y": 1,
+		"density": 1,
+		"fixed": true,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 0,
+		"isCheckpoint": false
+	},
+	{
+		"id": 115,
+		"blockType": "rope",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 40,
+			"y": 6.5
+		},
+		"scale_x": 0.25,
+		"scale_y": 0.25,
 		"density": 1,
 		"fixed": false,
 		"linked": false,
@@ -2906,16 +3036,42 @@
 		"burn_left": 1,
 		"fuels": 30,
 		"isLeft": false,
-		"segments": 0,
-		"isCheckpoint": true
+		"segments": 15,
+		"isCheckpoint": false
 	},
 	{
-		"id": 111,
+		"id": 116,
 		"blockType": "rope",
 		"texture": "shared/woodenBlock.png",
 		"pos": {
-			"x": 50,
-			"y": 19.5
+			"x": 1.5,
+			"y": 15.5
+		},
+		"scale_x": 0.25,
+		"scale_y": 0.25,
+		"density": 1,
+		"fixed": false,
+		"linked": false,
+		"link_pos": {
+			"x": 0,
+			"y": 0
+		},
+		"burning": false,
+		"burn_spread": 1,
+		"burn_time": 3,
+		"burn_left": 1,
+		"fuels": 30,
+		"isLeft": false,
+		"segments": 15,
+		"isCheckpoint": false
+	},
+	{
+		"id": 117,
+		"blockType": "rope",
+		"texture": "shared/woodenBlock.png",
+		"pos": {
+			"x": 37,
+			"y": 8.5
 		},
 		"scale_x": 0.25,
 		"scale_y": 0.25,
@@ -2936,45 +3092,11 @@
 		"isCheckpoint": false
 	}
 ],
-"waters": [
-	{
-		"density": 0,
-		"pos": {
-			"x": 17.375,
-			"y": 2.425
-		},
-		"scale_x": 1,
-		"scale_y": 1.6,
-		"name": "WaterGuard",
-		"fright": true
-	},
-	{
-		"density": 0,
-		"pos": {
-			"x": 35.85,
-			"y": 25.76
-		},
-		"scale_x": 1,
-		"scale_y": 1.6,
-		"name": "WaterGuard",
-		"fright": true
-	},
-	{
-		"density": 0,
-		"pos": {
-			"x": 45.85,
-			"y": 15.26
-		},
-		"scale_x": 1,
-		"scale_y": 1.6,
-		"name": "WaterGuard",
-		"fright": true
-	}
-],
+"waters": [],
 "goal": {
 	"pos": {
-		"x": 3,
-		"y": 19.5
+		"x": 40.5,
+		"y": 14.5
 	},
 	"scale_x": 3,
 	"scale_y": 3,
