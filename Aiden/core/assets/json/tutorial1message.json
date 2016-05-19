@@ -3,8 +3,8 @@
 	"messages":[
 		{
 			"type": "position",
-			"message": "keys",
-			"end_message":"good job",
+			"message": 0,
+			"end_message":1,
 			"position":{
 				"x":3,
 				"y":1.6
@@ -16,8 +16,8 @@
 		},
 		{
 			"type": "position",
-			"message": "jump!",
-			"end_message":"good job",
+			"message": 2,
+			"end_message":3,
 			"position":{
 				"x":17,
 				"y":1.6

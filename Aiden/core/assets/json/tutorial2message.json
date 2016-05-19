@@ -1,0 +1,12 @@
+{
+	"level":2,
+	"messages":[
+		{
+			"type":"fuel",
+			"message": 4,
+			"end_message":5,
+			"fuel": 10,
+			"end_fuel":20
+		}
+	]
+}
