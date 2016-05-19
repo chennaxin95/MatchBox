@@ -56,9 +56,9 @@ public class AidenController extends WorldController
 	/** Track asset loading from all instances and subclasses */
 	// private AssetState platformAssetState = AssetState.EMPTY;
 
-	/** To stop yaying after resetting*/
+	/** To stop yaying after resetting */
 	private float yaycounter = 0;
-	
+
 	/**
 	 * Mode in which Aiden behaves more like a spirit instead of a solid being.
 	 * Enables him to pass through burning objects and travel faster through
@@ -213,7 +213,7 @@ public class AidenController extends WorldController
 	private Vector2 mScreen_trans;
 
 	private Vector2 muPos_trans;
-	
+
 	private Vector2 sPos_trans;
 
 	private Vector2 sScreen_trans;
@@ -300,7 +300,7 @@ public class AidenController extends WorldController
 		restartIcon = new Vector2(200, 185);
 		sScaleX = (float) canvas.getWidth() / 1920f;
 		sScaleY = (float) canvas.getHeight() / 1080f;
-		sScale = Math.min (sScaleX, sScaleY);
+		sScale = Math.min(sScaleX, sScaleY);
 
 		pauseT = pauseT.scl(sScale, sScale);
 		loseSize.scl(sScale);
@@ -317,13 +317,14 @@ public class AidenController extends WorldController
 		// restC = Color.WHITE;
 		// homeC = Color.WHITE;
 	}
-	
+
 	public void resize(int width, int height) {
 		// IGNORE FOR NOW
 		sScaleX = ((float) width) / 1920f;
 		sScaleY = ((float) height) / 1080f;
-		sScale = Math.min (sScaleX, sScaleY);
+		sScale = Math.min(sScaleX, sScaleY);
 	}
+
 	/**
 	 * Lays out the game geography.
 	 */
@@ -523,7 +524,7 @@ public class AidenController extends WorldController
 
 		if (!isFailure() && avatar.getY() < -1) {
 			setFailure(true);
-			if (!soundMuted){
+			if (!soundMuted) {
 				af.extinguish.play();
 			}
 		}
@@ -549,25 +550,27 @@ public class AidenController extends WorldController
 		float tOff = pauseT.x / 2;
 
 		pScreen = new Vector2(w / 2 - tOff, h);
-		winPos = new Vector2(w / 2 - winSize.x / 2, canvas.getHeight() /2);
+		winPos = new Vector2(w / 2 - winSize.x / 2, canvas.getHeight() / 2);
 		losePos = new Vector2(w / 2 - loseSize.x / 2, h);
 		pPos = new Vector2(w / 2 - tOff, 9 * h);
-		
+
 		resuScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
 		resuPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - yOff);
-		restScreen_trans = new Vector2(4 * w / 5- mOff, h_trans - 2 * yOff);
+		restScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - 2 * yOff);
 		restPos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 2 * yOff);
 		homeScreen_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
 		homePos_trans = new Vector2(4 * w / 5 - mOff, h_trans - 3 * yOff);
 		mScreen_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
 		muPos_trans = new Vector2(4 * w / 5 - xsOff, h_trans - 4 * yOff);
-		sPos_trans=new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
-		sScreen_trans = new Vector2(4 * w / 5 + (xsOff / 2.98f), h_trans - 4 * yOff);
-		
+		sPos_trans = new Vector2(4 * w / 5 + (xsOff / 2.98f),
+				h_trans - 4 * yOff);
+		sScreen_trans = new Vector2(4 * w / 5 + (xsOff / 2.98f),
+				h_trans - 4 * yOff);
+
 		resuScreen = new Vector2(w / 2 - mOff, h - yOff);
 		resuPos = new Vector2(w / 2 - mOff, h - yOff);
 		restScreen = new Vector2(w / 2 - mOff, h - 2 * yOff);
-		restPos = new Vector2(w/ 2 - mOff, h - 2 * yOff);
+		restPos = new Vector2(w / 2 - mOff, h - 2 * yOff);
 		homeScreen = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		homePos = new Vector2(w / 2 - mOff, h - 3 * yOff);
 		mScreen = new Vector2(w / 2 - xsOff, h - 4 * yOff);
@@ -595,11 +598,15 @@ public class AidenController extends WorldController
 		}
 		Vector2 pos = InputController.getInstance().getCrossHair();
 		Vector2 mPos = new Vector2(pos.x, canvas.getHeight() - pos.y);
-		
+
 		if ((mPos.x >= homePos.x && mPos.x <= homePos.x + largeBut.x &&
-				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y && !isComplete()) ||
-				(mPos.x >= homePos_trans.x && mPos.x <= homePos_trans.x + largeBut.x &&
-				mPos.y >= homePos_trans.y && mPos.y <= homePos_trans.y + largeBut.y && isComplete()) ){
+				mPos.y >= homePos.y && mPos.y <= homePos.y + largeBut.y
+				&& !isComplete()) ||
+				(mPos.x >= homePos_trans.x
+						&& mPos.x <= homePos_trans.x + largeBut.x &&
+						mPos.y >= homePos_trans.y
+						&& mPos.y <= homePos_trans.y + largeBut.y
+						&& isComplete())) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
 				cooldown = 0.5f;
 				instr = 2;
@@ -611,9 +618,13 @@ public class AidenController extends WorldController
 		}
 
 		if ((mPos.x >= resuPos.x && mPos.x <= resuPos.x + largeBut.x &&
-				mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y && !isComplete()) ||
-				(mPos.x >= resuPos_trans.x && mPos.x <= resuPos_trans.x + largeBut.x &&
-				mPos.y >= resuPos_trans.y && mPos.y <= resuPos_trans.y + largeBut.y && isComplete()) ){
+				mPos.y >= resuPos.y && mPos.y <= resuPos.y + largeBut.y
+				&& !isComplete()) ||
+				(mPos.x >= resuPos_trans.x
+						&& mPos.x <= resuPos_trans.x + largeBut.x &&
+						mPos.y >= resuPos_trans.y
+						&& mPos.y <= resuPos_trans.y + largeBut.y
+						&& isComplete())) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
 				cooldown = 0.5f;
 				if (!isComplete() && !isFailure()) {
@@ -630,9 +641,13 @@ public class AidenController extends WorldController
 			resuC = Color.WHITE;
 		}
 		if ((mPos.x >= restPos.x && mPos.x <= restPos.x + largeBut.x &&
-				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y && !isComplete()) ||
-				(mPos.x >= restPos_trans.x && mPos.x <= restPos_trans.x + largeBut.x &&
-				mPos.y >= restPos_trans.y && mPos.y <= restPos_trans.y + largeBut.y && isComplete()) ){
+				mPos.y >= restPos.y && mPos.y <= restPos.y + largeBut.y
+				&& !isComplete()) ||
+				(mPos.x >= restPos_trans.x
+						&& mPos.x <= restPos_trans.x + largeBut.x &&
+						mPos.y >= restPos_trans.y
+						&& mPos.y <= restPos_trans.y + largeBut.y
+						&& isComplete())) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
 				cooldown = 0.5f;
 				if (isComplete()) {
@@ -648,9 +663,13 @@ public class AidenController extends WorldController
 			restC = Color.WHITE;
 		}
 		if ((mPos.x >= sPos.x && mPos.x <= sPos.x + smallBut.x &&
-				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y && !isComplete()) ||
-				(mPos.x >= sPos_trans.x && mPos.x <= sPos_trans.x + smallBut.x &&
-				mPos.y >= sPos_trans.y && mPos.y <= sPos_trans.y + smallBut.y && isComplete()) ){
+				mPos.y >= sPos.y && mPos.y <= sPos.y + smallBut.y
+				&& !isComplete()) ||
+				(mPos.x >= sPos_trans.x && mPos.x <= sPos_trans.x + smallBut.x
+						&&
+						mPos.y >= sPos_trans.y
+						&& mPos.y <= sPos_trans.y + smallBut.y
+						&& isComplete())) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
 				cooldown = 0.5f;
 				instr = 4;
@@ -658,9 +677,13 @@ public class AidenController extends WorldController
 			return;
 		}
 		if ((mPos.x >= muPos.x && mPos.x <= muPos.x + smallBut.x &&
-				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y && !isComplete()) ||
-				(mPos.x >= muPos_trans.x && mPos.x <= muPos_trans.x + smallBut.x &&
-						mPos.y >= muPos_trans.y && mPos.y <= muPos_trans.y + smallBut.y && isComplete())) {
+				mPos.y >= muPos.y && mPos.y <= muPos.y + smallBut.y
+				&& !isComplete()) ||
+				(mPos.x >= muPos_trans.x && mPos.x <= muPos_trans.x + smallBut.x
+						&&
+						mPos.y >= muPos_trans.y
+						&& mPos.y <= muPos_trans.y + smallBut.y
+						&& isComplete())) {
 			if (isPressed && instr == 0 && cooldown <= 0) {
 				cooldown = 0.5f;
 				instr = 5;
@@ -690,15 +713,15 @@ public class AidenController extends WorldController
 	public void update(float dt) {
 		yaycounter += 1;
 		confeti.update(dt);
-		if (pause){
-			circle_rot += 6f*dt;
-			circle_rot %= 2*Math.PI;
-			if (transitionAnimeCoolDown>0)
-				transitionAnimeCoolDown-=dt;
-			transitionTimer+=dt;
+		if (pause) {
+			circle_rot += 6f * dt;
+			circle_rot %= 2 * Math.PI;
+			if (transitionAnimeCoolDown > 0)
+				transitionAnimeCoolDown -= dt;
+			transitionTimer += dt;
 		}
-		if (!pause){
-			transitionTimer=0;
+		if (!pause) {
+			transitionTimer = 0;
 		}
 		if (pause) {
 			if (musicMuted) {
@@ -709,6 +732,7 @@ public class AidenController extends WorldController
 					wasPlaying = true;
 				}
 			}
+			pauseSFX();
 			avatar.resume = true;
 			prevMovement = avatar.getLinearVelocity();
 			buttonPressed(dt);
@@ -786,8 +810,8 @@ public class AidenController extends WorldController
 			gs.setCheckpoint(CollControl.getCheckpoint());
 			gs.exportToJson();
 		}
-		
-		if  (yaycounter*dt <= 1){
+
+		if (yaycounter * dt <= 1) {
 			af.yay.stop();
 		}
 
@@ -795,8 +819,8 @@ public class AidenController extends WorldController
 			setFailure(true);
 			af.extinguish.play();
 		}
-		
-		if (!avatar.isSpiriting()){
+
+		if (!avatar.isSpiriting()) {
 			af.spiriting.stop();
 		}
 
@@ -821,7 +845,8 @@ public class AidenController extends WorldController
 			}
 		}
 
-		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f && !avatar.isSpiriting()) {
+		if (avatar.isJumping() && !soundMuted && jumpCD == 0.5f
+				&& !avatar.isSpiriting()) {
 			af.jump.play();
 			jumpCD -= dt;
 		}
@@ -830,14 +855,15 @@ public class AidenController extends WorldController
 		boolean chasing = false;
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
-			if (npc instanceof WaterGuard){
-				if (npc.getStateMachine().getCurrentState()==BasicFSMState.CHASE){
+			if (npc instanceof WaterGuard) {
+				if (npc.getStateMachine()
+						.getCurrentState() == BasicFSMState.CHASE) {
 					chasing = true;
 					af.madwater.play();
 				}
 			}
 		}
-		if (!chasing){
+		if (!chasing) {
 			af.madwater.stop();
 		}
 
@@ -858,15 +884,15 @@ public class AidenController extends WorldController
 		BurnControl.getBurning(flammables, objects, dt, world);
 
 		// If we use sound, we must remember this.
-		if (soundMuted){
+		if (soundMuted) {
 			muteSFX(false);
 		}
-		if (isFailure()){
-			if (!soundMuted){
+		if (isFailure()) {
+			if (!soundMuted) {
 				af.extinguish.play();
 			}
 		}
-		
+
 		SoundController.getInstance().update();
 		if (isComplete() && !isFailure()) {
 			gs.setLevel(level + 1);
@@ -948,7 +974,7 @@ public class AidenController extends WorldController
 				setComplete(true);
 				confeti.start();
 				muteSFX(false);
-				if (!soundMuted){
+				if (!soundMuted) {
 					af.clap.play();
 				}
 				avatar.setComplete(true);
@@ -1128,34 +1154,33 @@ public class AidenController extends WorldController
 
 	// ---------------------------------confetti-------------------------------//
 	public ParticleEffect confeti;
-	
-	
-	//-------------------------------------------------------------------------//
 
+	// -------------------------------------------------------------------------//
 
-	//--------------------------Transition------------------------------------//
-	private float transitionTimer=0;
-	
-	private float transitionAnimeCoolDown=0;
-	
+	// --------------------------Transition------------------------------------//
+	private float transitionTimer = 0;
+
+	private float transitionAnimeCoolDown = 0;
+
 	public void animateAidenIcon(GameCanvas canvas,
 			Vector2 pos,
-			float sx, float sy, boolean fr){
-		if (this.transitionAnimeCoolDown<=0) {
-			transitionAnimeCoolDown=0.1f;
-			af.AidenAnimeTexture.setFrame((af.AidenAnimeTexture.getFrame()+1)%af.AidenAnimeTexture.getSize());
+			float sx, float sy, boolean fr) {
+		if (this.transitionAnimeCoolDown <= 0) {
+			transitionAnimeCoolDown = 0.1f;
+			af.AidenAnimeTexture.setFrame((af.AidenAnimeTexture.getFrame() + 1)
+					% af.AidenAnimeTexture.getSize());
 		}
 		// For placement purposes, put origin in center.
 		float ox = 0.5f * af.AidenAnimeTexture.getRegionWidth();
 		float oy = 0.5f * af.AidenAnimeTexture.getRegionHeight();
 
 		float effect = fr ? 1.0f : -1.0f;
-		
+
 		canvas.draw(af.AidenAnimeTexture, Color.WHITE, ox, oy,
 				pos.x, pos.y,
-				0, effect*sx, sy);
+				0, effect * sx, sy);
 	}
-	
+
 	private float circle_rot;
 
 	private float[] light_alpha;
@@ -1163,8 +1188,9 @@ public class AidenController extends WorldController
 	private float[] light_radius;
 
 	private float[] selectorPos;
-	private void populate_map(){
-		selectorPos=new float[]{
+
+	private void populate_map() {
+		selectorPos = new float[] {
 				995, 989,
 				1275, 993,
 				1419, 1017,
@@ -1186,24 +1212,24 @@ public class AidenController extends WorldController
 				1023, 437,
 				1011, 346
 		};
-//		for (int i=0; i<selectorPos.length/2; i++){
-//			//selectorPos[2*i]*=scale.x;
-//			selectorPos[2*i+1]=(1920-selectorPos[2*i+1])/**scale.y*/;		
-//		}
-		light_radius=new float[selectorPos.length/2];
-		light_alpha=new float[selectorPos.length/2];
-		for (int i=0; i<light_radius.length; i++){
+		// for (int i=0; i<selectorPos.length/2; i++){
+		// //selectorPos[2*i]*=scale.x;
+		// selectorPos[2*i+1]=(1920-selectorPos[2*i+1])/**scale.y*/;
+		// }
+		light_radius = new float[selectorPos.length / 2];
+		light_alpha = new float[selectorPos.length / 2];
+		for (int i = 0; i < light_radius.length; i++) {
 			light_radius[i] = 0.225f;
 		}
-		for (int i=0; i<light_alpha.length; i++){
-			light_alpha[i]=1f;
+		for (int i = 0; i < light_alpha.length; i++) {
+			light_alpha[i] = 1f;
 		}
 		circle_rot = 0;
-		transitionAnimeCoolDown=0;
-		transitionTimer=0;
+		transitionAnimeCoolDown = 0;
+		transitionTimer = 0;
 	}
-	//------------------------------------------------------------------------//
-	
+	// ------------------------------------------------------------------------//
+
 	@Override
 	public void draw(float delta) {
 		float zoom = canvas.getZoom();
@@ -1211,26 +1237,27 @@ public class AidenController extends WorldController
 		canvas.begin(avatar.getX(), avatar.getY(), scene.getWidth(),
 				scene.getHeight(), beginCamFrame);
 		// canvas.draw(backGround, 0, 0);
-		
-		if (!(isComplete() && pause)){
+
+		if (!(isComplete() && pause)) {
 			canvas.draw(backgroundTexture, new Color(1f, 1f, 1f, 1f), 0f, 0f,
-				scene.getWidth() * scale.x, scene.getHeight() * scale.y);
+					scene.getWidth() * scale.x, scene.getHeight() * scale.y);
 
 			Vector2 origin = new Vector2(
-				af.checkpointTexture.getRegionWidth() / 2.0f, 0);
+					af.checkpointTexture.getRegionWidth() / 2.0f, 0);
 			for (FuelBlock fb : checkpoints) {
-				canvas.draw(af.checkpointTexture, Color.WHITE, origin.x, origin.y,
+				canvas.draw(af.checkpointTexture, Color.WHITE, origin.x,
+						origin.y,
 						fb.getX() * scale.x,
 						(fb.getY() + fb.getHeight() / 2f) * scale.y, 0f,
 						0.4f, 0.4f);
 			}
-	
+
 			for (Obstacle obj : objects) {
 				if (obj == avatar) {
 					if (!isFailure()) {
 						obj.draw(canvas);
 					} else {
-						
+
 						avatar.drawDead(canvas);
 					}
 				} else if (obj instanceof WaterGuard
@@ -1240,12 +1267,12 @@ public class AidenController extends WorldController
 					obj.draw(canvas);
 				}
 			}
-	
+
 			if (avatar != null) {
 				Vector2 pos = canvas.relativeVector(restartPos.x, restartPos.y);
 				canvas.draw(af.restartIcon, rstColor, pos.x, pos.y,
 						smallBut.x * zoom, smallBut.y * zoom);
-	
+
 				pos = canvas.relativeVector(fuelBarPos.x, fuelBarPos.y);
 				Vector2 iPos = canvas.relativeVector(fuelInnerPos.x,
 						fuelInnerPos.y);
@@ -1258,10 +1285,12 @@ public class AidenController extends WorldController
 							fuelBarInner.x * zoom, fuelBarInner.y * zoom);
 					if (sx < 0.3f) {
 						canvas.draw(af.barLow, Color.WHITE, iPos.x, iPos.y,
-								fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+								fuelBarInner.x * sx * zoom,
+								fuelBarInner.y * zoom);
 					} else {
 						canvas.draw(af.barInner, Color.WHITE, iPos.x, iPos.y,
-								fuelBarInner.x * sx * zoom, fuelBarInner.y * zoom);
+								fuelBarInner.x * sx * zoom,
+								fuelBarInner.y * zoom);
 					}
 					if (sx == 0) {
 						canvas.draw(af.barGray, Color.WHITE, pos.x, pos.y,
@@ -1284,29 +1313,26 @@ public class AidenController extends WorldController
 		}
 
 		if (isComplete() && !pause) {
-//			muteSFX(false);
-//			if (!soundMuted){
-//				af.clap.play();
-//			}
+			// muteSFX(false);
+			// if (!soundMuted){
+			// af.clap.play();
+			// }
 			SoundController.getInstance().update();
 			posTemp = canvas.relativeVector(winPos.x, winPos.y);
 			canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 					winSize.x * zoom, winSize.y * zoom);
-			
-			
-			
+
 		} else if (isFailure()) {
 			muteSFX(true);
-			if (!soundMuted){
+			if (!soundMuted) {
 				af.loser.play();
 			}
 			SoundController.getInstance().update();
 			posTemp = canvas.relativeVector(losePos.x, losePos.y);
 			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 					loseSize.x * zoom, loseSize.y * zoom);
-			
+
 		}
-		
 
 		if (pause) {
 			resetPos();
@@ -1366,137 +1392,169 @@ public class AidenController extends WorldController
 				}
 			} else {
 				// Draw transition map begin
-				canvas.draw(af.level_background, 
-						new Color(0.1f, 0.2f, 0.7f, 1f), 
+				canvas.draw(af.level_background,
+						new Color(0.1f, 0.2f, 0.7f, 1f),
 						pos1.x, pos1.y,
 						1920 * sScaleX * zoom, 1080 * sScaleY * zoom);
-				Vector2 castleRawPos=new Vector2(canvas.getWidth()/3f, 
-						canvas.getHeight()*6/11f);
-				Vector2 castlePos=canvas.relativeVector(castleRawPos.x,castleRawPos.y);
-				canvas.draw(af.castle, Color.WHITE, af.castle.getRegionWidth()/2, 
-						af.castle.getRegionHeight()/2, 
-						castlePos.x, castlePos.y, 0, sScale*zoom,sScale*zoom);
-				float castleRegionWidth=af.castle.getRegionWidth();
-				float castleRegionHeight=af.castle.getRegionHeight();
-				for (int i = 0; i < selectorPos.length/2; i++){
+				Vector2 castleRawPos = new Vector2(canvas.getWidth() / 3f,
+						canvas.getHeight() * 6 / 11f);
+				Vector2 castlePos = canvas.relativeVector(castleRawPos.x,
+						castleRawPos.y);
+				canvas.draw(af.castle, Color.WHITE,
+						af.castle.getRegionWidth() / 2,
+						af.castle.getRegionHeight() / 2,
+						castlePos.x, castlePos.y, 0, sScale * zoom,
+						sScale * zoom);
+				float castleRegionWidth = af.castle.getRegionWidth();
+				float castleRegionHeight = af.castle.getRegionHeight();
+				for (int i = 0; i < selectorPos.length / 2; i++) {
 					Vector2 pos = canvas.relativeVector(
-							(selectorPos[2*i]-castleRegionWidth/2f)*sScale*zoom + castleRawPos.x, 
-							(castleRegionHeight/2f-selectorPos[2*i+1])*sScale*zoom + castleRawPos.y);
+							(selectorPos[2 * i] - castleRegionWidth / 2f)
+									* sScale * zoom + castleRawPos.x,
+							(castleRegionHeight / 2f - selectorPos[2 * i + 1])
+									* sScale * zoom + castleRawPos.y);
 
-					Color c=Color.GRAY;
-					if (i<gs.getUnlocked()) {
-						if (i+1==gs.getUnlocked() && level == i && transitionTimer<1.5f){
-							canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), 
-									af.circle.getRegionWidth()/2f,
+					Color c = Color.GRAY;
+					if (i < gs.getUnlocked()) {
+						if (i + 1 == gs.getUnlocked() && level == i
+								&& transitionTimer < 1.5f) {
+							canvas.draw(af.circle, new Color(1, 1, 0.2f, 1),
+									af.circle.getRegionWidth() / 2f,
 									af.circle.getRegionHeight() / 2f,
 									pos.x, pos.y,
-									circle_rot, 
-									0.3f*sScale*zoom *Math.max(0.2f, 1-transitionTimer), 
-									0.3f*sScale*zoom*Math.max(0.2f, 1-transitionTimer));
-							light_radius[i]=0.1f;
-						}
-						else{
-							c=Color.WHITE;
-							if (RandomController.rollFloat(0, 1)>0.85f){
-								light_radius[i]=Math.min(0.3f, Math.max(0.15f, 
-										light_radius[i]+RandomController.rollFloat(-0.02f, 0.02f)));
-								//light_alpha[i]=Math.max(0.5f, Math.min(1, light_alpha[i]+RandomController.rollFloat(-0.025f, 0.025f)));
+									circle_rot,
+									0.3f * sScale * zoom * Math.max(0.2f,
+											1 - transitionTimer),
+									0.3f * sScale * zoom * Math.max(0.2f,
+											1 - transitionTimer));
+							light_radius[i] = 0.1f;
+						} else {
+							c = Color.WHITE;
+							if (RandomController.rollFloat(0, 1) > 0.85f) {
+								light_radius[i] = Math.min(0.3f, Math.max(0.15f,
+										light_radius[i] + RandomController
+												.rollFloat(-0.02f, 0.02f)));
+								// light_alpha[i]=Math.max(0.5f, Math.min(1,
+								// light_alpha[i]+RandomController.rollFloat(-0.025f,
+								// 0.025f)));
 							}
-							Color lightC=new Color(1, 1, 0.2f, light_alpha[i]);
-							canvas.draw(af.light, lightC, af.light.getRegionWidth()/2f,
+							Color lightC = new Color(1, 1, 0.2f,
+									light_alpha[i]);
+							canvas.draw(af.light, lightC,
+									af.light.getRegionWidth() / 2f,
 									af.light.getRegionHeight() / 2f,
 									pos.x, pos.y,
-									0, light_radius[i]*sScale*zoom,
-									light_radius[i]*sScale*zoom);
+									0, light_radius[i] * sScale * zoom,
+									light_radius[i] * sScale * zoom);
 						}
+					} else if (i == gs.getUnlocked()) {
+						c = Color.WHITE;
 					}
-					else if (i==gs.getUnlocked()){
-						c=Color.WHITE;
-					}
-//					else if (i==gs.getUnlocked() && level+1 == i){
-//						c=Color.WHITE;
-//						canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1, transitionTimer/6+0.5f)), 
-//								af.circle.getRegionWidth()/2f,
-//								af.circle.getRegionHeight() / 2f,
-//								pos.x, pos.y,
-//								circle_rot, 
-//								0.25f*sScale*zoom *Math.max(1, 4-transitionTimer), 
-//								0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
-//					}
-//					else if (i==gs.getUnlocked() && level+1 != i){
-//						c=Color.WHITE;
-//						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
-//								af.circle.getRegionHeight() / 2f,
-//								pos.x, pos.y,
-//								circle_rot, 
-//								0.25f*sScale*zoom, 0.25f*sScale*zoom);
-//						
-//					}
-					canvas.draw(af.numberTextures[i], c, af.numberTextures[i].getRegionWidth() / 2f,
+					// else if (i==gs.getUnlocked() && level+1 == i){
+					// c=Color.WHITE;
+					// canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1,
+					// transitionTimer/6+0.5f)),
+					// af.circle.getRegionWidth()/2f,
+					// af.circle.getRegionHeight() / 2f,
+					// pos.x, pos.y,
+					// circle_rot,
+					// 0.25f*sScale*zoom *Math.max(1, 4-transitionTimer),
+					// 0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
+					// }
+					// else if (i==gs.getUnlocked() && level+1 != i){
+					// c=Color.WHITE;
+					// canvas.draw(af.circle, new Color(1, 1, 0.2f, 1),
+					// af.circle.getRegionWidth()/2f,
+					// af.circle.getRegionHeight() / 2f,
+					// pos.x, pos.y,
+					// circle_rot,
+					// 0.25f*sScale*zoom, 0.25f*sScale*zoom);
+					//
+					// }
+					canvas.draw(af.numberTextures[i], c,
+							af.numberTextures[i].getRegionWidth() / 2f,
 							af.numberTextures[i].getRegionHeight() / 2f,
-								pos.x, pos.y,
-								0, sScale*zoom, sScale*zoom);
-					if (i==this.level){
-//						canvas.draw(af.AidenAnimeTexture, Color.WHITE, af.avatarTexture.getRegionWidth() / 2f,
-//								af.avatarTexture.getRegionHeight() / 2f,
-//								pos.x, pos.y,
-//								0, sScale*zoom, sScale*zoom);
-						boolean fr=true;
-						Vector2 AidenPos=pos.cpy();
-						if (2*i+2<selectorPos.length){
-							fr=selectorPos[2*i+2]>selectorPos[2*i];
-							Vector2 temp=canvas.relativeVector(
-									(selectorPos[2*i+2]-castleRegionWidth/2f)*sScale*zoom + castleRawPos.x, 
-									(castleRegionHeight/2f-selectorPos[2*i+3])*sScale*zoom + castleRawPos.y);
-							float ratio=Math.max(.7f, 1-transitionTimer/10);
-							AidenPos.x=ratio*AidenPos.x+(1-ratio)*temp.x;
-							AidenPos.y=(float) (ratio*AidenPos.y+(1-ratio)*temp.y + 
-									Math.cos(transitionTimer*3)*sScale*zoom*8);
+							pos.x, pos.y,
+							0, sScale * zoom, sScale * zoom);
+					if (i == this.level) {
+						// canvas.draw(af.AidenAnimeTexture, Color.WHITE,
+						// af.avatarTexture.getRegionWidth() / 2f,
+						// af.avatarTexture.getRegionHeight() / 2f,
+						// pos.x, pos.y,
+						// 0, sScale*zoom, sScale*zoom);
+						boolean fr = true;
+						Vector2 AidenPos = pos.cpy();
+						if (2 * i + 2 < selectorPos.length) {
+							fr = selectorPos[2 * i + 2] > selectorPos[2 * i];
+							Vector2 temp = canvas.relativeVector(
+									(selectorPos[2 * i + 2]
+											- castleRegionWidth / 2f) * sScale
+											* zoom + castleRawPos.x,
+									(castleRegionHeight / 2f
+											- selectorPos[2 * i + 3]) * sScale
+											* zoom + castleRawPos.y);
+							float ratio = Math.max(.7f,
+									1 - transitionTimer / 10);
+							AidenPos.x = ratio * AidenPos.x
+									+ (1 - ratio) * temp.x;
+							AidenPos.y = (float) (ratio * AidenPos.y
+									+ (1 - ratio) * temp.y +
+									Math.cos(transitionTimer * 3) * sScale
+											* zoom * 8);
 						}
-						animateAidenIcon(canvas, AidenPos, sScale*zoom*0.7f, sScale*zoom*0.7f, fr);
+						animateAidenIcon(canvas, AidenPos, sScale * zoom * 0.7f,
+								sScale * zoom * 0.7f, fr);
 					}
 				}
 				// Draw transition map end
-				
-//				posTemp = canvas.relativeVector(winPos.x, winPos.y);
-//				canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
-//						winSize.x * zoom, winSize.y * zoom);
+
+				// posTemp = canvas.relativeVector(winPos.x, winPos.y);
+				// canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
+				// winSize.x * zoom, winSize.y * zoom);
 				// nextlevel
-				posTemp = canvas.relativeVector(resuScreen_trans.x, resuScreen_trans.y);
+				posTemp = canvas.relativeVector(resuScreen_trans.x,
+						resuScreen_trans.y);
 				canvas.draw(af.nextLevel, resuC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// replay
-				posTemp = canvas.relativeVector(restScreen_trans.x, restScreen_trans.y);
+				posTemp = canvas.relativeVector(restScreen_trans.x,
+						restScreen_trans.y);
 				canvas.draw(af.replay, restC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 				// home
-				posTemp = canvas.relativeVector(homeScreen_trans.x, homeScreen_trans.y);
+				posTemp = canvas.relativeVector(homeScreen_trans.x,
+						homeScreen_trans.y);
 				canvas.draw(af.levelSelect, homeC, posTemp.x, posTemp.y,
 						largeBut.x * zoom, largeBut.y * zoom);
 			}
 			// sound stuff
 			if (!(this instanceof TutorialController &&
 					((TutorialController) this).tutpause)) {
-				if (isComplete()){
-					posTemp = canvas.relativeVector(mScreen_trans.x, mScreen_trans.y);
-				}
-				else{
+				if (isComplete()) {
+					posTemp = canvas.relativeVector(mScreen_trans.x,
+							mScreen_trans.y);
+				} else {
 					posTemp = canvas.relativeVector(mScreen.x, mScreen.y);
 				}
 				canvas.draw(musicMuted ? af.music_no : af.music, mC, posTemp.x,
 						posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
-				if (isComplete()){
-					posTemp = canvas.relativeVector(sScreen_trans.x, sScreen_trans.y);
-				}
-				else{
+				if (isComplete()) {
+					posTemp = canvas.relativeVector(sScreen_trans.x,
+							sScreen_trans.y);
+				} else {
 					posTemp = canvas.relativeVector(sScreen.x, sScreen.y);
 				}
 				canvas.draw(soundMuted ? af.sound_no : af.sound, sC, posTemp.x,
 						posTemp.y, smallBut.x * zoom, smallBut.y * zoom);
 			}
 		}
-		if ((isComplete() && pause) /*|| countdown > 0*/) {
-			Vector2 pos = canvas.relativeVector(canvas.getWidth() / 3/*canvas.getWidth() / 2*/,
+		if ((isComplete() && pause) /* || countdown > 0 */) {
+			Vector2 pos = canvas.relativeVector(canvas.getWidth() / 3/*
+																		 * canvas.
+																		 * getWidth
+																		 * () /
+																		 * 2
+																		 */,
 					canvas.getHeight() * 1.01f);
 			confeti.setPosition(pos.x, pos.y);
 			canvas.drawParticle(confeti);
@@ -1517,7 +1575,7 @@ public class AidenController extends WorldController
 		} else if (avatar.canDrawFail()) {
 			avatar.setComplete(true);
 		}
-		
+
 	}
 
 	@Override
@@ -1528,8 +1586,8 @@ public class AidenController extends WorldController
 	public void stopSound() {
 		af.bgm.stop();
 	}
-	
-	public void muteSFX(boolean extinguish){
+
+	public void muteSFX(boolean extinguish) {
 		af.jump.stop();
 		af.burn.stop();
 		af.match.stop();
@@ -1540,11 +1598,27 @@ public class AidenController extends WorldController
 		af.loser.stop();
 		af.yay.stop();
 		af.clap.stop();
-		if (!extinguish){
-			af.extinguish.stop();	
+		if (!extinguish) {
+			af.extinguish.stop();
 		}
 		af.spiriting.stop();
 		af.madwater.stop();
+	}
+
+	public void pauseSFX() {
+		af.jump.pause();
+		af.burn.pause();
+		af.match.pause();
+		af.splash.pause();
+		af.ropeburn.pause();
+		af.thump.pause();
+		af.bubble.pause();
+		af.loser.pause();
+		af.yay.pause();
+		af.clap.pause();
+		af.extinguish.pause();
+		af.spiriting.pause();
+		af.madwater.pause();
 	}
 
 	private void createScenes(int level) {
@@ -1570,7 +1644,8 @@ public class AidenController extends WorldController
 			backgroundTexture = af.tutorial1;
 			break;
 		case 4:
-			this.scene = new Scene("json/Level01.json"); // spirit mode going down
+			this.scene = new Scene("json/Level01.json"); // spirit mode going
+															// down
 
 			backgroundTexture = af.tutorial2;
 			break;
@@ -1591,16 +1666,16 @@ public class AidenController extends WorldController
 			break;
 		case 8:
 
-			this.scene = new Scene("json/Tutorial2.json"); //Save the block
-			backgroundTexture = af.backGround;
-			break;	
-		
-/*		case 7:
-
-			this.scene = new Scene("Easy1.json"); // gap introduce water guard
+			this.scene = new Scene("json/Tutorial2.json"); // Save the block
 			backgroundTexture = af.backGround;
 			break;
-*/
+
+		/*
+		 * case 7:
+		 * 
+		 * this.scene = new Scene("Easy1.json"); // gap introduce water guard
+		 * backgroundTexture = af.backGround; break;
+		 */
 		// case 7:
 		//
 		// this.scene = new Scene("json/Tutorial6.json"); // gap introduce water
@@ -1614,31 +1689,33 @@ public class AidenController extends WorldController
 		// backgroundTexture = af.backGround;
 		// break;
 
-
-
 		/*
 		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
 		 * 
 		 * backgroundTexture = af.backGround; break;
 		 */
 		case 9:
-			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope and
+			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope
+														// and
 			// water
 			backgroundTexture = af.backGround;
 			break;
 
 		case 10:
-			this.scene = new Scene("json/Tut7.json"); // Introduce wooden platforms
+			this.scene = new Scene("json/Tut7.json"); // Introduce wooden
+														// platforms
 			backgroundTexture = af.backGround;
 			break;
 		case 11:
-			this.scene = new Scene("json/Tut8.json"); // Introduce wooden trapdoor
+			this.scene = new Scene("json/Tut8.json"); // Introduce wooden
+														// trapdoor
 			backgroundTexture = af.backGround;
 			break;
 
 		// ======================Medium========================//
 		case 12:
-			this.scene = new Scene("json/Med4.json"); // boxes line on the bottom
+			this.scene = new Scene("json/Med4.json"); // boxes line on the
+														// bottom
 			backgroundTexture = af.backGround;
 			break;
 
