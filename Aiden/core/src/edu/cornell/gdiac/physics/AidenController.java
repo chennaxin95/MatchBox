@@ -1380,25 +1380,28 @@ public class AidenController extends WorldController
 									light_radius[i]*sScale*zoom);
 						}
 					}
-					else if (i==gs.getUnlocked() && level+1 == i){
+					else if (i==gs.getUnlocked()){
 						c=Color.WHITE;
-						canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1, transitionTimer/6+0.5f)), 
-								af.circle.getRegionWidth()/2f,
-								af.circle.getRegionHeight() / 2f,
-								pos.x, pos.y,
-								circle_rot, 
-								0.25f*sScale*zoom *Math.max(1, 4-transitionTimer), 
-								0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
 					}
-					else if (i==gs.getUnlocked() && level+1 != i){
-						c=Color.WHITE;
-						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
-								af.circle.getRegionHeight() / 2f,
-								pos.x, pos.y,
-								circle_rot, 
-								0.25f*sScale*zoom, 0.25f*sScale*zoom);
-						
-					}
+//					else if (i==gs.getUnlocked() && level+1 == i){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, Math.min(1, transitionTimer/6+0.5f)), 
+//								af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 
+//								0.25f*sScale*zoom *Math.max(1, 4-transitionTimer), 
+//								0.25f*sScale*zoom*Math.max(1, 4-transitionTimer));
+//					}
+//					else if (i==gs.getUnlocked() && level+1 != i){
+//						c=Color.WHITE;
+//						canvas.draw(af.circle, new Color(1, 1, 0.2f, 1), af.circle.getRegionWidth()/2f,
+//								af.circle.getRegionHeight() / 2f,
+//								pos.x, pos.y,
+//								circle_rot, 
+//								0.25f*sScale*zoom, 0.25f*sScale*zoom);
+//						
+//					}
 					canvas.draw(af.numberTextures[i], c, af.numberTextures[i].getRegionWidth() / 2f,
 							af.numberTextures[i].getRegionHeight() / 2f,
 								pos.x, pos.y,
@@ -1420,7 +1423,7 @@ public class AidenController extends WorldController
 							AidenPos.y=(float) (ratio*AidenPos.y+(1-ratio)*temp.y + 
 									Math.cos(transitionTimer*3)*sScale*zoom*8);
 						}
-						animateAidenIcon(canvas, AidenPos, sScale*zoom*0.5f, sScale*zoom*0.5f, fr);
+						animateAidenIcon(canvas, AidenPos, sScale*zoom*0.7f, sScale*zoom*0.7f, fr);
 					}
 				}
 				// Draw transition map end
