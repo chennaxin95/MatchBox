@@ -235,6 +235,8 @@ public class AidenController extends WorldController
 	 */
 	public void reset() {
 		af.bgm.stop();
+		af.clap.stop();
+		af.loser.stop();
 		resetPos();
 
 		Vector2 gravity = new Vector2(world.getGravity());
@@ -521,13 +523,14 @@ public class AidenController extends WorldController
 
 		if (!isFailure() && avatar.getY() < -1) {
 			setFailure(true);
-			return false;
+			if (!soundMuted){
+				af.extinguish.play();
+			}
 		}
 
 		if (isFailure()) {
 			SoundController.getInstance();
 			avatar.setFail(true);
-//			af.loser.play();
 		}
 
 		return true;
@@ -783,7 +786,6 @@ public class AidenController extends WorldController
 			gs.exportToJson();
 		}
 		
-		System.out.println("yay = " + (yaycounter*dt));
 		if  (yaycounter*dt <= 1){
 			af.yay.stop();
 		}
@@ -855,6 +857,15 @@ public class AidenController extends WorldController
 		BurnControl.getBurning(flammables, objects, dt, world);
 
 		// If we use sound, we must remember this.
+		if (soundMuted){
+			muteSFX(false);
+		}
+		if (isFailure()){
+			if (!soundMuted){
+				af.extinguish.play();
+			}
+		}
+		
 		SoundController.getInstance().update();
 		if (isComplete() && !isFailure()) {
 			gs.setLevel(level + 1);
@@ -935,7 +946,10 @@ public class AidenController extends WorldController
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 				confeti.start();
-				af.clap.play();
+				muteSFX(false);
+				if (!soundMuted){
+					af.clap.play();
+				}
 				avatar.setComplete(true);
 			}
 
@@ -1215,6 +1229,7 @@ public class AidenController extends WorldController
 					if (!isFailure()) {
 						obj.draw(canvas);
 					} else {
+						
 						avatar.drawDead(canvas);
 					}
 				} else if (obj instanceof WaterGuard
@@ -1268,13 +1283,27 @@ public class AidenController extends WorldController
 		}
 
 		if (isComplete() && !pause) {
+//			muteSFX(false);
+//			if (!soundMuted){
+//				af.clap.play();
+//			}
+			SoundController.getInstance().update();
 			posTemp = canvas.relativeVector(winPos.x, winPos.y);
 			canvas.draw(af.youWin, Color.WHITE, posTemp.x, posTemp.y,
 					winSize.x * zoom, winSize.y * zoom);
+			
+			
+			
 		} else if (isFailure()) {
+			muteSFX(true);
+			if (!soundMuted){
+				af.loser.play();
+			}
+			SoundController.getInstance().update();
 			posTemp = canvas.relativeVector(losePos.x, losePos.y);
 			canvas.draw(af.youLose, Color.WHITE, posTemp.x, posTemp.y,
 					loseSize.x * zoom, loseSize.y * zoom);
+			
 		}
 		
 
@@ -1484,7 +1513,7 @@ public class AidenController extends WorldController
 		} else if (avatar.canDrawFail()) {
 			avatar.setComplete(true);
 		}
-
+		
 	}
 
 	@Override
@@ -1494,6 +1523,24 @@ public class AidenController extends WorldController
 
 	public void stopSound() {
 		af.bgm.stop();
+	}
+	
+	public void muteSFX(boolean extinguish){
+		af.jump.stop();
+		af.burn.stop();
+		af.match.stop();
+		af.splash.stop();
+		af.ropeburn.stop();
+		af.thump.stop();
+		af.bubble.stop();
+		af.loser.stop();
+		af.yay.stop();
+		af.clap.stop();
+		if (!extinguish){
+			af.extinguish.stop();	
+		}
+		af.spiriting.stop();
+		af.madwater.stop();
 	}
 
 	private void createScenes(int level) {

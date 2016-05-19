@@ -408,14 +408,18 @@ public abstract class WorldController implements Screen {
 					count = 0.2f;
 					this.pause();
 					listener.exitScreen(this, EXIT_HOME);
+					af.clap.stop();
+					af.loser.stop();
 					return false;
 				}
 				if(instr == 3){
 					instr = 0;
 					count = 0.2f;
 					this.pause();
-					restart = true;
+					restart = false;
 					reset();
+					af.clap.stop();
+					af.loser.stop();
 				}
 				if(instr == 4){
 					soundMuted = !soundMuted;
@@ -431,7 +435,9 @@ public abstract class WorldController implements Screen {
 					return false;
 				}
 				if(instr == 6){
+					
 					listener.exitScreen(this, EXIT_NEXT);
+					af.clap.stop();
 					instr = 0;
 					this.pause();
 					return false;
