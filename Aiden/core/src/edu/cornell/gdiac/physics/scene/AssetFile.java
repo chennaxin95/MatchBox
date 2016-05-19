@@ -86,6 +86,9 @@ public class AssetFile {
 	public TextureRegion music_no;
 	public TextureRegion sound_no;
 	public TextureRegion water;
+	public TextureRegion castle;
+	public TextureRegion light;
+	public TextureRegion circle;
 	
 	/** Texture for aiden animation */
 	public FilmStrip AidenGlow;
@@ -107,6 +110,7 @@ public class AssetFile {
 	public TextureRegion checkpointTexture;
 	
 	public TextureRegion[] tutorialInstructions;
+	public TextureRegion level_background;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -183,6 +187,10 @@ public class AssetFile {
 		files.put("TUT3_BACK", "background/tutorial3.png");
 		files.put("LEVEL_S", "shared/levels.png");
 		files.put("RESTART_ICON", "shared/restart icon.png");
+		files.put("CASTLE", "shared/castle.png");
+		files.put("LIGHT", "shared/gradient.png");
+		files.put("CIRCLE", "shared/circle.png");
+		files.put("LEVEL_BACKGROUND", "background/background2.png");
 		
 		files.put("1", "shared/1.png");
 		files.put("2", "shared/1.png");
@@ -352,6 +360,10 @@ public class AssetFile {
 		trapdoorTexture = createTexture(manager, files.get("TRAPDOOR_FILE"), false);
 		nailTexture = createTexture(manager, files.get("NAIL_FILE"), false);
 		checkpointTexture=createTexture(manager, files.get("CHECKPOINT_FLAG"), false);
+		castle=createTexture(manager, files.get("CASTLE"), false);
+		light=createTexture(manager, files.get("LIGHT"), false);
+		circle=createTexture(manager, files.get("CIRCLE"), false);
+		level_background = createTexture(manager, files.get("LEVEL_BACKGROUND"), false);
 		
 		
 		AidenSpiritTexture = createFilmStrip(manager, files.get("AIDEN_SPIRIT"), 5, 1, 5);
