@@ -119,10 +119,13 @@ public class CollisionController {
 								FuelBlock fbb = (FuelBlock) fb;
 								avatar.addFuel(
 										fbb.getFuelBonus());
+								af.bubble.play();
 								avatar.gotFuel = true;
 								avatar.setFuelPPos();
 								avatar.setSpiriting(false);
 								if (fbb.isCheckpoint()) {
+									af.bubble.stop();
+									af.yay.play();
 									int dex = checkpoints.indexOf(fbb, true);
 									if (gs.getCheckpoint() != dex) {
 										chkptReached = dex;

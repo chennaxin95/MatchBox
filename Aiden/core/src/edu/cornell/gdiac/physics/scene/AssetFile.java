@@ -32,7 +32,12 @@ public class AssetFile {
 	public Music match;
 	public Music splash;
 	public Music ropeburn;
-	public Music thump;
+	public Sound thump;
+	public Music bubble;
+	public Music loser;
+	public Music yay;
+	public Music clap;
+	public Music extinguish;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -142,7 +147,12 @@ public class AssetFile {
 		files.put("MATCH_FILE", "music/match.mp3");
 		files.put("SPLASH_FILE", "music/splash.mp3");
 		files.put("ROPEBURN_FILE", "music/ropeburn.mp3");
+		files.put("BUBBLE_FILE", "music/bubble.mp3");
 		files.put("THUMP_FILE", "music/thump.mp3");
+		files.put("LOSER_FILE", "music/loser.mp3");
+		files.put("YAY_FILE", "music/yay.mp3");
+		files.put("CLAP_FILE", "music/clap.mp3");
+		files.put("EXTINGUISH_FILE", "music/extinguish.mp3");
 		files.put("BACKGROUND0", "background/tutorial0background2.png");
 		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
@@ -414,7 +424,12 @@ public class AssetFile {
 		match = Gdx.audio.newMusic(Gdx.files.internal("music/match.mp3"));
 		splash = Gdx.audio.newMusic(Gdx.files.internal("music/splash.mp3"));
 		ropeburn = Gdx.audio.newMusic(Gdx.files.internal("music/ropeburn.mp3"));
-		thump = Gdx.audio.newMusic(Gdx.files.internal("music/thump.mp3"));
+		thump = Gdx.audio.newSound(Gdx.files.internal("music/thump.mp3"));
+		bubble = Gdx.audio.newMusic(Gdx.files.internal("music/bubble.mp3"));
+		loser = Gdx.audio.newMusic(Gdx.files.internal("music/loser.mp3"));
+		yay = Gdx.audio.newMusic(Gdx.files.internal("music/yay.mp3"));
+		clap = Gdx.audio.newMusic(Gdx.files.internal("music/clap.mp3"));
+		extinguish = Gdx.audio.newMusic(Gdx.files.internal("music/extinguish.mp3"));
 		
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
@@ -426,6 +441,11 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("SPLASH_FILE"));
 		sounds.allocate(manager, files.get("ROPEBURN_FILE"));
 		sounds.allocate(manager, files.get("THUMP_FILE"));
+		sounds.allocate(manager, files.get("BUBBLE_FILE"));
+		sounds.allocate(manager, files.get("LOSER_FILE"));
+		sounds.allocate(manager, files.get("YAY_FILE"));
+		sounds.allocate(manager, files.get("CLAP_FILE"));
+		sounds.allocate(manager, files.get("EXTINGUISH_FILE"));
 		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}

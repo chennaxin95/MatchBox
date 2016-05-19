@@ -489,7 +489,9 @@ public class AidenController extends WorldController
 		}
 
 		if (isFailure()) {
+			SoundController.getInstance();
 			avatar.setFail(true);
+//			af.loser.play();
 		}
 
 		return true;
@@ -675,6 +677,7 @@ public class AidenController extends WorldController
 
 		if (avatar.getFuel() == 0 || !avatar.isAlive()) {
 			setFailure(true);
+			af.extinguish.play();
 		}
 
 		if (avatar.resume) {
@@ -712,6 +715,7 @@ public class AidenController extends WorldController
 
 		if (!notFailure && !avatar.getComplete()) {
 			setFailure(true);
+			af.extinguish.play();
 		}
 
 		double accX = (spirit)
@@ -826,7 +830,6 @@ public class AidenController extends WorldController
 					&& (bd2 instanceof BlockAbstract
 							&& !(bd2 instanceof RopePart))) {
 				if (bd1.getVY() <= -1 || bd2.getVY() <= -1) {
-					af.thump.stop();
 					af.thump.play();
 				}
 			}
@@ -843,6 +846,7 @@ public class AidenController extends WorldController
 					(bd1 == goalDoor && bd2 == avatar)) {
 				setComplete(true);
 				confeti.start();
+				af.clap.play();
 				avatar.setComplete(true);
 			}
 
@@ -852,6 +856,7 @@ public class AidenController extends WorldController
 				if (Math.abs(bd1.getVY()) >= 1 && !avatar.isSpiriting()) {
 					if (!isComplete()) {
 						setFailure(true);
+						af.extinguish.play();
 					}
 				}
 			}
@@ -860,6 +865,7 @@ public class AidenController extends WorldController
 				if (Math.abs(bd2.getVY()) >= 1 && !avatar.isSpiriting()) {
 					if (!isComplete()) {
 						setFailure(true);
+						af.extinguish.play();
 					}
 				}
 			}
@@ -869,12 +875,14 @@ public class AidenController extends WorldController
 					&& bd1 instanceof WaterGuard) {
 				if ((!isComplete()) && (!((WaterGuard) bd1).isDead())) {
 					setFailure(true);
+					af.extinguish.play();
 				}
 			}
 			if (avatar.getTopName().equals(fd1) && avatar != bd2
 					&& bd2 instanceof WaterGuard) {
 				if ((!isComplete()) && (!((WaterGuard) bd2).isDead())) {
 					setFailure(true);
+					af.extinguish.play();
 				}
 			}
 
