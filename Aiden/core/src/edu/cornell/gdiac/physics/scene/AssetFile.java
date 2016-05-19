@@ -123,6 +123,7 @@ public class AssetFile {
 	
 	public TextureRegion[] tutorialInstructions;
 	public TextureRegion level_background;
+	public TextureRegion[] numberTextures;
 
 	public AssetFile() {
 		this.files = new HashMap<String, String>();
@@ -216,26 +217,26 @@ public class AssetFile {
 		files.put("CIRCLE", "shared/circle.png");
 		files.put("LEVEL_BACKGROUND", "background/background2.png");
 		
-		files.put("1", "shared/1.png");
-		files.put("2", "shared/1.png");
-		files.put("3", "shared/1.png");
-		files.put("4", "shared/1.png");
-		files.put("5", "shared/1.png");
-		files.put("6", "shared/1.png");
-		files.put("7", "shared/1.png");
-		files.put("8", "shared/1.png");
-		files.put("9", "shared/1.png");
-		files.put("10", "shared/1.png");
-		files.put("11", "shared/1.png");
-		files.put("12", "shared/1.png");
-		files.put("13", "shared/1.png");
-		files.put("14", "shared/1.png");
-		files.put("15", "shared/1.png");
-		files.put("16", "shared/1.png");
-		files.put("17", "shared/1.png");
-		files.put("18", "shared/1.png");
-		files.put("19", "shared/1.png");
-		files.put("20", "shared/1.png");
+//		files.put("1", "shared/1.png");
+//		files.put("2", "shared/2.png");
+//		files.put("3", "shared/3.png");
+//		files.put("4", "shared/4.png");
+//		files.put("5", "shared/1.png");
+//		files.put("6", "shared/1.png");
+//		files.put("7", "shared/1.png");
+//		files.put("8", "shared/1.png");
+//		files.put("9", "shared/1.png");
+//		files.put("10", "shared/1.png");
+//		files.put("11", "shared/1.png");
+//		files.put("12", "shared/1.png");
+//		files.put("13", "shared/1.png");
+//		files.put("14", "shared/1.png");
+//		files.put("15", "shared/1.png");
+//		files.put("16", "shared/1.png");
+//		files.put("17", "shared/1.png");
+//		files.put("18", "shared/1.png");
+//		files.put("19", "shared/1.png");
+//		files.put("20", "shared/1.png");
 		files.put("AIDEN_SPIRIT", "platform/spirit-s64.png");
 		files.put("WATER", "shared/water.png");
 		files.put("CHECKPOINT_FLAG", "shared/flag.png");
@@ -243,7 +244,11 @@ public class AssetFile {
 		for (int i=0; i<4; i++){
 			files.put("TUTORIAL_INST"+i, "platform/tutorial/instruction_"+i+".png");
 		}
+		for (int i=1; i<=20; i++){
+			files.put(String.valueOf(i), "shared/numbers/"+String.valueOf(i)+".png");
+		}
 		tutorialInstructions=new TextureRegion[4];
+		numberTextures=new TextureRegion[20];
 		
 		System.out.println(files);
 	}
@@ -432,6 +437,10 @@ public class AssetFile {
 		
 		for (int i=0; i<this.tutorialInstructions.length; i++){
 			tutorialInstructions[i]=createTexture(manager, files.get("TUTORIAL_INST"+i), false);
+		}
+		
+		for (int i=0; i<this.numberTextures.length; i++){
+			numberTextures[i]=createTexture(manager, files.get(String.valueOf(i+1)), false);
 		}
 		
 		bgm = Gdx.audio.newMusic(Gdx.files.internal("music/bgm.mp3"));

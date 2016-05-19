@@ -21,19 +21,19 @@ class TutorialController extends AidenController{
 		// TODO Auto-generated constructor stub
 		switch (level){
 		case 0:
-			this.messages = parseJson("tutorial1message.json");
+			this.messages = parseJson("json/tutorial1message.json");
 			break;
 		case 1:
-			this.messages = parseJson("tutorial2message.json");
+			this.messages = parseJson("json/tutorial2message.json");
 			break;
 		case 2:
-			this.messages = parseJson("tutorial3message.json");
+			this.messages = parseJson("json/tutorial3message.json");
 			break;
 		case 3:
-			this.messages = parseJson("tutorial4message.json");
+			this.messages = parseJson("json/tutorial4message.json");
 			break;
 		default:
-			this.messages = parseJson("tutorial1message.json");
+			this.messages = parseJson("json/tutorial1message.json");
 		}
 		currentMsg = -1;
 		tutmsg_s = -1;

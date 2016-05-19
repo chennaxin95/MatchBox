@@ -335,6 +335,11 @@ public class GDXRoot extends Game implements ScreenListener {
 			manager.load(af.get("TUTORIAL_INST"+i), Texture.class);
 			assets.add(af.get("TUTORIAL_INST"+i));
 		}
+		
+		for (int i=1; i<=20; i++){
+			manager.load(af.get(String.valueOf(i)), Texture.class);
+			assets.add(af.get(String.valueOf(i)));
+		}
 	}
 
 	/**

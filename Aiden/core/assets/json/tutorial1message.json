@@ -1,0 +1,31 @@
+{
+	"level":1,
+	"messages":[
+		{
+			"type": "position",
+			"message": "keys",
+			"end_message":"good job",
+			"position":{
+				"x":3,
+				"y":1.6
+			},
+			"end_pos":{
+				"x":10,
+				"y":4
+			}
+		},
+		{
+			"type": "position",
+			"message": "jump!",
+			"end_message":"good job",
+			"position":{
+				"x":17,
+				"y":1.6
+			},
+			"end_pos":{
+				"x":28,
+				"y":4
+			}
+		}
+	]
+}
