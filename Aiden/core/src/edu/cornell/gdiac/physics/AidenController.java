@@ -1584,6 +1584,12 @@ public class AidenController extends WorldController
 
 		// ======================Easy========================//
 		case 8:
+			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope
+														// and
+			// water
+			backgroundTexture = af.backGround;
+			break;
+		case 9:
 			this.scene = new Scene("json/Tut6.json"); // Introduce ropes
 			backgroundTexture = af.backGround;
 			break;
@@ -1613,12 +1619,7 @@ public class AidenController extends WorldController
 		 * 
 		 * backgroundTexture = af.backGround; break;
 		 */
-		case 9:
-			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope
-														// and
-			// water
-			backgroundTexture = af.backGround;
-			break;
+
 		case 10:
 			this.scene = new Scene("json/Med4.json"); // wooden
 			// boxessssssssssssssssssss
@@ -1634,13 +1635,13 @@ public class AidenController extends WorldController
 			break;
 
 		// ======================Medium========================//
-
 		case 13:
-			this.scene = new Scene("json/Easy4.json"); 
+			this.scene = new Scene("json/Med1.json"); // boxes line on the bottom
 			backgroundTexture = af.backGround;
 			break;
+
 		case 14:
-			this.scene = new Scene("json/Med1.json"); // boxes line on the bottom
+			this.scene = new Scene("json/Easy4.json"); 
 			backgroundTexture = af.backGround;
 			break;
 
