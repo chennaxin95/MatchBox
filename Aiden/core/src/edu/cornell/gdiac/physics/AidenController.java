@@ -706,6 +706,7 @@ public class AidenController extends WorldController
 					wasPlaying = true;
 				}
 			}
+			pauseSFX();
 			avatar.resume = true;
 			prevMovement = avatar.getLinearVelocity();
 			buttonPressed(dt);
