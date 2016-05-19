@@ -32,6 +32,7 @@ import edu.cornell.gdiac.physics.scene.JSONParser;
 import edu.cornell.gdiac.physics.scene.Scene;
 import edu.cornell.gdiac.physics.character.*;
 import edu.cornell.gdiac.physics.character.CharacterModel.CharacterType;
+import edu.cornell.gdiac.physics.character.FSMNode.BasicFSMState;
 import edu.cornell.gdiac.physics.CollisionController;
 
 /**
@@ -778,8 +779,18 @@ public class AidenController extends WorldController
 		}
 
 		// Update movements of npcs, including all interactions/side effects
+		boolean chasing = false;
 		for (CharacterModel npc : npcs) {
 			npc.applyForce();
+			if (npc instanceof WaterGuard){
+				if (npc.getStateMachine().getCurrentState()==BasicFSMState.CHASE){
+					chasing = true;
+					af.madwater.play();
+				}
+			}
+		}
+		if (!chasing){
+			af.madwater.stop();
 		}
 
 		burning = false;

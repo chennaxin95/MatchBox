@@ -39,6 +39,7 @@ public class AssetFile {
 	public Music clap;
 	public Music extinguish;
 	public Music spiriting;
+	public Music madwater;
 	/** The font for giving messages to the player */
 	public BitmapFont displayFont;
 	public BitmapFont fuelFont;
@@ -159,6 +160,7 @@ public class AssetFile {
 		files.put("CLAP_FILE", "music/clap.mp3");
 		files.put("EXTINGUISH_FILE", "music/extinguish.mp3");
 		files.put("SPIRITING_FILE", "music/spiriting.mp3");
+		files.put("MADWATER_FILE", "music/madwater.mp3");
 		files.put("BACKGROUND0", "background/tutorial0background2.png");
 		files.put("BACKGROUND", "background/background.png");
 		files.put("BACKGROUND_FILE", "shared/loading.png");
@@ -445,6 +447,7 @@ public class AssetFile {
 		clap = Gdx.audio.newMusic(Gdx.files.internal("music/clap.mp3"));
 		extinguish = Gdx.audio.newMusic(Gdx.files.internal("music/extinguish.mp3"));
 		spiriting = Gdx.audio.newMusic(Gdx.files.internal("music/spiriting.mp3"));
+		madwater = Gdx.audio.newMusic(Gdx.files.internal("music/madwater.mp3"));
 		
 		SoundController sounds = SoundController.getInstance();
 		sounds.allocate(manager, files.get("JUMP_FILE"));
@@ -462,6 +465,7 @@ public class AssetFile {
 		sounds.allocate(manager, files.get("CLAP_FILE"));
 		sounds.allocate(manager, files.get("EXTINGUISH_FILE"));
 		sounds.allocate(manager, files.get("SPIRITING_FILE"));
+		sounds.allocate(manager, files.get("MADWATER_FILE"));
 		// water platform
 		water=createTexture(manager, files.get("WATER"), true);
 	}
