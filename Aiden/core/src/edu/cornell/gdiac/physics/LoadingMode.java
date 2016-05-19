@@ -337,12 +337,14 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 		castle.dispose();
 		level_background.dispose();
 		light.dispose();
+		circle.dispose();
 		
 		background = null;
 		statusBar = null;
 		castle=null;
 		level_background=null;
 		light=null;
+		circle=null;
 		
 		if (playButton != null) {
 			playButton.dispose();
@@ -384,7 +386,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				
 			}
 		}
-		this.circle_rot+=delta;
+		this.circle_rot+=10*delta;
 		circle_rot%=(2*Math.PI);
 	}
 	// TODO: POPULATE
@@ -527,7 +529,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 					canvas.draw(circle, Color.WHITE, circle.getWidth()/2f,
 							circle.getHeight() / 2f,
 							pos.x, pos.y,
-							circle_rot, 1, 1);
+							circle_rot, 0.2f, 0.2f);
 				}
 				if ((pressState==5 && this.levelSelected==i) || (hoverState==HOVER_LEVEL_SELECTOR && levelHovered==i)){
 					canvas.draw(level, c, level.getWidth() / 2f,
