@@ -241,7 +241,7 @@ public class AssetFile {
 		files.put("WATER", "shared/water.png");
 		files.put("CHECKPOINT_FLAG", "shared/flag.png");
 		
-		tutorialInstructions=new TextureRegion[9];
+		tutorialInstructions=new TextureRegion[14];
 		numberTextures=new TextureRegion[20];
 		for (int i=0; i<tutorialInstructions.length; i++){
 			files.put("TUTORIAL_INST"+i, "platform/tutorial/instruction_"+i+".png");

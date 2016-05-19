@@ -2,9 +2,22 @@
 	"level":2,
 	"messages":[
 		{
-			"type":"fuel",
+			"type":"position",
 			"message": 4,
-			"end_message":5,
+			"end_message":-1,
+			"position":{
+				"x":3,
+				"y":10
+			},
+			"end_pos":{
+				"x":10,
+				"y":4
+			}
+		},
+		{
+			"type":"fuel",
+			"message": 5,
+			"end_message":6,
 			"fuel": 10,
 			"end_fuel":20
 		}

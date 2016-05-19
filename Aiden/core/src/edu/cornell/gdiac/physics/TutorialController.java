@@ -78,6 +78,7 @@ class TutorialController extends AidenController{
 	
 	public void update(float dt){
 		super.update(dt);
+		//System.out.println("current task: "+currentMsg);
 		if(beginCamFrame < 150) return;
 		if(level == 0) avatar.keepFuel = true;
 		//System.out.println(avatar.getX()+" "+avatar.getY());
@@ -91,12 +92,11 @@ class TutorialController extends AidenController{
 				//System.out.println("task done");
 				continue;
 			}
-
+			
 			if(m instanceof PositionMessage){
 				//System.out.println(level+" "+avatar.getX() +" "+avatar.getY());
 				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 1
 						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 3){
-					//System.out.println("task1 here!!!!!!");
 					
 					this.currentMsg = i;
 					this.tutmsg_s = m.getMsg();
@@ -104,10 +104,6 @@ class TutorialController extends AidenController{
 					this.pause();
 				}
 			}else{
-
-				//System.out.println(avatar.getX() +" "+avatar.getY());
-				//System.out.println(avatar.getFuel());
-
 				if(avatar.getFuel() < ((FuelMessage) m).getFuel()){
 					//System.out.println("task2 here!!!!!!");
 					
@@ -157,10 +153,16 @@ class TutorialController extends AidenController{
 				if(messages[currentMsg].msg_end_s!=-1){
 					this.read = true;
 					this.tutmsg_s = -1;
+				}else{
+					// if the message does not have a corresponding end message, end the task
+					//System.out.println("no end complete");
+					this.read = false;
+					this.tutmsg_s = -1;
+					messages[currentMsg].setDone();
+					this.currentMsg = -1;
 				}
 			}
 		}
-//		System.out.println(tutpause);
 	}
 	
 	public int getMsgString(){
