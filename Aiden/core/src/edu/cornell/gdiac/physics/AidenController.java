@@ -761,19 +761,20 @@ public class AidenController extends WorldController
 		avatar.setGravityScale(1);
 		avatar.setSpiriting(false);
 		aiController.nextMove(npcs);
-		// boolean ropeburn = false;
+
+		// whether or not ropes and trapdoor ropes are burning
+		boolean ropeburn = false;
 		for (ComplexObstacle co : ropes) {
 			co.updateParts(world);
-			// if (co instanceof Rope){
-			// if (((Rope) co).isBurning()){
-			// af.ropeburn.play();
-			// ropeburn = true;
-			// }
-			// }
+			for (Obstacle b : co.getBodies()) {
+				if (b instanceof FlammableBlock) {
+					if (((FlammableBlock) b).isBurning()) {
+						ropeburn = true;
+					}
+				}
+			}
+
 		}
-		// if (!ropeburn && af.ropeburn.isPlaying()){
-		// af.ropeburn.stop();
-		// }
 
 		Array<Contact> cList = world.getContactList();
 		CollisionController CollControl = new CollisionController();
@@ -845,10 +846,11 @@ public class AidenController extends WorldController
 				burning = true;
 			}
 		}
-		if (burning && !af.burn.isPlaying()) {
+
+		if (burning || ropeburn) {
 			af.burn.play();
 		}
-		if (!burning && af.burn.isPlaying()) {
+		if (!burning && !ropeburn) {
 			af.burn.stop();
 		}
 
@@ -938,6 +940,7 @@ public class AidenController extends WorldController
 				confeti.start();
 				af.clap.play();
 				avatar.setComplete(true);
+
 			}
 
 			// Check for aiden top
@@ -1499,6 +1502,42 @@ public class AidenController extends WorldController
 	public void stopSound() {
 		af.bgm.stop();
 	}
+
+
+	public void muteSFX(boolean extinguish) {
+		af.jump.stop();
+		af.burn.stop();
+		af.match.stop();
+		af.splash.stop();
+		af.ropeburn.stop();
+		af.thump.stop();
+		af.bubble.stop();
+		af.loser.stop();
+		af.yay.stop();
+		af.clap.stop();
+		if (!extinguish) {
+			af.extinguish.stop();
+		}
+		af.spiriting.stop();
+		af.madwater.stop();
+	}
+
+	public void pauseSFX() {
+		af.jump.pause();
+		af.burn.pause();
+		af.match.pause();
+		af.splash.pause();
+		af.ropeburn.pause();
+		af.thump.pause();
+		af.bubble.pause();
+//		af.loser.pause();
+		af.yay.pause();
+//		af.clap.pause();
+		af.extinguish.pause();
+		af.spiriting.pause();
+		af.madwater.pause();
+	}
+
 
 	private void createScenes(int level) {
 
