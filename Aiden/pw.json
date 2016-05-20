@@ -3,12 +3,16 @@
     "jdk": "openjdk-1.7.0-u80-unofficial-windows-amd64-image.zip",
     "executable": "Aiden",
     "classpath": [
-        "Aiden.jar"
+        "Aiden-final.jar"
     ],
     "mainclass": "edu.cornell.gdiac.physics.desktop.DesktopLauncher",
     "resources": [
-        "core",
-        "desktop"
+        "desktop/shared",
+        "desktop/platform",
+        "desktop/background",
+        "desktop/backgrounds",
+        "desktop/json",
+        "desktop/music"
     ],
     "minimizejre": "soft",
     "outdir": "out-win"
