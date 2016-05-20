@@ -1,0 +1,15 @@
+{
+    "platform": "windows64",
+    "jdk": "openjdk-1.7.0-u80-unofficial-windows-amd64-image.zip",
+    "executable": "Aiden",
+    "classpath": [
+        "Aiden.jar"
+    ],
+    "mainclass": "edu.cornell.gdiac.physics.desktop.DesktopLauncher",
+    "resources": [
+        "core",
+        "desktop"
+    ],
+    "minimizejre": "soft",
+    "outdir": "out-win"
+}
