@@ -3,6 +3,19 @@
 	"messages":[
 		{
 			"type": "position",
+			"message": 19,
+			"end_message":-1,
+			"position":{
+				"x":3,
+				"y":1.6
+			},
+			"end_pos":{
+				"x":10,
+				"y":4
+			}
+		},
+		{
+			"type": "position",
 			"message": 0,
 			"end_message":1,
 			"position":{

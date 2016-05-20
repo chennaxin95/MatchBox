@@ -94,12 +94,13 @@ class TutorialController extends AidenController{
 	public void update(float dt){
 		super.update(dt);
 		//System.out.println("current task: "+currentMsg);
-		if(beginCamFrame < 150) return;
+		if(beginCamFrame < 150 && level!=0) return;
 		if(level == 0) avatar.keepFuel = true;
 		//System.out.println(avatar.getX()+" "+avatar.getY());
 		int i = 0;
 		// when we are not in a task, check if we should start any task
 		while(!this.pause && i < this.messages.length && !read){
+			if(beginCamFrame < 150 && i!=0) return;
 			Message m = messages[i];
 			// if the task is already done, skip it
 			if(m.getDone()) {

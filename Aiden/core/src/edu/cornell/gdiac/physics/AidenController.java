@@ -1325,11 +1325,19 @@ public class AidenController extends WorldController
 						posTemp = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()/2);
 						TextureRegion instruction = af.tutorialInstructions[((TutorialController) this)
 						            										.getMsgString()];
+						if(((TutorialController) this).getMsgString()==19){
+							canvas.draw(instruction, Color.WHITE, instruction.getRegionWidth()/2 ,
+									instruction.getRegionHeight()/2,
+									posTemp.x,
+									posTemp.y, 0f,
+									1.5f*zoom*sScale, 1.5f*zoom*sScale);
+						}else{
 						canvas.draw(instruction, Color.WHITE, instruction.getRegionWidth()/2 ,
 								instruction.getRegionHeight()/2,
 								posTemp.x,
 								posTemp.y, 0f,
 								1f*zoom*sScale, 1f*zoom*sScale);
+						}
 //						canvas.draw(
 //								af.tutorialInstructions[((TutorialController) this)
 //										.getMsgString()],
