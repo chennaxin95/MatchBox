@@ -6,12 +6,12 @@
 			"message": 7,
 			"end_message":8,
 			"position":{
-				"x":2.3,
-				"y":3
+				"x":2,
+				"y":4
 			},
 			"end_pos":{
-				"x":18,
-				"y":3
+				"x":22,
+				"y":8.5
 			}
 		}
 	]

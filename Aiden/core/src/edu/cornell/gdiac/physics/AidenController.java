@@ -893,7 +893,8 @@ public class AidenController extends WorldController
 			}
 		}
 
-		if (InputController.getInstance().getHorizontal() != 0) {
+		if (InputController.getInstance().getHorizontal() != 0 
+				|| InputController.getInstance().getVertical() != 0 ) {
 			beginCamFrame = 400;
 		}
 

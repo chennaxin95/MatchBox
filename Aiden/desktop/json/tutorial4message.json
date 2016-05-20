@@ -3,10 +3,23 @@
 	"messages":[
 		{
 			"type": "position",
+			"message": 11,
+			"end_message":-1,
+			"position":{
+				"x":2,
+				"y":3
+			},
+			"end_pos":{
+				"x":11,
+				"y":10
+			}
+		},
+		{
+			"type": "position",
 			"message": 10,
 			"end_message":-1,
 			"position":{
-				"x":2.5,
+				"x":7,
 				"y":3
 			},
 			"end_pos":{
@@ -19,7 +32,7 @@
 			"message": 12,
 			"end_message":-1,
 			"position":{
-				"x":30,
+				"x":33,
 				"y":3
 			},
 			"end_pos":{

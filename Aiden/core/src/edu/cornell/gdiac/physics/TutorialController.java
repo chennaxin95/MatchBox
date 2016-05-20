@@ -136,7 +136,7 @@ class TutorialController extends AidenController{
 			if(m instanceof PositionMessage){
 				float end_x = ((PositionMessage) m).getEndX();
 				float end_y = ((PositionMessage) m).getEndY();	
-				if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<3){
+				if(Math.abs(end_x - avatar.getX())<1 && Math.abs(end_y - avatar.getY())<5){
 					messages[currentMsg].setDone();
 					this.tutmsg_s = m.getEndMsg();
 					this.tutpause = true;
