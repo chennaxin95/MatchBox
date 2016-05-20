@@ -18,7 +18,7 @@
 			"type":"fuel",
 			"message": 5,
 			"end_message":6,
-			"fuel": 10,
+			"fuel": 15,
 			"end_fuel":20
 		}
 	]

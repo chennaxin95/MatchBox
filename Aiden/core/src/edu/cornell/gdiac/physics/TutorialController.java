@@ -107,7 +107,8 @@ class TutorialController extends AidenController{
 			if(m instanceof PositionMessage){
 				//System.out.println(level+" "+avatar.getX() +" "+avatar.getY());
 				if(Math.abs(avatar.getX() - ((PositionMessage) m).getX()) < 1
-						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 3){
+						&& Math.abs(avatar.getY() - ((PositionMessage) m).getY()) < 3
+						&& avatar.isGrounded()){
 					
 					this.currentMsg = i;
 					this.tutmsg_s = m.getMsg();
