@@ -416,7 +416,7 @@ public abstract class WorldController implements Screen {
 					instr = 0;
 					count = 0.2f;
 					this.pause();
-					restart = false;
+					restart = true;
 					reset();
 					af.clap.stop();
 					af.loser.stop();

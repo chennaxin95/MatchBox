@@ -452,7 +452,12 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 		
 		for(int i=4;i<levels;i++){
-			controllers[i] = new AidenController(i);
+			if (i == 7 || i == 9 || i ==11 || i == 12){
+					controllers[i] = new TutorialController(i);
+				}else{
+					controllers[i] = new AidenController(i);
+				}
+			
 		}
 		loading.setScreenListener(this);
 

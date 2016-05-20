@@ -3,8 +3,8 @@
 	"messages":[
 		{
 			"type": "position",
-			"message": 8,
-			"end_message":9,
+			"message": 10,
+			"end_message":-1,
 			"position":{
 				"x":2.5,
 				"y":3
@@ -16,11 +16,11 @@
 		},
 		{
 			"type": "position",
-			"message": 10,
-			"end_message":11,
+			"message": 12,
+			"end_message":-1,
 			"position":{
-				"x":37,
-				"y":7
+				"x":30,
+				"y":3
 			},
 			"end_pos":{
 				"x":53.7,

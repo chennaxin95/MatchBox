@@ -1321,12 +1321,19 @@ public class AidenController extends WorldController
 				if (!isFailure()) {
 					if (this instanceof TutorialController &&
 							((TutorialController) this).tutpause) {
-						posTemp = canvas.relativeVector(200f, 100f);
-						canvas.draw(
-								af.tutorialInstructions[((TutorialController) this)
-										.getMsgString()],
-								Color.WHITE, posTemp.x, posTemp.y, 800 * zoom,
-								600 * zoom);
+						posTemp = canvas.relativeVector(canvas.getWidth()/2, canvas.getHeight()/2);
+						TextureRegion instruction = af.tutorialInstructions[((TutorialController) this)
+						            										.getMsgString()];
+						canvas.draw(instruction, Color.WHITE, instruction.getRegionWidth()/2 ,
+								instruction.getRegionHeight()/2,
+								posTemp.x,
+								posTemp.y, 0f,
+								1f*zoom*sScale, 1f*zoom*sScale);
+//						canvas.draw(
+//								af.tutorialInstructions[((TutorialController) this)
+//										.getMsgString()],
+//								Color.WHITE, posTemp.x, posTemp.y, 800*sScaleX * zoom,
+//								600 * sScaleY*zoom);
 					} else {
 						canvas.draw(af.paused, Color.WHITE, posTemp.x,
 								posTemp.y,

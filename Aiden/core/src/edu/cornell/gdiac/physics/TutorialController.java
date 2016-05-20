@@ -32,6 +32,18 @@ class TutorialController extends AidenController{
 		case 3:
 			this.messages = parseJson("json/tutorial4message.json");
 			break;
+		case 7:
+			this.messages = parseJson("json/tutorial5message.json");
+			break;
+		case 9:
+			this.messages = parseJson("json/tutorial6message.json");
+			break;
+		case 11:
+			this.messages = parseJson("json/tutorial7message.json");
+			break;
+		case 12:
+			this.messages = parseJson("json/tutorial8message.json");
+			break;
 		default:
 			this.messages = parseJson("json/tutorial1message.json");
 		}
@@ -89,7 +101,6 @@ class TutorialController extends AidenController{
 			// if the task is already done, skip it
 			if(m.getDone()) {
 				i++;
-				//System.out.println("task done");
 				continue;
 			}
 			
