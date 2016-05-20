@@ -399,10 +399,8 @@ public class InputController {
 				|| (Gdx.input.isKeyPressed(Input.Keys.W)));
 		secondPressed = (secondary && secondPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.SPACE));
-		prevPressed = (secondary && prevPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.P));
-		nextPressed = (secondary && nextPressed)
-				|| (Gdx.input.isKeyPressed(Input.Keys.N));
+		prevPressed = false;
+		nextPressed = false;
 		didPause = (secondary && exitPressed)
 				|| (Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
 		

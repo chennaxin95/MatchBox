@@ -499,7 +499,7 @@
 			"x": 39.5,
 			"y": 5
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -525,7 +525,7 @@
 			"x": 39.5,
 			"y": 7
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -551,7 +551,7 @@
 			"x": 39.5,
 			"y": 9
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -577,7 +577,7 @@
 			"x": 37.495,
 			"y": 6.995
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -603,7 +603,7 @@
 			"x": 37.5,
 			"y": 5
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -629,7 +629,7 @@
 			"x": 35.5,
 			"y": 5
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -655,7 +655,7 @@
 			"x": 8.5,
 			"y": 5
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -681,7 +681,7 @@
 			"x": 52,
 			"y": 28
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -707,7 +707,7 @@
 			"x": 54,
 			"y": 26
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -733,7 +733,7 @@
 			"x": 52,
 			"y": 24
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -759,7 +759,7 @@
 			"x": 54,
 			"y": 22
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -785,7 +785,7 @@
 			"x": 52,
 			"y": 20
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -811,7 +811,7 @@
 			"x": 12,
 			"y": 26
 		},
-		"scale_x": 1.99,
+		"scale_x": 1.95,
 		"scale_y": 1.99,
 		"density": 1,
 		"fixed": false,
@@ -887,7 +887,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44,
-			"y": 10
+			"y": 10.5
 		},
 		"scale_x": 4,
 		"scale_y": 1,
@@ -939,7 +939,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44,
-			"y": 5
+			"y": 5.5
 		},
 		"scale_x": 4,
 		"scale_y": 9,
@@ -1043,7 +1043,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 42,
-			"y": 5.5
+			"y": 6
 		},
 		"scale_x": 3,
 		"scale_y": 10,
@@ -1069,7 +1069,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 50.5,
-			"y": 6
+			"y": 6.5
 		},
 		"scale_x": 9,
 		"scale_y": 9,
@@ -1381,7 +1381,7 @@
 		"texture": "shared/woodenBlock.png",
 		"pos": {
 			"x": 44,
-			"y": 11.5
+			"y": 12
 		},
 		"scale_x": 1,
 		"scale_y": 1,

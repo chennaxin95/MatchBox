@@ -1347,7 +1347,7 @@
 		"fuels": 30,
 		"isLeft": false,
 		"segments": 0,
-		"isCheckpoint": false
+		"isCheckpoint": true
 	},
 	{
 		"id": 51,

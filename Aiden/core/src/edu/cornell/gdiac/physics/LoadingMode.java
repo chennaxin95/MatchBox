@@ -392,7 +392,6 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				credits = new Texture(CREDITS);
 				credits.setFilter(TextureFilter.Linear,
 						TextureFilter.Linear);
-				
 			}
 		}
 		this.circle_rot+=6*delta;
@@ -554,7 +553,7 @@ public class LoadingMode implements Screen, InputProcessor, ControllerListener {
 				}
 			}
 		}
-		else{
+		else if (pressState == 7 || pressState == 8){
 			pos = canvas.relativeVector(canvas.getWidth()*7f/8f, canvas.getHeight()*1f/8f);
 			Color tint5 = (hoverState==HOVER_LEVELS_BACK? Color.GRAY : Color.WHITE);
 			canvas.draw(back, tint5, back.getWidth()/2, back.getHeight()/2,

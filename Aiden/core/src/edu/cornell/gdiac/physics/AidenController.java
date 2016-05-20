@@ -1613,39 +1613,39 @@ public class AidenController extends WorldController
 		// ======================Tutorials========================//
 		case 0:
 			this.scene = new Scene("json/Tut1.json"); // super easy tutorial
-			backgroundTexture = af.backGround0;
+			backgroundTexture = af.levelBack1;
 			break;
 
 		case 1:
 			this.scene = new Scene("json/Tut2.json"); // spirit mode to the top
-			backgroundTexture = af.tutorial1;
+			backgroundTexture = af.levelBack2;
 			break;
 		case 2:
 			this.scene = new Scene("json/Tut3.json"); // spirit mode to the top
-			backgroundTexture = af.tutorial1;
+			backgroundTexture = af.levelBack3;
 			break;
 		case 3:
 			this.scene = new Scene("json/Tut4.json"); // spirit mode to the top
-			backgroundTexture = af.tutorial1;
+			backgroundTexture = af.levelBack4;
 			break;
 		case 4:
 			this.scene = new Scene("json/Level01.json"); // spirit mode going
 															// down
 
-			backgroundTexture = af.tutorial2;
+			backgroundTexture = af.levelBack5;
 			break;
 		case 5:
 			this.scene = new Scene("json/Med2.json"); // stonesss // pretty easy
-			backgroundTexture = af.tutorial3;
+			backgroundTexture = af.levelBack6;
 			break;
 		case 6:
 
 			this.scene = new Scene("json/Tutorial2.json"); // Save the block
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack7;
 			break;
 		case 7:
 			this.scene = new Scene("json/Tut5.json"); // spirit boost changed
-			backgroundTexture = af.tutorial4;
+			backgroundTexture = af.levelBack8;
 			break;
 
 		// ======================Easy========================//
@@ -1653,64 +1653,39 @@ public class AidenController extends WorldController
 			this.scene = new Scene("json/Easy3.json"); // spirit boost with rope
 														// and
 			// water
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack9;
 			break;
 		case 9:
 			this.scene = new Scene("json/Tut6.json"); // Introduce ropes
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack10;
 			break;
-
-		/*
-		 * case 7:
-		 * 
-		 * this.scene = new Scene("Easy1.json"); // gap introduce water guard
-		 * backgroundTexture = af.backGround; break;
-		 */
-		// case 7:
-		//
-		// this.scene = new Scene("json/Tutorial6.json"); // gap introduce water
-		// // guard
-		// backgroundTexture = af.backGround;
-		// break;
-
-		// case 7:
-		//
-		// this.scene = new Scene("json/Tutorial3.json"); // avoid water guard
-		// backgroundTexture = af.backGround;
-		// break;
-
-		/*
-		 * case 9: this.scene = new Scene("Tutorial2.json"); // save the block
-		 * 
-		 * backgroundTexture = af.backGround; break;
-		 */
 
 		case 10:
 			this.scene = new Scene("json/Med4.json"); // wooden
 			// boxessssssssssssssssssss
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack11;
 			break;
 		case 11:
 			this.scene = new Scene("json/Tut7.json"); // Introduce wooden
 														// platforms
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack12;
 			break;
 		case 12:
 			this.scene = new Scene("json/Tut8.json"); // Introduce wooden
 														// trapdoor
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack13;
 			break;
 
 		// ======================Medium========================//
 		case 13:
 			this.scene = new Scene("json/Med1.json"); // boxes line on the
 														// bottom
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack14;
 			break;
 
 		case 14:
 			this.scene = new Scene("json/Easy4.json");
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack15;
 			break;
 
 		/*
@@ -1727,23 +1702,23 @@ public class AidenController extends WorldController
 
 		case 15:
 			this.scene = new Scene("json/level2.json");
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack16;
 			break;
 		case 16:
 			this.scene = new Scene("json/level3.json");
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack17;
 			break;
 		case 17:
 			this.scene = new Scene("json/Med3.json");
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack18;
 			break;
 		case 18:
 			this.scene = new Scene("json/Hard1.json"); // square
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack19;
 			break;
 		case 19:
 			this.scene = new Scene("json/Hard2b.json");
-			backgroundTexture = af.backGround;
+			backgroundTexture = af.levelBack20;
 			break;
 		case 20:
 			this.scene = new Scene("json/Hard2b.json");
