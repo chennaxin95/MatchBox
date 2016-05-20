@@ -44,6 +44,9 @@ class TutorialController extends AidenController{
 		case 12:
 			this.messages = parseJson("json/tutorial8message.json");
 			break;
+		case 4:
+			this.messages = parseJson("json/tutorial9message.json");
+			break;
 		default:
 			this.messages = parseJson("json/tutorial1message.json");
 		}

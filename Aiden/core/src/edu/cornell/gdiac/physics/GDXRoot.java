@@ -447,11 +447,11 @@ public class GDXRoot extends Game implements ScreenListener {
 		int levels = 21;
 		controllers = new WorldController[levels]; ////
 		current = 0;
-		for(int i = 0; i<4; i++){
+		for(int i = 0; i<5; i++){
 			controllers[i] = new TutorialController(i);
 		}
 		
-		for(int i=4;i<levels;i++){
+		for(int i=5;i<levels;i++){
 			if (i == 7 || i == 9 || i ==11 || i == 12){
 					controllers[i] = new TutorialController(i);
 				}else{
