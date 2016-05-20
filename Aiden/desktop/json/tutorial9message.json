@@ -1,0 +1,18 @@
+{
+	"level":1,
+	"messages":[
+		{
+			"type": "position",
+			"message": 18,
+			"end_message":-1,
+			"position":{
+				"x":13,
+				"y":7
+			},
+			"end_pos":{
+				"x":10,
+				"y":4
+			}
+		}
+	]
+}
